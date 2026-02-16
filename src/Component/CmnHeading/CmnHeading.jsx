@@ -1,10 +1,11 @@
-import React from 'react'
+import React from 'react';
 import "./CmnHeading.scss";
-export default function CmnHeading() {
+
+export default function CmnHeading({ title, subtitle }) {
   return (
-    <div className='why-choose-us'>
-        <h2>Why Choose Us</h2>
-        <h3>Give the Gift of Gym</h3>
+    <div className='common-heading'>
+        <h2>{title}</h2>
+        <h3>{subtitle}</h3>
     </div>
   )
 }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Faqs.scss";
+// import CmnHeading from "../CmnHeading/CmnHeading";
 
 export default function Faqs({ data }) {
   const [faqsData] = useState(data);
@@ -12,6 +13,12 @@ export default function Faqs({ data }) {
   return (
     <section className="faqs-section py-5">
       <div className="container">
+
+        {/* <CmnHeading
+          title="Why Choose Us"
+          subtitle="Give the Gift of Gym"
+        /> */}
+
         <div className="row align-items-center faqs">
 
           {/* LEFT SIDE */}
