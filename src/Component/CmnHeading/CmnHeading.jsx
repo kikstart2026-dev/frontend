@@ -1,9 +1,9 @@
 import React from 'react';
 import "./CmnHeading.scss";
 
-export default function CmnHeading({ title, subtitle }) {
+export default function CmnHeading({ title, subtitle, align = "center" }) {
   return (
-    <div className='common-heading'>
+    <div className={`common-heading text-${align}`}>
         <h2>{title}</h2>
         <h3>{subtitle}</h3>
     </div>
