@@ -1,7 +1,5 @@
 import React from 'react'
 import { Link } from "react-router-dom";
-import logo from "../../images/logo.png";
-import sms from "../../images/sms.png";
 import "./Footer.scss";
 
 export default function () {
@@ -11,10 +9,10 @@ export default function () {
         <div className="container">
     <div className="row ">
     <div className=" col-1">
-      <img src={logo} alt="" />
+      <img src="/images/logo.png" alt="" />
       <p>Lorem ipsum dolor sit amet consectetur. Nunc id adipiscing at interdum eu viverra. </p>
       <div className="sms">
-        <img src={sms} alt="" />
+        <img src="/images/sms.png" alt="" />
         <p> info@KikStartKids.com</p>
       </div>
     </div>
@@ -37,9 +35,13 @@ export default function () {
     <div className="col-4">
       <h5>Newsletter</h5>
       <p>Enter the email to subscribe our newsletter</p>
-      <div className="newsletter">
-  <input type="email" placeholder="Enter Email" />
-  <button>
+  <div className="newsletter-box">
+  <input 
+    type="email" 
+    placeholder="Enter Email" 
+    className="newsletter-input" 
+  />
+  <button type="submit" className="newsletter-btn">
     <span>→</span>
   </button>
 </div>
