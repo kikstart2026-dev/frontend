@@ -1,0 +1,215 @@
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+
+  p {
+    color: rgba(73, 73, 73, 1);
+    font-size: 16px;
+  }
+
+  h5 {
+    font-size: 20px;
+    margin: 0px;
+  }
+}
+
+footer {
+  background-image: url("../../images/WhatsApp Image 2026-02-16 at 2.27.41 PM.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding-top: 220px;  
+  padding-bottom: 40px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.col-2,
+.col-3,
+.col-4 {
+  margin-top: 15px;
+}
+
+
+.col-1 {
+  text-align: left;
+
+  p {
+    max-width: 304px;
+    margin-top: 10px;
+  }
+}
+
+.col-2 {
+  text-align: left;
+
+  li {
+    padding: 10px 0;
+  }
+}
+
+.col-3 {
+  text-align: left;
+
+  li {
+    padding: 10px 0;
+  }
+}
+
+.col-4 {
+  max-width: 250px;
+  text-align: left;
+}
+
+
+.sms {
+  display: flex;
+  align-items: center;
+
+  p {
+    margin-top: 12px;
+  }
+}
+
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: rgba(73, 73, 73, 1);
+}
+
+
+
+//Newsletter =====================================================
+
+.newsletter {
+  position: relative;
+  width: 264px;
+}
+
+.newsletter input {
+  width: 170px;
+  height: 60px;
+  border: none;
+  outline: none;
+  padding: 0 70px 0 25px;
+  border-radius: 20px;
+  background: white;
+  font-size: 16px;
+  color: #333;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.newsletter input::placeholder {
+  color: #9e9e9e;
+  font-weight: 500;
+}
+
+.newsletter button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 20%;
+  border: none;
+  background: #ff2b2b;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: 0.3s ease;
+}
+
+.newsletter button:hover {
+  background: #e60000;
+}
+
+//Footer Lower Section==================================
+
+.footer-lower {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .right {
+    text-align: right;
+  }
+}
+
+
+
+//================================RESPONSIVE===========================================
+@media (max-width: 1199px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (max-width: 991px) {
+  .container {
+    max-width: 720px;
+  }
+
+  .row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  footer {
+    padding-top: 150px;
+  }
+
+  .col-2 ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 20px;
+  }
+}
+
+@media (max-width: 575px) {
+
+  .container {
+    max-width: 100%;
+    padding: 0 20px;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+  }
+
+  .col-1,
+  .col-2,
+  .col-3,
+  .col-4 {
+    max-width: 100%;
+  }
+
+  .footer-lower {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .footer-lower .right {
+    text-align: center;
+  }
+
+  footer {
+    padding: 100px 0 40px;
+  }
+}
