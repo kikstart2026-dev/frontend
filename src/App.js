@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import Header from './pages/Header/Header';
+import Header from './shared/Header/Header';
 function App() {
   return (
     <div className="App">

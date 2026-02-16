@@ -23,7 +23,7 @@ export default function Header() {
                         <Link to="/about">Contact Us</Link>
                     </li>
                     <li>
-                        <Link to="/about">Interrested Schools</Link>
+                        <Link to="/about">Interested Schools</Link>
                     </li>
                     <li>
                         <Link to="/about">Become A Coach</Link>
