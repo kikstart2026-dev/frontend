@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    font-family: 'Noto Sans';
 }
 
 
@@ -28,4 +29,11 @@
     font-size: 56px;
     text-transform: capitalize;
     color: #2B2B2B;
+}
+.common-heading p{
+font-weight: 400;
+font-size: 15px;
+color: #494949;
+
+
 }
