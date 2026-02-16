@@ -2,12 +2,13 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import kikstart from '../../assets/images/KIKSTART_logo.png'
 import "./Header.scss";
+import Button from '../../Component/Buttons/Button';
 export default function Header() {
     return (
         <div className="container-fluid">
             <div className="nav-bar">
                 <Link to="/">
-                    <img src={kikstart} alt="photo"/>
+                    <img src={kikstart} alt="photo" />
                 </Link>
                 <ul class="nav">
                     <li>
@@ -32,9 +33,16 @@ export default function Header() {
                         <Link to="/about">Coach's Login</Link>
                     </li>
                 </ul>
-                <div class="header-right">
-                    <Link to="/about">login</Link>
-                    <Link to="/about">REQUEST A FREE DEMO</Link>
+                <div className="header-right">
+
+                    <Link to="/login" className='btn-login'>
+                        <Button text="Login" variant="dark"/>
+                    </Link>
+
+                    <Link to="/demo" >
+                        <Button text="REQUEST A FREE DEMO" variant="primary" />
+                    </Link>
+
                 </div>
             </div>
         </div>
