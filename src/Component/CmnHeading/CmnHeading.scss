@@ -1,22 +1,40 @@
-*
-{
+* {
     margin: 0;
     padding: 0;
 }
-.why-choose-us h2 {
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 19px;
-    text-align: center;
-    text-transform: uppercase;
-    color: #ED1C24;
+
+
+.text-left {
+    text-align: left ;
 }
 
-.why-choose-us h3 {
-    font-style: normal;
+.text-center {
+    text-align: center ;
+}
+
+.text-right {
+    text-align: right ;
+}
+
+.common-heading h2 {
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #ED1C24;
+    margin-bottom: 5px;
+    letter-spacing: 2px;
+}
+
+.common-heading h3 {
     font-weight: 700;
     font-size: 56px;
-    text-align: center;
     text-transform: capitalize;
     color: #2B2B2B;
+}
+.common-heading p{
+font-weight: 400;
+font-size: 15px;
+color: #494949;
+
+
 }
