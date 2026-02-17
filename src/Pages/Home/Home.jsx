@@ -1,9 +1,10 @@
 import React from "react";
+import "./Home.scss";
+import "../../Main.scss";
 import MiniCard from "../../Component/MiniCard/MiniCard";
 import { CardsData } from "../../data/cardsData";
 import CmnHeading from "../../Component/CmnHeading/CmnHeading";
-import "./Home.scss";
-import "../../Main.scss";
+import HomeBanner from '../../Component/HomeBanner/HomeBanner';
 import Faqs from "../../Component/Faqs/Faqs";
 import faqData from "../../data/faqData";
 
@@ -11,6 +12,11 @@ export default function Home() {
     return (
         <section className="common-space">
             <div className="container">
+
+                <div className="Home-Banner">
+                    <HomeBanner />
+                </div>
+
                 <div className="why-choose-us">
                     <CmnHeading
                         title="Why Choose Us"
@@ -19,6 +25,7 @@ export default function Home() {
                         align="center"
                     />
                 </div>
+
                 <div className="cards-section">
 
                     {CardsData.map((item, index) => (
