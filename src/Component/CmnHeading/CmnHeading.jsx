@@ -1,5 +1,6 @@
 import React from 'react';
 import "./CmnHeading.scss";
+import "../../Main.scss";
 
 export default function CmnHeading({ title, subtitle, details, align = "center" }) {
   return (
