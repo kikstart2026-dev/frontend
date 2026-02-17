@@ -11,6 +11,7 @@ function App() {
         <Header/>
         <Routes >
           <Route path="/" element={<Home />} />
+          <Route path="/program" element={<ProgramsSection />} />
         </Routes>
       </Router>
     </div>

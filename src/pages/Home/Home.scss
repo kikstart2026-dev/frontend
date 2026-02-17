@@ -8,7 +8,7 @@
 
 /* every card takes equal width */
 .cards-section .mini-card {
-    // flex: 1;
+    flex: 1;
 }
 
 
@@ -24,5 +24,18 @@
 .why-choose-us .common-heading {
     max-width: 900px;
     margin: 0 auto;
+}
+.program-part{
+    margin-bottom: 40px;
+}
+.view-btn
+{
+    display: flex;
+    justify-content: center;
+}
+.view-btn .custom-btn
+{
+    padding: 20px 50px;
+    border-radius: 50px;
 }
 
