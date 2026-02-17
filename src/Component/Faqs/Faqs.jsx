@@ -13,13 +13,14 @@ export default function Faqs({ data }) {
   };
 
   return (
-    <section className="faqs-section py-5">
+    <section className="faqs-section">
       <div className="container">
 
         <div className="row align-items-center faqs">
 
           {/* LEFT SIDE */}
-          <div className="col-lg-6 faqs-left">
+
+          <div className="col-6 faqs-left">
 
 
             <CmnHeading
@@ -34,8 +35,8 @@ export default function Faqs({ data }) {
               {faqsData.map((item, index) => (
                 <div
                   key={item.id}
-                  className="faqs-item mb-3"
-                  onClick={() => toggleAccordion(index)} 
+                  className="faqs-item"
+                  onClick={() => toggleAccordion(index)}
                   style={{ cursor: "pointer" }}>
 
                   <h2 className="accordion-header">
@@ -64,12 +65,15 @@ export default function Faqs({ data }) {
           </div>
 
           {/* RIGHT SIDE */}
-          <div className="col-lg-6 text-center faqs-right">
-            <img
-              src={FaqsRightImg}
-              alt="Kikstart charectorq"
-              className="faqs-charector"
-            />
+
+          <div className="col-6 text-center faqs-right">
+            <figure>
+              <img
+                src={FaqsRightImg}
+                alt="Kikstart charectorq"
+                className="faqs-charector"
+              />
+            </figure>
           </div>
 
         </div>

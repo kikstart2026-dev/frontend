@@ -3,7 +3,7 @@ const faqData = [
     id: 1,
     question: "Lorem Ipsum Dolor Sit Amet Consectetur?",
     answer:
-      "Lorem ipsum dolor sit amet consectetur. Diam molestie egestas eget dolor a. Tellus aliquam adipiscing ligula nulla ullamcorper quisque egestas ac.",
+      "Lorem ipsum dolor sit amet consectetur. Diam molestie egestas eget dolor a. Tellus aliquam adipiscing ligula nulla ullamcorper quisque egestas ac.Lorem ipsum dolor sit amet consectetur. Diam molestie egestas eget dolor a. Tellus aliquam adipiscing ligula nulla ullamcorper quisque egestas ac.",
   },
   {
     id: 2,

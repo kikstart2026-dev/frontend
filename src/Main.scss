@@ -8,6 +8,7 @@
 h1,h2,h3,h4,h5,h6
 {
     margin: 0;
+    padding: 0;
 }
 body {
   font-family: "Noto Sans , PT Sans";
@@ -16,13 +17,12 @@ body {
 }
 
 .container {
-  max-width: 1140px;
+  max-width: 1140px !important;
   margin: 0 auto;
   padding: 0 12px;
 }
-
-.common-space
-{
-    padding: 95px 0 95px 0;
+img{
+  max-width: 100%;
 }
+
 
