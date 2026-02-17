@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./Faqs.scss";
 import CmnHeading from "../CmnHeading/CmnHeading";
+import FaqsRightImg from "../../assets/images/faqs-right-img.png"
+import "../../Main.scss"
 
 export default function Faqs({ data }) {
   const [faqsData] = useState(data);
@@ -33,7 +35,7 @@ export default function Faqs({ data }) {
                 <div
                   key={item.id}
                   className="faqs-item mb-3"
-                  onClick={() => toggleAccordion(index)} // ✅ pura item clickable
+                  onClick={() => toggleAccordion(index)} 
                   style={{ cursor: "pointer" }}>
 
                   <h2 className="accordion-header">
@@ -64,8 +66,8 @@ export default function Faqs({ data }) {
           {/* RIGHT SIDE */}
           <div className="col-lg-6 text-center faqs-right">
             <img
-              src="/images/faqs-right-img.png"
-              alt="faq"
+              src={FaqsRightImg}
+              alt="Kikstart charectorq"
               className="faqs-charector"
             />
           </div>
