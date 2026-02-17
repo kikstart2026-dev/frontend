@@ -12,7 +12,7 @@ import Button from "../../Component/Buttons/Button";
 export default function Home() {
     return (
         <>
-            <section className="common-space">
+            <section className="common-space minii-card">
                 <div className="container">
                     <div className="why-choose-us">
                         <CmnHeading
@@ -37,8 +37,9 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-            <section className="common-space">
-                <div className="why-choose-us">
+            <section className="common-space back-color">
+                <div className="curve-part">
+                    <div className="why-choose-us">
                     <CmnHeading
                         title="SERVICES"
                         subtitle="Children’s Fitness Programs"
@@ -53,6 +54,8 @@ export default function Home() {
                         <Button text="View all" variant="primary" />
                     </Link>
                 </div>
+                </div>
+                
 
             </section>
         </>
