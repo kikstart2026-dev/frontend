@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import kikstart from '../../assets/images/KIKSTART_logo.png'
 import "./Header.scss";
+import "../../Main.scss";
 import Button from '../../Component/Buttons/Button';
 export default function Header() {
     return (
