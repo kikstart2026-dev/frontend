@@ -16,9 +16,12 @@ export default function TwoSide({ img, smallheading, mainheading, paraone, parat
                     <div className="right-side">
                         <h3 className='smallheading'>{smallheading}</h3>
                         <h2 className='mainheading'>{mainheading}</h2>
-                        <p className='paraone'>{paraone}</p>
-                        <p className='paratwo'>{paratwo}</p>
-                        
+                        <p className='paraone para '>{paraone}</p>
+                        <p className='paratwo para'>{paratwo}</p>
+                        <div className="btn">
+                            <Button text="KNOW MORE"  />
+                        </div>
+
 
                     </div>
                 </div>
