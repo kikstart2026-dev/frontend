@@ -4,7 +4,6 @@ import "./Home.scss";
 import "../../Main.scss";
 import MiniCardSection from "../../Component/WhyChooseUs/MiniCardSection/MiniCardSection";
 import FaqSection from "../../Component/Faqs/Faqs-Section/FaqSection";
-import HomeBanner from "../../Component/HomeBanner/HomeBanner"
 
 export default function Home() {
     return (
@@ -13,17 +12,15 @@ export default function Home() {
                 {/* <div className="container"> */}
 
                 <section className="Home-Banner">
-                    <div className="container">
+                    {/* <div className="container">
                         <HomeBanner />
-                    </div>
-
+                    </div> */}
                 </section>
 
                 <section className="MiniCard">
                     <div className="container">
                         <MiniCardSection />
                     </div>
-
                 </section>
                 <section className="program-part">
                     <ProgramsSection />
