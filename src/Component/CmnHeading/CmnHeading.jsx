@@ -7,7 +7,7 @@ export default function CmnHeading({ title, subtitle, details, align = "center" 
     <div className={`common-heading text-${align}`}>
         <h2>{title}</h2>
         <h3>{subtitle}</h3>
-        <p>{details}</p>
+        {details}
     </div>
   )
 }

@@ -1,27 +1,27 @@
 * {
     margin: 0;
     padding: 0;
+    font-family: 'Noto Sans';
 }
 
-
 .text-left {
-    text-align: left ;
+    text-align: left;
 }
 
 .text-center {
-    text-align: center ;
+    text-align: center;
 }
 
 .text-right {
-    text-align: right ;
+    text-align: right;
 }
 
 .common-heading h2 {
-    font-weight: 700;
+    font-weight: 600;
     font-size: 14px;
     text-transform: uppercase;
     color: #ED1C24;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     letter-spacing: 2px;
 }
 
@@ -30,11 +30,17 @@
     font-size: 56px;
     text-transform: capitalize;
     color: #2B2B2B;
+    margin-bottom: 15px;   
 }
-.common-heading p{
-font-weight: 400;
-font-size: 15px;
-color: #494949;
 
+.common-heading p {
+    font-weight: 400;
+    font-size: 15px;
+    color: #494949;
+    margin-bottom: 0;     
+}
 
+/* 2nd paragraph er jonno choto gap */
+.common-heading p + p {
+    margin-top: 38px;
 }
