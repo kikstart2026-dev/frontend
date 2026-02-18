@@ -1,0 +1,60 @@
+.container-fluid {
+    background-color: #FFF8F8;
+}
+
+/* Navbar Layout */
+.nav-bar {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+}
+
+/* Logo */
+.logo img {
+    max-width: 100%;
+}
+
+/* Navigation */
+.nav {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+
+    li {
+        list-style: none;
+    }
+
+    a {
+        display: inline-block;
+        margin-right: 20px;
+        text-decoration: none;
+        color: #2D2D2D;
+        transition: 0.3s ease;
+        font-size: 16px;
+        position: relative;
+
+        &:hover {
+            color: #ED1C24;
+        }
+    }
+
+    /* Active Link */
+    a.active {
+        color: #ED1C24;
+    }
+}
+
+/* Right Side Buttons */
+
+.header-right {
+    display: flex;
+    align-items: center;
+
+    a {
+        margin-left: 10px;
+    }
+}
+
+.btn-login {
+    margin-right: 6px;
+}

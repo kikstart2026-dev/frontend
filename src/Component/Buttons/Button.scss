@@ -1,15 +1,16 @@
 .custom-btn {
   position: relative;
-  padding: 15px 25px;
+  padding: 18px 32px;
   border-radius: 50px;
   border: none;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   overflow: hidden;
-  transition: all 0.3s ease;
-  color: #FFFFFF;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   span {
     position: relative;
@@ -19,38 +20,43 @@
   &::before {
     content: "";
     position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    transition: left 0.4s ease;
+    inset: 0;
+    border-radius: inherit;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
     z-index: 1;
-    
   }
 
   &:hover::before {
-    left: 0;
-    
+    transform: scaleX(1);
   }
 
+  /* 🔥 Zoom In Effect */
+  &:hover {
+    transform: scale(1.04);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
+  }
+
+  &:active {
+    transform: scale(1.02);
+  }
 }
 
-/* 🔴 PRIMARY (Red → Black) */
+/* PRIMARY */
 .primary {
-  background-color: #ED1C24;
-
-  &::before {
-    background-color: #2B2B2B;
-  }
+  background: #ED1C24;
 }
 
-/* ⚫ DARK (Black → Red) */
+.primary::before {
+  background: #2B2B2B;
+}
+
+/* DARK */
 .dark {
-  background-color: #2B2B2B;
-
-  &::before {
-    background-color: #ED1C24;
-  }
+  background: #2B2B2B;
 }
 
-
+.dark::before {
+  background: #ED1C24;
+}
