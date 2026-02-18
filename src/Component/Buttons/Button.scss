@@ -2,7 +2,7 @@
 
 .custom-btn {
   position: relative;
-  padding: 14px 32px;
+  padding: 20px 28px;
   border-radius: 50px;
   border: none;
   text-transform: capitalize;
@@ -34,22 +34,51 @@
     left: 0;
   }
 
+
+
+.custom-btn span {
+  position: relative;
+  z-index: 2;
 }
 
-/* 🔴 PRIMARY (Red → Black) */
+.custom-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50px;
+  width: 0%;
+  transition: width 0.4s ease;
+  z-index: 1;
+}
+
+.custom-btn:hover::before {
+  width: 100%;
+}
+
+.custom-btn:hover {
+  transform: scale(1.05);
+}
+
+/* 🔴 PRIMARY */
 .primary {
-  background-color: #ED1C24;
-
-  &::before {
-    background-color: #2B2B2B;
-  }
+  background: #ED1C24;
 }
 
-/* ⚫ DARK (Black → Red) */
+.primary::before {
+  background: #2B2B2B;
+}
+
+/* ⚫ DARK */
 .dark {
   background-color: #2B2B2B;
 
   &::before {
     background-color: #ED1C24;
   }
+}
+  background: #2B2B2B;
+}
+
+.dark::before {
+  background: #ED1C24;
 }

@@ -1,18 +1,59 @@
-import React from 'react'
-import TwoSide from '../../Component/TwoSide/TwoSide'
-import kid from '../../assets/images/kid.png'
-import "./Home.scss";
-import Button from '../../Component/Buttons/Button';
-export default function Home() {
+// <<<<<<< HEAD
 
+// =======
+import React from "react";
+import "./Home.scss";
+import "../../Main.scss";
+import MiniCard from "../../Component/MiniCard/MiniCard";
+import { CardsData } from "../../data/cardsData";
+import CmnHeading from "../../Component/CmnHeading/CmnHeading";
+import HomeBanner from '../../Component/HomeBanner/HomeBanner';
+import Faqs from "../../Component/Faqs/Faqs";
+import faqData from "../../data/faqData";
+import kid from '../../assets/images/kid.png'
+import TwoSide from "../../Component/TwoSide/TwoSide";
+import MainTwoSide from "../../Component/MainTwoSide/MainTwoSide";
+
+export default function Home() {
     return (
-        <div className='container'>
-            <TwoSide img={kid}
-                smallheading={'about us'}
-                mainheading={'Who we are'}
-                paraone={'Lorem ipsum dolor sit amet consectetur. Vitae elit quam volutpat id. Quisque orci lacinia sit non. Diam et adipiscing proin orci. Eget lorem sit etiam molestie rhoncus non. Ut tincidunt tristique suspendisse arcu ac.Curabitur suspendisse tellus placerat libero ut. Enim auctor velit massa integer. Amet interdum at vivamus aliquet mattis integer magna aliquam.Nulla urna aliquam sit eget ac dolor aliquam tincidunt.'}
-                paratwo={'Ut fermentum elementum amet elementum arcu suspendisse. Vitae lectus penatibus est sit iaculis quis. Auctor eu vitae imperdiet dignissim hendrerit. A elementum turpis sem quis.'} />
-                
-        </div>
-    )
-}
+        <section className="common-space">
+            <div className="container">
+
+                <div className="Home-Banner">
+                    <HomeBanner />
+                </div>
+                <TwoSide/>
+                <div className="why-choose-us">
+                    <CmnHeading
+                        title="Why Choose Us"
+                        subtitle="Give the Gift of Gym"
+                        details="Lorem ipsum dolor sit amet consectetur. Vitae elit quam volutpat id. Quisque orci lacinia sit non. Diam et adipiscing proin orci. Eget lorem sit etiam molestie rhoncus non. Ut tincidunt tristique suspendisse arcu ac."
+                        align="center"
+                    />
+                </div>
+
+                <div className="cards-section">
+
+                    {CardsData.map((item, index) => (
+                        <MiniCard
+                            key={index}
+                            icon={item.icon}
+                            title={item.title}
+                            description={item.description}
+                            color={item.color}
+                        />
+                    ))}
+
+                </div>
+
+                <section className="Faqs-section">
+                    <div>
+                        <Faqs data={faqData} />
+                    </div>
+                </section>
+
+
+            </div>
+        </section>
+    );
+};
