@@ -50,17 +50,6 @@ export default function () {
   </button>
 </div>
 
-  {/* <div className="newsletter-box">
-  <input 
-    type="email" 
-    placeholder="Enter Email" 
-    className="newsletter-input" 
-  />
-  <button type="submit" className="newsletter-btn">
-    <span>→</span>
-  </button>
-</div> */}
-
     </div>
   </div>
 </div>
