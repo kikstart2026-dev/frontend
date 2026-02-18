@@ -1,23 +1,36 @@
 import React from "react";
+import ProgramsSection from "../../Component/Services/ProgramsSection/ProgramsSection";
 import "./Home.scss";
 import "../../Main.scss";
-
-import HomeBanner from '../../Component/HomeBanner/HomeBanner';
+import MiniCardSection from "../../Component/WhyChooseUs/MiniCardSection/MiniCardSection";
 import FaqSection from "../../Component/Faqs/Faqs-Section/FaqSection";
+import HomeBanner from "../../Component/HomeBanner/HomeBanner"
 
 export default function Home() {
     return (
-        <section className="common-space">
-            <div className="container">
+         <>
+            <section className="common-space">
+                <div className="container">
 
-                <div className="Home-Banner">
-                    <HomeBanner />
+                    <section className="Home-Banner">
+                        <HomeBanner />
+                    </section>
+
+                    <section className="MiniCard">
+                        <MiniCardSection />
+                    </section>
+                    <section className="program-part">
+                        <ProgramsSection />
+                    </section>
+
+                    <section className="Faqs-section">
+                        <FaqSection />
+                    </section>
+
                 </div>
+            </section>
 
-                <section className="Faqs-section">
-                    <FaqSection />
-                </section>
-            </div>
-        </section>
+
+        </>
     );
-};
+}
