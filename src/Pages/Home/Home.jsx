@@ -8,26 +8,35 @@ import HomeBanner from "../../Component/HomeBanner/HomeBanner"
 
 export default function Home() {
     return (
-         <>
+        <>
             <section className="common-space">
-                <div className="container">
+                {/* <div className="container"> */}
 
-                    <section className="Home-Banner">
+                <section className="Home-Banner">
+                    <div className="container">
                         <HomeBanner />
-                    </section>
+                    </div>
 
-                    <section className="MiniCard">
+                </section>
+
+                <section className="MiniCard">
+                    <div className="container">
                         <MiniCardSection />
-                    </section>
-                    <section className="program-part">
-                        <ProgramsSection />
-                    </section>
+                    </div>
 
-                    <section className="Faqs-section">
+                </section>
+                <section className="program-part">
+                    <ProgramsSection />
+                </section>
+
+                <section className="Faqs-section">
+                    <div className="container">
                         <FaqSection />
-                    </section>
+                    </div>
 
-                </div>
+                </section>
+
+                {/* </div> */}
             </section>
 
 
