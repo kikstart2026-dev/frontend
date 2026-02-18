@@ -1,6 +1,6 @@
 import React from 'react'
 import CmnHeading from '../../CmnHeading/CmnHeading'
-import { CardsData } from "../../../data/cardsData"
+import { CardsData } from '../../../data/cardsData'
 import MiniCard from '../MiniCard'
 
 import "./MiniCardSection.scss";
