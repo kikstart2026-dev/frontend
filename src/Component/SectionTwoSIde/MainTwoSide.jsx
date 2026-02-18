@@ -1,7 +1,7 @@
 import React from 'react'
-import CmnHeading from '../CmnHeading/CmnHeading'
-import './MainTwoSide.scss'
-import Button from '../Buttons/Button'
+import Button from '../Buttons/Button';
+import CmnHeading from '../CmnHeading/CmnHeading';
+import './MainTwoSide.scss';
 
 
 export default function MainTwoSide({ img }) {

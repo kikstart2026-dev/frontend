@@ -11,9 +11,9 @@ import HomeBanner from '../../Component/HomeBanner/HomeBanner';
 import Faqs from "../../Component/Faqs/Faqs";
 import faqData from "../../data/faqData";
 import kid from '../../assets/images/kid.png'
-import MainTwoSide from "../../Component/MainTwoSide/MainTwoSide";
 import FaqSection from "../../Component/Faqs/Faqs-Section/FaqSection";
-import TwoSide from "../../Component/Section Two SIde/TwoSide/TwoSide";
+import TwoSide from "../../Component/SectionTwoSIde/TwoSide/TwoSide";
+import TestSection from "../../Component/Testimonial/Test/TestSection";
 
 export default function Home() {
     return (
@@ -25,8 +25,10 @@ export default function Home() {
                 </div>
                 <div className="about-us">
                     <TwoSide/>
+                    
                 </div>
-                
+                <TestSection/>
+
                 <div className="why-choose-us">
                     <CmnHeading
                         title="Why Choose Us"
