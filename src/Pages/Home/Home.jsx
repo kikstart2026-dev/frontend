@@ -18,12 +18,6 @@ export default function Home() {
                     </div> */}
                 </section>
 
-                <section className="About-us">
-                    <div className="container">
-                        <TwoSide/>
-                    </div>
-                </section>
-
                 <section className="MiniCard">
                     <div className="container">
                         <MiniCardSection />
