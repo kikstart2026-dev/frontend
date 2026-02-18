@@ -27,7 +27,7 @@ export default function Home() {
                     <TwoSide/>
                     
                 </div>
-                <TestSection/>
+                
 
                 <div className="why-choose-us">
                     <CmnHeading
@@ -51,7 +51,9 @@ export default function Home() {
                     ))}
 
                 </div>
-
+                  <section className="Testimonial">
+                    <TestSection/>
+                  </section>
                 <section className="Faqs-section">
                     <FaqSection />
                 </section>
