@@ -3,6 +3,7 @@ import CmnHeading from "../../CmnHeading/CmnHeading";
 import FaqsRightImg from "../../../assets/images/faqs-right-img.png";
 import "../../../Main.scss";
 import Faqs from "../Faqs";
+import "./../Faqs-Section/FaqSection.scss"
 import faqData from "../../../data/faqData";
 
 export default function FaqSection() {
