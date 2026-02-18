@@ -4,17 +4,23 @@ import "./Home.scss";
 import "../../Main.scss";
 import MiniCardSection from "../../Component/WhyChooseUs/MiniCardSection/MiniCardSection";
 import FaqSection from "../../Component/Faqs/Faqs-Section/FaqSection";
+import HomeBanner from "../../Component/HomeBanner/HomeBanner";
+
 
 export default function Home() {
     return (
         <>
-            <section className="common-space">
+            {/* <section className="common-space"> */}
                 {/* <div className="container"> */}
 
                 <section className="Home-Banner">
                     {/* <div className="container">
                         <HomeBanner />
                     </div> */}
+                    
+                        <HomeBanner />
+                  
+
                 </section>
 
                 <section className="MiniCard">
@@ -34,18 +40,9 @@ export default function Home() {
                 </section>
 
                 {/* </div> */}
-            </section>
+            {/* </section> */}
 
 
         </>
     );
 }
-
-
-
-
-
-
-// 12347586868689
-
-
