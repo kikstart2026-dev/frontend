@@ -1,6 +1,6 @@
 import React from "react";
 import ProgramCard from "../ProgramCard";
-import { programsData } from "../../../Data/programData";
+import { programsData } from "../../../data/programData";
 import "./ProgramsSection.scss";
 import Button from "../../Buttons/Button";
 import { Link } from "react-router-dom";
