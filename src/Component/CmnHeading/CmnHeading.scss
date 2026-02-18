@@ -5,15 +5,15 @@
 }
 
 .text-left {
-    text-align: left ;
+    text-align: left;
 }
 
 .text-center {
-    text-align: center ;
+    text-align: center;
 }
 
 .text-right {
-    text-align: right ;
+    text-align: right;
 }
 
 .common-heading h2 {
@@ -21,15 +21,25 @@
     font-size: 14px;
     text-transform: uppercase;
     color: #ED1C24;
+    margin-bottom: 10px;   /* subtitle theke gap */
 }
+
 .common-heading h3 {
     font-weight: 700;
     font-size: 56px;
     text-transform: capitalize;
     color: #2B2B2B;
+    margin-bottom: 15px;   /* paragraph er age gap */
 }
+
 .common-heading p {
     font-weight: 400;
     font-size: 15px;
     color: #494949;
+    margin-bottom: 0;      /* default gap remove */
+}
+
+/* 2nd paragraph er jonno choto gap */
+.common-heading p + p {
+    margin-top: 6px;
 }
