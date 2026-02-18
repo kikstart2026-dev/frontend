@@ -5,8 +5,7 @@ import MiniCard from "../../Component/MiniCard/MiniCard";
 import { CardsData } from "../../data/cardsData";
 import CmnHeading from "../../Component/CmnHeading/CmnHeading";
 import HomeBanner from '../../Component/HomeBanner/HomeBanner';
-import Faqs from "../../Component/Faqs/Faqs";
-import faqData from "../../data/faqData";
+import FaqSection from "../../Component/Faqs/Faqs-Section/FaqSection";
 
 export default function Home() {
     return (
@@ -41,9 +40,7 @@ export default function Home() {
                 </div>
 
                 <section className="Faqs-section">
-                    <div>
-                        <Faqs data={faqData} />
-                    </div>
+                    <FaqSection />
                 </section>
 
 
