@@ -5,6 +5,8 @@ import "../../Main.scss";
 import MiniCardSection from "../../Component/WhyChooseUs/MiniCardSection/MiniCardSection";
 import FaqSection from "../../Component/Faqs/Faqs-Section/FaqSection";
 import HomeBanner from "../../Component/HomeBanner/HomeBanner";
+import TwoSide from "../../Component/SectionTwoSIde/TwoSide/TwoSide";
+import TestSection from "../../Component/Testimonial/Test/TestSection";
 
 export default function Home() {
     return (
@@ -12,7 +14,11 @@ export default function Home() {
             <section className="Home-Banner">
                 <HomeBanner />
             </section>
-
+            <section className="about-us">
+                <div className="container">
+                    <TwoSide/>
+                </div>
+            </section>
             <section className="MiniCard">
                 <div className="container">
                     <MiniCardSection />
@@ -22,7 +28,12 @@ export default function Home() {
             <section className="program-part">
                 <ProgramsSection />
             </section>
-
+            <section className="Testimonial">
+                <div className="container">
+                    <TestSection />
+                </div>
+                
+            </section>
             <section className="Faqs-section">
                 <div className="container">
                     <FaqSection />
