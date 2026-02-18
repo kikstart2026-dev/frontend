@@ -1,6 +1,3 @@
-// <<<<<<< HEAD
-
-// =======
 import React from "react";
 import "./Home.scss";
 import "../../Main.scss";
@@ -8,9 +5,6 @@ import MiniCard from "../../Component/MiniCard/MiniCard";
 import { CardsData } from "../../data/cardsData";
 import CmnHeading from "../../Component/CmnHeading/CmnHeading";
 import HomeBanner from '../../Component/HomeBanner/HomeBanner';
-import Faqs from "../../Component/Faqs/Faqs";
-import faqData from "../../data/faqData";
-import kid from '../../assets/images/kid.png'
 import FaqSection from "../../Component/Faqs/Faqs-Section/FaqSection";
 import TwoSide from "../../Component/SectionTwoSIde/TwoSide/TwoSide";
 import TestSection from "../../Component/Testimonial/Test/TestSection";
