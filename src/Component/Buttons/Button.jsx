@@ -9,4 +9,3 @@ export default function Button({ text, onClick, variant = "primary" }) {
     </button>
   );
 }
-
