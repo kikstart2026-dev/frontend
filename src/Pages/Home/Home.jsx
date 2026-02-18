@@ -4,6 +4,7 @@ import "./Home.scss";
 import "../../Main.scss";
 import MiniCardSection from "../../Component/WhyChooseUs/MiniCardSection/MiniCardSection";
 import FaqSection from "../../Component/Faqs/Faqs-Section/FaqSection";
+import HomeBanner from "../../Component/HomeBanner/HomeBanner";
 
 export default function Home() {
     return (
