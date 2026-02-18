@@ -2,19 +2,19 @@
     background-color: #FFF8F8;
 }
 
-/* navbar layout */
+/* Navbar Layout */
 .nav-bar {
     display: flex;
     align-items: center;
     padding: 15px;
 }
 
-/* logo */
-.nav-bar img {
+/* Logo */
+.logo img {
     max-width: 100%;
 }
 
-/* nav menu */
+/* Navigation */
 .nav {
     margin-left: auto;
     display: flex;
@@ -29,20 +29,32 @@
         margin-right: 20px;
         text-decoration: none;
         color: #2D2D2D;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        transition: 0.4s;
+        transition: 0.3s ease;
         font-size: 16px;
+        position: relative;
 
         &:hover {
             color: #ED1C24;
         }
     }
+
+    /* Active Link */
+    a.active {
+        color: #ED1C24;
+    }
 }
-.header-right{
-    a{
+
+/* Right Side Buttons */
+
+.header-right {
+    display: flex;
+    align-items: center;
+
+    a {
         margin-left: 10px;
     }
 }
-.btn-login{
+
+.btn-login {
     margin-right: 6px;
 }

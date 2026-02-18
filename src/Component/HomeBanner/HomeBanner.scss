@@ -1,6 +1,10 @@
+*{
+  padding: o;
+  margin: 0;
+}
 .home-banner {
   padding: 80px 0;
-  background-color: #FFFAFA; // Background color (optional)
+  background-color: #FFFAFA; 
   padding-bottom: 220px;
   position: relative; 
   overflow: hidden;
@@ -13,7 +17,7 @@
     left: 0;
     width: 100%;
     height: 191px;
-    background-image: url("../../../public/images/Vector 1.png");
+    background-image: url("../../assets/images/Vector 1.png");
     background-size: cover;
   background-repeat: no-repeat;
     z-index: -1;
@@ -27,31 +31,28 @@
     right: 10%;
     width: 46px;
     height: 22px;
-    background-image: url("../../../public/images/Vector 10.png");
+    background-image: url("../../assets/images/Vector 10.png");
     background-size: cover;
   background-repeat: no-repeat;
     z-index: -1;
     pointer-events: none;
   }
 
-  .row {
-    display: flex;
+  .row{
     align-items: center;
-    justify-content: space-between;
   }
 
   .left-content {
-    flex: 1;
     position: relative;
 
     &::before{
         content: "";
         position: absolute;
-        top: -40%;
-        left: -20%;
+        top: -46%;
+        left: -14%;
         width: 46px;
         height: 22px;
-         background-image: url("../../../public/images/Vector 10.png");
+         background-image:  url("../../assets/images/Vector 10.png");
         background-size: cover;
         background-repeat: no-repeat;
         z-index: -1;
@@ -63,7 +64,7 @@
         right: 20px;
         width: 40px;
         height: 40px;
-         background-image: url("../../../public/images/Vector.png");
+         background-image: url("../../assets/images/Vector.png");
         background-size: cover;
         background-repeat: no-repeat;
         z-index: -1;
@@ -81,7 +82,7 @@
         left: 40%;
         width: 17px;
         height: 17px;
-         background-image: url("../../../public/images/borfi.png");
+         background-image: url("../../assets/images/borfi.png");
         background-size: cover;
         background-repeat: no-repeat;
         z-index: -1;
@@ -105,6 +106,7 @@
       p {
         margin-top: 20px;
         font-size: 15px;
+        width: 420px;
         color: #555;
       }
     }
@@ -121,7 +123,7 @@
         right: 0px;
         width: 126px;
         height: 94px;
-         background-image: url("../../../public/images/Vector 66.png");
+         background-image: url("../../assets/images/Vector 66.png");
         background-size: cover;
         background-repeat: no-repeat;
         z-index: -1;
@@ -133,7 +135,7 @@
         left: 0px;
         width: 17px;
         height: 17px;
-         background-image: url("../../../public/images/borfi.png");
+         background-image: url("../../assets/images/borfi.png");
         background-size: cover;
         background-repeat: no-repeat;
         z-index: -1;
@@ -141,8 +143,6 @@
   }
 
   .right-image {
-    flex: 1;
-    width: 855px;
     text-align: right;
     position: relative;
 
@@ -153,7 +153,7 @@
         right: 50%;
         width: 62px;
         height: 69px;
-         background-image: url("../../../public/images/fly.png");
+         background-image: url("../../assets/images/fly.png");
         background-size: cover;
         background-repeat: no-repeat;
         z-index: -1;
@@ -163,16 +163,21 @@
          content: "";
         position: absolute;
         bottom: 25%;
-        right:  -27% ;
+        right:  -33%;
         width: 62px;
         height: 69px;
-         background-image: url("../../../public/images/flower.png");
+        background-image: url("../../assets/images/flower.png");
         background-size: cover;
         background-repeat: no-repeat;
         z-index: -1;
     }
+
+    figure{
+        width: 110%;
+    }
+
     img{
-        width: 682.42px;
+        max-width: 100%;
     }
     
     
