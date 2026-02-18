@@ -1,51 +1,77 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 import kikstart from '../../assets/images/KIKSTART_logo.png'
 import "./Header.scss";
 import "../../Main.scss";
 import Button from '../../Component/Buttons/Button';
+
 export default function Header() {
     return (
-        <div className="container-fluid">
+        <header className="container-fluid">
             <div className="nav-bar">
-                <Link to="/">
-                    <img src={kikstart} alt="photo" />
+
+                {/* Logo */}
+                <Link to="/" className="logo">
+                    <img src={kikstart} alt="Kikstart Logo" />
                 </Link>
-                <ul class="nav">
+
+                {/* Navigation */}
+                <ul className="nav">
                     <li>
-                        <Link to="/about">About Us</Link>
+                        <NavLink to="/about" className={({ isActive }) => isActive ? "active" : ""}>
+                            About Us
+                        </NavLink>
                     </li>
+
                     <li>
-                        <Link to="/about">Programs</Link>
+                        <NavLink to="/programs" className={({ isActive }) => isActive ? "active" : ""}>
+                            Programs
+                        </NavLink>
                     </li>
+
                     <li>
-                        <Link to="/about">Why Us</Link>
+                        <NavLink to="/why-us" className={({ isActive }) => isActive ? "active" : ""}>
+                            Why Us
+                        </NavLink>
                     </li>
+
                     <li>
-                        <Link to="/about">Contact Us</Link>
+                        <NavLink to="/contact" className={({ isActive }) => isActive ? "active" : ""}>
+                            Contact Us
+                        </NavLink>
                     </li>
+
                     <li>
-                        <Link to="/about">Interested Schools</Link>
+                        <NavLink to="/schools" className={({ isActive }) => isActive ? "active" : ""}>
+                            Interested Schools
+                        </NavLink>
                     </li>
+
                     <li>
-                        <Link to="/about">Become A Coach</Link>
+                        <NavLink to="/coach" className={({ isActive }) => isActive ? "active" : ""}>
+                            Become A Coach
+                        </NavLink>
                     </li>
+
                     <li>
-                        <Link to="/about">Coach's Login</Link>
+                        <NavLink to="/coach-login" className={({ isActive }) => isActive ? "active" : ""}>
+                            Coach's Login
+                        </NavLink>
                     </li>
                 </ul>
-                <div className="header-right">
 
-                    <Link to="/login" className='btn-login'>
-                        <Button text="Login" variant="dark"/>
+                {/* Right Buttons */}
+                <div className="header-right">
+                    <Link to="/login" className="btn-login">
+                        <Button text="Login" variant="dark" />
                     </Link>
 
-                    <Link to="/demo" >
+                    <Link to="/demo">
                         <Button text="REQUEST A FREE DEMO" variant="primary" />
                     </Link>
-
                 </div>
+
             </div>
-        </div>
+        </header>
     )
 }

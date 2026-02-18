@@ -11,7 +11,7 @@ h1,h2,h3,h4,h5,h6
 body {
   font-family: "Noto Sans";
   margin: 0;
-  background: #f9fafb;
+  background: #FFFFFF;
 }
 
 .container {
@@ -21,5 +21,9 @@ body {
 }
 .common-space
 {
-    padding: 95px 0 95px 0;
+    padding: 95px 0 0 0;
+}
+.common-space1
+{
+    padding: 0 0 95px 0;
 }

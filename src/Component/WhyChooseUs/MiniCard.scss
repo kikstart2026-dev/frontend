@@ -12,8 +12,9 @@
     transition: 0.3s;
 
     &:hover {
+        cursor: pointer;
         box-shadow:
-             0 0 15px #fcd5d6;
+             0 0 25px #fa4b516f;
     border: 1px solid #ED1C24;
     }
 
@@ -37,7 +38,7 @@
     h3 {
         font-weight: 700;
         font-size: 20px;
-        line-height: 28px;
+        line-height: 1.4;
         text-transform: capitalize;
         color: #2B2B2B;
         margin-bottom: 12px;
@@ -46,7 +47,7 @@
     p {
         font-weight: 400;
         font-size: 15px;
-        line-height: 26px;
+        line-height: 1.7;
         max-width: 240px;   /* changed from fixed width */
         color: #6A6A6A;
         margin-top: 0;
