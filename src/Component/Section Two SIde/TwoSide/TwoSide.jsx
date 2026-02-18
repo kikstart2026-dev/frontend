@@ -1,6 +1,6 @@
 import React from 'react'
+import kid from '../../../assets/images/kid.png'
 import MainTwoSide from '../MainTwoSide/MainTwoSide'
-import kid from '../../assets/images/kid.png'
 
 export default function TwoSide() {
   return (
