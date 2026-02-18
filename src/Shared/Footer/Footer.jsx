@@ -76,7 +76,7 @@ export default function Footer() {
                   placeholder="Enter Email"
                   className="search-input"
                 />
-                <button className="submit-btn" type="submit">
+                <button className="submit-btn" type="submit" >
                   <span>→</span>
                 </button>
               </div>
