@@ -10,10 +10,7 @@ export default function Home() {
     return (
         <>
             <section className="Home-Banner">
-
                 <HomeBanner />
-
-
             </section>
 
             <section className="MiniCard">
@@ -21,6 +18,7 @@ export default function Home() {
                     <MiniCardSection />
                 </div>
             </section>
+            
             <section className="program-part">
                 <ProgramsSection />
             </section>
