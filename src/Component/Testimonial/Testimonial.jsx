@@ -1,10 +1,9 @@
 import React from 'react'
-import CmnHeading from '../CmnHeading/CmnHeading'
 import './Testimonial.scss'
 
 export default function Testimonial({ img, para, miniheading, coach }) {
     return (
-        <div className='testimonial'> 
+        <div>
             
             <figure className='girl2'><img  src={img} /></figure>
             <p className='para same'>{para}</p>
