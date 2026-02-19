@@ -103,31 +103,31 @@ img {
 }
 
 
-// /* Responsive tweaks */
-// @media (max-width: 991px) {
-//   .faqs-item {
-//     padding: 20px 15px;
-//   }
+/* Responsive tweaks */
+@media (max-width: 991px) {
+  .faqs-item {
+    padding: 20px 15px;
+  }
 
-//   .faqs-header {
-//     font-size: 18px;
-//   }
+  .faqs-header {
+    font-size: 18px;
+  }
 
-//   .accordion-body p.faqs-details {
-//     font-size: 14px;
-//   }
-// }
+  .accordion-body p.faqs-details {
+    font-size: 14px;
+  }
+}
 
-// @media (max-width: 576px) {
-//   .faqs-item {
-//     padding: 18px 12px;
-//   }
+@media (max-width: 576px) {
+  .faqs-item {
+    padding: 18px 12px;
+  }
 
-//   .faqs-header {
-//     font-size: 16px;
-//   }
+  .faqs-header {
+    font-size: 16px;
+  }
 
-//   .accordion-body p.faqs-details {
-//     font-size: 13px;
-//   }
-// }
+  .accordion-body p.faqs-details {
+    font-size: 13px;
+  }
+}
