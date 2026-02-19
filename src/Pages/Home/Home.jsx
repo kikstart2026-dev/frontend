@@ -32,7 +32,7 @@ export default function Home() {
                 <ProgramsSection />
             </section>
 
-            <section className="Testimonial">
+            <section className="Testimonial common-space ">
                 <div className="container">
                     <TestSection />
                 </div>

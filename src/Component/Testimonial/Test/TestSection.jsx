@@ -1,19 +1,38 @@
 import React from 'react'
 import Testimonial from '../Testimonial'
-import girl2 from '../../../assets/images/girl2.png'
 import CmnHeading from '../../CmnHeading/CmnHeading'
+import testimonialData from '../../../data/testimonialData'
+import './TestSection.scss'
+
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Autoplay } from 'swiper/modules'
+
+import 'swiper/css'
 
 export default function TestSection() {
   return (
-    <div>
+    <div className='all'>
+      <div className="relative">
+
         <CmnHeading
-                title="testimonials"
-                subtitle="Whats our client say" />
-                <Testimonial
-                img= {girl2}
-                para="Lorem ipsum dolor sit amet consectetur. Tortor sed ipsum tortor in et. Arcu tortor phasellus elementum sed natoque pellentesque in elit imperdiet. Sit nisi turpis arcu malesuada purus semper. Bibendum urna dolor at ut tincidunt. Scelerisque dictumst sed."
-                miniheading="Cameron Williamson"
-                coach="Coach"/>
+          title="testimonials"
+          subtitle="Whats our client say"
+        />
+
+        <Swiper
+          modules={[Autoplay]}
+          autoplay={{ delay: 2000 }}
+          loop={true}
+        >
+          {testimonialData.map((item) => (
+            <SwiperSlide key={item.id}>
+              <Testimonial {...item} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+
+
+      </div>
     </div>
   )
 }

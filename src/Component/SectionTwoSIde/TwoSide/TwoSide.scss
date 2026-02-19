@@ -1,16 +1,17 @@
-.all-flex{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-img{
-    max-width: 100%;
+img {
+  max-width: 100%;
 }
 
-.side{
-    width:50%;
+.bt .custom-btn {
+  display: inline-block;
+  margin-top: 38px;
+  padding: 20px 48px;
 }
 
-.bt .custom-btn{
-    margin-top:  38px;
+.first-para {
+  width: 540px;
+}
+
+.second-para {
+  width: 580px;
 }
