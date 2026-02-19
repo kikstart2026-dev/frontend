@@ -1,15 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Fustat:wght@200..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 .custom-btn {
   position: relative;
   padding: 20px 28px;
   border-radius: 50px;
   border: none;
+  text-transform: uppercase;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
   overflow: hidden;
   transition: all 0.3s ease;
-  color: #FFFFFF;
+  color: white;
+  font-family: "Noto Sans";
 
+  
   span {
     position: relative;
     z-index: 2;
@@ -24,30 +29,55 @@
     height: 100%;
     transition: left 0.4s ease;
     z-index: 1;
-    
   }
 
   &:hover::before {
     left: 0;
-    
   }
 
+
+  color: #FFFFFF;
+  transition: transform 0.3s ease;
+  text-transform: uppercase;
 }
 
-/* 🔴 PRIMARY (Red → Black) */
+.custom-btn span {
+  position: relative;
+  z-index: 2;
+}
+
+.custom-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50px;
+  width: 0%;
+  transition: width 0.4s ease;
+  z-index: 1;
+}
+
+.custom-btn:hover::before {
+  width: 100%;
+}
+
+.custom-btn:hover {
+  transform: scale(1.05);
+}
+
+/* 🔴 PRIMARY */
 .primary {
-  background-color: #ED1C24;
-
-  &::before {
-    background-color: #2B2B2B;
-  }
+  background: #ED1C24;
 }
 
-/* ⚫ DARK (Black → Red) */
-.dark {
-  background-color: #2B2B2B;
+.primary::before {
+  background: #2B2B2B;
+}
 
-  &::before {
-    background-color: #ED1C24;
-  }
+/* ⚫ DARK */
+.dark {
+  background: #2B2B2B;
+}
+
+.dark::before {
+  background: #ED1C24;
 }

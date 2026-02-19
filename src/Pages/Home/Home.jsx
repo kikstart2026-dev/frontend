@@ -1,46 +1,51 @@
 import React from "react";
-import MiniCard from "../../Component/MiniCard/MiniCard";
-import { CardsData } from "../../data/cardsData";
-import CmnHeading from "../../Component/CmnHeading/CmnHeading";
 import "./Home.scss";
 import "../../Main.scss";
-import Faqs from "../../Component/Faqs/Faqs";
-import faqData from "../../data/faqData";
+import TwoSide from "../../Component/SectionTwoSIde/TwoSide/TwoSide";
+import TestSection from "../../Component/Testimonial/Test/TestSection";
+import MiniCardSection from "../../Component/WhyChooseUs/MiniCardSection/MiniCardSection"
+import ProgramsSection from "../../Component/Services/ProgramsSection/ProgramsSection";
+import FaqSection from "../../Component/Faqs/Faqs-Section/FaqSection";
+import HomeBanner from "../../Component/HomeBanner/HomeBanner";
+
 
 export default function Home() {
     return (
-        <section className="common-space">
-            <div className="container">
-                <div className="why-choose-us">
-                    <CmnHeading
-                        title="Why Choose Us"
-                        subtitle="Give the Gift of Gym"
-                        details="Lorem ipsum dolor sit amet consectetur. Vitae elit quam volutpat id. Quisque orci lacinia sit non. Diam et adipiscing proin orci. Eget lorem sit etiam molestie rhoncus non. Ut tincidunt tristique suspendisse arcu ac."
-                        align="center"
-                    />
+        <div className="home">
+
+            <section className="Home-Banner">
+                <HomeBanner />
+            </section>
+
+            <section className="about-us both-space">
+                <div className="container">
+                    <TwoSide />
                 </div>
-                <div className="cards-section">
+            </section>
 
-                    {CardsData.map((item, index) => (
-                        <MiniCard
-                            key={index}
-                            icon={item.icon}
-                            title={item.title}
-                            description={item.description}
-                            color={item.color}
-                        />
-                    ))}
+            <section className="MiniCard">
+                <div className="container">
+                    <MiniCardSection />
+                </div>
+            </section>
+            <section className="program-part">
+                <ProgramsSection />
+            </section>
 
+            <section className="Testimonial common-space ">
+                <div className="container">
+                    <TestSection />
+                </div>
+            </section>
+
+            <section className="Faqs-section common-space">
+                <div className="container">
+                    <FaqSection />
                 </div>
 
-                <section className="Faqs-section">
-                    <div>
-                        <Faqs data={faqData} />
-                    </div>
-                </section>
+            </section>
 
 
-            </div>
-        </section>
+        </div>
     );
-}
+};
