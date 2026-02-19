@@ -12,7 +12,6 @@ import HomeBanner from "../../Component/HomeBanner/HomeBanner";
 export default function Home() {
     return (
         <>
-
             <section className="Home-Banner">
                 <HomeBanner />
             </section>
@@ -32,7 +31,7 @@ export default function Home() {
                 <ProgramsSection />
             </section>
 
-            <section className="Testimonial">
+            <section className="Testimonial common-space ">
                 <div className="container">
                     <TestSection />
                 </div>
