@@ -25,10 +25,13 @@
         justify-content: center;
         margin-bottom: 26px;
         padding: 20px;
+        box-sizing: border-box;
+        /* allow dynamic background from props */
         background: #FFE9E9;
         box-sizing: border-box;
 
         img {
+            // width: 38px;
             max-width: 100%;
         }
     }
