@@ -15,8 +15,6 @@
   }
 }
 
-
-
 footer {
   background: rgba(255, 248, 248, 1);
   background-size: cover;
@@ -50,12 +48,6 @@ footer {
   flex-wrap: wrap;
 }
 
-.second,
-.third,
-.fourth {
-  margin-top: 78px;
-}
-
 .first {
   text-align: left;
 
@@ -66,20 +58,6 @@ footer {
   p {
     max-width: 304px;
   }
-}
-
-.second,
-.third {
-  text-align: left;
-
-  li {
-    padding: 10px 0;
-  }
-}
-
-.fourth {
-  max-width: 250px;
-  text-align: left;
 }
 
 .sms {
@@ -98,15 +76,19 @@ footer {
   }
 }
 
-/* ================= Links Section ================= */
+.second,
+.third {
+  text-align: left;
+  margin-top: 77px;
 
-ul {
-  list-style: none;
-  padding-left: 0 !important;
+  ul {
+    list-style: none;     
+    padding-left: 0 !important;
+    margin: 0;          
+  }
 
   li {
-    margin: 0;
-    padding-left: 0;
+    padding: 10px 0;
 
     a {
       display: block;
@@ -117,100 +99,79 @@ ul {
       &:hover {
         color: #ED1C24;
       }
-
-      &.active {
-        color: #ED1C24;   // ✅ active page color only
-      }
     }
   }
 }
 
-/* ================= Newsletter ================= */
+.fourth {
+  max-width: 250px;
+  text-align: left;
+   margin-top: 77px;
 
-.search {
-  display: flex;
-  align-items: center;
-  padding: 5px 10px;
-  width: 100%;
-  max-width: 266px;
-  box-sizing: border-box;
-  margin-top: 15px;
-  gap: 16px;
-  background: #FFFFFF;
-  border: 1px solid #FFFFFF;
-  box-shadow: 0px 7px 23px rgba(69, 69, 69, 0.05);
-  border-radius: 15px;
+  .search {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    width: 100%;
+    max-width: 266px;
+    box-sizing: border-box;
+    margin-top: 15px;
+    gap: 16px;
+    background: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    box-shadow: 0px 7px 23px rgba(69, 69, 69, 0.05);
+    border-radius: 15px;
 
-  .search-input {
-    border: none;
-    background: transparent;
-    font-size: 16px;
-    outline: none;
-    color: #333;
-    margin-right: 25px;
-    width: 170px;   // 👈 yaha control karo
-    flex: unset;    // 👈 important
-}
+    .search-input {
+      border: none;
+      background: transparent;
+      font-size: 16px;
+      outline: none;
+      color: #333;
+      margin-right: 25px;
+      width: 170px;
+      flex: unset;
+    }
 
-  .submit-btn {
-  position: relative;
-  border: none;
-  padding: 5px;
-  margin-left: -30px;
-  min-width: 50px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-sizing: border-box;
-  background: #ED1C24;
-  border-radius: 15px;
-  cursor: pointer;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+    .submit-btn {
+      position: relative;
+      border: none;
+      padding: 5px;
+      margin-left: -30px;
+      min-width: 50px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+      background: #ED1C24;
+      border-radius: 15px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-  span {
-    position: relative;
-    z-index: 2;
-    color: #ffffff;
-    font-size: 30px;
-    line-height: 1;
-    display: inline-block;
-    margin-top: -2px;
-     padding: 0 5px;
-  }
+      span {
+        position: relative;
+        z-index: 2;
+        color: #ffffff;
+        font-size: 30px;
+        line-height: 1;
+        display: inline-block;
+        margin-top: -2px;
+        padding: 0 5px;
+      }
 
-  /* overlay animation */
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: #000; // hover color
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s ease;
-    z-index: 1;
-  }
+      &:hover {
+        transform: scale(1.04);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
+      }
 
-  &:hover::before {
-    transform: scaleX(1);
-  }
-
-  /* Zoom effect */
-  &:hover {
-    transform: scale(1.04);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
-  }
-
-  &:active {
-    transform: scale(1.02);
+      &:active {
+        transform: scale(1.02);
+      }
+    }
   }
 }
-
-}
-
-/* ================= Footer Lower ================= */
 
 .footer-lower {
   display: flex;
@@ -225,62 +186,74 @@ ul {
 
 
 
-//================================RESPONSIVE===========================================
-// @media (max-width: 1199px) {
-//   .container {
-//     max-width: 960px;
-//   }
-// }
 
-// @media (max-width: 991px) {
-//   .container {
-//     max-width: 720px;
-//   }
 
-//   .row {
-//     grid-template-columns: repeat(2, 1fr);
-//   }
 
-//   footer {
-//     padding-top: 150px;
-//   }
 
-//   .col-2 ul {
-//     display: grid;
-//     grid-template-columns: repeat(2, 1fr);
-//     gap: 8px 20px;
-//   }
-// }
 
-// @media (max-width: 575px) {
+// ======================= Responsive =======================
 
-//   .container {
-//     max-width: 100%;
-//     padding: 0 20px;
-//   }
+/* XL ≤1199px */
+@media (max-width: 1199px) {
+  .container {
+    max-width: 960px;
+  }
+}
 
-//   .row {
-//     grid-template-columns: 1fr;
-//   }
+/* LG ≤991px */
+@media (max-width: 991px) {
+  .container {
+    max-width: 720px;
+  }
 
-//   .col-1,
-//   .col-2,
-//   .col-3,
-//   .col-4 {
-//     max-width: 100%;
-//   }
+  .row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px; // row gap
+  }
 
-//   .footer-lower {
-//     flex-direction: column;
-//     gap: 10px;
-//     text-align: center;
-//   }
+  footer {
+    padding-top: 150px;
+  }
 
-//   .footer-lower .right {
-//     text-align: center;
-//   }
+  .col-2 ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 20px;
+  }
+}
 
-//   footer {
-//     padding: 100px 0 40px;
-//   }
-// }
+/* XS ≤575px */
+@media (max-width: 575px) {
+  .container {
+    max-width: 100%;
+    padding: 0 20px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .col-1,
+  .col-2,
+  .col-3,
+  .col-4 {
+    max-width: 100%;
+  }
+
+  .footer-lower {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .footer-lower .right {
+    text-align: center;
+  }
+
+  footer {
+    padding: 100px 0 40px;
+  }
+}
