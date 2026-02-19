@@ -4,6 +4,7 @@
 * {
   margin: 0;
   padding: 0;
+  line-height: 1.6em;
 }
 
 h1,
@@ -13,7 +14,6 @@ h4,
 h5,
 h6 {
   margin: 0;
-
   padding: 0;
 }
 
@@ -29,19 +29,10 @@ body {
   padding: 0 12px;
 }
 
-
 img {
   max-width: 100%;
 }
 
 .row{
   gap: 0 !important;
-}
-.common-space
-{
-    padding: 95px 0 0 0;
-}
-.common-space1
-{
-    padding: 0 0 95px 0;
 }

@@ -2,19 +2,19 @@
     background-color: #FFF8F8;
 }
 
-/* Navbar Layout */
+/* navbar layout */
 .nav-bar {
     display: flex;
     align-items: center;
     padding: 15px;
 }
 
-/* Logo */
-.logo img {
+/* logo */
+.nav-bar img {
     max-width: 100%;
 }
 
-/* Navigation */
+/* nav menu */
 .nav {
     margin-left: auto;
     display: flex;
@@ -29,32 +29,19 @@
         margin-right: 20px;
         text-decoration: none;
         color: #2D2D2D;
-        transition: 0.3s ease;
+        transition: 0.4s;
         font-size: 16px;
-        position: relative;
 
         &:hover {
             color: #ED1C24;
         }
     }
-
-    /* Active Link */
-    a.active {
-        color: #ED1C24;
-    }
 }
-
-/* Right Side Buttons */
-
-.header-right {
-    display: flex;
-    align-items: center;
-
-    a {
+.header-right{
+    a{
         margin-left: 10px;
     }
 }
-
-.btn-login {
+.btn-login{
     margin-right: 6px;
 }

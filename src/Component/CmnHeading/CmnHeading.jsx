@@ -11,4 +11,3 @@ export default function CmnHeading({ title, subtitle, details, align = "center" 
     </div>
   )
 }
-

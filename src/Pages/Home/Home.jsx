@@ -1,20 +1,22 @@
 import React from "react";
-import ProgramsSection from "../../Component/Services/ProgramsSection/ProgramsSection";
 import "./Home.scss";
 import "../../Main.scss";
-import MiniCardSection from "../../Component/WhyChooseUs/MiniCardSection/MiniCardSection";
+import TwoSide from "../../Component/SectionTwoSIde/TwoSide/TwoSide";
+import TestSection from "../../Component/Testimonial/Test/TestSection";
+import MiniCardSection from "../../Component/WhyChooseUs/MiniCardSection/MiniCardSection"
+import ProgramsSection from "../../Component/Services/ProgramsSection/ProgramsSection";
 import FaqSection from "../../Component/Faqs/Faqs-Section/FaqSection";
+
 
 export default function Home() {
     return (
-        <>
-            <section className="common-space">
-                {/* <div className="container"> */}
+            <>
 
-                <section className="Home-Banner">
-                    {/* <div className="container">
-                        <HomeBanner />
-                    </div> */}
+              
+                <section className="about-us">
+                    <div className="container">
+                        <TwoSide/>
+                    </div>
                 </section>
 
                 <section className="MiniCard">
@@ -26,17 +28,23 @@ export default function Home() {
                     <ProgramsSection />
                 </section>
 
-                <section className="Faqs-section">
+              
+
+                
+                  <section className="Testimonial">
+                    <div className="container">
+                        <TestSection/>
+                    </div>
+                  </section>
+
+                  <section className="Faqs-section">
                     <div className="container">
                         <FaqSection />
                     </div>
 
                 </section>
 
-                {/* </div> */}
-            </section>
-
-
-        </>
+             
+            </>
     );
-}
+};
