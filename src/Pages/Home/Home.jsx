@@ -11,7 +11,7 @@ import HomeBanner from "../../Component/HomeBanner/HomeBanner";
 
 export default function Home() {
     return (
-        <>
+        <div className="home">
 
             <section className="Home-Banner">
                 <HomeBanner />
@@ -46,6 +46,6 @@ export default function Home() {
             </section>
 
 
-        </>
+        </div>
     );
 };

@@ -8,6 +8,10 @@ img {
     height: 100%;
 }
 
+.faqs-section{
+    max-width: 100%;
+}
+
 // .accordion-button,
 // .accordion-body {
 //     padding: 0 !important;
@@ -39,31 +43,102 @@ img {
 }
 
 
-// /* Responsive tweaks */
-// @media (max-width: 991px) {
-//   .faqs-item {
-//     padding: 20px 15px;
-//   }
+/* ============================= */
+/* Large devices ( <1200px ) */
+/* ============================= */
+@media (max-width: 1199.98px) {
 
-//   .faqs-header {
-//     font-size: 18px;
-//   }
+  .faqs-item {
+    padding: 22px 18px;
+  }
 
-//   .accordion-body p.faqs-details {
-//     font-size: 14px;
-//   }
-// }
+  .faqs-header {
+    font-size: 20px;
+  }
 
-// @media (max-width: 576px) {
-//   .faqs-item {
-//     padding: 18px 12px;
-//   }
+  .accordion-body p.faqs-details {
+    font-size: 15px;
+  }
 
-//   .faqs-header {
-//     font-size: 16px;
-//   }
+}
 
-//   .accordion-body p.faqs-details {
-//     font-size: 13px;
-//   }
-// }
+
+/* ============================= */
+/* Medium devices ( <992px ) */
+/* ============================= */
+@media (max-width: 991.98px) {
+
+  .faqs-item {
+    padding: 20px 16px;
+  }
+
+  .faqs-header {
+    font-size: 18px;
+  }
+
+  .accordion-body p.faqs-details {
+    font-size: 14px;
+  }
+
+}
+
+
+/* ============================= */
+/* Tablets ( <768px ) */
+/* ============================= */
+@media (max-width: 767.98px) {
+
+  .row {
+    flex-direction: column;
+  }
+
+  .faqs-left,
+  .faqs-right {
+    width: 100%;
+  }
+
+  .faqs-item {
+    padding: 18px 14px;
+  }
+
+  .faqs-header {
+    font-size: 17px;
+  }
+
+}
+
+
+/* ============================= */
+/* Mobile ( <576px ) */
+/* ============================= */
+@media (max-width: 575.98px) {
+
+  .faqs-item {
+    padding: 16px 12px;
+  }
+
+  .faqs-header {
+    font-size: 16px;
+  }
+
+  .accordion-body p.faqs-details {
+    font-size: 13px;
+  }
+
+}
+
+
+/* ============================= */
+/* Extra Small ( <320px ) */
+/* ============================= */
+@media (max-width: 319.98px) {
+
+  .faqs-item {
+    padding: 14px 8px;
+  }
+
+  .faqs-header {
+    font-size: 14px;
+  }
+
+}
