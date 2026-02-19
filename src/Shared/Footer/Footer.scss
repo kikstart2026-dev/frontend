@@ -44,7 +44,7 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 40px;
+  margin: 40px;
   flex-wrap: wrap;
 }
 
@@ -209,7 +209,7 @@ footer {
   .row {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px; // row gap
+    margin: 20px; // row gap
   }
 
   footer {
@@ -219,7 +219,7 @@ footer {
   .col-2 ul {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 8px 20px;
+    margin: 8px 20px;
   }
 }
 
@@ -233,7 +233,7 @@ footer {
   .row {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 15px;
+    margin: 15px;
   }
 
   .col-1,
@@ -245,7 +245,7 @@ footer {
 
   .footer-lower {
     flex-direction: column;
-    gap: 10px;
+    margin: 10px;
     text-align: center;
   }
 
