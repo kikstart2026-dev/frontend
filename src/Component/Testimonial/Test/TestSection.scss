@@ -45,3 +45,15 @@
     pointer-events: none;
     }
 }
+.swiper {
+  padding-bottom: 40px;
+}
+
+.swiper-pagination-bullet {
+  background: #000;
+  opacity: 0.4;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1;
+}
