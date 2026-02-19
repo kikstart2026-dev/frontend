@@ -27,7 +27,7 @@ export default function FaqSection() {
           </div>
 
           {/* RIGHT SIDE */}
-          <div className="col-6 text-center faqs-right">
+          <div className="col-6 faqs-right">
             <figure>
               <img
                 src={FaqsRightImg}

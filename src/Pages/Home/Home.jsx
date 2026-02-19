@@ -17,7 +17,7 @@ export default function Home() {
                 <HomeBanner />
             </section>
 
-            <section className="about-us">
+            <section className="about-us both-space">
                 <div className="container">
                     <TwoSide />
                 </div>
@@ -38,7 +38,7 @@ export default function Home() {
                 </div>
             </section>
 
-            <section className="Faqs-section">
+            <section className="Faqs-section common-space">
                 <div className="container">
                     <FaqSection />
                 </div>
