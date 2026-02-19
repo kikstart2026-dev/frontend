@@ -21,8 +21,8 @@
     font-size: 14px;
     text-transform: uppercase;
     color: #ED1C24;
-    margin-bottom: 10px;
-    letter-spacing: 2px;
+    margin-bottom: 10px;   /* subtitle theke gap */
+    letter-spacing: 1.2px;
 }
 
 .common-heading h3 {
@@ -30,17 +30,17 @@
     font-size: 56px;
     text-transform: capitalize;
     color: #2B2B2B;
-    margin-bottom: 15px;   
+    margin-bottom: 15px;   /* paragraph er age gap */
 }
 
 .common-heading p {
     font-weight: 400;
     font-size: 15px;
     color: #494949;
-    margin-bottom: 0;     
+    margin-bottom: 0;      /* default gap remove */
 }
 
 /* 2nd paragraph er jonno choto gap */
 .common-heading p + p {
-    margin-top: 38px;
+    margin-top: 38px !important;
 }
