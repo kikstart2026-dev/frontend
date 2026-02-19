@@ -1,10 +1,18 @@
 .same {
     text-align: center;
 }
+.testimonial{
+    max-width: 100%;
+}
 
-.girl2{
-    display: flex;
-    justify-content: center;
+.girl2 {
+  display: flex;
+  justify-content: center;
+
+  img {
+    width: 125px;
+    height: auto;
+  }
 }
 
 .miniheading {

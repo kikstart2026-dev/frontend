@@ -19,27 +19,27 @@ footer {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  padding-top: 220px;  
+  padding-top: 220px;
   padding-bottom: 40px;
-   isolation: isolate;
+  isolation: isolate;
   z-index: 1;
   position: relative;
 
-  ::before{
+  &::before {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 191px;
-    background-image: url("../../../public/images/footer-waves.png");
-     background-size: cover;
-  background-repeat: no-repeat;
+    background-image: url("../../assets/images/footer-waves.png");
+    background-size: cover;
+    background-repeat: no-repeat;
     z-index: -1;
   }
 }
 
-.row {
+.total {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -47,18 +47,17 @@ footer {
   flex-wrap: wrap;
 }
 
-.col-2,
-.col-3,
-.col-4 {
-  margin-top: 15px;
+.second,
+.third,
+.fourth {
+  margin-top: 78px;
 }
 
-
-.col-1 {
+.first {
   text-align: left;
 
-  img{
-    margin-top: 10px;
+  img {
+    margin: 10px 0px;
   }
 
   p {
@@ -66,7 +65,8 @@ footer {
   }
 }
 
-.col-2 {
+.second,
+.third {
   text-align: left;
 
   li {
@@ -74,99 +74,140 @@ footer {
   }
 }
 
-.col-3 {
-  text-align: left;
-
-  li {
-    padding: 10px 0;
-  }
-}
-
-.col-4 {
+.fourth {
   max-width: 250px;
   text-align: left;
 }
 
-
 .sms {
   display: flex;
   align-items: center;
+  margin-top: 10px;
+
+  img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
 
   p {
-    margin-top: 12px;
+    margin-top: 10px;
   }
 }
 
+/* ================= Links Section ================= */
 
 ul {
   list-style: none;
-  padding: 0;
+  padding-left: 0 !important;
+
+  li {
+    margin: 0;
+    padding-left: 0;
+
+    a {
+      display: block;
+      text-decoration: none;
+      color: rgba(73, 73, 73, 1);
+      transition: 0.3s ease;
+
+      &:hover {
+        color: #ED1C24;
+      }
+
+      &.active {
+        color: #ED1C24;   // ✅ active page color only
+      }
+    }
+  }
 }
 
-a {
-  text-decoration: none;
-  color: rgba(73, 73, 73, 1);
-}
+/* ================= Newsletter ================= */
 
-
-
-//Newsletter =====================================================
-.newsletter-box {
+.search {
   display: flex;
   align-items: center;
-  background-color: #efefef;
-  border-radius: 20px;       
-  padding: 5px 0px 5px 20px; 
+  padding: 5px 10px;
   width: 100%;
-  max-width: 256px;          
+  max-width: 266px;
   box-sizing: border-box;
   margin-top: 15px;
-  
+  gap: 16px;
+  background: #FFFFFF;
+  border: 1px solid #FFFFFF;
+  box-shadow: 0px 7px 23px rgba(69, 69, 69, 0.05);
+  border-radius: 15px;
 
-  .newsletter-input {
+  .search-input {
     border: none;
     background: transparent;
-    flex: 1;                 
     font-size: 16px;
-    outline: none;          
+    outline: none;
     color: #333;
-    min-width: 190px;
-    &::placeholder {
-      color: #999999;      
-    }
+    margin-right: 25px;
+    width: 170px;   // 👈 yaha control karo
+    flex: unset;    // 👈 important
+}
+
+  .submit-btn {
+  position: relative;
+  border: none;
+  padding: 5px;
+  margin-left: -30px;
+  min-width: 50px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  background: #ED1C24;
+  border-radius: 15px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  span {
+    position: relative;
+    z-index: 2;
+    color: #ffffff;
+    font-size: 30px;
+    line-height: 1;
+    display: inline-block;
+    margin-top: -2px;
+     padding: 0 5px;
   }
 
-  .newsletter-btn {
-    background-color: #e62e2d; 
-    border: none;
-    padding: 5px;
-    border-radius: 15px;   
-    margin-right: 60px;  
-    width: 50px;
-    height: 40px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.3s ease;
-    
+  /* overlay animation */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: #000; // hover color
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+    z-index: 1;
+  }
 
-    span {
-      color: #ffffff;     
-      font-size: 30px;        
-      line-height: 1;
-      display: inline-block;
-      margin-top: -2px;      
-    }
+  &:hover::before {
+    transform: scaleX(1);
+  }
 
-    // &:hover {
-    //   background-color: black;
-       
-    // }
+  /* Zoom effect */
+  &:hover {
+    transform: scale(1.04);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
+  }
+
+  &:active {
+    transform: scale(1.02);
   }
 }
 
-//Footer Lower Section==================================
+}
+
+/* ================= Footer Lower ================= */
 
 .footer-lower {
   display: flex;

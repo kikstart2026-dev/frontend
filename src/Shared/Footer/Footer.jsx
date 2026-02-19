@@ -1,63 +1,96 @@
 import React from 'react'
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import logo from "../../assets/images/logo.png";
+import sms from "../../assets/images/sms.png"
 import "./Footer.scss";
 
-export default function () {
+export default function Footer() {
   return (
     <div>
       <footer>
         <div className="container">
-    <div className="row ">
-    <div className=" col-1">
-      <img src="/images/logo.png" alt="" />
-      <p>Lorem ipsum dolor sit amet consectetur. Nunc id adipiscing at interdum eu viverra. </p>
-      <div className="sms">
-        <img src="/images/sms.png" alt="" />
-        <p> info@KikStartKids.com</p>
-      </div>
-    </div>
-    <div className=" col-2">
-      <h5>Quick links</h5>
-      <ul>
-        <li><Link className="#" to="">About Us</Link></li>
-        <li><Link className="#" to="">Programs</Link></li>
-        <li><Link className="#" to="">Contact Us</Link></li>
-         <li><Link className="#" to="">Faqs</Link></li>
-      </ul>
-    </div>
-    <div className="col-3">
-      <h5>Legal</h5>
-      <ul>
-      <li><Link className="#" to="">Terms and Condition</Link></li>
-      <li><Link className="#" to="">Privacy Policy</Link></li>
-      </ul>
-    </div>
-    <div className="col-4">
-      <h5>Newsletter</h5>
-      <p>Enter the email to subscribe our newsletter</p>
-  <div className="newsletter-box">
-  <input 
-    type="email" 
-    placeholder="Enter Email" 
-    className="newsletter-input" 
-  />
-  <button type="submit" className="newsletter-btn">
-    <span>→</span>
-  </button>
-</div>
+          <div className="total">
 
-    </div>
-  </div>
-</div>
+            <div className="first">
+              <img src={logo} alt="" />
+              <p>Lorem ipsum dolor sit amet consectetur. Nunc id adipiscing at interdum eu viverra. </p>
+              <div className="sms">
+                <img src={sms} alt=""/>
+                <p>info@KikStartKids.com</p>
+              </div>
+            </div>
+
+            <div className="second">
+              <h5>Quick links</h5>
+              <ul>
+                <li>
+                  <NavLink to="/about" className={({isActive}) => isActive ? "active" : ""}>
+                    About Us
+                  </NavLink>
+                </li>
+
+                <li>
+                  <NavLink to="/programs" className={({isActive}) => isActive ? "active" : ""}>
+                    Programs
+                  </NavLink>
+                </li>
+
+                <li>
+                  <NavLink to="/contact" className={({isActive}) => isActive ? "active" : ""}>
+                    Contact Us
+                  </NavLink>
+                </li>
+
+                <li>
+                  <NavLink to="/faqs" className={({isActive}) => isActive ? "active" : ""}>
+                    Faqs
+                  </NavLink>
+                </li>
+              </ul>
+            </div>
+
+            <div className="third">
+              <h5>Legal</h5>
+              <ul>
+                <li>
+                  <NavLink to="/terms" className={({isActive}) => isActive ? "active" : ""}>
+                    Terms and Condition
+                  </NavLink>
+                </li>
+
+                <li>
+                  <NavLink to="/privacy" className={({isActive}) => isActive ? "active" : ""}>
+                    Privacy Policy
+                  </NavLink>
+                </li>
+              </ul>
+            </div>
+
+            <div className="fourth">
+              <h5>Newsletter</h5>
+              <p>Enter the email to subscribe our newsletter</p>
+
+              <div className="search">
+                <input
+                  type="text"
+                  placeholder="Enter Email"
+                  className="search-input"
+                />
+                <button className="submit-btn" type="submit" >
+                  <span>→</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </footer>
 
-<div className="container">
-      <div className="footer-lower">
-        
+      <div className="container">
+        <div className="footer-lower">
           <p>© Copyright 2024 kikstart - All Rights Reserved</p>
           <p className='right'>Website Design by Webskitters</p>
-        
-      </div>
+        </div>
       </div>
     </div>
   )

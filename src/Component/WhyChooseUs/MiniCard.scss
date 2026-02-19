@@ -1,0 +1,56 @@
+.mini-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: #FFFFFF;
+    box-shadow: 0px 7px 23px rgba(69, 69, 69, 0.05);
+    border-radius: 30px;
+    padding: 35px 16px 33px 16px;
+    transition: 0.3s;
+
+    &:hover {
+        cursor: pointer;
+        box-shadow:
+             0 0 25px #fa4b516f;
+    border: 1px solid #ED1C24;
+    }
+
+    .icon-box {
+        width: 66px;
+        height: 66px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 26px;
+        padding: 20px;
+        box-sizing: border-box;
+        /* allow dynamic background from props */
+        background: #FFE9E9;
+        box-sizing: border-box;
+
+        img {
+            // width: 38px;
+            max-width: 100%;
+        }
+    }
+
+    h3 {
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 1.4;
+        text-transform: capitalize;
+        color: #2B2B2B;
+        margin-bottom: 12px;
+    }
+
+    p {
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 1.7;
+        max-width: 240px;   /* changed from fixed width */
+        color: #6A6A6A;
+        margin-top: 0;
+    }
+}

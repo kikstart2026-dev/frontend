@@ -14,6 +14,7 @@
   color: white;
   font-family: "Noto Sans";
 
+  
   span {
     position: relative;
     z-index: 2;
@@ -37,7 +38,7 @@
 
   color: #FFFFFF;
   transition: transform 0.3s ease;
-  text-transform: capitalize;
+  text-transform: uppercase;
 }
 
 .custom-btn span {

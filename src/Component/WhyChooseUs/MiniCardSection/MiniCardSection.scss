@@ -1,21 +1,16 @@
-.container{
-    max-width: 1140px;
-    margin: auto;
-}
 .cards-section {   /* center container like design */
     margin: 50px auto 0 auto;      /* top bottom space + center */
     display: flex;
-    justify-content: space-between;  /* equal spacing */
+    // justify-content: space-between;  /* equal spacing */
+     /* all cards same height */
     gap: 30px;              /* space between cards */
+    padding-bottom: 40px;
 }
 
 /* every card takes equal width */
 .cards-section .mini-card {
     flex: 1;
 }
-
-
-
 /* control paragraph readable width (THIS creates line break) */
 .why-choose-us .common-heading p {
     max-width: 100%;
@@ -28,7 +23,3 @@
     max-width: 900px;
     margin: 0 auto;
 }
-.about-us{
-    margin-top: 75px;
-}
-
