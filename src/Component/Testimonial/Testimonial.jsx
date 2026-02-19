@@ -4,7 +4,7 @@ import './Testimonial.scss'
 
 export default function Testimonial({ img, para, miniheading, coach }) {
     return (
-        <div>
+        <div className='testimonial'> 
             
             <figure className='girl2'><img  src={img} /></figure>
             <p className='para same'>{para}</p>
