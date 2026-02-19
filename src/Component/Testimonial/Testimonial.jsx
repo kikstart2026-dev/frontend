@@ -1,5 +1,4 @@
 import React from 'react'
-import CmnHeading from '../CmnHeading/CmnHeading'
 import './Testimonial.scss'
 
 export default function Testimonial({ img, para, miniheading, coach }) {
