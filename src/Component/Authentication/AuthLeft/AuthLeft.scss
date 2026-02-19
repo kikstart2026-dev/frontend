@@ -1,0 +1,42 @@
+.left{
+    display: flex;
+    align-items: center;
+    border-radius: 65px;
+    background-color: #FFF8F8;
+}
+
+.left-box{
+    height: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+figure {
+    width: 90%;
+    padding-bottom: 100px;
+    padding-top: 125px;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+.para {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding-bottom: 50px;
+    align-items: end;
+}
+
+.para p {
+    font-weight: 400;
+    font-size: 15px;
+    color: #2B2B2B;
+}
+
+.para .link {
+    color: #ED1C24;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+}

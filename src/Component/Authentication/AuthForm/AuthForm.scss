@@ -1,0 +1,116 @@
+.head figure{
+    height: 89px;
+    width: 204px;
+    padding: 0;
+    margin-bottom: 50px;
+}
+
+.head {
+    margin-bottom: 35px;
+}
+
+.head h2{
+    text-align: center;
+    padding: 0;
+    margin-bottom: 15px;
+    font-size: 26px;
+    color: #2B2B2B;
+    font-weight: 700;
+}
+
+.head p {
+    text-align: center;
+    font-weight: 400;
+    font-size: 15px;
+    color: #494949;
+}
+
+.form-box {
+    padding: 0;
+}
+
+.auth-form {
+    width: 100%;
+    box-sizing: border-box;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    
+    .form-group {
+        
+        .input-wrapper {
+      position: relative;
+
+      input {
+        width: 100%;
+        padding: 20px 20px;
+        border-radius: 15px;
+        border: 1px solid #B3B3B3;
+        background: #ffffff;
+        font-size: 16px;
+        outline: none;
+        transition: all 0.3s ease;
+
+        &:focus {
+            border-color: #ff2d2d;
+            background: #f5f5f5;
+            padding: 25px 25px;
+        }
+      }
+
+      .floating {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 16px;
+        color: #bdbdbd;
+        pointer-events: none;
+        transition: 0.3s ease;
+      }
+
+      .floating.active,
+      input:focus + .floating {
+        top: 15px;
+        font-size: 15px;
+        color: #9b9b9b;
+      }
+    }
+  }
+
+  .checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #ff2d2d;
+      cursor: pointer;
+    }
+
+    label {
+      font-size: 14px;
+      color: #666;
+      cursor: pointer;
+    }
+  }
+
+  .submit-btn {
+    height: 60px;
+    border: none;
+    border-radius: 40px;
+    background: #ff2d2d;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}
