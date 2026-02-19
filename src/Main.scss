@@ -4,7 +4,7 @@
 * {
   margin: 0;
   padding: 0;
-  line-height: 1.6em;
+  line-height: 1.4;
 }
 
 h1,
@@ -17,12 +17,6 @@ h6 {
   padding: 0;
 }
 
-/* Fix horizontal overflow issue */
-
-* {
-  box-sizing: border-box;
-}
-
 html,
 body {
   margin: 0;
@@ -32,7 +26,6 @@ body {
 }
 
 .container {
-  width: 100%;
   max-width: 1140px;
   margin: 0 auto;
   padding: 0 20px;
