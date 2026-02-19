@@ -27,5 +27,11 @@ export const CardsData = [
     title: "Love For Children",
     description: "Lorem ipsum dolor sit amet consectetur. Nunc id adipiscing at interdum eu viverra.",
     color: "#FFF8F1"
+  },
+   {
+    icon: love,
+    title: "Love For Children",
+    description: "Lorem ipsum dolor sit amet consectetur. Nunc id adipiscing at interdum eu viverra.",
+    color: "#FFF8F1"
   }
 ];

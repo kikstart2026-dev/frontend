@@ -105,23 +105,23 @@ img {
 
 /* Responsive tweaks */
 
-@media (max-width: 991px) {
+// @media (max-width: 991px) {
 
-  .common-heading h3 {
-    font-size: 45px; 
-}
- .faqs-section .faqs-item .faqs-header {
-    font-size: 17px;
-}
+//   .common-heading h3 {
+//     font-size: 45px; 
+// }
+//  .faqs-section .faqs-item .faqs-header {
+//     font-size: 17px;
+// }
 
-    .faqs-header {
-      font-size: 16px;
-    }
+//     .faqs-header {
+//       font-size: 16px;
+//     }
 
     .accordion-body p.faqs-details {
       font-size: 14px;
     }
-  }
+  
 @media (max-width: 767px) {
 
   .faqs-section .faqs-item .faqs-header {

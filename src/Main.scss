@@ -12,7 +12,8 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+p{
   margin: 0;
   padding: 0;
 }
@@ -22,7 +23,7 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-  overflow-x: hidden; /* removes right side white space */
+  overflow-x: hidden; 
 }
 
 .container {
@@ -35,10 +36,6 @@ img {
   max-width: 100%;
   height: auto;
   display: block;
-}
-
-.row {
-  gap: 0 !important;
 }
 
 .common-space {

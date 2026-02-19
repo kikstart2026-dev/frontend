@@ -9,7 +9,7 @@ import faqData from "../../../data/faqData";
 export default function FaqSection() {
 
   return (
-    <section className="faqs-section">
+    <section className="faqs-section common-space">
       <div className="container">
         <div className="row align-items-center faqs-Wrap">
 
