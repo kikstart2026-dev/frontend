@@ -105,44 +105,44 @@ img {
 
 /* Responsive tweaks */
 
-@media (max-width: 991px) {
+// @media (max-width: 991px) {
 
-  .common-heading h3 {
-    font-size: 45px; 
-}
- .faqs-section .faqs-item .faqs-header {
-    font-size: 17px;
-}
+//   .common-heading h3 {
+//     font-size: 45px; 
+// }
+//  .faqs-section .faqs-item .faqs-header {
+//     font-size: 17px;
+// }
 
-    .faqs-header {
-      font-size: 16px;
-    }
+//     .faqs-header {
+//       font-size: 16px;
+//     }
 
-    .accordion-body p.faqs-details {
-      font-size: 14px;
-    }
-  }
+//     .accordion-body p.faqs-details {
+//       font-size: 14px;
+//     }
+//   }
 
 
-@media (max-width: 576px) {
+// @media (max-width: 576px) {
 
-  .faqs-section .faqs-item .faqs-header {
-    font-size: 16px;
-  }
+//   .faqs-section .faqs-item .faqs-header {
+//     font-size: 16px;
+//   }
 
-  .accordion-header {
-    .faqs-item {
-      padding: 18px 12px;
-    }
+//   .accordion-header {
+//     .faqs-item {
+//       padding: 18px 12px;
+//     }
 
-    .faqs-section .faqs-item .accordion-body p.faqs-details {
-      font-size: 14px;
-    }
+//     .faqs-section .faqs-item .accordion-body p.faqs-details {
+//       font-size: 14px;
+//     }
 
-  }
+//   }
 
-  .common-heading h3 {
-    font-size: 40px;
+//   .common-heading h3 {
+//     font-size: 40px;
     
-  }
-}
+//   }
+// }

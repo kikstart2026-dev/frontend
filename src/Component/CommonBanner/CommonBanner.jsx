@@ -15,12 +15,13 @@ export default function CommonBanner({ title, align = "center" }) {
     <div className="common-banner">
 
       <div className={`container content-wrapper text-${align}`}>
+
         <h1>{title}</h1>
 
         <div className="breadcrumb-custom">
           <Link to="/">Home</Link>
           <span> / </span>
-          <span className="active-page">{pageName}</span>
+          <span className="active-page props">{pageName}</span>
         </div>
       </div>
 

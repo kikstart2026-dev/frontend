@@ -88,64 +88,64 @@
 /* SLIGHT ADJUST ZONE (992px – 1199px only) */
 /* ================================================= */
 
-@media (max-width: 1199px) and (min-width: 992px) {
+// @media (max-width: 1199px) and (min-width: 992px) {
 
-  .nav a {
-    margin-right: 18px;
-    font-size: 15px;
-  }
+//   .nav a {
+//     margin-right: 18px;
+//     font-size: 15px;
+//   }
 
-  .header-right button {
-    padding: 11px 24px !important;
-    font-size: 14px !important;
-  }
+//   .header-right button {
+//     padding: 11px 24px !important;
+//     font-size: 14px !important;
+//   }
 
-  .nav-bar img {
-    height: 65px;
-  }
-}
+//   .nav-bar img {
+//     height: 65px;
+//   }
+// }
 
-/* ================================================= */
-/* COLLAPSE BELOW 991px */
-/* ================================================= */
+// /* ================================================= */
+// /* COLLAPSE BELOW 991px */
+// /* ================================================= */
 
-@media (max-width: 991px) {
+// @media (max-width: 991px) {
 
-  .navbar-toggler {
-    display: block;
-  }
+//   .navbar-toggler {
+//     display: block;
+//   }
 
-  .nav {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: #FFF8F8;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 25px;
-    display: none;
-    z-index: 999;
-  }
+//   .nav {
+//     position: absolute;
+//     top: 100%;
+//     left: 0;
+//     width: 100%;
+//     background: #FFF8F8;
+//     flex-direction: column;
+//     align-items: flex-start;
+//     padding: 25px;
+//     display: none;
+//     z-index: 999;
+//   }
 
-  .nav.open {
-    display: flex;
-  }
+//   .nav.open {
+//     display: flex;
+//   }
 
-  .nav li {
-    margin-bottom: 18px;
-  }
+//   .nav li {
+//     margin-bottom: 18px;
+//   }
 
-  .nav a {
-    font-size: 16px;
-    margin-right: 0;
-  }
+//   .nav a {
+//     font-size: 16px;
+//     margin-right: 0;
+//   }
 
-  .header-right {
-    display: none;
-  }
+//   .header-right {
+//     display: none;
+//   }
 
-  .nav-bar img {
-    height: 60px;
-  }
-}
+//   .nav-bar img {
+//     height: 60px;
+//   }
+// }
