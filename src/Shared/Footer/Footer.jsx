@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import sms from "../../assets/images/sms.png"
 import "./Footer.scss";
@@ -24,27 +24,27 @@ export default function Footer() {
               <h5>Quick links</h5>
               <ul>
                 <li>
-                  <NavLink to="/about" className={({isActive}) => isActive ? "active" : ""}>
+                  <Link to="/about">
                     About Us
-                  </NavLink>
+                  </Link>
                 </li>
 
                 <li>
-                  <NavLink to="/programs" className={({isActive}) => isActive ? "active" : ""}>
+                  <Link to="/programs">
                     Programs
-                  </NavLink>
+                  </Link>
                 </li>
 
                 <li>
-                  <NavLink to="/contact" className={({isActive}) => isActive ? "active" : ""}>
+                  <Link to="/contact">
                     Contact Us
-                  </NavLink>
+                  </Link>
                 </li>
 
                 <li>
-                  <NavLink to="/faqs" className={({isActive}) => isActive ? "active" : ""}>
+                  <Link to="/faqs">
                     Faqs
-                  </NavLink>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -53,15 +53,15 @@ export default function Footer() {
               <h5>Legal</h5>
               <ul>
                 <li>
-                  <NavLink to="/terms" className={({isActive}) => isActive ? "active" : ""}>
+                  <Link to="/terms">
                     Terms and Condition
-                  </NavLink>
+                  </Link>
                 </li>
 
                 <li>
-                  <NavLink to="/privacy" className={({isActive}) => isActive ? "active" : ""}>
+                  <Link to="/privacy">
                     Privacy Policy
-                  </NavLink>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -95,3 +95,4 @@ export default function Footer() {
     </div>
   )
 }
+
