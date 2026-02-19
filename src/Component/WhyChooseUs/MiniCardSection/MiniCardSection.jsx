@@ -1,27 +1,35 @@
 import React from "react";
 import CmnHeading from "../../CmnHeading/CmnHeading";
-import { CardsData } from "../../../data/cardsData";
 import MiniCard from "../MiniCard";
 
 import "./MiniCardSection.scss";
 import "../../../Main.scss";
 
-export default function MiniCardSection() {
+export default function MiniCardSection({ 
+  data = [], 
+  limit,
+  showHeading = true 
+}) {
+
+  const displayData = limit ? data.slice(0, limit) : data;
+
   return (
     <section className="mini-section">
       <div className="container">
 
-        <div className="why-choose-us">
-          <CmnHeading
-            title="Why Choose Us"
-            subtitle="Give the Gift of Gym"
-            details="Lorem ipsum dolor sit amet consectetur. Vitae elit quam volutpat id. Quisque orci lacinia sit non. Diam et adipiscing proin orci. Eget lorem sit etiam molestie rhoncus non. Ut tincidunt tristique suspendisse arcu ac."
-            align="center"
-          />
-        </div>
+        {showHeading && (
+          <div className="why-choose-us">
+            <CmnHeading
+              title="Why Choose Us"
+              subtitle="Give the Gift of Gym"
+              details="Lorem ipsum dolor sit amet consectetur. Vitae elit quam volutpat id. Quisque orci lacinia sit non."
+              align="center"
+            />
+          </div>
+        )}
 
         <div className="row cards-section g-4">
-          {CardsData.map((item, index) => (
+          {displayData.map((item, index) => (
             <div
               key={index}
               className="col-lg-3 col-md-6 col-12"

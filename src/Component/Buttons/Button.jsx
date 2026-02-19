@@ -1,5 +1,5 @@
 import React from "react";
-import "./Button.scss";
+import "./Button.scss"
 import "../../Main.scss";
 
 export default function Button({ text, onClick, variant = "primary" }) {
