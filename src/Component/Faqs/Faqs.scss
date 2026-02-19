@@ -19,6 +19,7 @@ img {
 
 .faqs-section {
   margin-bottom: 50px;
+
   .accordion {
     margin-top: 50px;
   }
@@ -68,7 +69,7 @@ img {
       &:not(.collapsed)::after {
         transform: rotate(-90deg);
         // border: 1px solid #ED1C24;
-        box-shadow: 0  0 10px rgba(255, 79, 79, 0.719);
+        box-shadow: 0 0 10px rgba(255, 79, 79, 0.719);
         border-radius: 50%;
       }
     }
@@ -80,22 +81,25 @@ img {
     .accordion-collapse {
       overflow: hidden;
       transition: height 0.35s ease, padding 0.35s ease;
+      padding-right: 25px;
+
     }
+  
 
-    .accordion-body {
-      margin-top: 15px;
+  .accordion-body {
+    margin-top: 15px;
 
-      p.faqs-details {
-        font-family: 'Noto Sans';
-        background: #FFFFFF;
-        font-weight: 400;
-        font-size: 15px;
-        color: #494949;
-        text-align: left;
-      }
+    p.faqs-details {
+      font-family: 'Noto Sans';
+      background: #FFFFFF;
+      font-weight: 400;
+      font-size: 15px;
+      color: #494949;
+      text-align: left;
     }
-
   }
+
+}
 }
 
 

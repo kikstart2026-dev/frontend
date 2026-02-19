@@ -22,7 +22,7 @@ export default function FaqSection() {
               align="left"
             />
 
-            <Faqs data={faqData} />
+            <Faqs data={faqData}limit={5} />
 
           </div>
 
