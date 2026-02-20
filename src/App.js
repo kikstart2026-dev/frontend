@@ -7,6 +7,7 @@ import Home from './Pages/Home/Home';
 import FaqsPage from './Pages/Faqs-Page/FaqsPage';
 import WhyUs from './Pages/WhyUs-Page/WhyUs';
 import InterestedSchoolsPage from './Pages/InterestedSchoolsPage/InterestedSchoolsPage';
+import Programs from './Pages/Programs-Page/Programs';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path="/faqs" element={<FaqsPage />} />
           <Route path="/why-us" element={<WhyUs />} />
           <Route path="/Interested-Schools" element={<InterestedSchoolsPage />} />
+          <Route path="/programs" element={<Programs/>} />
         </Routes>
         <Footer />
       </Router>

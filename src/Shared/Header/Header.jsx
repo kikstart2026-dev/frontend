@@ -19,7 +19,7 @@ export default function Header() {
   ];
 
   return (
-    <div className={styles["container-fluid"]}>
+    <div className={`${styles["container-fluid"]} ${styles.call}`}>
       <div className={styles["nav-bar"]}>
 
         {/* Logo */}

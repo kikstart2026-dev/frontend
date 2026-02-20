@@ -7,7 +7,6 @@ import MiniCardSection from "../../Component/WhyChooseUs/MiniCardSection/MiniCar
 import ProgramsSection from "../../Component/Services/ProgramsSection/ProgramsSection";
 import FaqSection from "../../Component/Faqs/Faqs-Section/FaqSection";
 import HomeBanner from "../../Component/HomeBanner/HomeBanner";
-import { CardsData } from "../../data/cardsData";
 
 
 export default function Home() {
@@ -18,11 +17,9 @@ export default function Home() {
 
             <TwoSide />
 
-            <MiniCardSection
-                data={CardsData}
-                limit={4} />
+            <MiniCardSection limit={4} />
 
-            <ProgramsSection />
+            <ProgramsSection limit={3} />
 
             <TestSection />
 
