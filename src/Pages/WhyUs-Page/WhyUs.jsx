@@ -2,19 +2,25 @@ import React from 'react'
 import CommonBanner from '../../Component/CommonBanner/CommonBanner'
 import MiniCard from '../../Component/WhyChooseUs/MiniCard'
 import { CardsData } from '../../data/cardsData'
-import "./WhyUs.scss"
+import styles from "./WhyUs.module.scss"
 
 export default function WhyUs() {
   return (
     <>
       <CommonBanner title={"Why Us"} />
 
-      <section className='common-space1'>
+      <section className="common-space1">
         <div className="container">
-          <div className="WhyUs-para">
-            <p>Lorem ipsum dolor sit amet consectetur. Vitae elit quam volutpat id. Quisque orci lacinia sit non. Diam et adipiscing proin orci. Eget lorem sit etiam molestie rhoncus non. Ut tincidunt tristique suspendisse arcu ac.</p>
+
+          <div className={styles["WhyUs-para"]}>
+            <p>
+              Lorem ipsum dolor sit amet consectetur. Vitae elit quam volutpat id.
+              Quisque orci lacinia sit non. Diam et adipiscing proin orci. 
+              Eget lorem sit etiam molestie rhoncus non. Ut tincidunt tristique suspendisse arcu ac.
+            </p>
           </div>
-          <div className="row cards-section g-4">
+
+          <div className={`row g-4 ${styles["cards-section"]}`}>
             {CardsData.map((item, index) => (
               <div
                 key={index}
@@ -25,7 +31,6 @@ export default function WhyUs() {
                   title={item.title}
                   description={item.description}
                   color={item.color}
-                  data = {CardsData}
                 />
               </div>
             ))}

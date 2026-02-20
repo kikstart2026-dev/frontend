@@ -1,9 +1,8 @@
 import React from "react";
 import CmnHeading from "../../CmnHeading/CmnHeading";
 import MiniCard from "../MiniCard";
-
-import "./MiniCardSection.scss";
-import "../../../Main.scss";
+import styles from "./MiniCardSection.module.scss";
+import "../../../Main.scss"; 
 
 export default function MiniCardSection({ 
   data = [], 
@@ -14,11 +13,11 @@ export default function MiniCardSection({
   const displayData = limit ? data.slice(0, limit) : data;
 
   return (
-    <section className="mini-section">
+    <section className={styles["mini-section"]}>
       <div className="container">
 
         {showHeading && (
-          <div className="why-choose-us">
+          <div className={styles["why-choose-us"]}>
             <CmnHeading
               title="Why Choose Us"
               subtitle="Give the Gift of Gym"
@@ -28,7 +27,7 @@ export default function MiniCardSection({
           </div>
         )}
 
-        <div className="row cards-section g-4">
+        <div className={`row g-4 ${styles["cards-section"]}`}>
           {displayData.map((item, index) => (
             <div
               key={index}

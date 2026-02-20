@@ -1,14 +1,14 @@
 import React from "react";
 import ProgramCard from "../ProgramCard";
 import { programsData } from "../../../data/programData";
-import "./ProgramsSection.scss";
+import styles from "./ProgramsSection.module.scss";
 import Button from "../../Buttons/Button";
 import { Link } from "react-router-dom";
 import CmnHeading from "../../CmnHeading/CmnHeading";
 
 export default function ProgramsSection() {
   return (
-    <section className="back-color">
+    <section className={styles["back-color"]}>
       <div className="container">
         <div className="why-choose-us">
           <CmnHeading
@@ -18,8 +18,7 @@ export default function ProgramsSection() {
           />
         </div>
 
-        {/* Bootstrap Row */}
-        <div className="row programs-section">
+        <div className={`row ${styles["programs-section"]}`}>
           {programsData.map((item, index) => (
             <div
               key={index}
@@ -34,7 +33,7 @@ export default function ProgramsSection() {
           ))}
         </div>
 
-        <div className="view-btn">
+        <div className={styles["view-btn"]}>
           <Link to="/demo">
             <Button text="View all" variant="primary" />
           </Link>

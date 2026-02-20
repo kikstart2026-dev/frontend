@@ -1,6 +1,6 @@
 .WhyUs-para {
     margin-top: 20px;
-    
+
     p {
         font-family: 'Noto Sans';
         font-weight: 400;
@@ -8,7 +8,11 @@
         line-height: 1.7;
         color: #494949;
         text-align: center;
-        width: 890px;
-        margin: auto !important;
+        max-width: 890px;   // responsive safe
+        margin: 0 auto;
     }
+}
+
+.cards-section {
+    margin-top: 50px;
 }
