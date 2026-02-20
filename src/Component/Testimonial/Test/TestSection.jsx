@@ -2,17 +2,16 @@ import React from 'react'
 import Testimonial from '../Testimonial'
 import CmnHeading from '../../CmnHeading/CmnHeading'
 import testimonialData from '../../../data/testimonialData'
-import './TestSection.scss'
+import styles from './TestSection.module.scss'
 
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay } from 'swiper/modules'
-
 import 'swiper/css'
 
 export default function TestSection() {
   return (
-    <div className='all'>
-      <div className="relative">
+    <div className={styles.all}>
+      <div className={styles.relative}>
 
         <CmnHeading
           title="testimonials"
@@ -30,7 +29,6 @@ export default function TestSection() {
             </SwiperSlide>
           ))}
         </Swiper>
-
 
       </div>
     </div>
