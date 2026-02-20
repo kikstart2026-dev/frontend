@@ -1,0 +1,149 @@
+// /* Remove default bootstrap arrow */
+// :global(.accordion-button::after) {
+//   background-image: none !important;
+// }
+
+/* Remove unwanted bootstrap styling */
+:global(.accordion-button),
+:global(.accordion-body) {
+  padding: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Active background fix */
+:global(.accordion-button:not(.collapsed)) {
+  background-color: #FFFFFF ;
+   color: #2B2B2B ;
+}
+
+
+/* ========================= */
+/* Wrapper */
+/* ========================= */
+.accordionWrapper {
+  margin-top: 50px;
+}
+
+/* ========================= */
+/* FAQ Item */
+/* ========================= */
+.faqsItem {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 30px;
+  padding: 28px 22px 28px 35px;
+  box-shadow: 0px 7px 23px rgba(69, 69, 69, 0.05);
+  transition: all 0.3s ease;
+  margin-bottom: 15px;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 10px 25px rgba(69, 69, 69, 0.238);
+  }
+}
+
+/* ========================= */
+/* Header */
+/* ========================= */
+.faqsHeader {
+  font-family: 'PT Sans';
+  font-weight: 700;
+  font-size: 20px;
+  text-transform: capitalize;
+  color: #2B2B2B;
+  border: none;
+  position: relative;
+  padding-right: 35px; // space for arrow
+
+  &:focus {
+    box-shadow: none;
+    outline: none;
+  }
+
+  /* Custom Arrow */
+  &::after {
+    content: '';
+    width: 24px;
+    height: 24px;
+    background-image: url("../../assets/images/Faqs-arrow.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%) rotate(0deg);
+    transition: transform 0.3s ease;
+
+  }
+}
+
+/* Rotate only when active */
+:global(.accordion-button:not(.collapsed)).faqsHeader::after {
+  transform: translateY(-50%) rotate(-90deg);
+  background-image: url("../../assets/images/Faqs-arrow.png");
+  box-shadow: 0px 0px 10px #ff797d;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+/* ========================= */
+/* Collapse */
+/* ========================= */
+:global(.accordion-collapse) {
+  overflow: hidden;
+  transition: height 0.35s ease;
+  padding-right: 25px;
+}
+
+/* ========================= */
+/* Body */
+/* ========================= */
+.accordionBody {
+  margin-top: 15px;
+}
+
+.faqsDetails {
+  font-family: 'Noto Sans';
+  background: #FFFFFF;
+  font-weight: 400;
+  font-size: 15px;
+  color: #494949;
+  text-align: left;
+}
+
+/* ========================= */
+/* Responsive */
+/* ========================= */
+
+@media (max-width: 767px) {
+  .faqsHeader {
+    font-size: 16px;
+  }
+
+  
+
+  .faqsItem {
+    padding: 18px 12px;
+  }
+
+  .faqsDetails {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 575px) {
+  .faqsHeader {
+    font-size: 16px;
+  }
+
+  .faqsItem {
+    padding: 18px 12px;
+  }
+
+  .faqsDetails {
+    font-size: 14px;
+  }
+}

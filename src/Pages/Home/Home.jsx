@@ -12,43 +12,20 @@ import { CardsData } from "../../data/cardsData";
 
 export default function Home() {
     return (
-        <>
-            <section className="Home-Banner">
-                <HomeBanner />
-            </section>
+        <div className="home">
 
-            <section className="about-us both-space">
-                <div className="container">
-                    <TwoSide />
-                </div>
-            </section>
+            <HomeBanner />
 
-            <section className="MiniCard">
-                <div className="container">
-                    <MiniCardSection
-                        data={CardsData}
-                        limit={4}
-                    />
-                </div>
-            </section>
-            <section className="program-part">
-                <ProgramsSection />
-            </section>
+            <TwoSide />
 
-            <section className="Testimonial common-space ">
-                <div className="container">
-                    <TestSection />
-                </div>
-            </section>
+            <MiniCardSection />
 
-            <section className="Faqs-section common-space">
-                <div className="container">
-                    <FaqSection />
-                </div>
+            <ProgramsSection />
 
-            </section>
+            <TestSection />
 
+            <FaqSection />
 
-        </>
+        </div>
     );
 };

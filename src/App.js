@@ -6,6 +6,7 @@ import Footer from './Shared/Footer/Footer';
 import Home from './Pages/Home/Home';
 import FaqsPage from './Pages/Faqs-Page/FaqsPage';
 import WhyUs from './Pages/WhyUs-Page/WhyUs';
+import InterestedSchoolsPage from './Pages/InterestedSchoolsPage/InterestedSchoolsPage';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/faqs" element={<FaqsPage />} />
           <Route path="/why-us" element={<WhyUs />} />
+          <Route path="/Interested-Schools" element={<InterestedSchoolsPage />} />
         </Routes>
         <Footer />
       </Router>

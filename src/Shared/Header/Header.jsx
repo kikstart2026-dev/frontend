@@ -13,7 +13,7 @@ export default function Header() {
     { name: "Programs", path: "/programs" },
     { name: "Why Us", path: "/why-us" },
     { name: "Contact Us", path: "/contact" },
-    { name: "Interested Schools", path: "/schools" },
+    { name: "Interested Schools", path: "/Interested-Schools" },
     { name: "Become A Coach", path: "/coach" },
     { name: "Coach's Login", path: "/coach-login" },
   ];
