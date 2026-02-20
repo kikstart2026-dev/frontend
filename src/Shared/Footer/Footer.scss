@@ -1,6 +1,3 @@
-.container {
-  max-width: 1140px;
-  margin: 0 auto;
 
   p {
     color: rgba(73, 73, 73, 1);
@@ -13,7 +10,6 @@
     padding-bottom: 10px;
     font-weight: 700;
   }
-}
 
 footer {
   background: rgba(255, 248, 248, 1);
@@ -191,8 +187,9 @@ footer {
 
 
 
-// ======================= Responsive =======================
+// // ======================= Responsive =======================
 
+// /* XL ≤1199px */
 /* XL ≤1199px */
 // @media (max-width: 1199px) {
 //   .container {

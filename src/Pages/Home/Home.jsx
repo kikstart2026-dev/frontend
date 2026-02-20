@@ -13,38 +13,17 @@ export default function Home() {
     return (
         <div className="home">
 
-            <section className="Home-Banner">
-                <HomeBanner />
-            </section>
+            <HomeBanner />
 
-            <section className="about-us both-space">
-                <div className="container">
-                    <TwoSide />
-                </div>
-            </section>
+            <TwoSide />
 
-            <section className="MiniCard">
-                <div className="container">
-                    <MiniCardSection />
-                </div>
-            </section>
-            <section className="program-part">
-                <ProgramsSection />
-            </section>
+            <MiniCardSection />
 
-            <section className="Testimonial common-space ">
-                <div className="container">
-                    <TestSection />
-                </div>
-            </section>
+            <ProgramsSection />
 
-            <section className="Faqs-section common-space">
-                <div className="container">
-                    <FaqSection />
-                </div>
+            <TestSection />
 
-            </section>
-
+            <FaqSection />
 
         </div>
     );

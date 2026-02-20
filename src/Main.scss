@@ -4,7 +4,7 @@
 * {
   margin: 0;
   padding: 0;
-  line-height: 1.6em;
+  line-height: 1.4;
 }
 
 h1,
@@ -18,35 +18,24 @@ p{
   padding: 0;
 }
 
-/* Fix horizontal overflow issue */
-
-* {
-  box-sizing: border-box;
-}
-
 html,
 body {
   margin: 0;
   padding: 0;
   width: 100%;
-  overflow-x: hidden; /* removes right side white space */
+  overflow-x: hidden; 
 }
 
 .container {
-  width: 100%;
-  max-width: 1140px;
+  max-width: 1164px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 12px;
 }
 
 img {
   max-width: 100%;
   height: auto;
   display: block;
-}
-
-.row {
-  gap: 0 !important;
 }
 
 .common-space {
