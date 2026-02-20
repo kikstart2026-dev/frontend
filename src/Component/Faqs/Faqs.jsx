@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import "./Faqs.scss";
+import "./../Faqs/Faqs.module.scss";
 import "../../Main.scss";
+
 
 export default function Faqs({ data = [], limit }) {
   const [activeIndex, setActiveIndex] = useState(null);
