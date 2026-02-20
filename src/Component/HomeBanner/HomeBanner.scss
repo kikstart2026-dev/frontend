@@ -186,25 +186,25 @@
 }
 
 
-//=========================RESPONSIVE=============================================
+/* ---------------- Responsive ---------------- */
 
-// @media (max-width: 1200px) {
-//   .home-banner {
-//     .right-image {
-//       img {
-//         width: 100%;
-//         max-width: 550px;
-//       }
-//     }
+/* LG <1200px */
+// @media (max-width: 1199px) {
+//   .home-banner .right-image img {
+//     max-width: 550px;
+//     width: 100%;
 //   }
 // }
 
-// @media (max-width: 992px) {
+// /* MD <992px */
+// @media (max-width: 991px) {
 //   .home-banner {
-//     padding: 60px 0;
+//     padding: 60px 0 220px;
 
 //     .row {
 //       flex-direction: column;
+//       display: flex;
+//       align-items: center;  
 //       text-align: center;
 //     }
 
@@ -212,10 +212,8 @@
 //       margin-bottom: 40px;
 //     }
 
-//     .common-heading {
-//       h3 {
-//         font-size: 38px;
-//       }
+//     .common-heading h3 {
+//       font-size: 38px;
 //     }
 
 //     .banner-btn {
@@ -224,57 +222,65 @@
 
 //     .right-image {
 //       text-align: center;
+//       width: 100%;  
+//       // overflow: hidden;  
 
 //       img {
-//         max-width: 500px;
-//         width: 100%;
+//         width: auto;    
+//         height: auto;
 //       }
 //     }
 //   }
 // }
 
+// /* SM <768px */
 // @media (max-width: 768px) {
 //   .home-banner {
-//     padding: 50px 0;
+//     padding: 50px 0 200px;
 
-//     .common-heading {
-//       h3 {
-//         font-size: 30px;
-//       }
-
-//       p {
-//         font-size: 14px;
-//       }
+//     .common-heading h3 {
+//       font-size: 30px;
 //     }
 
-//     .left-content{
+//     .common-heading p {
+//       font-size: 14px;
+//       width: 100%;
+//     }
+
+//     .left-content {
 //       text-align: center;
 //     }
 
-//     .right-image {
-//       img {
-//         max-width: 100%;
-//       }
+//     .right-image img {
+//       max-width: 100%;
 //     }
 //   }
 // }
 
-// @media (max-width: 576px) {
+// /* XS <576px */
+// @media (max-width: 575px) {
 //   .home-banner {
-//     padding: 40px 0;
+//     padding: 40px 0 180px;
 
-//     .common-heading {
-//       h3 {
-//         font-size: 24px;
-//       }
+//     .common-heading h3 {
+//       font-size: 20px;
 //     }
 
 //     .banner-btn {
 //       margin-top: 15px;
 //     }
 
-//     .right-image{
-//       width: 400px;
+//     .right-image {
+//       width: 100%;
+//       img {
+//         width: 100%;
+//         max-width: 400px;
+//       }
+//     }
+
+//     .common-heading p {
+//       font-size: 13px;
+//       margin: 10px auto 0;
 //     }
 //   }
 // }

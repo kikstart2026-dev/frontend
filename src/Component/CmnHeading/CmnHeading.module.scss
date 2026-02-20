@@ -1,0 +1,44 @@
+.left {
+  text-align: left;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+.commonHeading {
+
+  h2 {
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #ED1C24;
+    margin-bottom: 10px;
+    letter-spacing: 1.2px;
+  }
+
+  h3 {
+    font-weight: 700;
+    font-size: 56px;
+    text-transform: capitalize;
+    color: #2B2B2B;
+    margin-bottom: 15px;
+  }
+
+  p {
+    font-weight: 400;
+    font-size: 15px;
+    color: #494949;
+    margin-bottom: 0;
+    line-height:1.6em ;
+  }
+
+  /* 2nd paragraph gap */
+  p + p {
+    margin-top: 38px !important;
+  }
+}

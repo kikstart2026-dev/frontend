@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Faqs.scss";
+import styles from "./Faqs.module.scss";   // ✅ module import
 import "../../Main.scss";
 
 export default function Faqs({ data = [], limit }) {
@@ -8,22 +8,24 @@ export default function Faqs({ data = [], limit }) {
   const toggleAccordion = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
+
   const displayedData = limit ? data.slice(0, limit) : data;
 
   return (
-    <div className="accordion" id="faqsAccordion">
-
+    <div className={`accordion ${styles.accordionWrapper}`} id="faqsAccordion">
+      
       {displayedData.map((item, index) => (
         <div
           key={item.id || index}
-          className="faqs-item"
+          className={styles.faqsItem}
           onClick={() => toggleAccordion(index)}
           style={{ cursor: "pointer" }}
         >
           <h2 className="accordion-header">
             <button
-              className={`accordion-button ${activeIndex === index ? "" : "collapsed"
-                } faqs-header`}
+              className={`accordion-button ${
+                activeIndex === index ? "" : "collapsed"
+              } ${styles.faqsHeader}`}
               type="button"
             >
               {item.question}
@@ -31,16 +33,16 @@ export default function Faqs({ data = [], limit }) {
           </h2>
 
           <div
-            className={`accordion-collapse collapse ${activeIndex === index ? "show" : ""
-              }`}
+            className={`accordion-collapse collapse ${
+              activeIndex === index ? "show" : ""
+            }`}
           >
-            <div className="accordion-body">
-              <p className="faqs-details">{item.answer}</p>
+            <div className={`accordion-body ${styles.accordionBody}`}>
+              <p className={styles.faqsDetails}>{item.answer}</p>
             </div>
           </div>
         </div>
       ))}
-
     </div>
   );
 }

@@ -1,0 +1,47 @@
+.programs-section {
+  margin-top: 70px;
+  margin-bottom: 40px;
+}
+
+.view-btn {
+  display: flex;
+  justify-content: center;
+}
+
+.view-btn .custom-btn {
+  padding: 20px 50px;
+  border-radius: 50px;
+}
+
+.back-color {
+  background-color: #FFFCF3;
+  position: relative;
+  z-index: 1;
+  padding: 200px 0 250px 0;
+}
+
+.back-color::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 191px;
+  background-image: url("../../../assets/images/curve.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: -1;
+}
+
+.back-color::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 191px;
+  background-image: url("../../../assets/images/curve1.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: -1;
+}

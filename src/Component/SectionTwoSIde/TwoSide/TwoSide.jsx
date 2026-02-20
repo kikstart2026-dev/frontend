@@ -7,7 +7,8 @@ import styles from './TwoSide.module.scss'
 
 export default function TwoSide() {
   return (
-    <div className={`container ${styles.twoSide}`}>
+    <div className="both-space">
+    <div className="container">
       <div className="row align-items-center">
 
         <div className="col-lg-6 col-md-6 col-12">
@@ -41,6 +42,7 @@ export default function TwoSide() {
         </div>
 
       </div>
+    </div>
     </div>
   )
 }
