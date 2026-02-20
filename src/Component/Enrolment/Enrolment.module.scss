@@ -1,0 +1,103 @@
+.planCard {
+  border-radius: 20px;
+  padding: 40px 30px;
+  border: 1px solid #eee;
+  transition: 0.3s;
+}
+
+.planCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.badge {
+  font-family: 'Noto Sans';
+  font-weight: 500;
+  font-size: 15px;
+  text-transform: uppercase;
+  color: #ED1C24;
+  padding: 12px;
+  background: #FFF8F8;
+  border-radius: 5px;
+
+}
+
+.desc {
+  font-family: 'Noto Sans';
+  font-weight: 400;
+  font-size: 15px;
+  color: #494949;
+  margin-top: 25px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #E9E9E9;
+
+}
+
+.priceWrap {
+  margin-top: 30px;
+  padding-bottom: 30px;
+   border-bottom: 1px solid #E9E9E9;
+
+
+
+
+}
+
+.price {
+
+  font-family: 'Noto Sans';
+  font-weight: 700;
+  font-size: 66px;
+  line-height: 73px;
+  letter-spacing: -0.461586px;
+  color: #ED1C24;
+  margin-bottom: 10px;
+}
+
+.per {
+  font-family: 'Noto Sans';
+  font-weight: 400;
+  font-size: 15px;
+  color: #494949;
+
+}
+
+.featureList {
+  list-style: none;
+  padding: 0;
+  margin: 25px 0;
+
+  li {
+    margin-bottom: 10px;
+    position: relative;
+    padding-left: 20px;
+  }
+
+  li::before {
+    content: "✔";
+    position: absolute;
+    left: 0;
+    color: #ff1f1f;
+    font-size: 12px;
+  }
+}
+
+.disabled {
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+
+.subscribeBtn {
+  width: 100%;
+  border: none;
+  background: #ff1f1f;
+  color: white;
+  padding: 12px;
+  border-radius: 30px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.subscribeBtn:hover {
+  background: #d90000;
+}
