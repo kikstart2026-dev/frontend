@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import kikstart from "../../assets/images/KIKSTART_logo.png";
 import styles from "./Header.module.scss";
-import "../../Main.scss";
 import Button from "../../Component/Buttons/Button";
 
 export default function Header() {
@@ -19,7 +18,7 @@ export default function Header() {
   ];
 
   return (
-    <div className={`${styles["container-fluid"]} ${styles.call}`}>
+    <div className={styles.call}>
       <div className={styles["nav-bar"]}>
 
         {/* Logo */}
@@ -42,7 +41,7 @@ export default function Header() {
               <NavLink
                 to={item.path}
                 className={({ isActive }) =>
-                  isActive ? styles.active : undefined
+                  `${styles.link} ${isActive ? styles.active : ""}`
                 }
               >
                 {item.name}
