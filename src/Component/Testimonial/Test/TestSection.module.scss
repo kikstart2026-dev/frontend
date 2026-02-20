@@ -1,38 +1,8 @@
-.relative{
-    position: relative;
+.all {
+  position: relative;
 
-    &::after{
-        content: "";
-    position: absolute;
-    bottom: 0%;
-    left: 0%;
-    height: 100px;
-    width: 100px;
-    background-image: url('../../../assets/images/left1.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    z-index: -1;
-    pointer-events: none;
-    }
-    &::before{
-        content: "";
-    position: absolute;
-    bottom: 60%;
-    left: 0%;
-    height: 100px;
-    width: 100px;
-    background-image: url('../../../assets/images/left2.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    z-index: -1;
-    pointer-events: none;
-}
-}
-.all{
-    position: relative;
-
-    &::after{
-        content: "";
+  &::after {
+    content: "";
     position: absolute;
     top: 15%;
     right: 0%;
@@ -43,17 +13,51 @@
     background-repeat: no-repeat;
     z-index: -1;
     pointer-events: none;
-    }
+  }
 }
-.swiper {
+
+.relative {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0%;
+    left: 0%;
+    height: 100px;
+    width: 100px;
+    background-image: url('../../../assets/images/left1.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 60%;
+    left: 0%;
+    height: 100px;
+    width: 100px;
+    background-image: url('../../../assets/images/left2.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: -1;
+    pointer-events: none;
+  }
+}
+
+/* Swiper global classes must use :global */
+:global(.swiper) {
   padding-bottom: 40px;
 }
 
-.swiper-pagination-bullet {
+:global(.swiper-pagination-bullet) {
   background: #000;
   opacity: 0.4;
 }
 
-.swiper-pagination-bullet-active {
+:global(.swiper-pagination-bullet-active) {
   opacity: 1;
 }

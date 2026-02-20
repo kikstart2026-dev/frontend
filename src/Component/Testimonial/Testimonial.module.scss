@@ -1,0 +1,37 @@
+.testimonial {
+  max-width: 100%;
+}
+
+.center {
+  text-align: center;
+}
+
+.imageWrapper {
+  display: flex;
+  justify-content: center;
+
+  img {
+    width: 125px;
+    height: auto;
+    display: block;
+  }
+}
+
+.paragraph {
+  max-width: 790px;
+  margin: auto !important;
+}
+
+.miniheading {
+  font-weight: 700;
+  font-size: 20px;
+  text-transform: capitalize;
+  color: #2B2B2B;
+  margin: 38px 0 10px 0;
+}
+
+.coach {
+  font-weight: 400;
+  font-size: 15px;
+  color: #ED1C24;
+}
