@@ -22,7 +22,7 @@ export default function ForgetPass() {
   return (
     <div className={styles.forgetpass}>
       <div className={styles.forgetpassWrap}>
-        <div className="row">
+        <div className="row ">
 
           {/* Left */}
           <div className="col-6">
@@ -61,13 +61,11 @@ export default function ForgetPass() {
                   </label>
                 </div>
 
-                <Button
+                <Button className={styles.submitBtn}
                   type="submit"
-                  className={styles.submitBtn}
-                  text="Continue"
+                  text="CONTINUE"
                   variant="primary"
                 >
-                  Continue
                 </Button>
 
               </form>

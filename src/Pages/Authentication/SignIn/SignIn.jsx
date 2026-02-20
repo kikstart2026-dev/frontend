@@ -46,9 +46,8 @@ export default function SignIn() {
 
               <div className={styles.loginToggle}>
                 <button
-                  className={`${styles.btn} ${
-                    loginType === "email" ? styles.active : ""
-                  }`}
+                  className={`${styles.btn} ${loginType === "email" ? styles.active : ""
+                    }`}
                   onClick={() => setLoginType("email")}
                   type="button"
                 >
@@ -56,9 +55,8 @@ export default function SignIn() {
                 </button>
 
                 <button
-                  className={`${styles.btn} ${
-                    loginType === "phone" ? styles.active : ""
-                  }`}
+                  className={`${styles.btn} ${loginType === "phone" ? styles.active : ""
+                    }`}
                   onClick={() => setLoginType("phone")}
                   type="button"
                 >
@@ -111,14 +109,13 @@ export default function SignIn() {
                   </Link>
                 </div>
 
-                <Button
+                <Button className={styles.submitBtn}
                   type="submit"
-                  className={styles.submitBtn}
                   text="LOGIN"
                   variant="primary"
                 >
-                  LOGIN
                 </Button>
+
               </form>
             </div>
           </div>

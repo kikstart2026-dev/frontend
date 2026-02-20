@@ -45,7 +45,7 @@ export default function SignUp() {
           {/* Right */}
           <div className={`col-6 ${styles.right}`}>
             <div className={styles.formBox}>
-              
+
               <div className={styles.head}>
                 <figure className={styles.fig}>
                   <img src={logo} alt="logo" />
@@ -162,12 +162,12 @@ export default function SignUp() {
                   </label>
                 </div>
 
-                <Button
+                <Button className={styles.submitBtn}
                   type="submit"
-                  className={styles.submitBtn}
+                  text=" SIGN UP"
                   variant="primary"
                 >
-                  SIGN UP
+
                 </Button>
 
               </form>

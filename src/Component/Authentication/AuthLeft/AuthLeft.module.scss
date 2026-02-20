@@ -4,53 +4,121 @@
   justify-content: center;
   background-color: #FFF8F8;
   border-radius: 65px;
+  transition: 0.3s ease;
+}
 
-  .leftDiv {
-    max-width: 900px;
-    text-align: center;
-    margin: 30px 0;
+.leftDiv {
+  max-width: 900px;
+  text-align: center;
+  margin: 30px 0;
+}
 
-    /* =======================
-       IMAGE SECTION
-    ======================== */
-    .figu {
-      max-width: 800px;
-      margin: auto 0;
+.toggleWrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
 
-      .ima {
-        width: 100%;
-        height: auto;
-        object-fit: cover;
-      }
-    }
+.toggleBtn {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #2B2B2B;
+}
 
-    /* =======================
-       TEXT SECTION
-    ======================== */
-    .paragraph {
-      margin-top: 70px;
-      display: flex;
-      justify-content: center;
-      align-items: end;
+.figu {
+  max-width: 800px;
+}
 
-      .com {
-        font-size: 16px;
-        color: #2B2B2B;
-        font-weight: 500;
-      }
+.ima {
+  width: 100%;
+  height: auto;
+}
 
-      .redL {
-        margin-left: 10px;
-        font-size: 16px;
-        font-weight: 600;
-        color: #ff2d2d;
-        text-decoration: none;
-        transition: all 1s ease-in-out;
+.paragraph {
+  margin-top: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+}
 
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-    }
-  }
+.com {
+  font-size: 16px;
+  color: #2B2B2B;
+  font-weight: 500;
+}
+
+.redL {
+  margin-left: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ff2d2d;
+  text-decoration: none;
+}
+
+/* ================= SOCIAL ================= */
+
+.socialLogin {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.socialLogin button {
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 40px;
+  border: 2px solid #ff2d2d;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: 0.3s ease;
+  background-color: #ffffff;
+  color: #ff2d2d;
+}
+
+.socialLogin button i {
+  color: #ff2d2d;
+}
+
+/* Active States */
+
+.socialLogin button.activeGoogle {
+  background-color: #ff2d2d;
+  border-color: #ff2d2d;
+  color: #ffffff;
+}
+
+.socialLogin button.activeGoogle i {
+  color: #ffffff;
+}
+
+.socialLogin button.activeFacebook {
+  background-color: #ff2d2d;
+  border-color: #ff2d2d;
+  color: #ffffff;
+}
+
+.socialLogin button.activeFacebook i {
+  color: #ffffff;
+}
+
+/* ================= DARK MODE ================= */
+
+.dark {
+  background-color: #121212;
+}
+
+.dark .com {
+  color: #f1f1f1;
+}
+
+.dark .toggleBtn {
+  color: #ffffff;
 }

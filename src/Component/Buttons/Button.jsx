@@ -6,11 +6,12 @@ export default function Button({
   text,
   onClick,
   variant = "primary",
-  className = ""
+  className = "",
+  type="button"
 }) {
   return (
     <button
-      type="button"
+      type={type}
       className={`${styles.customBtn} ${styles[variant]} ${className}`}
       onClick={onClick}
     >
