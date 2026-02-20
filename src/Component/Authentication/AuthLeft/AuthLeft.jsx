@@ -11,23 +11,25 @@ export default function AuthLeft({ comment, linkName }) {
     ? "/signin" 
     : "/signup";
 
+  const hasContent = comment && linkName;
+
   return (
     <div className="left">
-      <div className="container">
-        <div className="left-box">
-          <figure>
-            <img src={face} alt="face" className="ima" />
-          </figure>
+      <div className="left-div">
+        <figure className={`figu ${hasContent ? "exspace" : "exspace2"}`}>
+          <img src={face} alt="face" className="ima" />
+        </figure>
 
-          <div className="para">
-            <p>{comment}</p>
+        {hasContent && (
+          <div className="paragraph">
+            <p className="com">{comment}</p>
 
-            <Link to={oppositePath} className="link">
+            <Link to={oppositePath} className="redL">
               {linkName}
             </Link>
-
           </div>
-        </div>
+        )}
+
       </div>
     </div>
   );

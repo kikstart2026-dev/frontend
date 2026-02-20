@@ -4,6 +4,7 @@
 * {
   margin: 0;
   padding: 0;
+  line-height: 1.6em;
 }
 
 h1,
@@ -11,37 +12,51 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+p{
   margin: 0;
-
   padding: 0;
 }
 
+/* Fix horizontal overflow issue */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
 body {
-  font-family: "Noto Sans , PT Sans";
   margin: 0;
-  background: #FFFFFF;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* removes right side white space */
 }
 
 .container {
-  max-width: 1140px !important;
+  width: 100%;
+  max-width: 1160px;
   margin: 0 auto;
   padding: 0 12px;
 }
 
-
 img {
   max-width: 100%;
+  height: auto;
+  display: block;
 }
 
-.row{
+.row {
   gap: 0 !important;
 }
-.common-space
-{
-    padding: 95px 0 0 0;
+
+.common-space {
+  padding: 95px 0 0 0;
 }
-.common-space1
-{
-    padding: 0 0 95px 0;
+
+.common-space1 {
+  padding: 0 0 95px 0;
+}
+
+.both-space {
+  margin: 95px 0;
 }

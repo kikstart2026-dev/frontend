@@ -1,60 +1,151 @@
 .container-fluid {
-    background-color: #FFF8F8;
+  background-color: #FFF8F8;
 }
 
-/* Navbar Layout */
+/* ================= NAVBAR BASE (≥1200px untouched) ================= */
+
 .nav-bar {
-    display: flex;
-    align-items: center;
-    padding: 15px;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  position: relative;
 }
 
-/* Logo */
-.logo img {
-    max-width: 100%;
+/* ===== LOGO ===== */
+
+.nav-bar img {
+  height: 70px;
+  width: auto;
+  flex-shrink: 0;
 }
 
-/* Navigation */
+/* ===== NAV MENU ===== */
+
 .nav {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-
-    li {
-        list-style: none;
-    }
-
-    a {
-        display: inline-block;
-        margin-right: 20px;
-        text-decoration: none;
-        color: #2D2D2D;
-        transition: 0.3s ease;
-        font-size: 16px;
-        position: relative;
-
-        &:hover {
-            color: #ED1C24;
-        }
-    }
-
-    /* Active Link */
-    a.active {
-        color: #ED1C24;
-    }
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
 }
 
-/* Right Side Buttons */
+.nav li {
+  list-style: none;
+}
+
+.nav a {
+  display: inline-block;
+  margin-right: 20px;
+  text-decoration: none;
+  color: #2D2D2D;
+  transition: 0.4s;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.nav a:hover {
+  color: #ED1C24;
+}
+
+.nav a.active {
+  color: #ED1C24;
+}
+
+/* ===== RIGHT SIDE BUTTONS ===== */
 
 .header-right {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+//   margin-left: 15px;
+}
 
-    a {
-        margin-left: 10px;
-    }
+.header-right a {
+  margin-left: 10px;
+}
+
+.header-right button {
+  padding: 18px 28px !important;
+  font-size: 15px !important;
+  border-radius: 50px !important;
+  white-space: nowrap;
 }
 
 .btn-login {
-    margin-right: 6px;
+  margin-right: 6px;
 }
+
+/* ===== HAMBURGER ===== */
+
+.navbar-toggler {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 26px;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+/* ================================================= */
+/* SLIGHT ADJUST ZONE (992px – 1199px only) */
+/* ================================================= */
+
+// @media (max-width: 1199px) and (min-width: 992px) {
+
+//   .nav a {
+//     margin-right: 18px;
+//     font-size: 15px;
+//   }
+
+//   .header-right button {
+//     padding: 11px 24px !important;
+//     font-size: 14px !important;
+//   }
+
+//   .nav-bar img {
+//     height: 65px;
+//   }
+// }
+
+// /* ================================================= */
+// /* COLLAPSE BELOW 991px */
+// /* ================================================= */
+
+// @media (max-width: 991px) {
+
+//   .navbar-toggler {
+//     display: block;
+//   }
+
+//   .nav {
+//     position: absolute;
+//     top: 100%;
+//     left: 0;
+//     width: 100%;
+//     background: #FFF8F8;
+//     flex-direction: column;
+//     align-items: flex-start;
+//     padding: 25px;
+//     display: none;
+//     z-index: 999;
+//   }
+
+//   .nav.open {
+//     display: flex;
+//   }
+
+//   .nav li {
+//     margin-bottom: 18px;
+//   }
+
+//   .nav a {
+//     font-size: 16px;
+//     margin-right: 0;
+//   }
+
+//   .header-right {
+//     display: none;
+//   }
+
+//   .nav-bar img {
+//     height: 60px;
+//   }
+// }

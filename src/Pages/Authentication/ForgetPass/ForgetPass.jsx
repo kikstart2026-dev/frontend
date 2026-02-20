@@ -1,82 +1,86 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import "../../../Main.scss";
-import "./SignIn.scss";
-import AuthLeft from  "../../../Component/Authentication/AuthLeft/AuthLeft";
-import AuthForm from "../../../Component/Authentication/AuthForm/AuthForm";
+import "./ForgetPass.scss";
+import AuthLeft from "../../../Component/Authentication/AuthLeft/AuthLeft";
+import logo from "../../../assets/images/authLogo.png";
+import Button from "../../../Component/Buttons/Button";
+import { useNavigate } from "react-router-dom";
 
-export default function SignIn() {
+export default function ForgetPass() {
+  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
 
-  const [loginType, setLoginType] = useState("email");
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  const emailFields = [
-    {
-      label: "Email",
-      name: "email",
-      type: "email",
-    },
-    {
-      label: "Password",
-      name: "password",
-      type: "password",
-    }
-  ];
+    const formData = { email };
+    console.log(formData);
 
-  const phoneFields = [
-    {
-      label: "Phone Number",
-      name: "phone",
-      type: "tel",
-      pattern: "[0-9]{10}"
-    },
-    {
-      label: "Password",
-      name: "password",
-      type: "password",
-    }
-  ];
+    navigate("/reset-pass");
+  };
 
   return (
-    <div className='signin'>
-      <div className='container'>
-        <div className="signin-wrap">
-          <div className="row">
-            
-            <div className="col-6 left">
-              <div className="left-box">
-                <AuthLeft comment="Don’t have an account?" linkName="SignUp" />
-              </div>
-            </div>
-
-            <div className="col-6 right">
-
-
-              <AuthForm
-                title="Login"
-                subtitle="Please fill this form to login your account"
-                buttonText="LOGIN"
-                fields={loginType === "email" ? emailFields : phoneFields}
-                
-              />
-              {/* 🔹 LOGIN TYPE TOGGLE */}
-              <div className="login-toggle">
-                <button
-                  className={loginType === "email" ? "active" : ""}
-                  onClick={() => setLoginType("email")}
-                >
-                  Login with Email
-                </button>
-
-                <button
-                  className={loginType === "phone" ? "active" : ""}
-                  onClick={() => setLoginType("phone")}
-                >
-                  Login with Phone Number
-                </button>
-              </div>
-
-            </div>
-
+    <div className="forgetpass">
+      <div className="forgetpass-wrap">
+        <div className="row">
+          
+          {/* Left */}
+          <div className="col-6 left">
+            <AuthLeft
+            />
           </div>
+
+          {/* Right */}
+          <div className="col-6 right">
+            <div className="form-box">
+              
+              <div className="head">
+                <figure className="fig">
+                  <img src={logo} alt="logo" />
+                </figure>
+
+                <h2 className="head2">Forgot password?</h2>
+
+                <p className="para">
+                  Please enter your email to reset your password
+                </p>
+              </div>
+
+              <form className="auth-form" onSubmit={handleSubmit}>
+                
+                <div className="form-group">
+                  <div className="input-wrapper">
+                    <input
+                      className="inp"
+                      type="email"
+                      placeholder=" "
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                    <label
+                      className={
+                        email ? "floating active lbl" : "floating lbl"
+                      }
+                    >
+                      Email
+                    </label>
+                  </div>
+                </div>
+
+                <Button
+                  type="submit"
+                  className="submit-btn"
+                  text="Continue"
+                  variant="primary"
+                >
+                  Continue
+                </Button>
+
+              </form>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
