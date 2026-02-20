@@ -16,7 +16,7 @@ export default function SchoolsCard({
             </div>
 
             <div className="card-content">
-                <h5>{title}</h5>
+                <h3>{title}</h3>
                 <p>{description}</p>
 
                 <div className="card-author">
