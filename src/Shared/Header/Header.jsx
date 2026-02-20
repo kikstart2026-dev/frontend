@@ -19,7 +19,7 @@ export default function Header() {
   ];
 
   return (
-    <div className="container-fluid">
+    <div className="call container-fluid">
       <div className="nav-bar">
         {/* Logo */}
         <Link to="/">

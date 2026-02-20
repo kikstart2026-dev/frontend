@@ -1,5 +1,5 @@
 .signup {
-  .signup-wrap {
+  .signupWrap {
     margin: 30px 30px;
   }
 
@@ -10,7 +10,7 @@
     padding: 0 130px;
   }
 
-  .form-box {
+  .formBox {
     width: 100%;
   }
 
@@ -37,11 +37,11 @@
     }
   }
 
-  .auth-form {
+  .authForm {
     display: flex;
     flex-direction: column;
 
-    .input-wrapper {
+    .inputWrapper {
       position: relative;
       margin-bottom: 15px;
 
@@ -80,11 +80,12 @@
       }
     }
 
-    .checkbox-group {
+    .checkboxGroup {
       display: flex;
       align-items: center;
       justify-content: start;
       margin-bottom: 15px;
+
       .inp2 {
         width: 18px;
         height: 18px;
@@ -98,7 +99,7 @@
       }
     }
 
-    .submit-btn {
+    .submitBtn {
       height: 60px;
       border-radius: 40px;
       background: #ff2d2d;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../../../Main.scss";
-import "./ForgetPass.scss";
+import styles from "./ForgetPass.module.scss";
 import AuthLeft from "../../../Component/Authentication/AuthLeft/AuthLeft";
 import logo from "../../../assets/images/authLogo.png";
 import Button from "../../../Component/Buttons/Button";
@@ -20,57 +20,50 @@ export default function ForgetPass() {
   };
 
   return (
-    <div className="forgetpass">
-      <div className="forgetpass-wrap">
+    <div className={styles.forgetpass}>
+      <div className={styles.forgetpassWrap}>
         <div className="row">
-          
+
           {/* Left */}
-          <div className="col-6 left">
-            <AuthLeft
-            />
+          <div className="col-6">
+            <AuthLeft />
           </div>
 
           {/* Right */}
-          <div className="col-6 right">
-            <div className="form-box">
-              
-              <div className="head">
-                <figure className="fig">
+          <div className={`col-6 ${styles.right}`}>
+            <div className={styles.formBox}>
+
+              <div className={styles.head}>
+                <figure className={styles.fig}>
                   <img src={logo} alt="logo" />
                 </figure>
 
-                <h2 className="head2">Forgot password?</h2>
+                <h2 className={styles.head2}>Forgot password?</h2>
 
-                <p className="para">
+                <p className={styles.para}>
                   Please enter your email to reset your password
                 </p>
               </div>
 
-              <form className="auth-form" onSubmit={handleSubmit}>
-                
-                <div className="form-group">
-                  <div className="input-wrapper">
-                    <input
-                      className="inp"
-                      type="email"
-                      placeholder=" "
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
-                    <label
-                      className={
-                        email ? "floating active lbl" : "floating lbl"
-                      }
-                    >
-                      Email
-                    </label>
-                  </div>
+              <form className={styles.authForm} onSubmit={handleSubmit}>
+
+                <div className={styles.inputWrapper}>
+                  <input
+                    className={styles.inp}
+                    type="email"
+                    placeholder=" "
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                  <label className={styles.lbl}>
+                    Email
+                  </label>
                 </div>
 
                 <Button
                   type="submit"
-                  className="submit-btn"
+                  className={styles.submitBtn}
                   text="Continue"
                   variant="primary"
                 >

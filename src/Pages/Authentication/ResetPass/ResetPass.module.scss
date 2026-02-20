@@ -1,6 +1,6 @@
 .resetpass {
 
-  .resetpass-wrap {
+  .resetpassWrap {
     margin: 30px 30px;
   }
 
@@ -16,14 +16,11 @@
     padding: 0 130px;
   }
 
-  .form-box {
+  .formBox {
     width: 100%;
     max-width: 480px;
   }
 
-  /* ======================
-     HEADER SECTION
-  ====================== */
   .head {
     margin-bottom: 35px;
     text-align: center;
@@ -53,18 +50,15 @@
     }
   }
 
-  /* ======================
-     FORM SECTION
-  ====================== */
-  .auth-form {
+  .authForm {
     display: flex;
     flex-direction: column;
 
-    .form-group {
+    .formGroup {
       margin-bottom: 20px;
     }
 
-    .input-wrapper {
+    .inputWrapper {
       position: relative;
       width: 100%;
     }
@@ -105,7 +99,7 @@
       padding: 0 5px;
     }
 
-    .submit-btn {
+    .submitBtn {
       height: 60px;
       border-radius: 40px;
       background: #ff2d2d;

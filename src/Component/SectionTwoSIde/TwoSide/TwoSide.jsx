@@ -7,6 +7,7 @@ import './TwoSide.scss'
 
 export default function TwoSide() {
   return (
+    <div className="both-space">
     <div className="container">
       <div className="row align-items-center">
 
@@ -37,6 +38,7 @@ export default function TwoSide() {
         </div>
 
       </div>
+    </div>
     </div>
   )
 }

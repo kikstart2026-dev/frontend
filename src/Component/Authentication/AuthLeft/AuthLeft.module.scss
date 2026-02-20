@@ -4,33 +4,32 @@
   justify-content: center;
   background-color: #FFF8F8;
   border-radius: 65px;
-  
-  .left-div {
+
+  .leftDiv {
     max-width: 900px;
     text-align: center;
-    margin: 20px;
     margin: 30px 0;
 
     /* =======================
        IMAGE SECTION
     ======================== */
     .figu {
-        max-width: 800px;
-        margin: auto 0;
-        
-        .ima {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-        }
+      max-width: 800px;
+      margin: auto 0;
+
+      .ima {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+      }
     }
-    
+
     /* =======================
-    TEXT SECTION
+       TEXT SECTION
     ======================== */
     .paragraph {
-        margin-top: 70px;
-        display: flex;
+      margin-top: 70px;
+      display: flex;
       justify-content: center;
       align-items: end;
 
@@ -38,9 +37,9 @@
         font-size: 16px;
         color: #2B2B2B;
         font-weight: 500;
-    }
-    
-    .redL {
+      }
+
+      .redL {
         margin-left: 10px;
         font-size: 16px;
         font-weight: 600;
@@ -51,7 +50,7 @@
         &:hover {
           text-decoration: underline;
         }
+      }
     }
-}
-}
+  }
 }
