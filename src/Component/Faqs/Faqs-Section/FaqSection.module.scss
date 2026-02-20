@@ -1,0 +1,151 @@
+.faqsSection {
+  max-width: 100%;
+  margin-bottom: 50px;
+}
+
+.faqsWrap {
+  gap: 0px !important;
+}
+
+.faqsLeft {
+  max-width: 100%;
+}
+
+.faqsRight {
+  max-width: 100%;
+
+  figure {
+    max-width: 100%;
+    height: 100%;
+  }
+}
+
+.faqsCharacter {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+
+/* ============================= */
+/* Large devices (<1200px) */
+/* ============================= */
+@media (max-width: 1199.98px) {
+
+  :global(.faqsItem) {
+    padding: 22px 18px;
+  }
+
+  :global(.faqsHeader) {
+    font-size: 20px;
+  }
+
+  :global(.faqsDetails) {
+    font-size: 15px;
+  }
+}
+
+
+/* ============================= */
+/* Medium devices (<992px) */
+/* ============================= */
+@media (max-width: 991.98px) {
+
+  
+  .faqsLeft {
+    h3 {
+      font-size: 45px;
+    }
+  }
+
+  :global(.faqsItem) {
+    padding: 20px 16px;
+  }
+
+  :global(.faqsHeader) {
+    font-size: 18px;
+  }
+
+  :global(.faqsDetails) {
+    font-size: 14px;
+  }
+}
+
+
+/* ============================= */
+/* Tablets (<768px) */
+/* ============================= */
+@media (max-width: 767.98px) {
+
+  :global(.row) {
+    flex-direction: column;
+  }
+
+  .faqsLeft,
+  .faqsRight {
+    width: 100%;
+  }
+
+  .faqsLeft {
+    margin-bottom: 40px;
+    h3 {
+      font-size: 42px;
+    }
+  }
+
+  :global(.faqsItem) {
+    padding: 18px 14px;
+  }
+
+  :global(.faqsHeader) {
+    font-size: 17px;
+  }
+}
+
+
+/* ============================= */
+/* Mobile (<576px) */
+/* ============================= */
+@media (max-width: 575.98px) {
+
+  :global(.faqsItem) {
+    padding: 16px 12px;
+  }
+
+  :global(.faqsHeader) {
+    font-size: 16px;
+  }
+
+  :global(.faqsDetails) {
+    font-size: 13px;
+  }
+
+  
+  .faqsLeft {
+     margin-bottom: 30px;
+    h3 {
+      font-size: 37px;
+    }
+  }
+}
+
+
+/* ============================= */
+/* Extra Small (<320px) */
+/* ============================= */
+@media (max-width: 319.98px) {
+
+  :global(.faqsItem) {
+    padding: 14px 8px;
+  }
+
+  :global(.faqsHeader) {
+    font-size: 14px;
+  }
+  
+  .faqsLeft {
+    h3 {
+      font-size: 30px;
+    }
+  }
+}
