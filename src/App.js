@@ -14,6 +14,7 @@ import FaqsPage from './Pages/Faqs-Page/FaqsPage';
 import InterestedSchoolsPage from './Pages/InterestedSchoolsPage/InterestedSchoolsPage';
 import EnrolmentPackage from './Pages/EnrolmentPackage/EnrolmentPackage';
 
+
 function Layout() {
   const location = useLocation();
 
