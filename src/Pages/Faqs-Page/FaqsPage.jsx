@@ -7,7 +7,9 @@ import faqData from '../../data/faqData'
 export default function FaqsPage() {
   return (
     <>
-      <CommonBanner title={"Faqs"} />
+      <CommonBanner 
+      title="FAQs"
+      pageName="FAQs" />
       
       <section className={`${styles.faqsSection} ${styles.faqPage}`}>
         <div className="container">

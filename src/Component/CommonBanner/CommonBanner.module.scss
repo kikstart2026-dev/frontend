@@ -21,6 +21,7 @@
 .contentWrapper {
   position: relative;
   z-index: 2;
+  width: auto;
 }
 
 /* Heading */
@@ -30,6 +31,7 @@
   font-size: 74px;
   color: #2b2b2b;
   position: relative;
+  margin: 0 auto;
 }
 
 /* Decorative before/after */
@@ -66,6 +68,7 @@
   font-size: 20px;
   color: #494949;
   position: relative;
+
 }
 
 .breadcrumbCustom a {
@@ -80,6 +83,10 @@
 
 .activePage {
   color: #494949;
+  cursor: pointer;
+}
+.activePage:hover{
+  color: #ed1c24;
 }
 
 .props::before {
