@@ -35,14 +35,7 @@ export default function ContactForm() {
   return (
     <div className={styles.contact}>
       <div className={styles.contactWrap}>
-        <div className="row">
-          
-          {/* Left - untouched */}
-          <div className="col-6 left">
-          </div>
-
-          {/* Right */}
-          <div className={`col-6 ${styles.right}`}>
+          <div className={`${styles.right}`}>
             <div className={styles.formBox}>
 
               <form
@@ -123,7 +116,6 @@ export default function ContactForm() {
 
             </div>
           </div>
-        </div>
       </div>
     </div>
   );
