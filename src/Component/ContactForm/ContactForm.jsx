@@ -9,6 +9,29 @@ export default function ContactForm() {
   const [subject, setSubject] = useState("");
   const [details, setDetails] = useState("");
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      alert("Message Sent Successfully ✅");
+      setFullName("");
+      setEmail("");
+      setSubject("");
+      setDetails("");
+    } else {
+      alert("Something went wrong ❌");
+    }
+  };
+
   return (
     <div className={styles.contact}>
       <div className={styles.contactWrap}>
@@ -24,11 +47,10 @@ export default function ContactForm() {
 
               <form
                 className={styles.authForm}
-                action="https://api.web3forms.com/submit"
-                method="POST"
+                onSubmit={handleSubmit}
               >
                 
-                {/* 🔥 REQUIRED ACCESS KEY */}
+                {/* REQUIRED ACCESS KEY */}
                 <input
                   type="hidden"
                   name="access_key"
@@ -96,6 +118,7 @@ export default function ContactForm() {
                   text="SEND"
                   variant="primary"
                 />
+
               </form>
 
             </div>
