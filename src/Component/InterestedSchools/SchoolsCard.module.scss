@@ -1,4 +1,4 @@
-.schools-card {
+.schoolsCard {
   background: #ffffff;
   border-radius: 16px;
   overflow: hidden;
@@ -8,15 +8,16 @@
 
   &:hover {
     transform: scale(1.03);
-    box-shadow: 0 0 20px #ed1c2351;
-    .card-content{
-        h3{
-           color: #ed1c23; 
-        }
+    box-shadow: 0 0 20px #ed1c23a4;
+
+    .cardContent {
+      h3 {
+        color: #ed1c23;
+      }
     }
   }
 
-  .card-img {
+  .cardImg {
     width: 100%;
     height: 220px;
     overflow: hidden;
@@ -28,7 +29,7 @@
     }
   }
 
-  .card-content {
+  .cardContent {
     padding: 20px;
 
     h3 {
@@ -48,7 +49,7 @@
       color: #494949;
     }
 
-    .card-author {
+    .cardAuthor {
       display: flex;
       align-items: center;
       margin-top: 20px;
@@ -59,7 +60,7 @@
         border-radius: 50%;
       }
 
-      span{
+      span {
         width: 34px;
         height: 34px;
         border-radius: 50%;

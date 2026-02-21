@@ -1,32 +1,36 @@
 import React from "react";
-import "./SchoolsCard.scss";
-import "../../Main.scss"
+import styles from "./SchoolsCard.module.scss";
+import "../../Main.scss";
+
 export default function SchoolsCard({
-    image,
-    title,
-    description,
-    coach,
-    author,
-    authorImg,
+  image,
+  title,
+  description,
+  coach,
+  author,
+  authorImg,
 }) {
-    return (
-        <div className="schools-card">
-            <div className="card-img">
-                <img src={image} alt={title} />
-            </div>
+  return (
+    <div className={styles.schoolsCard}>
+      <div className={styles.cardImg}>
+        <img src={image} alt={title} />
+      </div>
 
-            <div className="card-content">
-                <h3>{title}</h3>
-                <p>{description}</p>
+      <div className={styles.cardContent}>
+        <h3>{title}</h3>
+        <p>{description}</p>
 
-                <div className="card-author">
-                    <span><img src={authorImg} alt={author} /></span>
-                    <div className="author">
-                        <p className="coach">{coach}</p>
-                        <p>{author}</p>
-                    </div>
-                </div>
-            </div>
+        <div className={styles.cardAuthor}>
+          <span>
+            <img src={authorImg} alt={author} />
+          </span>
+
+          <div className={styles.author}>
+            <p className={styles.coach}>{coach}</p>
+            <p>{author}</p>
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 }
