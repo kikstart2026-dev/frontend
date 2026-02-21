@@ -17,6 +17,7 @@ import InterestedSchoolsPage from './Pages/InterestedSchoolsPage/InterestedSchoo
 import Programs from './Pages/Programs-Page/Programs';
 import EnrolmentPackage from './Pages/EnrolmentPackage/EnrolmentPackage';
 
+
 function Layout() {
   const location = useLocation();
 
@@ -48,6 +49,7 @@ function Layout() {
     </>
   );
 }
+
 
 function App() {
   return (

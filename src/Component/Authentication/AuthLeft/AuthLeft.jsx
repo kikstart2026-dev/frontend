@@ -75,6 +75,8 @@ export default function AuthLeft({ comment, linkName }) {
           </button>
         </div>
 
+        <div className={styles.decor}> </div>
+
       </div>
     </div>
   );
