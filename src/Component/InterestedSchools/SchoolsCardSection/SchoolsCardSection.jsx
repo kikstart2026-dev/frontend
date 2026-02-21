@@ -24,6 +24,27 @@ export default function SchoolsCardSection() {
             </div>
           ))}
         </div>
+        <nav className="mt-4">
+          <ul className={`pagination justify-content-center ${styles.customPagination}`}>
+
+            <li className="page-item arrow">
+              <button className="page-link arrow">&lt;</button>
+            </li>
+
+            <li className="page-item ">
+              <button className="page-link num">1</button>
+            </li>
+
+            <li className="page-item">
+              <button className="page-link num">2</button>
+            </li>
+
+            <li className="page-item arrow">
+              <button className="page-link arrow">&gt;</button>
+            </li>
+
+          </ul>
+        </nav>
       </div>
     </section>
   );

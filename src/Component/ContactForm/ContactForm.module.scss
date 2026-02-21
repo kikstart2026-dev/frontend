@@ -1,62 +1,56 @@
-.contact {
-  padding: 60px 0;
-}
-
 .contactWrap {
-  max-width: 1200px;
-  margin: auto;
+  // margin: auto;
 }
 
-.right {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+// .right {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
 
 .formBox {
-  width: 100%;
-  max-width: 558px;
+  width: 558px;
   background: #ffffff;
   padding: 40px;
   border-radius: 65px;
-  box-shadow: 0 0 20px #ed1c23a4;
+  box-shadow: 0px 17px 44px rgba(0, 0, 0, 0.08);
 }
 
 .authForm {
   display: flex;
-    flex-direction: column;
+  flex-direction: column;
 }
 
 /* Floating Input */
 .inputWrapper {
   position: relative;
-      margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .inp {
   width: 100%;
-        padding: 31px 20px;
-        border-radius: 15px;
-        border: 1px solid #B3B3B3;
-        font-size: 16px;
-        outline: none;
-        transition: 0.3s ease;
+  padding: 31px 20px;
+  border-radius: 15px;
+  border: 1px solid #b3b3b3;
+  font-size: 16px;
+  outline: none;
+  transition: 0.3s ease;
 }
 
 .inp:focus {
   border-color: #ff2d2d;
-          background: #f5f5f5;
+  background: #f5f5f5;
 }
 
 .lbl {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 16px;
-    color: #bdbdbd;
-    transition: 0.3s ease;
-    pointer-events: none;
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #bdbdbd;
+  transition: 0.3s ease;
+  pointer-events: none;
 }
 
 .inp:focus + .lbl,
@@ -74,19 +68,19 @@
 
 /* Button */
 .submitBtn {
-      height: 60px;
-      border-radius: 40px;
-      background: #ff2d2d;
-      color: white;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s ease;
-      padding: 14px 48px;
-    //   margin: 0 auto;
-    margin-right: auto;
+  height: 60px;
+  border-radius: 40px;
+  background: #ff2d2d;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+  padding: 14px 48px;
+  //   margin: 0 auto;
+  margin-right: auto;
 
-      &:active {
-        transform: scale(0.98);
-      }
+  &:active {
+    transform: scale(0.98);
+  }
 }

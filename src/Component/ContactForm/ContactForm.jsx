@@ -22,13 +22,13 @@ export default function ContactForm() {
     const data = await response.json();
 
     if (data.success) {
-      alert("Message Sent Successfully :white_check_mark:");
+      alert("Message Sent Successfully ✅");
       setFullName("");
       setEmail("");
       setSubject("");
       setDetails("");
     } else {
-      alert("Something went wrong :x:");
+      alert("Something went wrong ❌");
     }
   };
 
