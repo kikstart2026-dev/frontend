@@ -22,9 +22,7 @@ export default function FaqSection() {
             <p className={enquiryStyles.enqP}>
               Quam in non velit malesuada arcu eget id. Id ut turpis tempor semper et in nunc aliquet. Orci cras faucibus aliquam eget orci egestas.
             </p>
-
-            
-            <ContactForm />
+                <ContactForm />
           </div>
 
           {/* RIGHT SIDE */}
