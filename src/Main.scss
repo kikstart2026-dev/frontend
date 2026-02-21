@@ -4,7 +4,7 @@
 * {
   margin: 0;
   padding: 0;
-  line-height: 1.6em;
+  line-height: 1.4;
 }
 
 h1,
@@ -12,39 +12,40 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+p{
   margin: 0;
   padding: 0;
 }
 
+html,
 body {
-  font-family: "Noto Sans , PT Sans";
   margin: 0;
-  background: #FFFFFF;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; 
 }
 
 .container {
-  max-width: 1140px !important;
+  max-width: 1164px;
   margin: 0 auto;
   padding: 0 12px;
 }
 
 img {
   max-width: 100%;
+  height: auto;
+  display: block;
 }
 
-.row{
-  gap: 0 !important;
+.common-space {
+  padding: 95px 0 0 0;
 }
 
-.common-space
-{
-    padding: 95px 0 0 0;
+.common-space1 {
+  padding: 0 0 95px 0;
 }
-.common-space1
-{
-    padding: 0 0 95px 0;
-}
-.both-space{
+
+.both-space {
   margin: 95px 0;
 }

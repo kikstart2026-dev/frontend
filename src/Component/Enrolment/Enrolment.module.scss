@@ -1,0 +1,103 @@
+.planCard {
+  padding: 32px;
+  transition: 0.3s;
+  border: 1px solid #E9E9E9;
+  border-radius: 30px;
+}
+
+.planCard:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px #ed1c2351;
+  border: 1px solid #ED1C24;
+}
+
+.badge {
+  font-family: 'Noto Sans';
+  font-weight: 500;
+  font-size: 15px;
+  text-transform: uppercase;
+  color: #ED1C24;
+  padding: 12px;
+  background: #FFF8F8;
+  border-radius: 5px;
+
+}
+
+.desc {
+  font-family: 'Noto Sans';
+  font-weight: 400;
+  font-size: 15px;
+  color: #494949;
+  margin-top: 25px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #E9E9E9;
+
+}
+
+.priceWrap {
+  margin-top: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #E9E9E9;
+}
+
+.price {
+
+  font-family: 'Noto Sans';
+  font-weight: 700;
+  font-size: 66px;
+  line-height: 73px;
+  letter-spacing: -0.461586px;
+  color: #ED1C24;
+  margin-bottom: 10px;
+}
+
+.per {
+  font-family: 'Noto Sans';
+  font-weight: 400;
+  font-size: 15px;
+  color: #494949;
+
+}
+
+.featureList {
+  list-style: none;
+  padding: 0;
+  margin: 40px 0;
+
+
+  li {
+    margin-bottom: 20px;
+    position: relative;
+    font-family: 'Noto Sans';
+    font-weight: 400;
+    font-size: 15px;
+    color: #494949;
+    padding-left: 27px;
+    cursor: pointer;
+  }
+
+  li::before {
+    content: url("../../assets/images/tick.png");
+    position: absolute;
+    left: 0;
+    color: #ff1f1f;
+    font-size: 12px;
+  }
+}
+
+.disabled {
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+
+.subscribeBtn {
+  border: none;
+  background: #ED1C24;
+  padding: 17px 85px;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: 0.3s;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
