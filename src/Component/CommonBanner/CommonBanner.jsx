@@ -1,16 +1,14 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../../Main.scss";
 import styles from "./CommonBanner.module.scss";
 import BannerCurve from "../../assets/images/curve1.png";
 
-export default function CommonBanner({ title, align = "center" }) {
-  const location = useLocation();
-
-  const currentPath = location.pathname.split("/")[1] || "";
-  const pageName =
-    currentPath.charAt(0).toUpperCase() + currentPath.slice(1);
-
+export default function CommonBanner({ 
+  title, 
+  align = "center", 
+  pageName 
+}) {
   return (
     <div className={styles.commonBanner}>
 
@@ -20,8 +18,8 @@ export default function CommonBanner({ title, align = "center" }) {
         <div className={styles.breadcrumbCustom}>
           <Link to="/">Home</Link>
           <span> / </span>
-          <span className={`${styles.activePage} ${styles.props}`}>
-            {pageName}
+          <span className={styles.activePage}>
+            {pageName || title}
           </span>
         </div>
       </div>

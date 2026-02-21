@@ -47,7 +47,7 @@ export default function Header() {
 
         {/* Right Side Buttons */}
         <div className="header-right d-none d-lg-flex">
-          <Link to="/login" className="btn-login">
+          <Link to="/signin" className="btn-login">
             <Button text="Login" variant="dark" />
           </Link>
 

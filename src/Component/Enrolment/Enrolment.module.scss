@@ -1,13 +1,14 @@
 .planCard {
-  border-radius: 20px;
-  padding: 40px 30px;
-  border: 1px solid #eee;
+  padding: 32px;
   transition: 0.3s;
+  border: 1px solid #E9E9E9;
+  border-radius: 30px;
 }
 
 .planCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transform: scale(1.03);
+  box-shadow: 0 0 20px #ed1c2351;
+  border: 1px solid #ED1C24;
 }
 
 .badge {
@@ -36,11 +37,7 @@
 .priceWrap {
   margin-top: 30px;
   padding-bottom: 30px;
-   border-bottom: 1px solid #E9E9E9;
-
-
-
-
+  border-bottom: 1px solid #E9E9E9;
 }
 
 .price {
@@ -65,16 +62,22 @@
 .featureList {
   list-style: none;
   padding: 0;
-  margin: 25px 0;
+  margin: 40px 0;
+
 
   li {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     position: relative;
-    padding-left: 20px;
+    font-family: 'Noto Sans';
+    font-weight: 400;
+    font-size: 15px;
+    color: #494949;
+    padding-left: 27px;
+    cursor: pointer;
   }
 
   li::before {
-    content: "✔";
+    content: url("../../assets/images/tick.png");
     position: absolute;
     left: 0;
     color: #ff1f1f;
@@ -88,16 +91,13 @@
 }
 
 .subscribeBtn {
-  width: 100%;
   border: none;
-  background: #ff1f1f;
-  color: white;
-  padding: 12px;
-  border-radius: 30px;
+  background: #ED1C24;
+  padding: 17px 85px;
+  border-radius: 50px;
   font-weight: 600;
   transition: 0.3s;
-}
-
-.subscribeBtn:hover {
-  background: #d90000;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
 }

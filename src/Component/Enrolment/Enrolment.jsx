@@ -28,6 +28,7 @@ export default function Enrolment({ data, type }) {
               key={index}
               className={!feature.included ? styles.disabled : ""}
             >
+              
               {feature.text}
             </li>
           ))}
