@@ -15,6 +15,38 @@ export default function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [terms, setTerms] = useState(false);
 
+  // 🔥 LOCATION FUNCTION
+  const handleGetLocation = () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+
+        try {
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+          );
+          const data = await response.json();
+
+          if (data.display_name) {
+            setLocation(data.display_name);
+          } else {
+            setLocation(`${latitude}, ${longitude}`);
+          }
+        } catch (error) {
+          setLocation(`${latitude}, ${longitude}`);
+        }
+      },
+      () => {
+        alert("Unable to retrieve your location");
+      }
+    );
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -36,7 +68,6 @@ export default function SignUp() {
     <div className={styles.signup}>
       <div className={styles.signupWrap}>
         <div className="row">
-
           {/* Left */}
           <div className="col-6 left">
             <AuthLeft comment="Have an account?" linkName="SignIn" />
@@ -45,7 +76,6 @@ export default function SignUp() {
           {/* Right */}
           <div className={`col-6 ${styles.right}`}>
             <div className={styles.formBox}>
-
               <div className={styles.head}>
                 <figure className={styles.fig}>
                   <img src={logo} alt="logo" />
@@ -57,7 +87,6 @@ export default function SignUp() {
               </div>
 
               <form className={styles.authForm} onSubmit={handleSubmit}>
-
                 {/* Full Name */}
                 <div className={styles.inputWrapper}>
                   <input
@@ -71,7 +100,7 @@ export default function SignUp() {
                   <label className={styles.lbl}>Full Name</label>
                 </div>
 
-                {/* Email */}
+                {/* ✅ Email (Proper Email Only) */}
                 <div className={styles.inputWrapper}>
                   <input
                     className={styles.inp}
@@ -79,28 +108,36 @@ export default function SignUp() {
                     placeholder=" "
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
                     required
                   />
                   <label className={styles.lbl}>Email</label>
                 </div>
 
-                {/* Phone */}
+                {/* ✅ Phone (Only 10 Digit Number) */}
                 <div className={styles.inputWrapper}>
                   <input
                     className={styles.inp}
-                    type="text"
+                    type="tel"
                     placeholder=" "
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={(e) => {
+                      const onlyNums = e.target.value.replace(/\D/g, "");
+                      if (onlyNums.length <= 10) {
+                        setPhone(onlyNums);
+                      }
+                    }}
+                    pattern="[0-9]{10}"
+                    maxLength="10"
                     required
                   />
                   <label className={styles.lbl}>Phone</label>
                 </div>
 
                 {/* Location */}
-                <div className={styles.inputWrapper}>
+                <div className={`${styles.inputWrapper} ${styles.locationWrapper}`}>
                   <input
-                    className={styles.inp}
+                    className={`${styles.inp} ${styles.spInp}`}
                     type="text"
                     placeholder=" "
                     value={location}
@@ -108,6 +145,14 @@ export default function SignUp() {
                     required
                   />
                   <label className={styles.lbl}>Location</label>
+
+                  <button
+                    type="button"
+                    className={styles.locationBtn}
+                    onClick={handleGetLocation}
+                  >
+                    <i class="fa-solid fa-location-crosshairs"></i>
+                  </button>
                 </div>
 
                 {/* Passcode */}
@@ -162,18 +207,15 @@ export default function SignUp() {
                   </label>
                 </div>
 
-                <Button className={styles.submitBtn}
+                <Button
+                  className={styles.submitBtn}
                   type="submit"
                   text=" SIGN UP"
                   variant="primary"
-                >
-
-                </Button>
-
+                />
               </form>
             </div>
           </div>
-
         </div>
       </div>
     </div>

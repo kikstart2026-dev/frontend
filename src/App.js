@@ -15,7 +15,6 @@ import AboutUs from './Pages/About-Us-Page/AboutUs';
 import WhyUs from './Pages/WhyUs-Page/WhyUs';
 import ContactUs from './Pages/Contact-Us/ContactUs';
 import ChildrenDetails from '../src/Pages/Form&Details/ChildrenDetails/ChildrenDetails';
-import InterestedSchoolsPage from './Pages/InterestedSchoolsPage/InterestedSchoolsPage';
 import EnrolmentPackage from './Pages/EnrolmentPackage/EnrolmentPackage';
 
 
@@ -43,7 +42,6 @@ function Layout() {
          <Route path="/ChildrenDetails" element={<ChildrenDetails/>} />
           <Route path="/why-us" element={<WhyUs />} />
         <Route path="/faqs" element={<FaqsPage />} />
-        <Route path="/Interested-Schools" element={<InterestedSchoolsPage />} />
         <Route path="/enrolment-package" element={<EnrolmentPackage />} />
       </Routes>
 

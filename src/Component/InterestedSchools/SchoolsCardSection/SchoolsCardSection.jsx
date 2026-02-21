@@ -1,11 +1,11 @@
 import React from "react";
-import "./SchoolsCardSection.scss";
+import styles from "./SchoolsCardSection.module.scss";
 import SchoolCardData from "../../../data/SchoolCardData";
 import SchoolsCard from "../SchoolsCard";
 
 export default function SchoolsCardSection() {
   return (
-    <section className="schools-card-section">
+    <section className={styles.schoolsCardSection}>
       <div className="container">
         <div className="row g-4">
           {SchoolCardData.map((card) => (
@@ -24,6 +24,27 @@ export default function SchoolsCardSection() {
             </div>
           ))}
         </div>
+        <nav className="mt-4">
+          <ul className={`pagination justify-content-center ${styles.customPagination}`}>
+
+            <li className="page-item arrow">
+              <button className="page-link arrow">&lt;</button>
+            </li>
+
+            <li className="page-item ">
+              <button className="page-link num">1</button>
+            </li>
+
+            <li className="page-item">
+              <button className="page-link num">2</button>
+            </li>
+
+            <li className="page-item arrow">
+              <button className="page-link arrow">&gt;</button>
+            </li>
+
+          </ul>
+        </nav>
       </div>
     </section>
   );

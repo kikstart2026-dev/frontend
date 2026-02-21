@@ -48,7 +48,6 @@
       .inp {
         width: 100%;
         padding: 31px 20px;
-
         border-radius: 15px;
         border: 1px solid #B3B3B3;
         font-size: 16px;
@@ -58,8 +57,12 @@
         &:focus {
           border-color: #ff2d2d;
           background: #f5f5f5;
-          padding: 25px;
         }
+      }
+
+      /* ✅ EXTRA CLASS FOR LOCATION INPUT */
+      .spInp {
+        padding-right: 45px;
       }
 
       .lbl {
@@ -73,8 +76,8 @@
         pointer-events: none;
       }
 
-      .inp:focus+.lbl,
-      .inp:not(:placeholder-shown)+.lbl {
+      .inp:focus + .lbl,
+      .inp:not(:placeholder-shown) + .lbl {
         top: 15px;
         font-size: 14px;
         color: #9b9b9b;
@@ -101,7 +104,6 @@
     }
 
     .submitBtn {
-
       height: 60px;
       border-radius: 40px;
       background: #ff2d2d;
@@ -113,10 +115,29 @@
       padding: 14px 48px;
       margin: 0 auto;
 
-
       &:active {
         transform: scale(0.98);
       }
+    }
+  }
+
+  /* LOCATION BUTTON STYLE */
+  .locationBtn {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px; // ektu chhoto
+  color: #8f8f8f; // light grey like screenshot
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+    &:hover{
+      color: #ff2d2d;
     }
   }
 }
