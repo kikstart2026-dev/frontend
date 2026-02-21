@@ -7,7 +7,7 @@
 
   h5 {
     font-size: 20px;
-    margin: 0px;
+    margin: 0;
     padding-bottom: 10px;
     font-weight: 700;
   }
@@ -16,8 +16,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  padding-top: 220px;
-  padding-bottom: 40px;
+  padding: 220px 0 40px 0;
   isolation: isolate;
   z-index: 1;
   position: relative;
@@ -48,7 +47,7 @@
   margin-top: 20px;
 
   img {
-    margin: 10px 0px;
+    margin: 10px 0;
   }
 
   p {
@@ -108,76 +107,72 @@
     max-width: 266px;
     box-sizing: border-box;
     margin-top: 15px;
-    gap: 16px;
     background: #FFFFFF;
     border: 1px solid #FFFFFF;
     box-shadow: 0px 7px 23px rgba(69, 69, 69, 0.05);
     border-radius: 15px;
+  }
 
-    .searchInput {
-      border: none;
-      background: transparent;
-      font-size: 16px;
-      outline: none;
-      color: #333;
-      margin-right: 25px;
-      width: 170px;
-      flex: unset;
-    }
+  .searchInput {
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    outline: none;
+    color: #333;
+    width: 170px;
+    margin-right: 16px; /* gap এর বদলে margin */
+  }
 
-    .submitBtn {
-      position: relative;
-      border: none;
-      padding: 5px;
-      margin-left: -30px;
-      min-width: 50px;
-      height: 40px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-sizing: border-box;
-      background: #ED1C24;
-      border-radius: 15px;
-      cursor: pointer;
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+  .submitBtn {
+    position: relative;
+    border: none;
+    padding: 5px;
+    min-width: 50px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    background: #ED1C24;
+    border-radius: 15px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
 
-      span {
-        position: relative;
-        z-index: 2;
-        color: #ffffff;
-        font-size: 30px;
-        line-height: 1;
-        display: inline-block;
-        margin-top: -2px;
-        padding: 0 5px;
-      }
+  .submitBtn span {
+    position: relative;
+    z-index: 2;
+    color: #ffffff;
+    font-size: 30px;
+    line-height: 1;
+    display: inline-block;
+    padding: 0 5px;
+  }
 
-      &::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        background: #000;
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.4s ease;
-        z-index: 1;
-      }
+  .submitBtn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: #000;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+    z-index: 1;
+  }
 
-      &:hover::before {
-        transform: scaleX(1);
-      }
+  .submitBtn:hover::before {
+    transform: scaleX(1);
+  }
 
-      &:hover {
-        transform: scale(1.04);
-        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
-      }
+  .submitBtn:hover {
+    transform: scale(1.04);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
+  }
 
-      &:active {
-        transform: scale(1.02);
-      }
-    }
+  .submitBtn:active {
+    transform: scale(1.02);
   }
 }
 
@@ -193,12 +188,7 @@
 }
 
 
-
-
-
-
-
-// // ======================= Responsive =======================
+ // ======================= Responsive =======================
 
 // /* XL ≤1199px */
 /* XL ≤1199px */

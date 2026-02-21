@@ -57,31 +57,32 @@
   max-width: 520px;
 }
 
+/* EMAIL BOX */
 .contactEmailBox {
   display: flex;
   align-items: center;
-  gap: 15px;
   background: #fff;
   padding: 20px 240px 20px 30px;
   border-radius: 30px;
   width: fit-content;
   margin-top: 35px;
   transition: all 0.4s ease;
+}
 
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.08);
-  }
+.contactEmailBox:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.08);
+}
 
-  .icon {
-    background: #ffeaea;
-    padding: 12px;
-    border-radius: 50%;
+.contactEmailBox .icon {
+  background: #ffeaea;
+  padding: 12px;
+  border-radius: 50%;
+  margin-right: 15px; /* gap এর বদলে margin */
+}
 
-    img {
-      width: 18px;
-    }
-  }
+.contactEmailBox .icon img {
+  width: 18px;
 }
 
 .emailLink {
@@ -95,25 +96,26 @@
 .formGroup {
   position: relative;
   margin-bottom: 22px;
-
-  input,
-  textarea {
-    width: 100%;
-    border-radius: 15px;
-    border: 1px solid rgba(179, 179, 179, 1);
-    font-size: 16px;
-    outline: none;
-    font-family: "Montserrat", sans-serif;
-    padding: 28px 22px 12px 22px;
-  }
-
-  textarea {
-    min-height: 130px;
-    resize: none;
-    padding-bottom: 22px;
-  }
 }
 
+.formGroup input,
+.formGroup textarea {
+  width: 100%;
+  border-radius: 15px;
+  border: 1px solid rgba(179, 179, 179, 1);
+  font-size: 16px;
+  outline: none;
+  font-family: "Montserrat", sans-serif;
+  padding: 28px 22px 12px 22px;
+}
+
+.formGroup textarea {
+  min-height: 130px;
+  resize: none;
+  padding-bottom: 22px;
+}
+
+/* FIELD LABELS */
 .fieldName {
   position: absolute;
   top: 12px;
@@ -132,15 +134,19 @@
   pointer-events: none;
 }
 
-.btnWrap{
+/* BUTTON WRAP */
+.btnWrap {
   margin-top: 38px;
-
 }
-
 
 /* RESPONSIVE */
 @media (max-width: 992px) {
   .contactRight {
     justify-content: center;
+  }
+
+  .contactLeft {
+    padding-right: 0;
+    margin-bottom: 40px;
   }
 }

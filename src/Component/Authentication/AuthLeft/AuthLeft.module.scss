@@ -7,68 +7,72 @@
   transition: 0.3s ease;
   position: relative;
   overflow: hidden;
+  padding: 40px 20px;
 
   &::before {
-  content: "";
-  position: absolute;
-  top: 40px;
-  left: 30%;
-  width: 43px;
-  height: 43px;
-  background-image: url("../../../assets/images/Vector.png") ;
-  background-size: contain;
-  opacity: 0.6;
-  pointer-events: none;
-}
+    content: "";
+    position: absolute;
+    top: 40px;
+    left: 30%;
+    width: 43px;
+    height: 43px;
+    background-image: url("../../../assets/images/Vector.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.6;
+    pointer-events: none;
+  }
 
   &::after {
-  content: "";
-  position: absolute;
-  top: 65px;
-  left: 36%;
-  width: 22px;
-  height: 22px;
-  background-image: url("../../../assets/images/borfi.png") ;
-  background-size: contain;
-  opacity: 0.6;
-  pointer-events: none;
-}
+    content: "";
+    position: absolute;
+    top: 65px;
+    left: 36%;
+    width: 22px;
+    height: 22px;
+    background-image: url("../../../assets/images/borfi.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.6;
+    pointer-events: none;
+  }
 }
 
 .leftDiv {
   max-width: 900px;
   text-align: center;
   margin: 30px 0;
-   position: relative;
+  position: relative;
+  padding: 20px;
 
   &::before {
-  content: "";
-  position: absolute;
-  top: 40px;
-  right: 8px;
-  width: 42px;
-  height: 22px;
-  background-image: url("../../../assets/images/cloud.png") ;
-  background-size: contain;
-  opacity: 0.6;
-  pointer-events: none;
-}
+    content: "";
+    position: absolute;
+    top: 40px;
+    right: 8px;
+    width: 42px;
+    height: 22px;
+    background-image: url("../../../assets/images/cloud.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.6;
+    pointer-events: none;
+  }
 
-   &::after {
-  content: "";
-  position: absolute;
-  bottom: 50%;
-  right: -17%;
-  width: 85px;
-  height: 98px;
-  background-image: url("../../../assets/images/flower2.png") ;
-  background-size: contain;
-  opacity: 0.6;
-  pointer-events: none;
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 50%;
+    right: -17%;
+    width: 85px;
+    height: 98px;
+    background-image: url("../../../assets/images/flower2.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.6;
+    pointer-events: none;
+  }
 }
-}
-
-
 
 .toggleWrap {
   display: flex;
@@ -86,6 +90,7 @@
 
 .figu {
   max-width: 800px;
+  margin: 0 auto 30px auto;
 }
 
 .ima {
@@ -94,10 +99,10 @@
 }
 
 .paragraph {
-  margin-top: 70px;
+  margin-top: 60px;
   display: flex;
   justify-content: center;
-  align-items: end;
+  align-items: flex-end;
 }
 
 .com {
@@ -120,12 +125,11 @@
   margin-top: 40px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
 }
 
 .socialLogin button {
   width: 100%;
-  padding: 12px 18px;
+  padding: 14px 18px;
   border-radius: 40px;
   border: 2px solid #ff2d2d;
   font-size: 15px;
@@ -137,36 +141,31 @@
   transition: 0.3s ease;
   background-color: #ffffff;
   color: #ff2d2d;
-  margin-bottom: 10px;
-  &.active,
-        &:hover {
-          background: #ff2d2d;
-          color: #fff;
-        }
+  margin-bottom: 15px;
+}
+
+.socialLogin button:last-child {
+  margin-bottom: 0;
+}
+
+.socialLogin button.active,
+.socialLogin button:hover {
+  background: #ff2d2d;
+  color: #fff;
 }
 
 .socialLogin button .ii {
   color: #ff2d2d;
 }
 
-/* Active States */
-
-.socialLogin button.activeGoogle {
-  background-color: #ff2d2d;
-  border-color: #ff2d2d;
-  color: #ffffff;
-}
-
-.socialLogin button.activeGoogle .ii {
-  color: #ffffff;
-}
-
+.socialLogin button.activeGoogle,
 .socialLogin button.activeFacebook {
   background-color: #ff2d2d;
   border-color: #ff2d2d;
   color: #ffffff;
 }
 
+.socialLogin button.activeGoogle .ii,
 .socialLogin button.activeFacebook .ii {
   color: #ffffff;
 }
@@ -185,6 +184,7 @@
   color: #ffffff;
 }
 
+/* ================= DECOR ================= */
 
 .decor {
   position: absolute;
@@ -193,13 +193,13 @@
   z-index: 0;
 
   &::before {
-  content: "";
-  position: absolute;
-  bottom: 30%;
-  left: -15%;
-  width: 106px;
-  height: 107px;
-  background: url("../../../assets/images/Group.png") no-repeat center;
-  background-size: contain;
-}
+    content: "";
+    position: absolute;
+    bottom: 30%;
+    left: -15%;
+    width: 106px;
+    height: 107px;
+    background: url("../../../assets/images/Group.png") no-repeat center;
+    background-size: contain;
+  }
 }

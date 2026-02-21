@@ -4,7 +4,7 @@
 * {
   margin: 0;
   padding: 0;
-  line-height: 1.4;
+  box-sizing: border-box;
 }
 
 h1,
@@ -23,7 +23,6 @@ html,
 body {
   margin: 0;
   padding: 0;
-  width: 100%;
   overflow-x: hidden; 
 }
 
@@ -36,7 +35,6 @@ body {
 img {
   max-width: 100%;
   height: auto;
-  display: block;
 }
 
 .common-space {
