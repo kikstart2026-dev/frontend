@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import kikstart from "../../assets/images/KIKSTART_logo.png";
-import "./Header.scss";
+import styles from "./Header.module.scss";
 import "../../Main.scss";
 import Button from "../../Component/Buttons/Button";
 
@@ -19,8 +19,9 @@ export default function Header() {
   ];
 
   return (
-    <div className="call container-fluid">
-      <div className="nav-bar">
+    <div className={styles["container-fluid"]}>
+      <div className={styles["nav-bar"]}>
+
         {/* Logo */}
         <Link to="/">
           <img src={kikstart} alt="logo" />
@@ -28,17 +29,22 @@ export default function Header() {
 
         {/* Hamburger */}
         <button
-          className="navbar-toggler d-lg-none"
+          className={`${styles["navbar-toggler"]} d-lg-none`}
           onClick={() => setIsOpen(!isOpen)}
         >
           ☰
         </button>
 
         {/* Nav Menu */}
-        <ul className={`nav ${isOpen ? "open" : ""}`}>
+        <ul className={`${styles.nav} ${isOpen ? styles.open : ""}`}>
           {navItems.map((item, index) => (
             <li key={index}>
-              <NavLink to={item.path}>
+              <NavLink
+                to={item.path}
+                className={({ isActive }) =>
+                  isActive ? styles.active : undefined
+                }
+              >
                 {item.name}
               </NavLink>
             </li>
@@ -46,8 +52,8 @@ export default function Header() {
         </ul>
 
         {/* Right Side Buttons */}
-        <div className="header-right d-none d-lg-flex">
-          <Link to="/signin" className="btn-login">
+        <div className={`${styles["header-right"]} d-none d-lg-flex`}>
+          <Link to="/login" className={styles["btn-login"]}>
             <Button text="Login" variant="dark" />
           </Link>
 

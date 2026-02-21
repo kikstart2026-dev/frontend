@@ -1,0 +1,136 @@
+.wrapper {
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+
+background: #FFFFFF;
+border: 1px solid #E9E9E9;
+border-radius: 30px;
+
+}
+
+.container {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  background: #FFFFFF;
+  border: 1px solid #E9E9E9;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #f9f9f9;
+}
+
+/* LEFT SIDE */
+.left {
+  width: 30%;
+  padding: 30px;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.stepItem {
+  display: flex;
+  align-items: center;
+  width: 100%; /* Puro line-ta cover korbe */
+  padding: 10px 0; 
+  opacity: 0.5;
+  transition: 0.3s ease;
+}
+
+.circle {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  
+  /* MAGIC LINE: Eta circle-ke ekebare dan dike pathiye debe */
+  margin-left: auto; 
+  
+  flex-shrink: 0;
+}
+
+.active {
+  opacity: 1;
+}
+
+.active .circle {
+  background: #e53935;
+  color: white;
+}
+
+/* RIGHT SIDE */
+.right {
+  width: 70%;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+input,
+textarea {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+textarea {
+  min-height: 100px;
+  resize: none;
+}
+
+.btnGroup {
+  display: flex;
+  gap: 15px;
+}
+
+.nextBtn {
+  background: #e53935;
+  color: white;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.backBtn {
+  background: #333;
+  color: white;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.submitBtn {
+  background: green;
+  color: white;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+/* Responsive */
+// @media (max-width: 768px) {
+//   .container {
+//     flex-direction: column;
+//   }
+
+//   .left {
+//     width: 100%;
+//     flex-direction: row;
+//     justify-content: space-between;
+//   }
+
+//   .right {
+//     width: 100%;
+//   }
+// }

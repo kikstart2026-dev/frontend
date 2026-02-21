@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap');
+
+.contactSection {
+  padding: 120px 0;
+}
+
+/* LEFT SIDE */
+.contactLeft {
+  flex: 1;
+  padding-right: 40px;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 40%;
+    left: 15%;
+    height: 50px;
+    width: 50px;
+    background-image: url('../../assets/images/blue1.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: -1;
+    pointer-events: none;
+  }
+}
+
+/* RIGHT SIDE */
+.contactRight {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 28%;
+    right: 87%;
+    height: 108px;
+    width: 110px;
+    background-image: url('../../assets/images/blue2.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: -1;
+    pointer-events: none;
+  }
+}
+
+/* FORM */
+.form {
+  background: #ffffff;
+  padding: 50px;
+  border-radius: 30px;
+  box-shadow: 0px 17px 44px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 520px;
+}
+
+.contactEmailBox {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #fff;
+  padding: 20px 240px 20px 30px;
+  border-radius: 30px;
+  width: fit-content;
+  margin-top: 35px;
+  transition: all 0.4s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  .icon {
+    background: #ffeaea;
+    padding: 12px;
+    border-radius: 50%;
+
+    img {
+      width: 18px;
+    }
+  }
+}
+
+.emailLink {
+  text-decoration: none;
+  color: #2b2b2b;
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
+}
+
+/* FORM GROUP */
+.formGroup {
+  position: relative;
+  margin-bottom: 22px;
+
+  input,
+  textarea {
+    width: 100%;
+    border-radius: 15px;
+    border: 1px solid rgba(179, 179, 179, 1);
+    font-size: 16px;
+    outline: none;
+    font-family: "Montserrat", sans-serif;
+    padding: 28px 22px 12px 22px;
+  }
+
+  textarea {
+    min-height: 130px;
+    resize: none;
+    padding-bottom: 22px;
+  }
+}
+
+.fieldName {
+  position: absolute;
+  top: 12px;
+  left: 22px;
+  font-size: 14px;
+  color: #b3b3b3;
+  pointer-events: none;
+}
+
+.fieldExample {
+  position: absolute;
+  top: 32px;
+  left: 22px;
+  font-size: 16px;
+  color: #2b2b2b;
+  pointer-events: none;
+}
+
+.btnWrap{
+  margin-top: 38px;
+
+}
+
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  .contactRight {
+    justify-content: center;
+  }
+}
