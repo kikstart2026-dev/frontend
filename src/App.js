@@ -16,6 +16,8 @@ import WhyUs from './Pages/WhyUs-Page/WhyUs';
 import InterestedSchoolsPage from './Pages/InterestedSchoolsPage/InterestedSchoolsPage';
 import Programs from './Pages/Programs-Page/Programs';
 import EnrolmentPackage from './Pages/EnrolmentPackage/EnrolmentPackage';
+import ProgramDeatailsPage from './Pages/ProgramDeatailsPage/ProgramDeatailsPage';
+import ContactForm from './Component/ContactForm/ContactForm';
 
 
 function Layout() {
@@ -43,6 +45,8 @@ function Layout() {
         <Route path="/Interested-Schools" element={<InterestedSchoolsPage />} />
         <Route path="/programs" element={<Programs/>} />
         <Route path="/enrolment-package" element={<EnrolmentPackage />} />
+        <Route path="/ProgramDeatailsPage" element={<ProgramDeatailsPage />} />
+        <Route path="/contactform" element={<ContactForm />} />
       </Routes>
 
       {!isAuthPage && <Footer />}

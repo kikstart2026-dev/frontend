@@ -1,0 +1,51 @@
+.schoolsCardSection {
+  margin: 25px 0;
+}
+.customPagination {
+    :global(.page-link:focus) {
+    outline: none;
+    box-shadow: none;
+  }
+
+  :global(.page-link) {
+    width: 32px;
+    height: 32px;
+    border-radius: 5px;
+    border: 2px solid #E1E1E1;
+    background-color: #FFFFFF;
+    color: #2B2B2B;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 8px;
+    transition: all 0.3s ease;
+  }
+  :global(.num){
+    font-size: 14px;
+  }
+
+
+
+  /* Hover */
+  :global(.page-link:hover) {
+    border: 2px solid #ED1C24;
+    color: #ED1C24;
+    // background-color: #fff;
+  }
+
+  /* Active */
+  :global(.active ) {
+    // border: 2px solid red;
+    color: red;
+    // background-color: #fff;
+  }
+
+//   /* Disabled */
+//   :global(.disabled) {
+//     // background-color: #e6e6e6;
+//     color: #bbb;
+//     border: none;
+//     // cursor: not-allowed;
+//   }
+}
