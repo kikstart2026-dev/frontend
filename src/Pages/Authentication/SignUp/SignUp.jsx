@@ -100,7 +100,7 @@ export default function SignUp() {
                   <label className={styles.lbl}>Full Name</label>
                 </div>
 
-                {/* Email */}
+                {/* ✅ Email (Proper Email Only) */}
                 <div className={styles.inputWrapper}>
                   <input
                     className={styles.inp}
@@ -108,25 +108,33 @@ export default function SignUp() {
                     placeholder=" "
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
                     required
                   />
                   <label className={styles.lbl}>Email</label>
                 </div>
 
-                {/* Phone */}
+                {/* ✅ Phone (Only 10 Digit Number) */}
                 <div className={styles.inputWrapper}>
                   <input
                     className={styles.inp}
-                    type="text"
+                    type="tel"
                     placeholder=" "
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={(e) => {
+                      const onlyNums = e.target.value.replace(/\D/g, "");
+                      if (onlyNums.length <= 10) {
+                        setPhone(onlyNums);
+                      }
+                    }}
+                    pattern="[0-9]{10}"
+                    maxLength="10"
                     required
                   />
                   <label className={styles.lbl}>Phone</label>
                 </div>
 
-                {/* ✅ UPDATED LOCATION FIELD */}
+                {/* Location */}
                 <div className={`${styles.inputWrapper} ${styles.locationWrapper}`}>
                   <input
                     className={`${styles.inp} ${styles.spInp}`}
