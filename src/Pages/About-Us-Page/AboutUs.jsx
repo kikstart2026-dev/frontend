@@ -10,10 +10,12 @@ export default function AboutUs() {
     <div className={styles.page}>
         <CommonBanner
         title={"About Us"}/>
-      <section className={styles.space}>
+      <section className={styles.space1}>
         <div className="container">
           <AboutUsValue />
-          <AboutMid />
+         <div className="space3">
+           <AboutMid />
+         </div>
         </div>
       </section>
 
