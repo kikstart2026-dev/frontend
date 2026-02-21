@@ -151,7 +151,7 @@ export default function SignUp() {
                     className={styles.locationBtn}
                     onClick={handleGetLocation}
                   >
-                    <i className="bi bi-geo-alt-fill"></i>
+                    <i class="fa-solid fa-location-crosshairs"></i>
                   </button>
                 </div>
 
