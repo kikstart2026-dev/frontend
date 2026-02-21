@@ -52,7 +52,7 @@ export default function Header() {
 
         {/* Right Side Buttons */}
         <div className={`${styles["header-right"]} d-none d-lg-flex`}>
-          <Link to="/login" className={styles["btn-login"]}>
+          <Link to="/signin" className={styles["btn-login"]}>
             <Button text="Login" variant="dark" />
           </Link>
 
