@@ -81,9 +81,14 @@
   transition: 0.3s ease;
   background-color: #ffffff;
   color: #ff2d2d;
+  &.active,
+        &:hover {
+          background: #ff2d2d;
+          color: #fff;
+        }
 }
 
-.socialLogin button i {
+.socialLogin button .ii {
   color: #ff2d2d;
 }
 
@@ -95,7 +100,7 @@
   color: #ffffff;
 }
 
-.socialLogin button.activeGoogle i {
+.socialLogin button.activeGoogle .ii {
   color: #ffffff;
 }
 
@@ -105,7 +110,7 @@
   color: #ffffff;
 }
 
-.socialLogin button.activeFacebook i {
+.socialLogin button.activeFacebook .ii {
   color: #ffffff;
 }
 

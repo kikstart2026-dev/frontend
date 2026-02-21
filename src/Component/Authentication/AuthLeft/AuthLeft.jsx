@@ -60,7 +60,7 @@ export default function AuthLeft({ comment, linkName }) {
               activeSocial === "google" ? styles.activeGoogle : ""
             }`}
           >
-            <i className="bi bi-google"></i>
+            <i className="bi bi-google ii"></i>
             Continue with Google
           </button>
 
@@ -70,7 +70,7 @@ export default function AuthLeft({ comment, linkName }) {
               activeSocial === "facebook" ? styles.activeFacebook : ""
             }`}
           >
-            <i className="bi bi-facebook"></i>
+            <i className="bi bi-facebook ii"></i>
             Continue with Facebook
           </button>
         </div>
