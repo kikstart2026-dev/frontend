@@ -7,6 +7,7 @@ import Home from './Pages/Home/Home';
 import FaqsPage from './Pages/Faqs-Page/FaqsPage';
 
 
+
 function App() {
   return (
     <div className="App">
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/faqs" element={<FaqsPage />} />
+          
         </Routes>
         <Footer />
       </Router>
