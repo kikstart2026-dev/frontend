@@ -1,4 +1,4 @@
-.container-fluid {
+.call {
   background-color: #FFF8F8;
 }
 
@@ -28,7 +28,7 @@
   list-style: none;
 }
 
-.nav a {
+.link {
   display: inline-block;
   margin-right: 20px;
   text-decoration: none;
@@ -38,10 +38,11 @@
   white-space: nowrap;
 }
 
-.nav a:hover {
+.link:hover {
   color: #ED1C24;
 }
 
+/* ✅ ACTIVE STATE FIX */
 .active {
   color: #ED1C24;
 }
@@ -106,7 +107,7 @@
     margin-bottom: 18px;
   }
 
-  .nav a {
+  .link {
     font-size: 16px;
     margin-right: 0;
   }

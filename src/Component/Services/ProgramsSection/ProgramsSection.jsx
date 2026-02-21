@@ -6,23 +6,32 @@ import Button from "../../Buttons/Button";
 import { Link } from "react-router-dom";
 import CmnHeading from "../../CmnHeading/CmnHeading";
 
-export default function ProgramsSection() {
+export default function ProgramsSection({ limit, showHeading = true }) {
+
+  // 🔥 Slice logic (same as MiniCardSection)
+  const displayPrograms = limit 
+    ? programsData.slice(0, limit) 
+    : programsData;
+
   return (
     <section className={styles["back-color"]}>
       <div className="container">
-        <div className="why-choose-us">
-          <CmnHeading
-            title="SERVICES"
-            subtitle="Children’s Fitness Programs"
-            align="center"
-          />
-        </div>
+
+        {showHeading && (
+          <div className="why-choose-us">
+            <CmnHeading
+              title="SERVICES"
+              subtitle="Children’s Fitness Programs"
+              align="center"
+            />
+          </div>
+        )}
 
         <div className={`row ${styles["programs-section"]}`}>
-          {programsData.map((item, index) => (
+          {displayPrograms.map((item, index) => (
             <div
               key={index}
-              className="col-lg-4 col-md-6 col-12 mb-4 d-flex"
+              className={`col-lg-4 col-md-6 col-12 mb-4 d-flex ${styles.programCardCol}`}
             >
               <ProgramCard
                 image={item.image}
@@ -38,6 +47,7 @@ export default function ProgramsSection() {
             <Button text="View all" variant="primary" />
           </Link>
         </div>
+
       </div>
     </section>
   );

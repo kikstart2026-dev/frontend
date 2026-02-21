@@ -50,3 +50,28 @@ img {
 .both-space {
   margin: 95px 0;
 }
+
+/* Scrollbar width */
+::-webkit-scrollbar {
+  width: 14px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #FFF8F8;
+  border-radius: 10px;
+}
+
+/* Red–White Thumb */
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #ED1C24;
+
+  background-image: repeating-linear-gradient(
+    135deg,
+    #FFF8F8 0px,
+    rgb(254, 209, 209) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}

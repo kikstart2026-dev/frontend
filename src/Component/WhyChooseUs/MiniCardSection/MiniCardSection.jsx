@@ -3,14 +3,16 @@ import CmnHeading from "../../CmnHeading/CmnHeading";
 import MiniCard from "../MiniCard";
 import styles from "./MiniCardSection.module.scss";
 import "../../../Main.scss"; 
+import { CardsData } from "../../../data/cardsData";
 
 export default function MiniCardSection({ 
-  data = [], 
   limit,
   showHeading = true 
 }) {
 
-  const displayData = limit ? data.slice(0, limit) : data;
+  const displayData = limit 
+    ? CardsData.slice(0, limit) 
+    : CardsData;
 
   return (
     <section className={styles["mini-section"]}>

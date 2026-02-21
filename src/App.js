@@ -14,8 +14,12 @@ import FaqsPage from './Pages/Faqs-Page/FaqsPage';
 import AboutUs from './Pages/About-Us-Page/AboutUs';
 import WhyUs from './Pages/WhyUs-Page/WhyUs';
 import ContactUs from './Pages/Contact-Us/ContactUs';
-import ChildrenDetails from '../src/Pages/Form&Details/ChildrenDetails/ChildrenDetails';
+// import ChildrenDetails from '../src/Pages/Form&Details/ChildrenDetails/ChildrenDetails';
+import InterestedSchoolsPage from './Pages/InterestedSchoolsPage/InterestedSchoolsPage';
+import Programs from './Pages/Programs-Page/Programs';
 import EnrolmentPackage from './Pages/EnrolmentPackage/EnrolmentPackage';
+import ProgramDeatailsPage from './Pages/ProgramDeatailsPage/ProgramDeatailsPage';
+import ContactForm from './Component/ContactForm/ContactForm';
 
 
 function Layout() {
@@ -37,12 +41,15 @@ function Layout() {
 
         {/* Main Routes */}
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<AboutUs />} />
-         <Route path="/contact" element={<ContactUs/>} />
-         <Route path="/ChildrenDetails" element={<ChildrenDetails/>} />
-          <Route path="/why-us" element={<WhyUs />} />
+         <Route path="/about" element={<AboutUs />} />
         <Route path="/faqs" element={<FaqsPage />} />
+        <Route path="/contact" element={<ContactUs />} />
+         <Route path="/why-us" element={<WhyUs />} />
+        <Route path="/Interested-Schools" element={<InterestedSchoolsPage />} />
+        <Route path="/programs" element={<Programs/>} />
         <Route path="/enrolment-package" element={<EnrolmentPackage />} />
+        <Route path="/ProgramDeatailsPage" element={<ProgramDeatailsPage />} />
+        <Route path="/contactform" element={<ContactForm />} />
       </Routes>
 
       {!isAuthPage && <Footer />}

@@ -1,6 +1,6 @@
 .program-card {
     position: relative;
-    border-radius: 25px;
+    border-radius: 30px;
     overflow: hidden;
     height: auto;
     display: block;
@@ -11,9 +11,8 @@
     &:hover {
         cursor: pointer;
         transform: translateY(-6px);
-        box-shadow:
-            0 10px 20px rgba(0, 0, 0, 0.08),
-            0 20px 40px rgba(255, 0, 0, 0.15);
+        box-shadow: 0 0 20px #ed1c2351;
+        transform: scale(1.03);
     }
 
     figure {
@@ -36,6 +35,7 @@
         width: 100%;
         padding: 25px;
         color: white;
+        border-radius: 25px;
 
         h3 {
             font-size: 20px;
