@@ -13,6 +13,7 @@ import Home from './Pages/Home/Home';
 import FaqsPage from './Pages/Faqs-Page/FaqsPage';
 import InterestedSchoolsPage from './Pages/InterestedSchoolsPage/InterestedSchoolsPage';
 import EnrolmentPackage from './Pages/EnrolmentPackage/EnrolmentPackage';
+import ContactForm from './Component/ContactForm/ContactForm';
 
 function Layout() {
   const location = useLocation();
@@ -36,6 +37,7 @@ function Layout() {
         <Route path="/faqs" element={<FaqsPage />} />
         <Route path="/Interested-Schools" element={<InterestedSchoolsPage />} />
         <Route path="/enrolment-package" element={<EnrolmentPackage />} />
+        <Route path="/contactform" element={<ContactForm />} />
       </Routes>
 
       {!isAuthPage && <Footer />}

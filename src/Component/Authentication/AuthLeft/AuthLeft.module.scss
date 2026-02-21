@@ -77,10 +77,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
   transition: 0.3s ease;
   background-color: #ffffff;
   color: #ff2d2d;
+  margin-bottom: 10px;
   &.active,
         &:hover {
           background: #ff2d2d;
