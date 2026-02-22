@@ -11,9 +11,11 @@
 .left {
   text-align: left;
 }
+
 .center {
   text-align: center;
 }
+
 .right {
   text-align: right;
 }
@@ -21,7 +23,7 @@
 .contentWrapper {
   position: relative;
   z-index: 2;
-  width: auto;
+  max-width: 585px;
 }
 
 /* Heading */
@@ -38,8 +40,8 @@
 .commonBanner h1::before {
   content: "";
   position: absolute;
-  top: -40px;
-  right: 285px;
+  top: -50px;
+  right: 80px;
   width: 43px;
   height: 43px;
   background-image: url("../../assets/images/Vector.png");
@@ -51,14 +53,14 @@
 .commonBanner h1::after {
   content: "";
   position: absolute;
-  top: 26px;
-  left: 180px;
+     top: 25px;
+    left: 0px;
   width: 12px;
   height: 12px;
   background-image: url("../../assets/images/borfi.png");
   background-size: cover;
   background-repeat: no-repeat;
-  z-index: -1;
+  z-index: 5;
 }
 
 /* Breadcrumb */
@@ -85,29 +87,18 @@
   color: #494949;
   cursor: pointer;
 }
-.activePage:hover{
+
+.activePage:hover {
   color: #ed1c24;
 }
 
-.props::before {
-  content: "";
-  position: absolute;
-  bottom: -70px;
-  right: -240px;
-  width: 98px;
-  height: 113px;
-  background-image: url("../../assets/images/star.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  z-index: -1;
-}
 
 /* Breadcrumb decorations */
 .breadcrumbCustom::before {
   content: "";
   position: absolute;
-  bottom: -65px;
-  left: 60px;
+    bottom: -65px;
+    left: -250px;
   width: 22px;
   height: 22px;
   background-image: url("../../assets/images/borfi.png");
@@ -119,8 +110,8 @@
 .breadcrumbCustom::after {
   content: "";
   position: absolute;
-  top: -130px;
-  left: -80px;
+  top: -120px;
+  left: -388px;
   width: 46px;
   height: 22px;
   background-image: url("../../assets/images/cloud.png");
@@ -139,6 +130,19 @@
   margin-bottom: 0;
 }
 
+.curve::before {
+  content: "";
+  position: absolute;
+  bottom: 183px;
+  right: -31px;
+  width: 98px;
+  height: 113px;
+  background-image: url("../../assets/images/star.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 5;
+}
+
 .curve img {
   width: 100%;
   height: auto;
@@ -153,9 +157,11 @@
   .commonBanner {
     padding: 70px 0 90px;
   }
+
   .commonBanner h1 {
     font-size: 28px;
   }
+
   .breadcrumbCustom {
     font-size: 14px;
   }
@@ -165,6 +171,7 @@
   .commonBanner {
     padding: 90px 0 110px;
   }
+
   .commonBanner h1 {
     font-size: 30px;
   }
@@ -174,6 +181,7 @@
   .commonBanner {
     padding: 100px 0 120px;
   }
+
   .commonBanner h1 {
     font-size: 36px;
   }
@@ -183,6 +191,7 @@
   .commonBanner {
     padding: 100px 0 140px;
   }
+
   .commonBanner h1 {
     font-size: 42px;
   }
@@ -192,6 +201,7 @@
   .commonBanner {
     padding: 100px 0 260px;
   }
+
   .commonBanner h1 {
     font-size: 48px;
   }
