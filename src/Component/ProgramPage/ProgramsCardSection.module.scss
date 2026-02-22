@@ -41,10 +41,10 @@
   }
 
   /* Active */
-  :global(.active ) {
-    // border: 2px solid red;
+  :global(.num ) {
+    border: 2px solid red;
     color: red;
-    // background-color: #fff;
+    background-color: #fff;
   }
 
 //   /* Disabled */
