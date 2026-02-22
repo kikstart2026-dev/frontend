@@ -61,10 +61,15 @@
 }
 
 /* Textarea */
-.textarea {
+
+  .textarea {
   min-height: 120px;
   resize: none;
+  overflow: hidden;  
+   min-height: 120px;
+  resize: none; // prevents scrollbar
 }
+
 
 /* Button */
 .submitBtn {

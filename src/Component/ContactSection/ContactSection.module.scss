@@ -76,13 +76,17 @@
 
 .contactEmailBox .icon {
   background: #ffeaea;
-  padding: 12px;
   border-radius: 50%;
-  margin-right: 15px; /* gap এর বদলে margin */
+  width: 53px;
+  height: 53px;
+  margin-right: 15px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .contactEmailBox .icon img {
-  width: 18px;
+  
 }
 
 .emailLink {
