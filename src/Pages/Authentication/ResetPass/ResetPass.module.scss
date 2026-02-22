@@ -80,9 +80,9 @@
 
       &:focus + .lbl,
       &:not(:placeholder-shown) + .lbl {
-        top: 22px;
-        font-size: 13px;
-        color: #ff2d2d;
+        top: 32px;
+        font-size: 14px;
+        // color: #ff2d2d;
       }
     }
 
@@ -92,10 +92,10 @@
       top: 50%;
       transform: translateY(-50%);
       font-size: 16px;
-      color: #bdbdbd;
+      color: #B3B3B3;
       transition: all 0.3s ease;
       pointer-events: none;
-      background: white;
+      // background: white;
       // padding: 0 5px;
     }
 

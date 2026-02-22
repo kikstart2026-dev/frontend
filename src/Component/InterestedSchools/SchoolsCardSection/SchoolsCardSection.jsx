@@ -36,7 +36,7 @@ export default function SchoolsCardSection() {
             </li>
 
             <li className="page-item">
-              <button className="page-link num">2</button>
+              <button className="page-link num2">2</button>
             </li>
 
             <li className="page-item arrow">
