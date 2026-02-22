@@ -65,7 +65,7 @@
 
     .inp {
       width: 100%;
-     padding: 31px 20px;
+     padding: 40px 20px 20px 20px;  
       border-radius: 15px;
       border: 1px solid #B3B3B3;
       font-size: 16px;
@@ -75,12 +75,12 @@
 
       &:focus {
         border-color: #ff2d2d;
-        background: #f9f9f9;
+        // background: #f9f9f9;
       }
 
       &:focus + .lbl,
       &:not(:placeholder-shown) + .lbl {
-        top: 12px;
+        top: 22px;
         font-size: 13px;
         color: #ff2d2d;
       }
@@ -96,7 +96,7 @@
       transition: all 0.3s ease;
       pointer-events: none;
       background: white;
-      padding: 0 5px;
+      // padding: 0 5px;
     }
 
     .submitBtn {
