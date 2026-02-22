@@ -39,7 +39,6 @@
 
   .loginToggle {
     display: flex;
-    gap: 15px;
     margin-bottom: 25px;
 
     .btn {
@@ -52,11 +51,16 @@
       font-weight: 500;
       cursor: pointer;
       transition: 0.3s ease;
+      margin-right: 15px; // replaced gap
 
       &.active,
       &:hover {
         background: #ff2d2d;
         color: #fff;
+      }
+
+      &:last-child {
+        margin-right: 0; // remove extra space on last button
       }
     }
   }
@@ -122,17 +126,16 @@
     }
 
     .submitBtn {
-    
-    height: 60px;
-    border-radius: 40px;
-    background: #ff2d2d;
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s ease;
-    padding: 14px 48px;
-    margin: 0 auto;
+      height: 60px;
+      border-radius: 40px;
+      background: #ff2d2d;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s ease;
+      padding: 14px 48px;
+      margin: 0 auto;
 
       &:active {
         transform: scale(0.98);

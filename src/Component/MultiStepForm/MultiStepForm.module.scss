@@ -2,22 +2,19 @@
   padding: 40px;
   display: flex;
   justify-content: center;
-
-background: #FFFFFF;
-border: 1px solid #E9E9E9;
-border-radius: 30px;
-
+  background: #FFFFFF;
+  border: 1px solid #E9E9E9;
+  border-radius: 30px;
 }
 
 .container {
   width: 100%;
   max-width: 1000px;
   display: flex;
-  background: #FFFFFF;
+  background: #f9f9f9;
   border: 1px solid #E9E9E9;
   border-radius: 20px;
   overflow: hidden;
-  background: #f9f9f9;
 }
 
 /* LEFT SIDE */
@@ -27,14 +24,22 @@ border-radius: 30px;
   border-right: 1px solid #ddd;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+}
+
+/* Replacing gap: 30px */
+.left > * {
+  margin-bottom: 30px;
+}
+
+.left > *:last-child {
+  margin-bottom: 0;
 }
 
 .stepItem {
   display: flex;
   align-items: center;
-  width: 100%; /* Puro line-ta cover korbe */
-  padding: 10px 0; 
+  width: 100%;
+  padding: 10px 0;
   opacity: 0.5;
   transition: 0.3s ease;
 }
@@ -48,10 +53,7 @@ border-radius: 30px;
   justify-content: center;
   align-items: center;
   font-weight: bold;
-  
-  /* MAGIC LINE: Eta circle-ke ekebare dan dike pathiye debe */
-  margin-left: auto; 
-  
+  margin-left: auto;
   flex-shrink: 0;
 }
 
@@ -70,7 +72,15 @@ border-radius: 30px;
   padding: 40px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+}
+
+/* Replacing gap: 20px */
+.right > * {
+  margin-bottom: 20px;
+}
+
+.right > *:last-child {
+  margin-bottom: 0;
 }
 
 input,
@@ -88,7 +98,15 @@ textarea {
 
 .btnGroup {
   display: flex;
-  gap: 15px;
+}
+
+/* Replacing gap: 15px */
+.btnGroup > * {
+  margin-right: 15px;
+}
+
+.btnGroup > *:last-child {
+  margin-right: 0;
 }
 
 .nextBtn {
@@ -117,20 +135,3 @@ textarea {
   border-radius: 25px;
   cursor: pointer;
 }
-
-/* Responsive */
-// @media (max-width: 768px) {
-//   .container {
-//     flex-direction: column;
-//   }
-
-//   .left {
-//     width: 100%;
-//     flex-direction: row;
-//     justify-content: space-between;
-//   }
-
-//   .right {
-//     width: 100%;
-//   }
-// }
