@@ -2,9 +2,11 @@
   margin: 25px 0;
 }
 .customPagination {
+  margin-top: 38px;
     :global(.page-link:focus) {
     outline: none;
     box-shadow: none;
+    
   }
 
   :global(.page-link) {
@@ -35,10 +37,10 @@
   }
 
   /* Active */
-  :global(.active ) {
-    // border: 2px solid red;
+  :global(.num ) {
+    border: 2px solid red;
     color: red;
-    // background-color: #fff;
+    background-color: #fff;
   }
 
 //   /* Disabled */

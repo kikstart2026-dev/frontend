@@ -35,12 +35,12 @@ export default function Programs() {
                                 <button className="page-link arrow">&lt;</button>
                             </li>
 
-                            <li className="page-item ">
+                            <li className="page-item active">
                                 <button className="page-link num">1</button>
                             </li>
 
                             <li className="page-item">
-                                <button className="page-link num">2</button>
+                                <button className="page-link num2">2</button>
                             </li>
 
                             <li className="page-item arrow">
