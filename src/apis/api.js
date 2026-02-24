@@ -1,0 +1,17 @@
+import { axiosInstance } from "../Helper/Helper";
+import { endpoints } from "./endpoints/endpoints";
+
+export const signUp = async (payload) => {
+  const res = await axiosInstance.post(endpoints.signUp, payload);
+  return res.data;
+};
+
+export const login = async (payload) => {
+  const res = await axiosInstance.post(endpoints.login, payload);
+  return res.data;
+};
+
+export const contactUs = async (payload) => {
+  const res = await axiosInstance.post(endpoints.contactUs, payload);
+  return res.data;
+};

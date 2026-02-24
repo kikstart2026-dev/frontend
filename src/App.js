@@ -8,6 +8,7 @@ import SignUp from './Pages/Authentication/SignUp/SignUp';
 import SignIn from './Pages/Authentication/SignIn/SignIn';
 import ForgetPass from './Pages/Authentication/ForgetPass/ForgetPass';
 import ResetPass from './Pages/Authentication/ResetPass/ResetPass';
+import OtpVerified from './Pages/Authentication/OtpVerified/OtpVerified';
 
 import Home from './Pages/Home/Home';
 import FaqsPage from './Pages/Faqs-Page/FaqsPage';
@@ -22,10 +23,11 @@ import ProgramDeatailsPage from './Pages/ProgramDeatailsPage/ProgramDeatailsPage
 import ContactForm from './Component/ContactForm/ContactForm';
 
 
+
 function Layout() {
   const location = useLocation();
 
-  const authRoutes = ["/signup", "/signin", "/forget-pass", "/reset-pass"];
+  const authRoutes = ["/signup", "/signin", "/forget-pass", "/reset-pass", "/Otp"];
   const isAuthPage = authRoutes.includes(location.pathname);
 
   return (
@@ -38,15 +40,16 @@ function Layout() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/forget-pass" element={<ForgetPass />} />
         <Route path="/reset-pass" element={<ResetPass />} />
+        <Route path="/Otp" element={<OtpVerified />} />
 
         {/* Main Routes */}
         <Route path="/" element={<Home />} />
-         <Route path="/about" element={<AboutUs />} />
+        <Route path="/about" element={<AboutUs />} />
         <Route path="/faqs" element={<FaqsPage />} />
         <Route path="/contact" element={<ContactUs />} />
-         <Route path="/why-us" element={<WhyUs />} />
+        <Route path="/why-us" element={<WhyUs />} />
         <Route path="/Interested-Schools" element={<InterestedSchoolsPage />} />
-        <Route path="/programs" element={<Programs/>} />
+        <Route path="/programs" element={<Programs />} />
         <Route path="/enrolment-package" element={<EnrolmentPackage />} />
         <Route path="/ProgramDeatailsPage" element={<ProgramDeatailsPage />} />
         <Route path="/contactform" element={<ContactForm />} />

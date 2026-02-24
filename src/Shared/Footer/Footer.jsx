@@ -28,7 +28,13 @@ export default function Footer() {
               <p>Lorem ipsum dolor sit amet consectetur. Nunc id adipiscing at interdum eu viverra. </p>
               <div className={styles.sms}>
                 <img src={sms} alt="Email Icon" />
-                <p>info@KikStartKids.com</p>
+                <a 
+                  href="https://mail.google.com/mail/?view=cm&fs=1&to=kikstart2026@gmail.com&su=Contacting KikStart Support&body=Hello KikStart Team,%0D%0A%0D%0AI would like to contact you regarding..."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  kikstart2026@gmail.com
+                </a>
               </div>
             </div>
 
