@@ -9,12 +9,14 @@ import { useNavigate } from "react-router-dom";
 export default function OtpVerified() {
   const navigate = useNavigate();
 
-  const [otp, setOtp] = useState(["", "", "", ""]);
+  const email = localStorage.getItem("verifyEmail");
+
+  // 🔥 6 digit OTP
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState(30);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const inputsRef = useRef([]);
 
-  // Countdown timer
   useEffect(() => {
     let interval = null;
 
@@ -37,7 +39,7 @@ export default function OtpVerified() {
     newOtp[index] = value;
     setOtp(newOtp);
 
-    if (value && index < 3) {
+    if (value && index < 5) {
       inputsRef.current[index + 1].focus();
     }
   };
@@ -50,14 +52,26 @@ export default function OtpVerified() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const finalOtp = otp.join("");
-    console.log("Entered OTP:", finalOtp);
 
-    navigate("/resetpassword");
+    const finalOtp = otp.join("");
+
+    if (finalOtp.length !== 6) {
+      alert("Enter complete OTP ❌");
+      return;
+    }
+
+    console.log("Email:", email);
+    console.log("OTP:", finalOtp);
+
+    alert("OTP Verified ✅");
+
+    localStorage.removeItem("verifyEmail");
+
+    navigate("/");
   };
 
   const handleResendOtp = () => {
-    console.log("Resend OTP API Call");
+    console.log("Resend OTP API Call for:", email);
 
     setTimer(30);
     setIsResendDisabled(true);
@@ -68,7 +82,6 @@ export default function OtpVerified() {
       <div className={styles.resetpassWrap}>
         <div className="row">
 
-          {/* Left */}
           <div
             className={`col-6 ${styles.left}`}
             onClick={(e) => {
@@ -81,7 +94,6 @@ export default function OtpVerified() {
             <AuthLeft comment="Have an account?" linkName="SignIn" />
           </div>
 
-          {/* Right */}
           <div className={`col-6 ${styles.right}`}>
             <div className={styles.formBox}>
               <div className={styles.head}>
@@ -90,13 +102,11 @@ export default function OtpVerified() {
                 </figure>
                 <h2 className={styles.head2}>OTP Verification</h2>
                 <p className={styles.para}>
-                  Enter the 4-digit code sent to your email
+                  Enter the 6-digit code sent to your email
                 </p>
               </div>
 
               <form className={styles.authForm} onSubmit={handleSubmit}>
-
-                {/* OTP Boxes */}
                 <div
                   style={{
                     display: "flex",
@@ -131,7 +141,6 @@ export default function OtpVerified() {
                   ))}
                 </div>
 
-                {/* Resend OTP */}
                 <div style={{ textAlign: "center", marginBottom: "25px" }}>
                   {isResendDisabled ? (
                     <p style={{ color: "#494949", fontSize: "14px" }}>
@@ -161,7 +170,6 @@ export default function OtpVerified() {
                   text="VERIFY"
                   variant="primary"
                 />
-
               </form>
             </div>
           </div>
