@@ -7,8 +7,11 @@ import Button from "../../../Component/Buttons/Button";
 import { useNavigate } from "react-router-dom";
 
 export default function ResetPassword() {
+  const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -19,7 +22,7 @@ export default function ResetPassword() {
       return;
     }
 
-    const formData = { newPassword, confirmPassword };
+    const formData = { email, otp, newPassword, confirmPassword };
     console.log(formData);
   };
 
@@ -32,7 +35,6 @@ export default function ResetPassword() {
           <div
             className={`col-6 ${styles.left}`}
             onClick={(e) => {
-              // 🔥 If SignIn text clicked → go to /signin
               if (e.target.innerText === "SignIn") {
                 e.preventDefault();
                 navigate("/signin");
@@ -51,12 +53,47 @@ export default function ResetPassword() {
                 </figure>
                 <h2 className={styles.head2}>Reset Password</h2>
                 <p className={styles.para}>
-                  Please enter your new password
+                  Please enter your details below
                 </p>
               </div>
 
               <form className={styles.authForm} onSubmit={handleSubmit}>
 
+                {/* Email Field */}
+                <div className={styles.formGroup}>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      className={styles.inp}
+                      type="email"
+                      placeholder=" "
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                    <label className={styles.lbl}>
+                      Email
+                    </label>
+                  </div>
+                </div>
+
+                {/* OTP Field */}
+                <div className={styles.formGroup}>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      className={styles.inp}
+                      type="text"
+                      placeholder=" "
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value)}
+                      required
+                    />
+                    <label className={styles.lbl}>
+                      OTP
+                    </label>
+                  </div>
+                </div>
+
+                {/* New Password */}
                 <div className={styles.formGroup}>
                   <div className={styles.inputWrapper}>
                     <input
@@ -73,6 +110,7 @@ export default function ResetPassword() {
                   </div>
                 </div>
 
+                {/* Confirm Password */}
                 <div className={styles.formGroup}>
                   <div className={styles.inputWrapper}>
                     <input
