@@ -1,42 +1,22 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import "../../../Main.scss";
 import styles from "./SignUp.module.scss";
 import AuthLeft from "../../../Component/Authentication/AuthLeft/AuthLeft";
 import logo from "../../../assets/images/authLogo.png";
 import Button from "../../../Component/Buttons/Button";
 import { useMutation } from "@tanstack/react-query";
+import { signUp } from "../../../apis/api";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [location, setLocation] = useState("");
-  const [passcode, setPasscode] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [terms, setTerms] = useState(false);
+  const navigate = useNavigate();
+  const formRef = useRef(null);
+  const locationRef = useRef(null);
 
-  const { mutate, isPending } = useMutation({
-    mutationKey: ["signup"],
-    mutationFn: signup,
-
-    onSuccess: () => {
-      formref.current?.reset();
-      alert("Successful");
-    },
-
-    onError: (error) => {
-      console.error("FULL ERROR:", error?.response);
-      alert(
-        error?.response?.data?.message || "Something went wrong ❌"
-      );
-    },
-  });
-
-  // 🔥 LOCATION FUNCTION
+  // 📍 Location Function
   const handleGetLocation = () => {
     if (!navigator.geolocation) {
-      alert("Geolocation is not supported by your browser");
+      alert("Geolocation is not supported");
       return;
     }
 
@@ -50,39 +30,71 @@ export default function SignUp() {
           );
           const data = await response.json();
 
-          if (data.display_name) {
-            setLocation(data.display_name);
-          } else {
-            setLocation(`${latitude}, ${longitude}`);
-          }
-        } catch (error) {
-          setLocation(`${latitude}, ${longitude}`);
+          locationRef.current.value =
+            data.display_name || `${latitude}, ${longitude}`;
+        } catch {
+          locationRef.current.value = `${latitude}, ${longitude}`;
         }
       },
-      () => {
-        alert("Unable to retrieve your location");
-      }
+      () => alert("Unable to retrieve location")
     );
   };
+
+  // 🔥 Mutation
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["sign-up"],
+    mutationFn: signUp,
+    onSuccess: (_, variables) => {
+      localStorage.setItem("verifyEmail", variables.email);
+      alert("Account created successfully ✅");
+      formRef.current.reset();
+      navigate("/Otp");
+    },
+    onError: (error) => {
+      alert(error?.response?.data?.message || "Signup failed ❌");
+    },
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const formData = {};
+    const formData = new FormData(e.target);
 
-    console.log(formData);
+    const password = formData.get("password");
+    const confirmPassword = formData.get("confirmPassword");
+    const terms = formData.get("terms");
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match ❌");
+      return;
+    }
+
+    if (!terms) {
+      alert("Accept Terms & Conditions ❌");
+      return;
+    }
+
+    const payload = {
+      fullname: formData.get("fullname"),
+      email: formData.get("email"),
+      phone: formData.get("phone"),
+      location: formData.get("location"),
+      passcode: formData.get("passcode"),
+      password,
+      confirmPass: confirmPassword,
+    };
+
+    mutate(payload);
   };
 
   return (
     <div className={styles.signup}>
       <div className={styles.signupWrap}>
         <div className="row">
-          {/* Left */}
           <div className="col-6 left">
             <AuthLeft comment="Have an account?" linkName="SignIn" />
           </div>
 
-          {/* Right */}
           <div className={`col-6 ${styles.right}`}>
             <div className={styles.formBox}>
               <div className={styles.head}>
@@ -95,49 +107,44 @@ export default function SignUp() {
                 </p>
               </div>
 
-              <form className={styles.authForm} onSubmit={handleSubmit}>
+              <form
+                ref={formRef}
+                className={styles.authForm}
+                onSubmit={handleSubmit}
+              >
                 {/* Full Name */}
                 <div className={styles.inputWrapper}>
                   <input
+                    name="fullname"
                     className={styles.inp}
                     type="text"
                     placeholder=" "
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
                     required
                   />
                   <label className={styles.lbl}>Full Name</label>
                 </div>
 
-                {/* ✅ Email (Proper Email Only) */}
+                {/* Email */}
                 <div className={styles.inputWrapper}>
                   <input
+                    name="email"
                     className={styles.inp}
                     type="email"
                     placeholder=" "
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
                     required
                   />
                   <label className={styles.lbl}>Email</label>
                 </div>
 
-                {/* ✅ Phone (Only 10 Digit Number) */}
+                {/* Phone */}
                 <div className={styles.inputWrapper}>
                   <input
+                    name="phone"
                     className={styles.inp}
                     type="tel"
-                    placeholder=" "
-                    value={phone}
-                    onChange={(e) => {
-                      const onlyNums = e.target.value.replace(/\D/g, "");
-                      if (onlyNums.length <= 10) {
-                        setPhone(onlyNums);
-                      }
-                    }}
                     pattern="[0-9]{10}"
                     maxLength="10"
+                    placeholder=" "
                     required
                   />
                   <label className={styles.lbl}>Phone</label>
@@ -146,11 +153,11 @@ export default function SignUp() {
                 {/* Location */}
                 <div className={`${styles.inputWrapper} ${styles.locationWrapper}`}>
                   <input
+                    ref={locationRef}
+                    name="location"
                     className={`${styles.inp} ${styles.spInp}`}
                     type="text"
                     placeholder=" "
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
                     required
                   />
                   <label className={styles.lbl}>Location</label>
@@ -160,18 +167,17 @@ export default function SignUp() {
                     className={styles.locationBtn}
                     onClick={handleGetLocation}
                   >
-                    <i class="fa-solid fa-location-crosshairs"></i>
+                    <i className="fa-solid fa-location-crosshairs"></i>
                   </button>
                 </div>
 
                 {/* Passcode */}
                 <div className={styles.inputWrapper}>
                   <input
+                    name="passcode"
                     className={styles.inp}
                     type="text"
                     placeholder=" "
-                    value={passcode}
-                    onChange={(e) => setPasscode(e.target.value)}
                     required
                   />
                   <label className={styles.lbl}>Pass-Code</label>
@@ -180,11 +186,10 @@ export default function SignUp() {
                 {/* Password */}
                 <div className={styles.inputWrapper}>
                   <input
+                    name="password"
                     className={styles.inp}
                     type="password"
                     placeholder=" "
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
                     required
                   />
                   <label className={styles.lbl}>Desired Password</label>
@@ -193,11 +198,10 @@ export default function SignUp() {
                 {/* Confirm Password */}
                 <div className={styles.inputWrapper}>
                   <input
+                    name="confirmPassword"
                     className={styles.inp}
                     type="password"
                     placeholder=" "
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
                     required
                   />
                   <label className={styles.lbl}>Confirm Password</label>
@@ -206,10 +210,9 @@ export default function SignUp() {
                 {/* Terms */}
                 <div className={styles.checkboxGroup}>
                   <input
+                    name="terms"
                     className={styles.inp2}
                     type="checkbox"
-                    checked={terms}
-                    onChange={(e) => setTerms(e.target.checked)}
                   />
                   <label className={styles.lbl2}>
                     I agree to the Terms of Service and Privacy Policy
@@ -219,7 +222,8 @@ export default function SignUp() {
                 <Button
                   className={styles.submitBtn}
                   type="submit"
-                  text=" SIGN UP"
+                  text={isPending ? "SIGNING UP..." : "SIGN UP"}
+                  disabled={isPending}
                   variant="primary"
                 />
               </form>

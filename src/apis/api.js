@@ -11,6 +11,10 @@ export const login = async (payload) => {
   return res.data;
 };
 
+export const verifyOtp = async (payload) => {
+  const res = await axiosInstance.post(endpoints.verifyOtp, payload);
+  return res.data;
+}; 
 export const contactUs = async (payload) => {
   const res = await axiosInstance.post(endpoints.contactUs, payload);
   return res.data;
