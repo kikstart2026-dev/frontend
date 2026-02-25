@@ -29,7 +29,7 @@ export default function HomeBanner() {
                 </p>
 
                 <div className={styles.bannerBtn}>
-                  <Button
+                  <Button className={styles.editbtn}
                     text="SIGN UP NOW"
                     variant="primary"
                     onClick={() => navigate("/signup")}
