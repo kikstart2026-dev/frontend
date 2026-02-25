@@ -17,20 +17,28 @@ export default function OtpVerified() {
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const inputsRef = useRef([]);
 
+  // 🔥 Redirect if email missing
+  useEffect(() => {
+    if (!email) {
+      navigate("/signup");
+    }
+  }, [email, navigate]);
+
   // 🔥 VERIFY MUTATION
   const { mutate, isPending } = useMutation({
     mutationKey: ["verify-otp"],
     mutationFn: verifyOtp,
     onSuccess: (data) => {
-      alert(data?.message || "Account verified ✅");
+      alert(data?.message || "Account verified successfully ✅");
       localStorage.removeItem("verifyEmail");
-      navigate("/signin");
+      navigate("/");
     },
     onError: (error) => {
       alert(error?.response?.data?.message || "OTP verification failed ❌");
     },
   });
 
+  // 🔥 Timer logic
   useEffect(() => {
     let interval = null;
 
@@ -54,13 +62,13 @@ export default function OtpVerified() {
     setOtp(newOtp);
 
     if (value && index < 5) {
-      inputsRef.current[index + 1].focus();
+      inputsRef.current[index + 1]?.focus();
     }
   };
 
   const handleKeyDown = (e, index) => {
     if (e.key === "Backspace" && !otp[index] && index > 0) {
-      inputsRef.current[index - 1].focus();
+      inputsRef.current[index - 1]?.focus();
     }
   };
 
@@ -69,14 +77,20 @@ export default function OtpVerified() {
 
     const finalOtp = otp.join("");
 
+    if (!email) {
+      alert("Email not found. Please signup again ❌");
+      navigate("/signup");
+      return;
+    }
+
     if (finalOtp.length !== 6) {
       alert("Enter complete OTP ❌");
       return;
     }
 
     mutate({
-      email,
-      otp: finalOtp,
+      email: email.trim().toLowerCase(),
+      otp: Number(finalOtp),
     });
   };
 
@@ -91,7 +105,6 @@ export default function OtpVerified() {
     <div className={styles.resetpass}>
       <div className={styles.resetpassWrap}>
         <div className="row">
-
           <div
             className={`col-6 ${styles.left}`}
             onClick={(e) => {
@@ -184,7 +197,6 @@ export default function OtpVerified() {
               </form>
             </div>
           </div>
-
         </div>
       </div>
     </div>
