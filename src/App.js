@@ -14,7 +14,6 @@ import FaqsPage from './Pages/Faqs-Page/FaqsPage';
 import AboutUs from './Pages/About-Us-Page/AboutUs';
 import WhyUs from './Pages/WhyUs-Page/WhyUs';
 import ContactUs from './Pages/Contact-Us/ContactUs';
-// import ChildrenDetails from '../src/Pages/Form&Details/ChildrenDetails/ChildrenDetails';
 import InterestedSchoolsPage from './Pages/InterestedSchoolsPage/InterestedSchoolsPage';
 import Programs from './Pages/Programs-Page/Programs';
 import EnrolmentPackage from './Pages/EnrolmentPackage/EnrolmentPackage';
