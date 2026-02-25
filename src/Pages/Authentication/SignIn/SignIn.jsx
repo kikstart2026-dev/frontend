@@ -17,11 +17,18 @@ export default function SignIn() {
     mutationKey: ["login"],
     mutationFn: login,
     onSuccess: (data) => {
-      alert("Login successful ✅");
       console.log("Login Response:", data);
 
+      if (data?.requiresOtp) {
+        // 🔥 Save email for OTP verify page
+        localStorage.setItem("verifyEmail", data.email);
 
-      navigate("/"); 
+        alert("OTP sent to your email 📩");
+        navigate("/Otp");
+      } else {
+        alert("Login successful ✅");
+        navigate("/");
+      }
     },
     onError: (error) => {
       alert(error?.response?.data?.message || "Login failed ❌");
