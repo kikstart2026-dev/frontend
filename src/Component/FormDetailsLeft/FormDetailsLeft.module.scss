@@ -1,0 +1,66 @@
+.sidebar {
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  &::after {
+  content: "";
+  position: absolute;
+  top: 80px;              // first icon er center theke start
+  right: 47px;            // icon er center alignment (adjust korte paro)
+  width: 2px;
+  height: 65%;
+  background: #cfcfcf;
+}
+}
+
+.step {
+   display: flex;
+  justify-content: space-between;
+
+  .title{
+    margin-top: 10px;
+  }
+}
+
+
+.iconWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.iconCircle {
+
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: #e0e0e0;   // default grey circle
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.iconCircle img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.active {
+//   background: #ed1c24;   // active hole red circle
+}
+
+.line {
+  width: 2px;
+  height: 50px;
+  margin-top: 5px;
+}
