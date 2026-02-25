@@ -119,7 +119,7 @@
     align-items: center;
     padding: 5px 10px;
     width: 100%;
-    max-width: 266px;
+    max-width: 256px;
     box-sizing: border-box;
     margin-top: 15px;
     background: #FFFFFF;
@@ -134,22 +134,20 @@
     font-size: 16px;
     outline: none;
     color: #333;
-    width: 170px;
-    margin-right: 16px;
-    /* gap এর বদলে margin */
+    width: 160px;
+    margin-right: 15px;
   }
 
   .submitBtn {
     position: relative;
-    border: none;
-    padding: 5px;
-    min-width: 50px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    padding: 5px;
+    width: 50px;
+    height: 50px;
     box-sizing: border-box;
     background: #ED1C24;
+    border: 2px solid #FFFFFF;
     border-radius: 15px;
     cursor: pointer;
     overflow: hidden;
@@ -160,10 +158,10 @@
     position: relative;
     z-index: 2;
     color: #ffffff;
-    font-size: 30px;
-    line-height: 1;
-    display: inline-block;
-    padding: 0 5px;
+    font-size: 28px;
+    line-height: 1;          
+    padding: 0 ;
+
   }
 
   .submitBtn::before {
