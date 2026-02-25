@@ -1,5 +1,8 @@
 .call {
   background-color: #FFF8F8;
+  max-width: 100%;
+  margin: 0 auto;
+
 }
 
 .nav-bar {
@@ -7,6 +10,8 @@
   align-items: center;
   padding: 15px;
   position: relative;
+  margin: 0 auto;
+  max-width: 1540px;
 }
 
 /* Logo */

@@ -4,10 +4,13 @@
 
 
 .cardWrapper {
-  margin-bottom: 24px;
+  margin-top: 24px;
 }
 
 .customPagination {
+
+    margin-top: 38px;
+    
     :global(.page-link:focus) {
     outline: none;
     box-shadow: none;
@@ -41,10 +44,10 @@
   }
 
   /* Active */
-  :global(.active ) {
-    // border: 2px solid red;
+  :global(.num ) {
+    border: 2px solid red;
     color: red;
-    // background-color: #fff;
+    background-color: #fff;
   }
 
 //   /* Disabled */

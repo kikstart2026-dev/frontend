@@ -4,10 +4,6 @@
     margin: 30px 30px;
   }
 
-  .left {
-    // display: flex;
-    // align-items: center;
-  }
 
   .right {
     display: flex;
@@ -65,7 +61,7 @@
 
     .inp {
       width: 100%;
-     padding: 31px 20px;
+     padding: 40px 20px 20px 20px;  
       border-radius: 15px;
       border: 1px solid #B3B3B3;
       font-size: 16px;
@@ -80,9 +76,9 @@
 
       &:focus + .lbl,
       &:not(:placeholder-shown) + .lbl {
-        top: 12px;
-        font-size: 13px;
-        color: #ff2d2d;
+        top: 32px;
+        font-size: 14px;
+        // color: #ff2d2d;
       }
     }
 
@@ -92,11 +88,11 @@
       top: 50%;
       transform: translateY(-50%);
       font-size: 16px;
-      color: #bdbdbd;
+      color: #B3B3B3;
       transition: all 0.3s ease;
       pointer-events: none;
-      background: white;
-      padding: 0 5px;
+      // background: white;
+      // padding: 0 5px;
     }
 
     .submitBtn {

@@ -4,7 +4,7 @@
 * {
   margin: 0;
   padding: 0;
-  line-height: 1.4;
+  box-sizing: border-box;
 }
 
 h1,
@@ -23,7 +23,6 @@ html,
 body {
   margin: 0;
   padding: 0;
-  width: 100%;
   overflow-x: hidden; 
 }
 
@@ -36,7 +35,6 @@ body {
 img {
   max-width: 100%;
   height: auto;
-  display: block;
 }
 
 .common-space {
@@ -53,12 +51,12 @@ img {
 
 /* Scrollbar width */
 ::-webkit-scrollbar {
-  width: 14px;
+  width: 12px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #FFF8F8;
+  background: transparent;
   border-radius: 10px;
 }
 
@@ -66,12 +64,4 @@ img {
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-color: #ED1C24;
-
-  background-image: repeating-linear-gradient(
-    135deg,
-    #FFF8F8 0px,
-    rgb(254, 209, 209) 6px,
-    transparent 6px,
-    transparent 12px
-  );
 }
