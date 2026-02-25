@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Cookies from "js-cookie";
 import "../../../Main.scss";
 import styles from "./SignIn.module.scss";
 import AuthLeft from "../../../Component/Authentication/AuthLeft/AuthLeft";
@@ -17,19 +18,22 @@ export default function SignIn() {
     mutationKey: ["login"],
     mutationFn: login,
     onSuccess: (data) => {
-      console.log("Login Response:", data);
+  console.log("Login Response:", data);
 
-      if (data?.requiresOtp) {
-        // 🔥 Save email for OTP verify page
-        localStorage.setItem("verifyEmail", data.email);
+  if (data?.requiresOtp) {
+    localStorage.setItem("verifyEmail", data.email);
+    alert("OTP sent to your email 📩");
+    navigate("/Otp");
+  } else {
+    // ✅ TOKEN SAVE
+    if (data?.token) {
+      Cookies.set("token", data.token, { expires: 7 });
+    }
 
-        alert("OTP sent to your email 📩");
-        navigate("/Otp");
-      } else {
-        alert("Login successful ✅");
-        navigate("/");
-      }
-    },
+    alert("Login successful ✅");
+    navigate("/");
+  }
+},
     onError: (error) => {
       alert(error?.response?.data?.message || "Login failed ❌");
     },
