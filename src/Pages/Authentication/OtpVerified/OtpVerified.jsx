@@ -5,17 +5,31 @@ import AuthLeft from "../../../Component/Authentication/AuthLeft/AuthLeft";
 import logo from "../../../assets/images/authLogo.png";
 import Button from "../../../Component/Buttons/Button";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { verifyOtp } from "../../../apis/api";
 
 export default function OtpVerified() {
   const navigate = useNavigate();
-
   const email = localStorage.getItem("verifyEmail");
 
-  // 🔥 6 digit OTP
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState(30);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const inputsRef = useRef([]);
+
+  // 🔥 VERIFY MUTATION
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["verify-otp"],
+    mutationFn: verifyOtp,
+    onSuccess: (data) => {
+      alert(data?.message || "Account verified ✅");
+      localStorage.removeItem("verifyEmail");
+      navigate("/signin");
+    },
+    onError: (error) => {
+      alert(error?.response?.data?.message || "OTP verification failed ❌");
+    },
+  });
 
   useEffect(() => {
     let interval = null;
@@ -60,14 +74,10 @@ export default function OtpVerified() {
       return;
     }
 
-    console.log("Email:", email);
-    console.log("OTP:", finalOtp);
-
-    alert("OTP Verified ✅");
-
-    localStorage.removeItem("verifyEmail");
-
-    navigate("/");
+    mutate({
+      email,
+      otp: finalOtp,
+    });
   };
 
   const handleResendOtp = () => {
@@ -167,7 +177,8 @@ export default function OtpVerified() {
                 <Button
                   className={styles.submitBtn}
                   type="submit"
-                  text="VERIFY"
+                  text={isPending ? "VERIFYING..." : "VERIFY"}
+                  disabled={isPending}
                   variant="primary"
                 />
               </form>

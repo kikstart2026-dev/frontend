@@ -6,17 +6,17 @@ import logo from "../../../assets/images/authLogo.png";
 import Button from "../../../Component/Buttons/Button";
 import { useMutation } from "@tanstack/react-query";
 import { signUp } from "../../../apis/api";
-import { useNavigate } from "react-router-dom";   // ✅ added
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
+  const navigate = useNavigate();
   const formRef = useRef(null);
-  const locationInputRef = useRef(null);
-  const navigate = useNavigate();   // ✅ added
+  const locationRef = useRef(null);
 
-  // 📍 Get Location
+  // 📍 Location Function
   const handleGetLocation = () => {
     if (!navigator.geolocation) {
-      alert("Geolocation not supported ❌");
+      alert("Geolocation is not supported");
       return;
     }
 
@@ -25,42 +25,32 @@ export default function SignUp() {
         const { latitude, longitude } = position.coords;
 
         try {
-          const res = await fetch(
+          const response = await fetch(
             `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
           );
-          const data = await res.json();
+          const data = await response.json();
 
-          if (data.display_name) {
-            locationInputRef.current.value = data.display_name;
-          } else {
-            locationInputRef.current.value = `${latitude}, ${longitude}`;
-          }
+          locationRef.current.value =
+            data.display_name || `${latitude}, ${longitude}`;
         } catch {
-          locationInputRef.current.value = `${latitude}, ${longitude}`;
+          locationRef.current.value = `${latitude}, ${longitude}`;
         }
       },
-      () => {
-        alert("Unable to retrieve location ❌");
-      }
+      () => alert("Unable to retrieve location")
     );
   };
 
+  // 🔥 Mutation
   const { mutate, isPending } = useMutation({
     mutationKey: ["sign-up"],
     mutationFn: signUp,
-
     onSuccess: () => {
       alert("Account created successfully ✅");
-      formRef.current?.reset();
-
-      navigate("/Otp");   // ✅ redirect added
+      formRef.current.reset();
+      navigate("/Otp");
     },
-
     onError: (error) => {
-      console.error("Signup Error:", error?.response);
-      alert(
-        error?.response?.data?.message || "Signup failed ❌"
-      );
+      alert(error?.response?.data?.message || "Signup failed ❌");
     },
   });
 
@@ -70,14 +60,15 @@ export default function SignUp() {
     const formData = new FormData(e.target);
 
     const password = formData.get("password");
-    const confirmPass = formData.get("confirmPass");
+    const confirmPassword = formData.get("confirmPassword");
+    const terms = formData.get("terms");
 
-    if (password !== confirmPass) {
+    if (password !== confirmPassword) {
       alert("Passwords do not match ❌");
       return;
     }
 
-    if (!formData.get("terms")) {
+    if (!terms) {
       alert("Accept Terms & Conditions ❌");
       return;
     }
@@ -88,8 +79,8 @@ export default function SignUp() {
       phone: formData.get("phone"),
       location: formData.get("location"),
       passcode: formData.get("passcode"),
-      password: password,
-      confirmPass: confirmPass,
+      password,
+      confirmPass: confirmPassword,
     };
 
     mutate(payload);
@@ -110,6 +101,9 @@ export default function SignUp() {
                   <img src={logo} alt="logo" />
                 </figure>
                 <h2 className={styles.head2}>Sign up</h2>
+                <p className={styles.para}>
+                  Please fill this form to create your account.
+                </p>
               </div>
 
               <form
@@ -117,33 +111,52 @@ export default function SignUp() {
                 className={styles.authForm}
                 onSubmit={handleSubmit}
               >
+                {/* Full Name */}
                 <div className={styles.inputWrapper}>
-                  <input name="fullname" className={styles.inp} required />
+                  <input
+                    name="fullname"
+                    className={styles.inp}
+                    type="text"
+                    placeholder=" "
+                    required
+                  />
                   <label className={styles.lbl}>Full Name</label>
                 </div>
 
+                {/* Email */}
                 <div className={styles.inputWrapper}>
-                  <input name="email" type="email" className={styles.inp} required />
+                  <input
+                    name="email"
+                    className={styles.inp}
+                    type="email"
+                    placeholder=" "
+                    required
+                  />
                   <label className={styles.lbl}>Email</label>
                 </div>
 
+                {/* Phone */}
                 <div className={styles.inputWrapper}>
                   <input
                     name="phone"
+                    className={styles.inp}
                     type="tel"
                     pattern="[0-9]{10}"
                     maxLength="10"
-                    className={styles.inp}
+                    placeholder=" "
                     required
                   />
                   <label className={styles.lbl}>Phone</label>
                 </div>
 
+                {/* Location */}
                 <div className={`${styles.inputWrapper} ${styles.locationWrapper}`}>
                   <input
-                    ref={locationInputRef}
+                    ref={locationRef}
                     name="location"
                     className={`${styles.inp} ${styles.spInp}`}
+                    type="text"
+                    placeholder=" "
                     required
                   />
                   <label className={styles.lbl}>Location</label>
@@ -157,30 +170,51 @@ export default function SignUp() {
                   </button>
                 </div>
 
+                {/* Passcode */}
                 <div className={styles.inputWrapper}>
-                  <input name="passcode" className={styles.inp} required />
+                  <input
+                    name="passcode"
+                    className={styles.inp}
+                    type="text"
+                    placeholder=" "
+                    required
+                  />
                   <label className={styles.lbl}>Pass-Code</label>
                 </div>
 
+                {/* Password */}
                 <div className={styles.inputWrapper}>
-                  <input name="password" type="password" className={styles.inp} required />
+                  <input
+                    name="password"
+                    className={styles.inp}
+                    type="password"
+                    placeholder=" "
+                    required
+                  />
                   <label className={styles.lbl}>Desired Password</label>
                 </div>
 
+                {/* Confirm Password */}
                 <div className={styles.inputWrapper}>
                   <input
-                    name="confirmPass"
-                    type="password"
+                    name="confirmPassword"
                     className={styles.inp}
+                    type="password"
+                    placeholder=" "
                     required
                   />
                   <label className={styles.lbl}>Confirm Password</label>
                 </div>
 
+                {/* Terms */}
                 <div className={styles.checkboxGroup}>
-                  <input type="checkbox" name="terms" />
+                  <input
+                    name="terms"
+                    className={styles.inp2}
+                    type="checkbox"
+                  />
                   <label className={styles.lbl2}>
-                    I agree to the Terms of Service
+                    I agree to the Terms of Service and Privacy Policy
                   </label>
                 </div>
 
