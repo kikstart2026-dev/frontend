@@ -24,7 +24,7 @@ export default function OtpVerified() {
     onSuccess: (data) => {
       alert(data?.message || "Account verified ✅");
       localStorage.removeItem("verifyEmail");
-      navigate("/signin");
+      navigate("/");
     },
     onError: (error) => {
       alert(error?.response?.data?.message || "OTP verification failed ❌");
