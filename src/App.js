@@ -30,6 +30,7 @@ import ProgramDeatailsPage from "./Pages/ProgramDeatailsPage/ProgramDeatailsPage
 import ContactForm from "./Component/ContactForm/ContactForm";
 import FormDetails from "./Pages/FormDetails/ChildrenDetails/ChildrenDetails";
 import ChildrenDetailsForm from "./Component/ChildrenDetailsForm/ChildrenDetailsForm";
+import SchoolDetailsForm from "./Component/SchoolDetailsForm/SchoolDetailsForm";
 
 
 // ================= PROTECTED ROUTE =================
@@ -154,7 +155,10 @@ function Layout() {
         <Route path="/contactform" element={<ContactForm />} />
         <Route path="/formDetails" element={<FormDetails />} />
 
+
+
         <Route path="/ChildrenDetailsForm" element={<ChildrenDetailsForm />} />
+        <Route path="/SchoolDetailsForm" element={<SchoolDetailsForm />} />
       </Routes>
 
       {!isAuthPage && <Footer />}
