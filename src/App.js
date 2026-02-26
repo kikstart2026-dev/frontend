@@ -28,19 +28,20 @@ import Programs from "./Pages/Programs-Page/Programs";
 import EnrolmentPackage from "./Pages/EnrolmentPackage/EnrolmentPackage";
 import ProgramDeatailsPage from "./Pages/ProgramDeatailsPage/ProgramDeatailsPage";
 import ContactForm from "./Component/ContactForm/ContactForm";
-import FormDetails from './Pages/FormDetails/ChildrenDetails/ChildrenDetails';
+import FormDetails from "./Pages/FormDetails/ChildrenDetails/ChildrenDetails";
+import ChildrenDetailsForm from "./Component/ChildrenDetailsForm/ChildrenDetailsForm";
+
 
 // ================= PROTECTED ROUTE =================
-function ProtectedRoute({ children }) {
-  const token = Cookies.get("token");
+// function ProtectedRoute({ children }) {
+//   const token = Cookies.get("token");
 
-  if (!token) {
-    return <Navigate to="/signin" replace />;
-  }
+//   if (!token) {
+//     return <Navigate to="/signin" replace />;
+//   }
 
-  return children;
-}
-
+//   return children;
+// }
 
 // ================= AUTH ROUTE =================
 // Logged in user যেন signup/signin এ যেতে না পারে
@@ -54,7 +55,6 @@ function AuthRoute({ children }) {
   return children;
 }
 
-
 // ================= OTP ROUTE =================
 // Only accessible if verifyEmail exists
 function OtpRoute({ children }) {
@@ -66,7 +66,6 @@ function OtpRoute({ children }) {
 
   return children;
 }
-
 
 // ================= LAYOUT =================
 function Layout() {
@@ -87,7 +86,6 @@ function Layout() {
       {!isAuthPage && <Header />}
 
       <Routes>
-
         {/* ================= AUTH ROUTES ================= */}
         <Route
           path="/signup"
@@ -134,17 +132,17 @@ function Layout() {
           }
         />
 
-
         {/* ================= MAIN ROUTES ================= */}
-        <Route
+        {/* <Route
           path="/"
           element={
             <ProtectedRoute>
               <Home />
             </ProtectedRoute>
           }
-        />
+        /> */}
 
+        <Route path="/" element={<Home />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/faqs" element={<FaqsPage />} />
         <Route path="/contact" element={<ContactUs />} />
@@ -154,15 +152,15 @@ function Layout() {
         <Route path="/enrolment-package" element={<EnrolmentPackage />} />
         <Route path="/ProgramDeatailsPage" element={<ProgramDeatailsPage />} />
         <Route path="/contactform" element={<ContactForm />} />
+        <Route path="/formDetails" element={<FormDetails />} />
 
-         <Route path="/formDetails" element={<FormDetails />} />
+        <Route path="/ChildrenDetailsForm" element={<ChildrenDetailsForm />} />
       </Routes>
 
       {!isAuthPage && <Footer />}
     </>
   );
 }
-
 
 // ================= APP =================
 function App() {
