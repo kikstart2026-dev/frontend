@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import styles from "./ChildrenDetailsForm.module.scss";
+import styles2 from "../SchoolDetailsForm/SchoolDetailsForm.module.scss";
 import Button from "../Buttons/Button";
 
 export default function ChildrenDetailsForm() {
@@ -186,14 +187,14 @@ export default function ChildrenDetailsForm() {
             />
 
           </div>
-
-          <Button
-            className={styles.nextBtn}
-            type="submit"
-            text="NEXT"
-            variant="primary"
-          />
-
+          <div className={`${styles2.btns}`}>
+            <Button
+              className={styles.nextBtn}
+              type="submit"
+              text="NEXT"
+              variant="primary"
+            />
+          </div>
         </form>
 
       </div>
