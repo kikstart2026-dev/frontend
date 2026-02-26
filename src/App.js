@@ -34,15 +34,15 @@ import SchoolDetailsForm from "./Component/SchoolDetailsForm/SchoolDetailsForm";
 
 
 // ================= PROTECTED ROUTE =================
-// function ProtectedRoute({ children }) {
-//   const token = Cookies.get("token");
+function ProtectedRoute({ children }) {
+  const token = Cookies.get("token");
 
-//   if (!token) {
-//     return <Navigate to="/signin" replace />;
-//   }
+  if (!token) {
+    return <Navigate to="/signin" replace />;
+  }
 
-//   return children;
-// }
+  return children;
+}
 
 // ================= AUTH ROUTE =================
 // Logged in user যেন signup/signin এ যেতে না পারে
@@ -134,14 +134,14 @@ function Layout() {
         />
 
         {/* ================= MAIN ROUTES ================= */}
-        {/* <Route
+        <Route
           path="/"
           element={
             <ProtectedRoute>
               <Home />
             </ProtectedRoute>
           }
-        /> */}
+        />
 
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<AboutUs />} />
