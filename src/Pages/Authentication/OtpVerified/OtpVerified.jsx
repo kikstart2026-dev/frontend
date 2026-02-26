@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
+import Cookies from "js-cookie";
 import "../../../Main.scss";
 import styles from "../ResetPass/ResetPass.module.scss";
 import AuthLeft from "../../../Component/Authentication/AuthLeft/AuthLeft";
@@ -6,7 +7,7 @@ import logo from "../../../assets/images/authLogo.png";
 import Button from "../../../Component/Buttons/Button";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { verifyOtp } from "../../../apis/api";
+import { verifyOtp, resendOtp } from "../../../apis/api";
 
 export default function OtpVerified() {
   const navigate = useNavigate();
@@ -17,20 +18,48 @@ export default function OtpVerified() {
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const inputsRef = useRef([]);
 
-  // 🔥 VERIFY MUTATION
+  // 🔥 VERIFY OTP MUTATION
   const { mutate, isPending } = useMutation({
     mutationKey: ["verify-otp"],
     mutationFn: verifyOtp,
     onSuccess: (data) => {
-      alert(data?.message || "Account verified ✅");
-      localStorage.removeItem("verifyEmail");
-      navigate("/");
+      if (data?.token) {
+        Cookies.set("token", data.token, { expires: 7 });
+
+        setTimeout(() => {
+          navigate("/", { replace: true });
+        }, 100);
+      }
     },
     onError: (error) => {
       alert(error?.response?.data?.message || "OTP verification failed ❌");
     },
   });
 
+  // 🔥 RESEND OTP MUTATION (FIXED)
+  const { mutate: resendMutate, isPending: isResendPending } = useMutation({
+    mutationKey: ["resend-otp"],
+    mutationFn: resendOtp,
+    onSuccess: (data) => {
+      alert(data?.message || "OTP resent successfully ✅");
+
+      // 🔥 CLEAR OTP INPUTS
+      setOtp(["", "", "", "", "", ""]);
+
+      // 🔥 Focus first input
+      if (inputsRef.current[0]) {
+        inputsRef.current[0].focus();
+      }
+
+      setTimer(30);
+      setIsResendDisabled(true);
+    },
+    onError: (error) => {
+      alert(error?.response?.data?.message || "Resend failed ❌");
+    },
+  });
+
+  // ⏳ TIMER
   useEffect(() => {
     let interval = null;
 
@@ -46,6 +75,7 @@ export default function OtpVerified() {
     return () => clearInterval(interval);
   }, [timer, isResendDisabled]);
 
+  // 🔐 OTP INPUT CHANGE
   const handleChange = (value, index) => {
     if (!/^[0-9]?$/.test(value)) return;
 
@@ -64,6 +94,7 @@ export default function OtpVerified() {
     }
   };
 
+  // ✅ VERIFY SUBMIT
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -80,18 +111,22 @@ export default function OtpVerified() {
     });
   };
 
+  // 🔁 RESEND FUNCTION
   const handleResendOtp = () => {
-    console.log("Resend OTP API Call for:", email);
-
-    setTimer(30);
-    setIsResendDisabled(true);
+    resendMutate({ email });
   };
+
+  // 🔒 If no email found
+  useEffect(() => {
+    if (!email) {
+      navigate("/signin");
+    }
+  }, [email, navigate]);
 
   return (
     <div className={styles.resetpass}>
       <div className={styles.resetpassWrap}>
         <div className="row">
-
           <div
             className={`col-6 ${styles.left}`}
             onClick={(e) => {
@@ -132,12 +167,8 @@ export default function OtpVerified() {
                       maxLength="1"
                       value={digit}
                       ref={(el) => (inputsRef.current[index] = el)}
-                      onChange={(e) =>
-                        handleChange(e.target.value, index)
-                      }
-                      onKeyDown={(e) =>
-                        handleKeyDown(e, index)
-                      }
+                      onChange={(e) => handleChange(e.target.value, index)}
+                      onKeyDown={(e) => handleKeyDown(e, index)}
                       style={{
                         width: "70px",
                         height: "70px",
@@ -154,22 +185,24 @@ export default function OtpVerified() {
                 <div style={{ textAlign: "center", marginBottom: "25px" }}>
                   {isResendDisabled ? (
                     <p style={{ color: "#494949", fontSize: "14px" }}>
-                      Resend OTP in <strong>{timer}s</strong>
+                      {isResendPending ? "Sending..." : "Resend OTP"} in{" "}
+                      <strong>{timer}s</strong>
                     </p>
                   ) : (
                     <button
                       type="button"
                       onClick={handleResendOtp}
+                      disabled={isResendPending}
                       style={{
                         background: "none",
                         border: "none",
                         color: "#ff2d2d",
                         fontWeight: "600",
-                        cursor: "pointer",
+                        cursor: isResendPending ? "not-allowed" : "pointer",
                         fontSize: "14px",
                       }}
                     >
-                      Resend OTP
+                      {isResendPending ? "Sending..." : "Resend OTP"}
                     </button>
                   )}
                 </div>
@@ -184,7 +217,6 @@ export default function OtpVerified() {
               </form>
             </div>
           </div>
-
         </div>
       </div>
     </div>

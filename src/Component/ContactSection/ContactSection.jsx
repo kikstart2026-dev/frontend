@@ -41,9 +41,13 @@ export default function ContactSection() {
                             <div className={styles.icon}>
                                 <img src={sms} alt="sms" />
                             </div>
-                            <Link to="/email" className={styles.emailLink}>
-                                info@KikStartKids.com
-                            </Link>
+                            <a className={styles.emailLink}
+                  href="https://mail.google.com/mail/?view=cm&fs=1&to=kikstart2026@gmail.com&su=Contacting KikStart Support&body=Hello KikStart Team,%0D%0A%0D%0AI would like to contact you regarding..."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  kikstart2026@gmail.com
+                </a>
                         </div>
                     </div>
 
