@@ -28,7 +28,7 @@ import Programs from "./Pages/Programs-Page/Programs";
 import EnrolmentPackage from "./Pages/EnrolmentPackage/EnrolmentPackage";
 import ProgramDeatailsPage from "./Pages/ProgramDeatailsPage/ProgramDeatailsPage";
 import ContactForm from "./Component/ContactForm/ContactForm";
-import FormDetails from "./Pages/FormDetails/ChildrenDetails/ChildrenDetails";
+import ChildrenDetails from "./Pages/FormDetails/ChildrenDetails/ChildrenDetails";
 import ChildrenDetailsForm from "./Component/ChildrenDetailsForm/ChildrenDetailsForm";
 
 
@@ -152,7 +152,7 @@ function Layout() {
         <Route path="/enrolment-package" element={<EnrolmentPackage />} />
         <Route path="/ProgramDeatailsPage" element={<ProgramDeatailsPage />} />
         <Route path="/contactform" element={<ContactForm />} />
-        <Route path="/formDetails" element={<FormDetails />} />
+        <Route path="/Childrendetails" element={<ChildrenDetails />} />
 
         <Route path="/ChildrenDetailsForm" element={<ChildrenDetailsForm />} />
       </Routes>

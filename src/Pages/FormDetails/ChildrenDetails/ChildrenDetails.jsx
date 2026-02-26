@@ -2,6 +2,7 @@ import React from "react";
 import FormDetailsLeft from "../../../Component/FormDetailsLeft/FormDetailsLeft";
 import styles from "./ChildrenDetails.module.scss";
 import "../../../Main.scss"; 
+import ChildrenDetailsForm from "../../../Component/ChildrenDetailsForm/ChildrenDetailsForm";
 
 
 export default function ChildrenDetails() {
@@ -25,7 +26,7 @@ export default function ChildrenDetails() {
           </div>
 
           <div className="col-7">
-            <div className={styles.right}>jkkj</div>
+            <div className={styles.right}> <ChildrenDetailsForm/> </div>
           </div>
 
         </div>

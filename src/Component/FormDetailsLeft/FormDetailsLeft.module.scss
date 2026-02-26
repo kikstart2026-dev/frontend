@@ -1,5 +1,4 @@
 .sidebar {
-  padding: 30px 20px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -7,10 +6,10 @@
   &::after {
   content: "";
   position: absolute;
-  top: 80px;              // first icon er center theke start
-  right: 47px;            // icon er center alignment (adjust korte paro)
+  top: 50px;              // first icon er center theke start
+  right: 27px;            // icon er center alignment (adjust korte paro)
   width: 2px;
-  height: 65%;
+  height: 75%;
   background: #cfcfcf;
 }
 }
