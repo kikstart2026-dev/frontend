@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import sms from "../../assets/images/sms.png";
+import arrow from "../../assets/images/arrow.png";
 import styles from "./Footer.module.scss";   // 👈 change here
 
 const quickLinks = [
@@ -65,12 +66,13 @@ export default function Footer() {
               <p>Enter the email to subscribe our newsletter</p>
               <div className={styles.search}>
                 <input
-                  type="text"
+                  type="email"
                   placeholder="Enter Email"
                   className={styles.searchInput}
                 />
                 <button className={styles.submitBtn} type="submit">
-                  <span>→</span>
+                  <span><img src={arrow} alt="arrow"/>
+                  </span>
                 </button>
               </div>
             </div>
