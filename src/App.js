@@ -30,18 +30,19 @@ import ProgramDeatailsPage from "./Pages/ProgramDeatailsPage/ProgramDeatailsPage
 import ContactForm from "./Component/ContactForm/ContactForm";
 import ChildrenDetails from "./Pages/FormDetails/ChildrenDetails/ChildrenDetails";
 import ChildrenDetailsForm from "./Component/ChildrenDetailsForm/ChildrenDetailsForm";
+import SchoolDetailsForm from "./Component/SchoolDetailsForm/SchoolDetailsForm";
 
 
 // ================= PROTECTED ROUTE =================
-// function ProtectedRoute({ children }) {
-//   const token = Cookies.get("token");
+function ProtectedRoute({ children }) {
+  const token = Cookies.get("token");
 
-//   if (!token) {
-//     return <Navigate to="/signin" replace />;
-//   }
+  if (!token) {
+    return <Navigate to="/signin" replace />;
+  }
 
-//   return children;
-// }
+  return children;
+}
 
 // ================= AUTH ROUTE =================
 // Logged in user যেন signup/signin এ যেতে না পারে
@@ -133,14 +134,14 @@ function Layout() {
         />
 
         {/* ================= MAIN ROUTES ================= */}
-        {/* <Route
+        <Route
           path="/"
           element={
             <ProtectedRoute>
               <Home />
             </ProtectedRoute>
           }
-        /> */}
+        />
 
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<AboutUs />} />
@@ -154,7 +155,10 @@ function Layout() {
         <Route path="/contactform" element={<ContactForm />} />
         <Route path="/Childrendetails" element={<ChildrenDetails />} />
 
+
+
         <Route path="/ChildrenDetailsForm" element={<ChildrenDetailsForm />} />
+        <Route path="/SchoolDetailsForm" element={<SchoolDetailsForm />} />
       </Routes>
 
       {!isAuthPage && <Footer />}
