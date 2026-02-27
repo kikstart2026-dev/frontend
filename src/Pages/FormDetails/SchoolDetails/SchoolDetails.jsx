@@ -1,11 +1,11 @@
 import React from "react";
 import FormDetailsLeft from "../../../Component/FormDetailsLeft/FormDetailsLeft";
-import styles from "./ChildrenDetails.module.scss";
+import styles from "./SchoolDetails.module.scss";
 import "../../../Main.scss"; 
-import ChildrenDetailsForm from "../../../Component/ChildrenDetailsForm/ChildrenDetailsForm";
+import SchoolDetailsForm from "../../../Component/SchoolDetailsForm/SchoolDetailsForm";
 
 
-export default function ChildrenDetails() {
+export default function SchoolDetails() {
   return (
     <div className="container">
       <div className={styles.heading}>
@@ -21,12 +21,12 @@ export default function ChildrenDetails() {
           
           <div className= "col-5">
             <div className={styles.left}>
-              <FormDetailsLeft activeStep={0} />
+              <FormDetailsLeft activeStep={1} />
             </div>
           </div>
 
           <div className="col-7">
-            <div className={styles.right}> <ChildrenDetailsForm/> </div>
+            <div className={styles.right}> <SchoolDetailsForm/> </div>
           </div>
 
         </div>

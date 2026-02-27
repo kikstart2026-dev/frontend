@@ -2,27 +2,20 @@
   display: flex;
   flex-direction: column;
   position: relative;
-
-  &::after {
-  content: "";
-  position: absolute;
-  top: 50px;              // first icon er center theke start
-  right: 27px;            // icon er center alignment (adjust korte paro)
-  width: 2px;
-  height: 75%;
-  background: #cfcfcf;
-}
 }
 
 .step {
-   display: flex;
+  display: flex;
   justify-content: space-between;
-
-  .title{
-    margin-top: 10px;
-  }
+  margin-bottom: 5px;
 }
 
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2B2B2B;
+  margin-top: 15px;
+}
 
 .iconWrapper {
   display: flex;
@@ -30,36 +23,65 @@
   align-items: center;
 }
 
-.title {
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
-}
-
 .iconCircle {
-
   width: 55px;
   height: 55px;
   border-radius: 50%;
-  background: #e0e0e0;   // default grey circle
+  background: #E9E9E9;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: 0.3s ease;
   z-index: 2;
 }
 
+/* Default Icon → #1A1A1A */
 .iconCircle img {
   width: 24px;
   height: 24px;
-  object-fit: contain;
+  transition: 0.3s ease;
+  filter: brightness(0) saturate(100%);
 }
 
-.active {
-//   background: #ed1c24;   // active hole red circle
+/* ========================= */
+/* SUB ACTIVE STATE */
+/* ========================= */
+
+.subActive {
+  background: #FFF8F8;
 }
+
+/* SubActive Icon → #ED1C24 */
+.subActive img {
+  filter: invert(17%) sepia(96%) saturate(7470%) hue-rotate(357deg)
+    brightness(96%) contrast(112%);
+}
+
+/* ========================= */
+/* COMPLETED STATE */
+/* ========================= */
+
+.completed {
+  background: #ed1c24;
+}
+
+/* Completed Icon → #FFFFFF */
+.completed img {
+  filter: brightness(0) invert(1);
+}
+
+/* ========================= */
+/* LINE */
+/* ========================= */
 
 .line {
   width: 2px;
-  height: 50px;
+  height: 60px;
+  background: #E9E9E9;
   margin-top: 5px;
+  transition: 0.3s ease;
+}
+
+.lineActive {
+  background: #ed1c24;
 }

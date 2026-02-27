@@ -8,36 +8,61 @@ import waiverIcon from "../../assets/images/waiver.png";
 import programIcon from "../../assets/images/program.png";
 
 const StepSidebar = ({ activeStep = 0 }) => {
- const steps = [
-    { id: 1, title: "Children Details", icon: childIcon },
-    { id: 2, title: "School Details", icon: schoolIcon },
-    { id: 3, title: "Waiver Acceptance", icon: waiverIcon },
-    { id: 4, title: "Program Details", icon: programIcon },
+
+  const steps = [
+    { id: 0, title: "Children Details", icon: childIcon },
+    { id: 1, title: "School Details", icon: schoolIcon },
+    { id: 2, title: "Waiver Acceptance", icon: waiverIcon },
+    { id: 3, title: "Program Details", icon: programIcon },
   ];
 
   return (
-    <div className="container">
     <div className={styles.sidebar}>
-      {steps.map((step, index) => (
-        <div key={step.id} className={styles.step}>
-          <div className={styles.title}>{step.title}</div>
+      {steps.map((step, index) => {
 
-          <div className={styles.iconWrapper}>
-             <div
-                 className={`${styles.iconCircle} ${
-                 activeStep === index ? styles.active : ""
-                 }`}
-               >
-               <img src={step.icon} alt={step.title} />
-         </div>
+        const isCompleted = index < activeStep;
+        const isActive = index === activeStep;
 
-  {index !== steps.length - 1 && (
-    <div className={styles.line}></div>
-  )}
-</div>
-        </div>
-      ))}
-    </div>
+        return (
+          <div key={step.id} className={styles.step}>
+
+            <div className={styles.title}>
+              {step.title}
+            </div>
+
+            <div className={styles.iconWrapper}>
+
+              <div
+                className={`
+                  ${styles.iconCircle}
+                  ${isCompleted ? styles.completed : ""}
+                  ${isActive ? styles.subActive : ""}
+                `}
+              >
+                <img
+                  src={step.icon}
+                  alt={step.title}
+                  className={`
+                    ${isActive ? styles.iconSubActive : ""}
+                    ${isCompleted ? styles.iconCompleted : ""}
+                  `}
+                />
+              </div>
+
+              {index !== steps.length - 1 && (
+                <div
+                  className={`
+                    ${styles.line}
+                    ${index < activeStep ? styles.lineActive : ""}
+                  `}
+                ></div>
+              )}
+
+            </div>
+
+          </div>
+        );
+      })}
     </div>
   );
 };
