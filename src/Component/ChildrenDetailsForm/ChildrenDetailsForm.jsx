@@ -98,10 +98,6 @@ export default function ChildrenDetailsForm() {
               className={styles.inp}
               type="text"
               placeholder=" "
-<<<<<<< HEAD
-             
-=======
->>>>>>> 489dee7c2c8ac2d58a69b9c313d10142dfa7e452
             />
             <label className={styles.lbl}>Full Name</label>
           </div>
