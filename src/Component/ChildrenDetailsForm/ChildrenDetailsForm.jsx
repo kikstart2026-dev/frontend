@@ -1,17 +1,20 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./ChildrenDetailsForm.module.scss";
 import styles2 from "../SchoolDetailsForm/SchoolDetailsForm.module.scss";
 import Button from "../Buttons/Button";
-import { useNavigate } from "react-router-dom";   // ✅ Correct import
 
 export default function ChildrenDetailsForm() {
-
-  const navigate = useNavigate();   // ✅ Hook top level e
+  const navigate = useNavigate();
 
   const [allergy, setAllergy] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+
   const locationRef = useRef(null);
   const fileRef = useRef(null);
+  const dropdownRef = useRef(null);
 
+  /* ---------------- Location ---------------- */
   const handleGetLocation = () => {
     if (!navigator.geolocation) {
       alert("Geolocation is not supported");
@@ -38,10 +41,26 @@ export default function ChildrenDetailsForm() {
     );
   };
 
+  /* ---------------- Upload ---------------- */
   const handleUpload = () => {
     fileRef.current.click();
   };
 
+  /* ---------------- Outside Click Close ---------------- */
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  /* ---------------- Submit ---------------- */
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -60,21 +79,19 @@ export default function ChildrenDetailsForm() {
 
     console.log(data);
 
-    // ✅ Correct navigation
-    navigate("/schooldetails");
+    navigate("/Schooldetails");
   };
 
   return (
     <div className={styles.childrenForm}>
       <div className={styles.formBox}>
-
         <div className={styles.head}>
           <h2>Children Details</h2>
           <p>Lorem ipsum dolor sit amet consectetur</p>
         </div>
 
         <form className={styles.form} onSubmit={handleSubmit}>
-
+          {/* Name */}
           <div className={styles.inputWrapper}>
             <input
               name="name"
@@ -85,6 +102,7 @@ export default function ChildrenDetailsForm() {
             <label className={styles.lbl}>Full Name</label>
           </div>
 
+          {/* Location */}
           <div className={`${styles.inputWrapper} ${styles.locationWrapper}`}>
             <input
               ref={locationRef}
@@ -104,32 +122,50 @@ export default function ChildrenDetailsForm() {
             </button>
           </div>
 
+          {/* Age */}
           <div className={styles.inputWrapper}>
-            <input name="age" className={styles.inp} type="text" placeholder=" " />
+            <input
+              name="age"
+              className={styles.inp}
+              type="text"
+              placeholder=" "
+            />
             <label className={styles.lbl}>Age</label>
           </div>
 
+          {/* Food Habit */}
           <div className={styles.inputWrapper}>
-            <input name="foodHabit" className={styles.inp} type="text" placeholder=" " />
+            <input
+              name="foodHabit"
+              className={styles.inp}
+              type="text"
+              placeholder=" "
+            />
             <label className={styles.lbl}>Food Habit</label>
           </div>
 
-          <div className={styles.inputWrapper}>
+          {/* Allergy Dropdown */}
+          <div className={styles.inputWrapper} ref={dropdownRef}>
             <div className={`dropdown ${styles.customDropdown}`}>
               <button
                 className={`${styles.dropdownBtn} ${allergy ? styles.active : ""}`}
                 type="button"
-                data-bs-toggle="dropdown"
+                onClick={() => setIsOpen(!isOpen)}
               >
                 {allergy || ""}
               </button>
 
-              <ul className="dropdown-menu">
+              <ul
+                className={`dropdown-menu ${isOpen ? "show" : ""}`}
+              >
                 <li>
                   <button
                     type="button"
                     className="dropdown-item"
-                    onClick={() => setAllergy("Yes")}
+                    onClick={() => {
+                      setAllergy("Yes");
+                      setIsOpen(false);
+                    }}
                   >
                     Yes
                   </button>
@@ -139,7 +175,10 @@ export default function ChildrenDetailsForm() {
                   <button
                     type="button"
                     className="dropdown-item"
-                    onClick={() => setAllergy("No")}
+                    onClick={() => {
+                      setAllergy("No");
+                      setIsOpen(false);
+                    }}
                   >
                     No
                   </button>
@@ -147,21 +186,36 @@ export default function ChildrenDetailsForm() {
               </ul>
             </div>
 
-            <label className={`${styles.lbl} ${allergy ? styles.lblActive : ""}`}>
+            <label
+              className={`${styles.lbl} ${allergy ? styles.lblActive : ""}`}
+            >
               Have Any Type Of Allergy?
             </label>
           </div>
 
+          {/* Allergy Details */}
           <div className={styles.inputWrapper}>
-            <input name="allergyDetails" className={styles.inp} type="text" placeholder=" " />
+            <input
+              name="allergyDetails"
+              className={styles.inp}
+              type="text"
+              placeholder=" "
+            />
             <label className={styles.lbl}>Allergy Details</label>
           </div>
 
+          {/* Disease */}
           <div className={styles.inputWrapper}>
-            <input name="disease" className={styles.inp} type="text" placeholder=" " />
+            <input
+              name="disease"
+              className={styles.inp}
+              type="text"
+              placeholder=" "
+            />
             <label className={styles.lbl}>Any Prolong Disease</label>
           </div>
 
+          {/* Upload */}
           <div className={styles.uploadWrapper}>
             <span className={styles.uploadText}>
               Upload image Within size of 5MB
@@ -175,15 +229,10 @@ export default function ChildrenDetailsForm() {
               UPLOAD
             </button>
 
-            <input
-              type="file"
-              name="image"
-              ref={fileRef}
-              hidden
-            />
+            <input type="file" name="image" ref={fileRef} hidden />
           </div>
 
-          <div className={`${styles2.btns}`}>
+          <div className={styles2.btns}>
             <Button
               className={styles.nextBtn}
               type="submit"
@@ -191,7 +240,6 @@ export default function ChildrenDetailsForm() {
               variant="primary"
             />
           </div>
-
         </form>
       </div>
     </div>

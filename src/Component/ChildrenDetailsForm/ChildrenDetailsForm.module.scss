@@ -65,8 +65,8 @@
         pointer-events: none;
       }
 
-      .inp:focus + .lbl,
-      .inp:not(:placeholder-shown) + .lbl {
+      .inp:focus+.lbl,
+      .inp:not(:placeholder-shown)+.lbl {
         top: 22px;
         font-size: 14px;
         color: #9b9b9b;
@@ -80,6 +80,19 @@
 
     .customDropdown {
       width: 100%;
+      position: relative;
+    }
+
+    .dropdown-menu {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid #e4e4e4;
+      padding: 6px;
+      margin-top: 6px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      position: absolute;
+      top: 100%;
+      left: 0;
     }
 
     .dropdownBtn {
@@ -100,20 +113,15 @@
       }
     }
 
-    .dropdown-menu {
+    .dropdownItem {
       width: 100%;
-      border-radius: 12px;
-      border: 1px solid #e4e4e4;
-      padding: 6px;
-      margin-top: 6px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-    }
-
-    .dropdown-item {
+      text-align: left;
+      border: none;
+      background: transparent;
       border-radius: 8px;
       padding: 10px 15px;
       font-size: 15px;
-      transition: 0.2s;
+      cursor: pointer;
 
       &:hover {
         background: #f5f5f5;
@@ -164,6 +172,7 @@
       transition: 0.3s ease;
       padding: 16px 40px;
       width: fit-content;
+
       &:active {
         transform: scale(0.96);
       }
