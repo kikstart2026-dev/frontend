@@ -98,7 +98,7 @@ export default function ChildrenDetailsForm() {
               className={styles.inp}
               type="text"
               placeholder=" "
-              required
+             
             />
             <label className={styles.lbl}>Full Name</label>
           </div>
