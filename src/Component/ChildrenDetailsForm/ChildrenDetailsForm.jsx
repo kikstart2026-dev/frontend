@@ -2,8 +2,11 @@ import React, { useState, useRef } from "react";
 import styles from "./ChildrenDetailsForm.module.scss";
 import styles2 from "../SchoolDetailsForm/SchoolDetailsForm.module.scss";
 import Button from "../Buttons/Button";
+import { useNavigate } from "react-router-dom";
 
 export default function ChildrenDetailsForm() {
+
+  const navigate = useNavigate();   // 👈 add
 
   const [allergy, setAllergy] = useState("");
   const locationRef = useRef(null);
@@ -56,6 +59,10 @@ export default function ChildrenDetailsForm() {
     };
 
     console.log(data);
+    console.log("Navigating...");
+
+    // 👇 After submit → go next page
+    navigate("/SchoolDetails");
   };
 
   return (
@@ -71,7 +78,7 @@ export default function ChildrenDetailsForm() {
 
           {/* Name */}
           <div className={styles.inputWrapper}>
-            <input name="name" className={styles.inp} type="text" placeholder=" " required />
+            <input name="name" className={styles.inp} type="text" placeholder=" "/> {/* I remove required temporarily */}
             <label className={styles.lbl}>Full Name</label>
           </div>
 
@@ -109,9 +116,7 @@ export default function ChildrenDetailsForm() {
 
           {/* Allergy Dropdown */}
           <div className={styles.inputWrapper}>
-
             <div className={`dropdown ${styles.customDropdown}`}>
-
               <button
                 className={`${styles.dropdownBtn} ${allergy ? styles.active : ""}`}
                 type="button"
@@ -121,7 +126,6 @@ export default function ChildrenDetailsForm() {
               </button>
 
               <ul className="dropdown-menu">
-
                 <li>
                   <button
                     type="button"
@@ -141,15 +145,12 @@ export default function ChildrenDetailsForm() {
                     No
                   </button>
                 </li>
-
               </ul>
-
             </div>
 
             <label className={`${styles.lbl} ${allergy ? styles.lblActive : ""}`}>
               Have Any Type Of Allergy?
             </label>
-
           </div>
 
           {/* Allergy Details */}
@@ -166,7 +167,6 @@ export default function ChildrenDetailsForm() {
 
           {/* Upload */}
           <div className={styles.uploadWrapper}>
-
             <span className={styles.uploadText}>
               Upload image Within size of 5MB
             </span>
@@ -185,8 +185,8 @@ export default function ChildrenDetailsForm() {
               ref={fileRef}
               hidden
             />
-
           </div>
+
           <div className={`${styles2.btns}`}>
             <Button
               className={styles.nextBtn}
@@ -195,8 +195,8 @@ export default function ChildrenDetailsForm() {
               variant="primary"
             />
           </div>
-        </form>
 
+        </form>
       </div>
     </div>
   );

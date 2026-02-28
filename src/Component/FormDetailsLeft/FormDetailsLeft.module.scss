@@ -12,7 +12,13 @@
   font-weight: 700;
   color: #2B2B2B;
   margin-top: 16px;
-  text-align: right;   /* 👈 eta add korbe */
+  text-align: right;
+  transition: 0.3s ease;
+}
+
+/* ONLY COMPLETED STEP TITLE RED */
+.titleCompleted {
+  color: #ED1C24;
 }
 
 

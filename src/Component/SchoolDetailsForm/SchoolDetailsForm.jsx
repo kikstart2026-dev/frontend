@@ -35,6 +35,7 @@ export default function SchoolDetailsForm() {
         );
     };
 
+    // NEXT
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -47,8 +48,12 @@ export default function SchoolDetailsForm() {
 
         console.log(data);
 
-        // NEXT page
-        navigate("/waiver");
+        navigate("/WaiverAcceptance");   // ✅ next page
+    };
+
+    // BACK
+    const handleBack = () => {
+        navigate("/ChildrenDetails");    // ✅ previous page
     };
 
     return (
@@ -69,7 +74,6 @@ export default function SchoolDetailsForm() {
                             className={styles.inp}
                             type="text"
                             placeholder=" "
-                            required
                         />
                         <label className={styles.lbl}>School Name</label>
                     </div>
@@ -82,7 +86,7 @@ export default function SchoolDetailsForm() {
                             className={`${styles.inp} ${styles.spInp}`}
                             type="text"
                             placeholder=" "
-                        />
+                        /> {/* I remove required temporarily */}
                         <label className={styles.lbl}>School Location</label>
 
                         <button
@@ -102,7 +106,7 @@ export default function SchoolDetailsForm() {
                             type="button"
                             text="BACK"
                             variant="dark"
-                            onClick={() => navigate("/childrendetails")}
+                            onClick={handleBack}
                         />
 
                         {/* NEXT BUTTON */}
@@ -114,8 +118,8 @@ export default function SchoolDetailsForm() {
                         />
 
                     </div>
-                </form>
 
+                </form>
             </div>
         </div>
     );

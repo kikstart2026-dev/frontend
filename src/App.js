@@ -160,7 +160,7 @@ function Layout() {
         <Route path="/Childrendetails" element={<ChildrenDetails />} />
         <Route path="/Schooldetails" element={<SchoolDetails/>} />
         <Route path="/WaiverAcceptance" element={<WaiverAcceptance/>} />
-        <Route path="/PogramDetailss" element={<ProgramDetailss/>} />
+        <Route path="/ProgramDetailss" element={<ProgramDetailss/>} />
 
 
 

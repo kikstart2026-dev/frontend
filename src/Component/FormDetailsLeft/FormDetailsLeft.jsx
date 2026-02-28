@@ -26,14 +26,19 @@ const StepSidebar = ({ activeStep = 0 }) => {
         return (
           <div key={step.id} className="row align-items-start">
 
-            {/* TITLE LEFT */}
+            {/* TITLE */}
             <div className="col-8">
-              <div className={styles.title}>
+              <div
+                className={`
+                  ${styles.title}
+                  ${isCompleted ? styles.titleCompleted : ""}
+                `}
+              >
                 {step.title}
               </div>
             </div>
 
-            {/* ICON RIGHT */}
+            {/* ICON */}
             <div className="col-4 d-flex flex-column align-items-center">
 
               <div
