@@ -1,27 +1,21 @@
 .sidebar {
-  display: flex;
-  flex-direction: column;
-  position: relative;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .step {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 5px;
+  margin-bottom: 35px;
 }
 
 .title {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   color: #2B2B2B;
-  margin-top: 15px;
+  margin-top: 16px;
+  text-align: right;   /* 👈 eta add korbe */
 }
 
-.iconWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+
 
 .iconCircle {
   width: 55px;
@@ -32,54 +26,41 @@
   justify-content: center;
   align-items: center;
   transition: 0.3s ease;
-  z-index: 2;
 }
 
-/* Default Icon → #1A1A1A */
+/* Default Icon */
 .iconCircle img {
   width: 24px;
   height: 24px;
-  transition: 0.3s ease;
   filter: brightness(0) saturate(100%);
+  transition: 0.3s ease;
 }
 
-/* ========================= */
-/* SUB ACTIVE STATE */
-/* ========================= */
-
+/* SUB ACTIVE */
 .subActive {
   background: #FFF8F8;
 }
 
-/* SubActive Icon → #ED1C24 */
 .subActive img {
   filter: invert(17%) sepia(96%) saturate(7470%) hue-rotate(357deg)
     brightness(96%) contrast(112%);
 }
 
-/* ========================= */
-/* COMPLETED STATE */
-/* ========================= */
-
+/* COMPLETED */
 .completed {
   background: #ed1c24;
 }
 
-/* Completed Icon → #FFFFFF */
 .completed img {
   filter: brightness(0) invert(1);
 }
 
-/* ========================= */
 /* LINE */
-/* ========================= */
-
 .line {
   width: 2px;
   height: 60px;
   background: #E9E9E9;
-  margin-top: 5px;
-  transition: 0.3s ease;
+  margin: 2px 0 2px 0;
 }
 
 .lineActive {

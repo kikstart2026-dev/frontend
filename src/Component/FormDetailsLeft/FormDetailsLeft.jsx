@@ -17,20 +17,24 @@ const StepSidebar = ({ activeStep = 0 }) => {
   ];
 
   return (
-    <div className={styles.sidebar}>
+    <div className={`container ${styles.sidebar}`}>
       {steps.map((step, index) => {
 
         const isCompleted = index < activeStep;
         const isActive = index === activeStep;
 
         return (
-          <div key={step.id} className={styles.step}>
+          <div key={step.id} className="row align-items-start">
 
-            <div className={styles.title}>
-              {step.title}
+            {/* TITLE LEFT */}
+            <div className="col-8">
+              <div className={styles.title}>
+                {step.title}
+              </div>
             </div>
 
-            <div className={styles.iconWrapper}>
+            {/* ICON RIGHT */}
+            <div className="col-4 d-flex flex-column align-items-center">
 
               <div
                 className={`
@@ -39,14 +43,7 @@ const StepSidebar = ({ activeStep = 0 }) => {
                   ${isActive ? styles.subActive : ""}
                 `}
               >
-                <img
-                  src={step.icon}
-                  alt={step.title}
-                  className={`
-                    ${isActive ? styles.iconSubActive : ""}
-                    ${isCompleted ? styles.iconCompleted : ""}
-                  `}
-                />
+                <img src={step.icon} alt={step.title} />
               </div>
 
               {index !== steps.length - 1 && (

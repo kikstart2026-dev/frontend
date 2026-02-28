@@ -17,15 +17,15 @@ export default function SchoolDetails() {
        
 
       <div className={styles.totalWrapper}>
-        <div className= "row">
+        <div className= "row g-0">
           
-          <div className= "col-5">
+          <div className= "col-4">
             <div className={styles.left}>
               <FormDetailsLeft activeStep={1} />
             </div>
           </div>
 
-          <div className="col-7">
+          <div className="col-8">
             <div className={styles.right}> <SchoolDetailsForm/> </div>
           </div>
 

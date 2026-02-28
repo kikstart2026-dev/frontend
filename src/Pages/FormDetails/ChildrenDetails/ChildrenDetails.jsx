@@ -4,34 +4,35 @@ import styles from "./ChildrenDetails.module.scss";
 import "../../../Main.scss"; 
 import ChildrenDetailsForm from "../../../Component/ChildrenDetailsForm/ChildrenDetailsForm";
 
-
 export default function ChildrenDetails() {
   return (
     <div className="container">
+      
       <div className={styles.heading}>
         <h2 className={styles.head2}>Fill the form</h2>
-       <p className={styles.para}>
+        <p className={styles.para}>
           Lorem ipsum dolor sit amet consectetur
-       </p>
+        </p>
       </div>
-       
 
       <div className={styles.totalWrapper}>
-        <div className= "row">
+        <div className="row g-0"> {/* remove bootstrap gutter */}
           
-          <div className= "col-5">
+          <div className="col-4">
             <div className={styles.left}>
               <FormDetailsLeft activeStep={0} />
             </div>
           </div>
 
-          <div className="col-7">
-            <div className={styles.right}> <ChildrenDetailsForm/> </div>
+          <div className="col-8">
+            <div className={styles.right}>
+              <ChildrenDetailsForm />
+            </div>
           </div>
 
         </div>
       </div>
+
     </div>
   );
 }
-      
