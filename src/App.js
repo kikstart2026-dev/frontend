@@ -33,6 +33,8 @@ import ChildrenDetailsForm from "./Component/ChildrenDetailsForm/ChildrenDetails
 import SchoolDetailsForm from "./Component/SchoolDetailsForm/SchoolDetailsForm";
 import SchoolDetails from "./Pages/FormDetails/SchoolDetails/SchoolDetails";
 import FormParas from "./Component/FormPara/FormParas";
+import WaiverAcceptance from "./Pages/FormDetails/WaiverAcceptance/WaiverAcceptance";
+import ProgramDetailss from "./Pages/FormDetails/ProgramDetailss/ProgramDetailss";
 
 
 // ================= PROTECTED ROUTE =================
@@ -157,6 +159,8 @@ function Layout() {
         <Route path="/contactform" element={<ContactForm />} />
         <Route path="/Childrendetails" element={<ChildrenDetails />} />
         <Route path="/Schooldetails" element={<SchoolDetails/>} />
+        <Route path="/WaiverAcceptance" element={<WaiverAcceptance/>} />
+        <Route path="/PogramDetailss" element={<ProgramDetailss/>} />
 
 
 

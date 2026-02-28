@@ -1,0 +1,31 @@
+.heading {
+  text-align: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+
+  .head2 {
+    font-size: 26px;
+    color: #2B2B2B;
+  }
+
+  .para {
+    font-size: 15px;
+    color: #494949;
+  }
+}
+
+.totalWrapper {
+  background: #FFFFFF;
+  border: 1px solid #E9E9E9;
+  border-radius: 30px;
+  overflow: hidden; /* prevent layout overflow */
+
+  .left {
+    padding: 40px 65px 0 50px;     /* balanced padding */
+  }
+
+  .right {
+    border-left: 1px solid #E9E9E9;
+    padding: 40px 60px;   /* reduced from 88px */
+  }
+}
