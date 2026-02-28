@@ -10,7 +10,7 @@ import { useMutation } from "@tanstack/react-query";
 import { login } from "../../../apis/api";
 
 export default function SignIn() {
-  const [loginType, setLoginType] = useState("email"); // toggle রাখলাম
+  const [loginType, setLoginType] = useState("email");
   const navigate = useNavigate();
 
   // 🔥 Mutation

@@ -11,6 +11,16 @@ export const login = async (payload) => {
   return res.data;
 };
 
+export const forgotPass = async (payload) => {
+  const res = await axiosInstance.post(endpoints.forgotPass, payload);
+  return res.data;
+};
+
+export const reetPass = async (payload) => {
+  const res = await axiosInstance.post(endpoints.reetPass, payload);
+  return res.data;
+};
+
 export const verifyOtp = async (payload) => {
   const res = await axiosInstance.post(endpoints.verifyOtp, payload);
   return res.data;
