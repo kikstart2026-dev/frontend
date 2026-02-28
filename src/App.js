@@ -32,6 +32,7 @@ import ChildrenDetails from "./Pages/FormDetails/ChildrenDetails/ChildrenDetails
 import ChildrenDetailsForm from "./Component/ChildrenDetailsForm/ChildrenDetailsForm";
 import SchoolDetailsForm from "./Component/SchoolDetailsForm/SchoolDetailsForm";
 import SchoolDetails from "./Pages/FormDetails/SchoolDetails/SchoolDetails";
+import FormParas from "./Component/FormPara/FormParas";
 
 
 // ================= PROTECTED ROUTE =================
@@ -145,7 +146,7 @@ function Layout() {
         />
 
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<AboutUs />} />
+        <Route path="/about" element={<AboutUs/>} />
         <Route path="/faqs" element={<FaqsPage />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/why-us" element={<WhyUs />} />
