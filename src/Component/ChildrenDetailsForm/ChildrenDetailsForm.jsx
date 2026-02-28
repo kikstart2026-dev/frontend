@@ -1,9 +1,12 @@
 import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./ChildrenDetailsForm.module.scss";
 import styles2 from "../SchoolDetailsForm/SchoolDetailsForm.module.scss";
 import Button from "../Buttons/Button";
 
 export default function ChildrenDetailsForm() {
+
+   const navigate = useNavigate();
 
   const [allergy, setAllergy] = useState("");
   const locationRef = useRef(null);
@@ -57,6 +60,9 @@ export default function ChildrenDetailsForm() {
 
     console.log(data);
   };
+
+  // NEXT PAGE
+  navigate("/Schooldetails");
 
   return (
     <div className={styles.childrenForm}>
@@ -193,6 +199,7 @@ export default function ChildrenDetailsForm() {
               type="submit"
               text="NEXT"
               variant="primary"
+              onClick={() => navigate("/Schooldetails")}
             />
           </div>
         </form>

@@ -48,7 +48,7 @@ export default function SchoolDetailsForm() {
         console.log(data);
 
         // NEXT page
-        navigate("/waiver");
+        navigate("/WaiverAcceptance");
     };
 
     return (
@@ -111,6 +111,7 @@ export default function SchoolDetailsForm() {
                             type="submit"
                             text="NEXT"
                             variant="primary"
+                            onClick={() => navigate("/WaiverAcceptance")}
                         />
 
                     </div>

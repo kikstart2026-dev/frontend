@@ -55,6 +55,8 @@ export default function ProgramDeatails() {
           Lorem faucibus egestas tortor id nibh hendrerit massa tortor mi. Scelerisque nunc quis risus nunc in. Vitae at purus sit nec suspendisse donec enim senectus scelerisque. In sed risus nisl posuere molestie. Vel massa augue in fermentum.
         </p>
 
+        
+
       </div>
     </section>
   );

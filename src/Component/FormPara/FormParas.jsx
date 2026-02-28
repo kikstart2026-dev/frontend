@@ -1,9 +1,11 @@
 import React from 'react'
+import { useNavigate } from "react-router-dom";
 import styles from './FormParas.module.scss'
 import CmnHeading from '../CmnHeading/CmnHeading'
 import Button from '../Buttons/Button'
 
 export default function FormParas({ checked, onChange }) {
+    const navigate = useNavigate();
     return (
         <div>
             <div className={styles["para-head"]}>
@@ -44,10 +46,18 @@ export default function FormParas({ checked, onChange }) {
 
             <div className={styles.btns}>
                 <div className={styles["btn-b"]}>
-                    <Button text="back" variant="dark" />
+                    <Button 
+                    text="back" 
+                    variant="dark"
+                    onClick={() => navigate("/Schooldetails")}
+                    />
                 </div>
                 <div className={styles["btn-r"]}>
-                    <Button text="next" variant="primary" />
+                    <Button 
+                    text="next" 
+                    variant="primary"
+                    onClick={() => navigate("/PogramDetailss")}  
+                    />
                 </div>
             </div>
         </div>

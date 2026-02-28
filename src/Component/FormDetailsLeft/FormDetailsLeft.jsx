@@ -28,9 +28,13 @@ const StepSidebar = ({ activeStep = 0 }) => {
 
             {/* TITLE LEFT */}
             <div className="col-8">
-              <div className={styles.title}>
-                {step.title}
-              </div>
+             <div className={`
+                ${styles.title}
+                ${isActive ? styles.activeTitle : ""}
+                ${isCompleted ? styles.completedTitle : ""}
+              `}>
+              {step.title}
+            </div>
             </div>
 
             {/* ICON RIGHT */}
