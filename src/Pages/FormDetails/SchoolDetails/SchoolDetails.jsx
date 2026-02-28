@@ -3,17 +3,14 @@ import FormDetailsLeft from "../../../Component/FormDetailsLeft/FormDetailsLeft"
 import styles from "./SchoolDetails.module.scss";
 import "../../../Main.scss"; 
 import SchoolDetailsForm from "../../../Component/SchoolDetailsForm/SchoolDetailsForm";
+import FillFormHeading from "../../../Component/FillFormHeading/FillFormHeading";
 
 
 export default function SchoolDetails() {
   return (
     <div className="container">
-      <div className={styles.heading}>
-        <h1 className={styles.head2}>Fill the form</h1>
-       <p className={styles.para}>
-          Lorem ipsum dolor sit amet consectetur
-       </p>
-      </div>
+      
+      <FillFormHeading/>
        
 
       <div className={styles.totalWrapper}>
