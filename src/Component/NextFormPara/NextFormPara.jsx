@@ -1,9 +1,11 @@
 import React from 'react'
 import './NextFormPara.scss'
+import { useNavigate } from "react-router-dom";
 import CmnHeading from '../CmnHeading/CmnHeading'
 import Button from '../Buttons/Button'
 
 export default function NextFormPara({ name, duration }) {
+    const navigate = useNavigate();
     return (
         <div>
             <div className="para-head">
@@ -42,10 +44,18 @@ export default function NextFormPara({ name, duration }) {
 
             <div className="btns">
                 <div className="btn-b">
-                    <Button text="back" variant="dark" />
+                    <Button 
+                    text="back" 
+                    variant="dark"
+                    onClick={() => navigate("/WaiverAcceptance")}  
+                     />
                 </div>
                 <div className="btn-r">
-                    <Button text="next" variant="primary" />
+                    <Button 
+                    text="next" 
+                    variant="primary"
+                    onClick={() => navigate("/enrolment-package")}  
+                     />
                 </div>
             </div>
 
