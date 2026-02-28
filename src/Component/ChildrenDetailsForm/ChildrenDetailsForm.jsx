@@ -2,9 +2,11 @@ import React, { useState, useRef } from "react";
 import styles from "./ChildrenDetailsForm.module.scss";
 import styles2 from "../SchoolDetailsForm/SchoolDetailsForm.module.scss";
 import Button from "../Buttons/Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";   // ✅ Correct import
 
 export default function ChildrenDetailsForm() {
+
+  const navigate = useNavigate();   // ✅ Hook top level e
 
   const [allergy, setAllergy] = useState("");
   const locationRef = useRef(null);
@@ -57,12 +59,10 @@ export default function ChildrenDetailsForm() {
     };
 
     console.log(data);
-    console.log("Navigating...");
 
-    // 👇 After submit → go next page
-    navigate("/SchoolDetails");
+    // ✅ Correct navigation
+    navigate("/schooldetails");
   };
-
 
   return (
     <div className={styles.childrenForm}>
@@ -75,13 +75,16 @@ export default function ChildrenDetailsForm() {
 
         <form className={styles.form} onSubmit={handleSubmit}>
 
-          {/* Name */}
           <div className={styles.inputWrapper}>
-            <input name="name" className={styles.inp} type="text" placeholder=" "/> {/* I remove required temporarily */}
+            <input
+              name="name"
+              className={styles.inp}
+              type="text"
+              placeholder=" "
+            />
             <label className={styles.lbl}>Full Name</label>
           </div>
 
-          {/* Location */}
           <div className={`${styles.inputWrapper} ${styles.locationWrapper}`}>
             <input
               ref={locationRef}
@@ -101,19 +104,16 @@ export default function ChildrenDetailsForm() {
             </button>
           </div>
 
-          {/* Age */}
           <div className={styles.inputWrapper}>
             <input name="age" className={styles.inp} type="text" placeholder=" " />
             <label className={styles.lbl}>Age</label>
           </div>
 
-          {/* Food Habit */}
           <div className={styles.inputWrapper}>
             <input name="foodHabit" className={styles.inp} type="text" placeholder=" " />
             <label className={styles.lbl}>Food Habit</label>
           </div>
 
-          {/* Allergy Dropdown */}
           <div className={styles.inputWrapper}>
             <div className={`dropdown ${styles.customDropdown}`}>
               <button
@@ -152,19 +152,16 @@ export default function ChildrenDetailsForm() {
             </label>
           </div>
 
-          {/* Allergy Details */}
           <div className={styles.inputWrapper}>
             <input name="allergyDetails" className={styles.inp} type="text" placeholder=" " />
             <label className={styles.lbl}>Allergy Details</label>
           </div>
 
-          {/* Disease */}
           <div className={styles.inputWrapper}>
             <input name="disease" className={styles.inp} type="text" placeholder=" " />
             <label className={styles.lbl}>Any Prolong Disease</label>
           </div>
 
-          {/* Upload */}
           <div className={styles.uploadWrapper}>
             <span className={styles.uploadText}>
               Upload image Within size of 5MB
