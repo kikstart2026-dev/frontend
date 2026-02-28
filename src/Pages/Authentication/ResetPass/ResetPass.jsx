@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../../Main.scss";
 import styles from "./ResetPass.module.scss";
 import AuthLeft from "../../../Component/Authentication/AuthLeft/AuthLeft";
 import logo from "../../../assets/images/authLogo.png";
 import Button from "../../../Component/Buttons/Button";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { reetPass } from "../../../apis/api";
 
 export default function ResetPassword() {
   const [email, setEmail] = useState("");
@@ -14,16 +16,62 @@ export default function ResetPassword() {
 
   const navigate = useNavigate();
 
+  // ✅ localStorage theke email ana (structure untouched)
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("verifyEmail");
+
+    if (!storedEmail) {
+      navigate("/forget-pass");
+    } else {
+      setEmail(storedEmail);
+    }
+  }, [navigate]);
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["reset-pass"],
+    mutationFn: reetPass,
+
+    onSuccess: (data) => {
+      console.log("Reset Response:", data);
+
+      alert("Password updated successfully ✅");
+
+      localStorage.removeItem("verifyEmail");
+
+      navigate("/signin");
+    },
+
+    onError: (error) => {
+      alert(error?.response?.data?.message || "Reset failed ❌");
+    },
+  });
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const storedEmail = localStorage.getItem("verifyEmail");
+
+    if (!storedEmail) {
+      alert("Email not found. Please try again.");
+      navigate("/forget-pass");
+      return;
+    }
 
     if (newPassword !== confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
 
-    const formData = { email, otp, newPassword, confirmPassword };
-    console.log(formData);
+    const payload = {
+      email: storedEmail,
+      otp: otp,
+      password: newPassword,
+      confirmpass: confirmPassword,
+    };
+
+    console.log("Sending Payload:", payload);
+
+    mutate(payload);
   };
 
   return (
@@ -59,22 +107,7 @@ export default function ResetPassword() {
 
               <form className={styles.authForm} onSubmit={handleSubmit}>
 
-                {/* Email Field */}
-                <div className={styles.formGroup}>
-                  <div className={styles.inputWrapper}>
-                    <input
-                      className={styles.inp}
-                      type="email"
-                      placeholder=" "
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
-                    <label className={styles.lbl}>
-                      Email
-                    </label>
-                  </div>
-                </div>
+                {/* ❌ Email Field Removed */}
 
                 {/* OTP Field */}
                 <div className={styles.formGroup}>
@@ -130,7 +163,8 @@ export default function ResetPassword() {
                 <Button
                   className={styles.submitBtn}
                   type="submit"
-                  text="UPDATE"
+                  text={isPending ? "UPDATING..." : "UPDATE"}
+                  disabled={isPending}
                   variant="primary"
                 />
 

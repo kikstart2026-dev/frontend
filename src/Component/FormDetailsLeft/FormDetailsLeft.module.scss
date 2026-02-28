@@ -16,8 +16,11 @@
   transition: 0.3s ease;
 }
 
-/* ONLY COMPLETED STEP TITLE RED */
-.titleCompleted {
+.activeTitle {
+  color: #ED1C24;
+}
+
+.completedTitle {
   color: #ED1C24;
 }
 

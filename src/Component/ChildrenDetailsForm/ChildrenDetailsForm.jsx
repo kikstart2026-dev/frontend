@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function ChildrenDetailsForm() {
 
-  const navigate = useNavigate();   // 👈 add
+   const navigate = useNavigate();
 
   const [allergy, setAllergy] = useState("");
   const locationRef = useRef(null);
@@ -64,6 +64,9 @@ export default function ChildrenDetailsForm() {
     // 👇 After submit → go next page
     navigate("/SchoolDetails");
   };
+
+  // NEXT PAGE
+  navigate("/Schooldetails");
 
   return (
     <div className={styles.childrenForm}>
@@ -193,6 +196,7 @@ export default function ChildrenDetailsForm() {
               type="submit"
               text="NEXT"
               variant="primary"
+              onClick={() => navigate("/Schooldetails")}
             />
           </div>
 

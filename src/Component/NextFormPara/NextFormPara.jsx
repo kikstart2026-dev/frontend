@@ -5,17 +5,7 @@ import Button from '../Buttons/Button'
 import { useNavigate } from 'react-router-dom'
 
 export default function NextFormPara({ name, duration }) {
-
     const navigate = useNavigate();
-
-    const handleBack = () => {
-        navigate("/WaiverAcceptance");
-    };
-
-    const handleNext = () => {
-        navigate("/success");   // 👈 change if needed
-    };
-
     return (
         <div>
 
@@ -43,10 +33,10 @@ export default function NextFormPara({ name, duration }) {
                     details={
                         <>
                             <p className="para">
-                                Quam in non velit malesuada arcu eget id...
+                                Quam in non velit malesuada arcu eget id. Id ut turpis tempor semper et in nunc aliquet. Orci cras faucibus aliquam eget orci egestas. Ut congue ut amet commodo eget. Nam eu duis imperdiet morbi orci ac tellus aenean. A pharetra at sodales praesent commodo nibh. At ac lacus morbi consectetur nisi. Vel pharetra viverra hendrerit odio eu amet elementum quam dui. Tincidunt sit ac ac interdum.
                             </p>
                             <p className="para">
-                                Velit auctor eros egestas nunc suspendisse...
+                                Velit auctor eros egestas nunc suspendisse amet fermentum lectus. Sed tellus nulla elit proin. Sit nibh urna elit amet netus nam convallis. Diam id auctor fermentum aliquam aliquet elit in suspendisse pellentesque. Quam fusce nec enim turpis nisl. Ac nec dictumst aliquet vivamus vel orci.
                             </p>
                         </>
                     }
@@ -57,19 +47,19 @@ export default function NextFormPara({ name, duration }) {
             <div className="btns">
 
                 <div className="btn-b">
-                    <Button
-                        text="BACK"
-                        variant="dark"
-                        onClick={handleBack}
-                    />
+                    <Button 
+                    text="back" 
+                    variant="dark"
+                    onClick={() => navigate("/WaiverAcceptance")}  
+                     />
                 </div>
 
                 <div className="btn-r">
-                    <Button
-                        text="NEXT"
-                        variant="primary"
-                        onClick={handleNext}
-                    />
+                    <Button 
+                    text="next" 
+                    variant="primary"
+                    onClick={() => navigate("/enrolment-package")}  
+                     />
                 </div>
 
             </div>

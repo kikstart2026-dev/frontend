@@ -5,34 +5,54 @@ import AuthLeft from "../../../Component/Authentication/AuthLeft/AuthLeft";
 import logo from "../../../assets/images/authLogo.png";
 import Button from "../../../Component/Buttons/Button";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { forgotPass } from "../../../apis/api";
 
 export default function ForgetPass() {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["forget-pass"],
+    mutationFn: forgotPass,
+
+    onSuccess: (data) => {
+      console.log("Forget Pass Response:", data);
+
+      // OTP always being sent according to you
+      localStorage.setItem("verifyEmail", email);
+
+      alert("OTP sent to your email 📩");
+
+      navigate("/reset-pass");
+    },
+
+    onError: (error) => {
+      alert(error?.response?.data?.message || "OTP send failed ❌");
+    },
+  });
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const formData = { email };
-    console.log(formData);
+    if (!email.trim()) {
+      alert("Email is required");
+      return;
+    }
 
-    navigate("/reset-pass");
+    mutate({ email });
   };
 
   return (
     <div className={styles.forgetpass}>
       <div className={styles.forgetpassWrap}>
-        <div className="row ">
-
-          {/* Left */}
+        <div className="row">
           <div className="col-6">
             <AuthLeft />
           </div>
 
-          {/* Right */}
           <div className={`col-6 ${styles.right}`}>
             <div className={styles.formBox}>
-
               <div className={styles.head}>
                 <figure className={styles.fig}>
                   <img src={logo} alt="logo" />
@@ -46,9 +66,9 @@ export default function ForgetPass() {
               </div>
 
               <form className={styles.authForm} onSubmit={handleSubmit}>
-
                 <div className={styles.inputWrapper}>
                   <input
+                    name="email"
                     className={styles.inp}
                     type="email"
                     placeholder=" "
@@ -56,22 +76,19 @@ export default function ForgetPass() {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                   />
-                  <label className={styles.lbl}>
-                    Email
-                  </label>
+                  <label className={styles.lbl}>Email</label>
                 </div>
 
-                <Button className={styles.submitBtn}
+                <Button
+                  className={styles.submitBtn}
                   type="submit"
-                  text="CONTINUE"
+                  text={isPending ? "SENDING..." : "CONTINUE"}
+                  disabled={isPending}
                   variant="primary"
-                >
-                </Button>
-
+                />
               </form>
             </div>
           </div>
-
         </div>
       </div>
     </div>

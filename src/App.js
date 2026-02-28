@@ -30,9 +30,9 @@ import ProgramDeatailsPage from "./Pages/ProgramDeatailsPage/ProgramDeatailsPage
 import ContactForm from "./Component/ContactForm/ContactForm";
 import ChildrenDetails from "./Pages/FormDetails/ChildrenDetails/ChildrenDetails";
 import ChildrenDetailsForm from "./Component/ChildrenDetailsForm/ChildrenDetailsForm";
-import SchoolDetailsForm from "./Component/SchoolDetailsForm/SchoolDetailsForm";
+// import SchoolDetailsForm from "./Component/SchoolDetailsForm/SchoolDetailsForm";
 import SchoolDetails from "./Pages/FormDetails/SchoolDetails/SchoolDetails";
-import FormParas from "./Component/FormPara/FormParas";
+// import FormParas from "./Component/FormPara/FormParas";
 import WaiverAcceptance from "./Pages/FormDetails/WaiverAcceptance/WaiverAcceptance";
 import ProgramDetailss from "./Pages/FormDetails/ProgramDetailss/ProgramDetailss";
 
@@ -92,17 +92,14 @@ function Layout() {
 
       <Routes>
         {/* ================= AUTH ROUTES ================= */}
-        <Route
-          path="/signup"
-          element={
+        <Route path="/signup" element={
             <AuthRoute>
               <SignUp />
             </AuthRoute>
           }
         />
 
-        <Route
-          path="/signin"
+        <Route path="/signin"
           element={
             <AuthRoute>
               <SignIn />

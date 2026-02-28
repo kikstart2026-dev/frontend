@@ -16,7 +16,7 @@ export default function ChildrenDetails() {
       </div>
 
       <div className={styles.totalWrapper}>
-        <div className="row g-0"> {/* remove bootstrap gutter */}
+        <div className="row g-0"> 
           
           <div className="col-4">
             <div className={styles.left}>
