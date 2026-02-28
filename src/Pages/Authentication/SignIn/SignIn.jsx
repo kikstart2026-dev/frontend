@@ -1,26 +1,61 @@
 import React, { useState } from "react";
+import Cookies from "js-cookie";
 import "../../../Main.scss";
 import styles from "./SignIn.module.scss";
 import AuthLeft from "../../../Component/Authentication/AuthLeft/AuthLeft";
 import logo from "../../../assets/images/authLogo.png";
 import Button from "../../../Component/Buttons/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { login } from "../../../apis/api";
 
 export default function SignIn() {
-  const [loginType, setLoginType] = useState("email");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
+  const [loginType, setLoginType] = useState("email"); // toggle রাখলাম
+  const navigate = useNavigate();
+
+  // 🔥 Mutation
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["login"],
+    mutationFn: login,
+    onSuccess: (data) => {
+  console.log("Login Response:", data);
+
+  if (data?.requiresOtp) {
+    localStorage.setItem("verifyEmail", data.email);
+    alert("OTP sent to your email 📩");
+    navigate("/Otp");
+  } else {
+    // ✅ TOKEN SAVE
+    if (data?.token) {
+      Cookies.set("token", data.token, { expires: 7 });
+    }
+
+    alert("Login successful ✅");
+    navigate("/");
+  }
+},
+    onError: (error) => {
+      alert(error?.response?.data?.message || "Login failed ❌");
+    },
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const formData =
-      loginType === "email"
-        ? { email, password }
-        : { phone, password };
+    const formData = new FormData(e.target);
 
-    console.log(formData);
+    const payload =
+      loginType === "email"
+        ? {
+            email: formData.get("email"),
+            password: formData.get("password"),
+          }
+        : {
+            phone: formData.get("phone"),
+            password: formData.get("password"),
+          };
+
+    mutate(payload);
   };
 
   return (
@@ -46,8 +81,7 @@ export default function SignIn() {
 
               <div className={styles.loginToggle}>
                 <button
-                  className={`${styles.btn} ${loginType === "email" ? styles.active : ""
-                    }`}
+                  className={`${styles.btn} ${loginType === "email" ? styles.active : ""}`}
                   onClick={() => setLoginType("email")}
                   type="button"
                 >
@@ -55,8 +89,7 @@ export default function SignIn() {
                 </button>
 
                 <button
-                  className={`${styles.btn} ${loginType === "phone" ? styles.active : ""
-                    }`}
+                  className={`${styles.btn} ${loginType === "phone" ? styles.active : ""}`}
                   onClick={() => setLoginType("phone")}
                   type="button"
                 >
@@ -65,14 +98,14 @@ export default function SignIn() {
               </div>
 
               <form className={styles.authForm} onSubmit={handleSubmit}>
+
                 {loginType === "email" ? (
                   <div className={styles.inputWrapper}>
                     <input
+                      name="email"
                       className={styles.inp}
                       type="email"
                       placeholder=" "
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
                       required
                     />
                     <label className={styles.lbl}>Email</label>
@@ -80,11 +113,10 @@ export default function SignIn() {
                 ) : (
                   <div className={styles.inputWrapper}>
                     <input
+                      name="phone"
                       className={styles.inp}
                       type="tel"
                       placeholder=" "
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
                       required
                     />
                     <label className={styles.lbl}>Phone Number</label>
@@ -93,11 +125,10 @@ export default function SignIn() {
 
                 <div className={styles.inputWrapper}>
                   <input
+                    name="password"
                     className={styles.inp}
                     type="password"
                     placeholder=" "
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
                     required
                   />
                   <label className={styles.lbl}>Password</label>
@@ -109,12 +140,13 @@ export default function SignIn() {
                   </Link>
                 </div>
 
-                <Button className={styles.submitBtn}
+                <Button
+                  className={styles.submitBtn}
                   type="submit"
-                  text="LOGIN"
+                  text={isPending ? "LOGGING IN..." : "LOGIN"}
+                  disabled={isPending}
                   variant="primary"
-                >
-                </Button>
+                />
 
               </form>
             </div>

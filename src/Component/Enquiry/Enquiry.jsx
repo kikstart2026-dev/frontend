@@ -4,7 +4,8 @@ import FaqsRightImg from "../../assets/images/faqs-right-img.png";
 import "../../Main.scss";
 import styles from "../Faqs/Faqs-Section/FaqSection.module.scss";
 import enquiryStyles from "./Enquiry.module.scss";
-import ContactForm from "../ContactForm/ContactForm";
+
+import EnquiryForm from "../EnquiryForm/EnquiryForm";
 
 export default function FaqSection() {
   return (
@@ -22,7 +23,7 @@ export default function FaqSection() {
             <p className={enquiryStyles.enqP}>
               Quam in non velit malesuada arcu eget id. Id ut turpis tempor semper et in nunc aliquet. Orci cras faucibus aliquam eget orci egestas.
             </p>
-                <ContactForm />
+                <EnquiryForm />
           </div>
 
           {/* RIGHT SIDE */}

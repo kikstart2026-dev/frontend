@@ -1,27 +1,24 @@
 import React, { useRef } from "react";
 import "../../Main.scss";
-import styles from "./ContactForm.module.scss";
+import styles from "../ContactForm/ContactForm.module.scss";
 import Button from "../Buttons/Button";
 import { useMutation } from "@tanstack/react-query";
-import { contactUs } from "../../apis/api";
+import { createEnq } from "../../apis/api";
 
-export default function ContactForm() {
+export default function EnquiryForm() {
   const formRef = useRef(null);
 
   const { mutate, isPending } = useMutation({
-    mutationKey: ["contact-us"],
-    mutationFn: contactUs,
+    mutationKey: ["school-enquiry"],
+    mutationFn: createEnq,
 
     onSuccess: () => {
-      formRef.current?.reset();   // ✅ reset form
-      alert("Message sent successfully ✅");
+      formRef.current?.reset();
+      alert("Enquiry submitted successfully ✅");
     },
 
     onError: (error) => {
-      console.error("FULL ERROR:", error?.response);
-      alert(
-        error?.response?.data?.message || "Something went wrong ❌"
-      );
+      alert(error?.response?.data?.message || "Something went wrong ❌");
     },
   });
 
@@ -31,10 +28,10 @@ export default function ContactForm() {
     const formData = new FormData(e.target);
 
     const payload = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      subject: formData.get("subject"),
-      details: formData.get("details"),
+      school: formData.get("school"),
+      contactPerson: formData.get("contactPerson"),
+      schoolEmail: formData.get("schoolEmail"),
+      schoolPhone: formData.get("schoolPhone"),
     };
 
     mutate(payload);
@@ -50,53 +47,64 @@ export default function ContactForm() {
               className={styles.authForm}
               onSubmit={handleSubmit}
             >
+              {/* School Name */}
               <div className={styles.inputWrapper}>
                 <input
                   className={styles.inp}
                   type="text"
-                  name="name"
+                  name="school"
                   placeholder=" "
                   required
                 />
-                <label className={styles.lbl}>Full Name</label>
+                <label className={styles.lbl}>School Name</label>
               </div>
 
+              {/* Contact Person */}
+              <div className={styles.inputWrapper}>
+                <input
+                  className={styles.inp}
+                  type="text"
+                  name="contactPerson"
+                  placeholder=" "
+                  required
+                />
+                <label className={styles.lbl}>
+                  Contact Person Name Of The School
+                </label>
+              </div>
+
+              {/* School Email */}
               <div className={styles.inputWrapper}>
                 <input
                   className={styles.inp}
                   type="email"
-                  name="email"
+                  name="schoolEmail"
                   placeholder=" "
                   required
                 />
-                <label className={styles.lbl}>Email</label>
+                <label className={styles.lbl}>
+                  Email Address Of The School
+                </label>
               </div>
 
+              {/* School Phone */}
               <div className={styles.inputWrapper}>
                 <input
                   className={styles.inp}
                   type="text"
-                  name="subject"
+                  name="schoolPhone"
                   placeholder=" "
                   required
                 />
-                <label className={styles.lbl}>Query Subject</label>
-              </div>
-
-              <div className={styles.inputWrapper}>
-                <textarea
-                  className={`${styles.inp} ${styles.textarea}`}
-                  name="details"
-                  placeholder=" "
-                  required
-                />
-                <label className={styles.lbl}>Query Details</label>
+                <label className={styles.lbl}>
+                  Phone Number Of The School
+                </label>
               </div>
 
               <Button
                 className={styles.submitBtn}
                 type="submit"
-                text={isPending ? "SENDING..." : "SEND"}  // ✅ text prop use
+                text={isPending ? "SENDING..." : "SEND"}
                 disabled={isPending}
                 variant="primary"
               />

@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import sms from "../../assets/images/sms.png";
+import arrow from "../../assets/images/arrow.png";
 import styles from "./Footer.module.scss";   // 👈 change here
 
 const quickLinks = [
@@ -28,7 +29,13 @@ export default function Footer() {
               <p>Lorem ipsum dolor sit amet consectetur. Nunc id adipiscing at interdum eu viverra. </p>
               <div className={styles.sms}>
                 <img src={sms} alt="Email Icon" />
-                <p>info@KikStartKids.com</p>
+                <a 
+                  href="https://mail.google.com/mail/?view=cm&fs=1&to=kikstart2026@gmail.com&su=Contacting KikStart Support&body=Hello KikStart Team,%0D%0A%0D%0AI would like to contact you regarding..."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  kikstart2026@gmail.com
+                </a>
               </div>
             </div>
 
@@ -59,12 +66,13 @@ export default function Footer() {
               <p>Enter the email to subscribe our newsletter</p>
               <div className={styles.search}>
                 <input
-                  type="text"
+                  type="email"
                   placeholder="Enter Email"
                   className={styles.searchInput}
                 />
                 <button className={styles.submitBtn} type="submit">
-                  <span>→</span>
+                  <span><img src={arrow} alt="arrow"/>
+                  </span>
                 </button>
               </div>
             </div>

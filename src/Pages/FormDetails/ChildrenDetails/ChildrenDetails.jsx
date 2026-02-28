@@ -1,0 +1,37 @@
+import React from "react";
+import FormDetailsLeft from "../../../Component/FormDetailsLeft/FormDetailsLeft";
+import styles from "./ChildrenDetails.module.scss";
+import "../../../Main.scss"; 
+import ChildrenDetailsForm from "../../../Component/ChildrenDetailsForm/ChildrenDetailsForm";
+
+
+export default function ChildrenDetails() {
+  return (
+    <div className="container">
+      <div className={styles.heading}>
+        <h2 className={styles.head2}>Fill the form</h2>
+       <p className={styles.para}>
+          Lorem ipsum dolor sit amet consectetur
+       </p>
+      </div>
+       
+
+      <div className={styles.totalWrapper}>
+        <div className= "row">
+          
+          <div className= "col-5">
+            <div className={styles.left}>
+              <FormDetailsLeft activeStep={0} />
+            </div>
+          </div>
+
+          <div className="col-7">
+            <div className={styles.right}> <ChildrenDetailsForm/> </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+}
+      
