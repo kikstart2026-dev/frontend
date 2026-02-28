@@ -1,11 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import styles from './FormParas.module.scss'
 import CmnHeading from '../CmnHeading/CmnHeading'
 import Button from '../Buttons/Button'
 
-export default function FormParas({ checked, onChange }) {
+export default function FormParas() {
     const navigate = useNavigate();
+    const [checked, setChecked] = useState(false);
+
+    const handleNext = () => {
+        if (!checked) {
+            alert("Please accept the waiver conditions first.");
+            return;
+        }
+        navigate("/ProgramDetailss");
+    };
+
     return (
         <div>
             <div className={styles["para-head"]}>
@@ -35,7 +45,7 @@ export default function FormParas({ checked, onChange }) {
                     <input
                         type="checkbox"
                         checked={checked}
-                        onChange={onChange}
+                        onChange={(e) => setChecked(e.target.checked)}
                     />
                     <span className={styles["custom-checkbox"]}></span>
                     <span className={styles["label-text"]}>
@@ -47,16 +57,17 @@ export default function FormParas({ checked, onChange }) {
             <div className={styles.btns}>
                 <div className={styles["btn-b"]}>
                     <Button 
-                    text="back" 
-                    variant="dark"
-                    onClick={() => navigate("/Schooldetails")}
+                        text="back" 
+                        variant="dark"
+                        onClick={() => navigate("/Schooldetails")}
                     />
                 </div>
+
                 <div className={styles["btn-r"]}>
                     <Button 
-                    text="next" 
-                    variant="primary"
-                    onClick={() => navigate("/ProgramDetailss")}  
+                        text="next" 
+                        variant="primary"
+                        onClick={handleNext}
                     />
                 </div>
             </div>
