@@ -21,6 +21,10 @@
     border-radius: 3px;
     margin-right: 10px;
     position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   input:checked + .custom-checkbox {
@@ -30,11 +34,8 @@
 
   input:checked + .custom-checkbox::after {
     content: "";
-    position: absolute;
-    left: 4px;
-    top: 0px;
     width: 5px;
-    height: 10px;
+    height: 9px;
     border: solid white;
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
