@@ -56,7 +56,7 @@ export default function FormParas({ checked, onChange }) {
                     <Button 
                     text="next" 
                     variant="primary"
-                    onClick={() => navigate("/PogramDetailss")}  
+                    onClick={() => navigate("/ProgramDetailss")}  
                     />
                 </div>
             </div>
