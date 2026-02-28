@@ -6,7 +6,7 @@ const testimonialData = [
     img: girl2,
     para: "Lorem ipsum dLorem ipsum dolor sit amet consectetur. Tortor sed ipsum tortor in et. Arcu tortor phasellus elementum sed natoque pellentesque in elit imperdiet. Sit nisi turpis arcu malesuada purus semper. Bibendum urna dolor at ut tincidunt. Scelerisque dictumst sed.olor sit amet consectetur. Tortor sed ipsum tortor in et...",
     miniheading: "Cameron Williamson",
-    coach: "Coach",
+    coach: "anirban",
   },
   {
     id: 2,

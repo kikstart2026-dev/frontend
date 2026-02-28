@@ -31,18 +31,22 @@ import ContactForm from "./Component/ContactForm/ContactForm";
 import ChildrenDetails from "./Pages/FormDetails/ChildrenDetails/ChildrenDetails";
 import ChildrenDetailsForm from "./Component/ChildrenDetailsForm/ChildrenDetailsForm";
 import SchoolDetailsForm from "./Component/SchoolDetailsForm/SchoolDetailsForm";
+import SchoolDetails from "./Pages/FormDetails/SchoolDetails/SchoolDetails";
+import FormParas from "./Component/FormPara/FormParas";
+import WaiverAcceptance from "./Pages/FormDetails/WaiverAcceptance/WaiverAcceptance";
+import ProgramDetailss from "./Pages/FormDetails/ProgramDetailss/ProgramDetailss";
 
 
 // ================= PROTECTED ROUTE =================
-// function ProtectedRoute({ children }) {
-//   const token = Cookies.get("token");
+function ProtectedRoute({ children }) {
+  const token = Cookies.get("token");
 
-//   if (!token) {
-//     return <Navigate to="/signin" replace />;
-//   }
+  if (!token) {
+    return <Navigate to="/signin" replace />;
+  }
 
-//   return children;
-// }
+  return children;
+}
 
 // ================= AUTH ROUTE =================
 // Logged in user যেন signup/signin এ যেতে না পারে
@@ -134,17 +138,17 @@ function Layout() {
         />
 
         {/* ================= MAIN ROUTES ================= */}
-        {/* <Route
+        <Route
           path="/"
           element={
             <ProtectedRoute>
               <Home />
             </ProtectedRoute>
           }
-        /> */}
+        />
 
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<AboutUs />} />
+        <Route path="/about" element={<AboutUs/>} />
         <Route path="/faqs" element={<FaqsPage />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/why-us" element={<WhyUs />} />
@@ -154,11 +158,14 @@ function Layout() {
         <Route path="/ProgramDeatailsPage" element={<ProgramDeatailsPage />} />
         <Route path="/contactform" element={<ContactForm />} />
         <Route path="/Childrendetails" element={<ChildrenDetails />} />
+        <Route path="/Schooldetails" element={<SchoolDetails/>} />
+        <Route path="/WaiverAcceptance" element={<WaiverAcceptance/>} />
+        <Route path="/PogramDetailss" element={<ProgramDetailss/>} />
 
 
 
         <Route path="/ChildrenDetailsForm" element={<ChildrenDetailsForm />} />
-        <Route path="/SchoolDetailsForm" element={<SchoolDetailsForm />} />
+        <Route path="/SchoolDetailsForm" element={<SchoolDetails />} />
       </Routes>
 
       {!isAuthPage && <Footer />}

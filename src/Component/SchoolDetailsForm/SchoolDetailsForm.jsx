@@ -1,10 +1,12 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import styles2 from "./SchoolDetailsForm.module.scss";
 import styles from "../ChildrenDetailsForm/ChildrenDetailsForm.module.scss";
 import Button from "../Buttons/Button";
 
 export default function SchoolDetailsForm() {
 
+    const navigate = useNavigate();
     const locationRef = useRef(null);
 
     const handleGetLocation = () => {
@@ -44,6 +46,9 @@ export default function SchoolDetailsForm() {
         };
 
         console.log(data);
+
+        // NEXT page
+        navigate("/waiver");
     };
 
     return (
@@ -57,13 +62,19 @@ export default function SchoolDetailsForm() {
 
                 <form className={styles.form} onSubmit={handleSubmit}>
 
-                    {/* Name */}
+                    {/* School Name */}
                     <div className={styles.inputWrapper}>
-                        <input name="name" className={styles.inp} type="text" placeholder=" " required />
+                        <input
+                            name="name"
+                            className={styles.inp}
+                            type="text"
+                            placeholder=" "
+                            required
+                        />
                         <label className={styles.lbl}>School Name</label>
                     </div>
 
-                    {/* Location */}
+                    {/* School Location */}
                     <div className={`${styles.inputWrapper} ${styles.locationWrapper}`}>
                         <input
                             ref={locationRef}
@@ -82,19 +93,26 @@ export default function SchoolDetailsForm() {
                             <i className="fa-solid fa-location-crosshairs"></i>
                         </button>
                     </div>
+
                     <div className={`${styles2.btns}`}>
+
+                        {/* BACK BUTTON */}
                         <Button
                             className={`${styles.nextBtn} ${styles2.blackbtn}`}
-                            type="submit"
+                            type="button"
                             text="BACK"
                             variant="dark"
+                            onClick={() => navigate("/childrendetails")}
                         />
+
+                        {/* NEXT BUTTON */}
                         <Button
                             className={styles.nextBtn}
                             type="submit"
                             text="NEXT"
                             variant="primary"
                         />
+
                     </div>
                 </form>
 

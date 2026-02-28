@@ -1,38 +1,37 @@
 import React from "react";
 import FormDetailsLeft from "../../../Component/FormDetailsLeft/FormDetailsLeft";
-import styles from "./ChildrenDetails.module.scss";
+import styles from "./SchoolDetails.module.scss";
 import "../../../Main.scss"; 
-import ChildrenDetailsForm from "../../../Component/ChildrenDetailsForm/ChildrenDetailsForm";
+import SchoolDetailsForm from "../../../Component/SchoolDetailsForm/SchoolDetailsForm";
 
-export default function ChildrenDetails() {
+
+export default function SchoolDetails() {
   return (
     <div className="container">
-      
       <div className={styles.heading}>
         <h2 className={styles.head2}>Fill the form</h2>
-        <p className={styles.para}>
+       <p className={styles.para}>
           Lorem ipsum dolor sit amet consectetur
-        </p>
+       </p>
       </div>
+       
 
       <div className={styles.totalWrapper}>
-        <div className="row g-0"> {/* remove bootstrap gutter */}
+        <div className= "row g-0">
           
-          <div className="col-4">
+          <div className= "col-4">
             <div className={styles.left}>
-              <FormDetailsLeft activeStep={0} />
+              <FormDetailsLeft activeStep={1} />
             </div>
           </div>
 
           <div className="col-8">
-            <div className={styles.right}>
-              <ChildrenDetailsForm />
-            </div>
+            <div className={styles.right}> <SchoolDetailsForm/> </div>
           </div>
 
         </div>
       </div>
-
     </div>
   );
 }
+      

@@ -1,10 +1,10 @@
 import React from "react";
 import FormDetailsLeft from "../../../Component/FormDetailsLeft/FormDetailsLeft";
-import styles from "./ChildrenDetails.module.scss";
+import styles from "./WaiverAcceptance.module.scss";
 import "../../../Main.scss"; 
-import ChildrenDetailsForm from "../../../Component/ChildrenDetailsForm/ChildrenDetailsForm";
+import FormParas from "../../../Component/FormPara/FormParas";
 
-export default function ChildrenDetails() {
+export default function WaiverAcceptance() {
   return (
     <div className="container">
       
@@ -20,13 +20,13 @@ export default function ChildrenDetails() {
           
           <div className="col-4">
             <div className={styles.left}>
-              <FormDetailsLeft activeStep={0} />
+              <FormDetailsLeft activeStep={2} />
             </div>
           </div>
 
           <div className="col-8">
             <div className={styles.right}>
-              <ChildrenDetailsForm />
+              <FormParas/>
             </div>
           </div>
 
