@@ -9,7 +9,7 @@ export default function WaiverAcceptance() {
     <div className="container">
       
       <div className={styles.heading}>
-        <h2 className={styles.head2}>Fill the form</h2>
+        <h1 className={styles.head2}>Fill the form</h1>
         <p className={styles.para}>
           Lorem ipsum dolor sit amet consectetur
         </p>
