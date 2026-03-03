@@ -2,20 +2,30 @@ export const endpoints = {
 
   //Signup,login,otp-verify,reset-pass,etc------------------>>
 
-  signUp: "/signup",  
-  login:"/login",
-  verifyOtp:"/verify-otp",
-  resendOtp:"/resendotp",
-  forgotPass:"/forgot-password",
-  reetPass:"/reset-password",
+  signUp: "/signup",
+  login: "/login",
+  verifyOtp: "/verify-otp",
+  resendOtp: "/resendotp",
+  forgotPass: "/forgot-password",
+  reetPass: "/reset-password",
 
 
   // Enquiry---------------------->>
 
-  createEnq:"/createEnq",
+  createEnq: "/createEnq",
 
   // Contact---------------------->>
-  
-  contactUs:"/contact"
+
+  contactUs: "/contact",
+
+  // Home Banner------------------------------------>>
+
+  createHomeBanner: "/home-banner/create",
+  getAllHomeBanner: "/home-banner",
+  getHomeBannerById: (id) => `/home-banner/${id}`,
+  updateHomeBanner: (id) => `/home-banner/${id}`,
+  singleDeleteHomeBanner: (id) => `/home-banner/${id}`,
+  selectiveDeleteHomeBanner:"/home-banner/select/delete",
+  multipleDeleteHomeBanner:"/home-banner/delete/all"
 };
 
