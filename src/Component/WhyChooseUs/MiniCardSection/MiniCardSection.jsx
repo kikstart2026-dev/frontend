@@ -1,38 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CmnHeading from "../../CmnHeading/CmnHeading";
 import MiniCard from "../MiniCard";
 import styles from "./MiniCardSection.module.scss";
-import "../../../Main.scss"; 
-import { CardsData } from "../../../data/cardsData";
+import "../../../Main.scss";
+import {getAllWhyChooseUs} from "../../../apis/api"
 
-export default function MiniCardSection({ 
-  limit,
-  showHeading = true 
-}) {
+export default function MiniCardSection({ limit, showHeading = true }) {
 
-  const displayData = limit 
-    ? CardsData.slice(0, limit) 
-    : CardsData;
+  const [heading, setHeading] = useState(null);
+  const [cards, setCards] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getAllWhyChooseUs();
+
+        if (res?.data) {
+          setHeading(res.data.heading);
+          setCards(res.data.cards);
+        }
+
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const displayData = limit ? cards.slice(0, limit) : cards;
 
   return (
     <section className={styles["mini-section"]}>
       <div className="container">
 
-        {showHeading && (
+        {showHeading && heading && (
           <div className={styles["why-choose-us"]}>
             <CmnHeading
-              title="Why Choose Us"
-              subtitle="Give the Gift of Gym"
-              details="Lorem ipsum dolor sit amet consectetur. Vitae elit quam volutpat id. Quisque orci lacinia sit non."
+              title={heading.subheading}
+              subtitle={heading.heading}
+              details={heading.description}
               align="center"
             />
           </div>
         )}
 
         <div className={`row g-4 ${styles["cards-section"]}`}>
-          {displayData.map((item, index) => (
+          {displayData.map((item) => (
             <div
-              key={index}
+              key={item._id}
               className="col-lg-3 col-md-6 col-12"
             >
               <MiniCard

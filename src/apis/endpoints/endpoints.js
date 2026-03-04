@@ -1,3 +1,5 @@
+import { updateWhyChooseUs } from "../api";
+
 export const endpoints = {
 
   //Signup,login,otp-verify,reset-pass,etc------------------>>
@@ -26,6 +28,17 @@ export const endpoints = {
   updateHomeBanner: (id) => `/home-banner/${id}`,
   singleDeleteHomeBanner: (id) => `/home-banner/${id}`,
   selectiveDeleteHomeBanner:"/home-banner/select/delete",
-  multipleDeleteHomeBanner:"/home-banner/delete/all"
+  multipleDeleteHomeBanner:"/home-banner/delete/all",
+
+  // Why Choose Us------------------------------------>>
+
+  createWhyChooseUs: "/why-choose-us/create",
+  getAllWhyChooseUs: "/why-choose-us",
+  getWhyChooseUsById: (id) => `/why-choose-us/${id}`,
+  updateWhyChooseUs: (id) => `/why-choose-us/${id}`,
+  singleDeleteWhyChooseUs: (id) => `/why-choose-us/${id}`,
+  selectiveDeleteWhyChooseUs:"/why-choose-us/select/delete",
+  multipleDeleteWhyChooseUs:"/why-choose-us/delete/all"
 };
+
 

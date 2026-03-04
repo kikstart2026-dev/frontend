@@ -109,3 +109,65 @@ export const multipleDeleteHomeBanner = async () => {
   );
   return res.data;
 };
+
+
+/* ================================
+    Why Choose Us APIs
+================================ */
+
+// ✅ Create All Why Choose Us
+export const createWhyChooseUs = async (payload) => {
+  const res = await axiosInstance.post(
+    endpoints.createWhyChooseUs,
+    payload
+  );
+  return res.data;
+};
+
+// ✅ Get All Why Choose Us
+export const getAllWhyChooseUs = async () => {
+  const res = await axiosInstance.get(endpoints.getWhyAllChooseUs);
+  return res.data;
+};
+
+// ✅ Get Why Choose Us By ID
+export const getWhyChooseUsById = async (id) => {
+  const res = await axiosInstance.get(
+    endpoints.getHomeBannerById(id)
+  );
+  return res.data;
+};
+
+// ✅ Update Why Choose Us 
+export const updateWhyChooseUs = async (id, payload) => {
+  const res = await axiosInstance.put(
+    endpoints.updateWhyChooseUs(id),
+    payload
+  );
+  return res.data;
+};
+
+// ✅ Delete Selective
+export const selectiveDeleteWhyChooseUs = async (payload) => {
+  const res = await axiosInstance.delete(
+    endpoints.selectiveDeleteWhyChooseUs,
+    { data: payload }
+  );
+  return res.data;
+};
+
+// ✅ Delete Single
+export const singleDeleteWhyChooseUs = async (id) => {
+  const res = await axiosInstance.delete(
+    endpoints.singleDeleteWhyChooseUs(id)
+  );
+  return res.data;
+};
+
+// ✅ Delete All
+export const multipleDeleteWhyChooseUs = async () => {
+  const res = await axiosInstance.delete(
+    endpoints.multipleDeleteWhyChooseUs
+  );
+  return res.data;
+};
