@@ -73,7 +73,7 @@ export default function ProgramsSection({ limit, showHeading = true }) {
         )}
 
         <div className={styles["view-btn"]}>
-          <Link to="/demo">
+          <Link to="/Programs">
             <Button text="View all" variant="primary" />
           </Link>
         </div>
