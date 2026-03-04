@@ -1,5 +1,4 @@
 export const endpoints = {
-
   //Signup,login,otp-verify,reset-pass,etc------------------>>
 
   signUp: "/signup",
@@ -8,7 +7,6 @@ export const endpoints = {
   resendOtp: "/resendotp",
   forgotPass: "/forgot-password",
   reetPass: "/reset-password",
-
 
   // Enquiry---------------------->>
 
@@ -25,7 +23,16 @@ export const endpoints = {
   getHomeBannerById: (id) => `/home-banner/${id}`,
   updateHomeBanner: (id) => `/home-banner/${id}`,
   singleDeleteHomeBanner: (id) => `/home-banner/${id}`,
-  selectiveDeleteHomeBanner:"/home-banner/select/delete",
-  multipleDeleteHomeBanner:"/home-banner/delete/all"
-};
+  selectiveDeleteHomeBanner: "/home-banner/select/delete",
+  multipleDeleteHomeBanner: "/home-banner/delete/all",
 
+  // service------------------------------------>>
+
+  createService:"/service/create",
+  getAllService:"/service/",
+  getServiceById: (id) => `/service/${id}`,
+  updateService: (id) => `/service/${id}`,
+  singleDeleteService: (id) => `/service/${id}`,
+  selectiveDeleteService:"/service/select/delete",
+  multipleDeleteService :"/service/delete/all",
+};
