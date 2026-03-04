@@ -21,7 +21,6 @@
     border-radius: 3px;
     margin-right: 10px;
     position: relative;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -61,8 +60,18 @@
   align-items: center;
 }
 
+.btn-b {
+  button {
+    padding: 16px 50px !important;   /* BACK button */
+  }
+}
+
 .btn-r {
   margin-left: 15px;
+
+  button {
+    padding: 16px 40px !important;   /* NEXT button */
+  }
 }
 
 .para-head {
@@ -78,6 +87,6 @@
     font-weight: 400;
     font-size: 15px;
     color: #494949;
-    margin: 10px 0 33px 0;
+    margin: 10px 0 28px 0;
   }
 }

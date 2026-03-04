@@ -3,17 +3,13 @@ import FormDetailsLeft from "../../../Component/FormDetailsLeft/FormDetailsLeft"
 import styles from "./ProgramDetailss.module.scss";
 import "../../../Main.scss"; 
 import NextFormPara from "../../../Component/NextFormPara/NextFormPara";
+import FillFormHeading from "../../../Component/FillFormHeading/FillFormHeading";
 
 export default function ProgramDetailss() {
   return (
     <div className="container">
       
-      <div className={styles.heading}>
-        <h1 className={styles.head2}>Fill the form</h1>
-        <p className={styles.para}>
-          Lorem ipsum dolor sit amet consectetur
-        </p>
-      </div>
+      <FillFormHeading/>
 
       <div className={styles.totalWrapper}>
         <div className="row g-0"> {/* remove bootstrap gutter */}

@@ -13,6 +13,9 @@ export default function SignUp() {
   const formRef = useRef(null);
   const locationRef = useRef(null);
 
+  // const [ data,setData0] = useState({
+
+  // })
   // 📍 Location Function
   const handleGetLocation = () => {
     if (!navigator.geolocation) {
@@ -26,7 +29,7 @@ export default function SignUp() {
 
         try {
           const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`,
           );
           const data = await response.json();
 
@@ -36,7 +39,7 @@ export default function SignUp() {
           locationRef.current.value = `${latitude}, ${longitude}`;
         }
       },
-      () => alert("Unable to retrieve location")
+      () => alert("Unable to retrieve location"),
     );
   };
 
@@ -141,17 +144,22 @@ export default function SignUp() {
                   <input
                     name="phone"
                     className={styles.inp}
-                    type="tel"
-                    pattern="[0-9]{10}"
+                    type="text"
+                    inputMode="numeric"
                     maxLength="10"
                     placeholder=" "
                     required
+                    onChange={(e) => {
+                      e.target.value = e.target.value.replace(/\D/g, "");
+                    }}
                   />
                   <label className={styles.lbl}>Phone</label>
                 </div>
 
                 {/* Location */}
-                <div className={`${styles.inputWrapper} ${styles.locationWrapper}`}>
+                <div
+                  className={`${styles.inputWrapper} ${styles.locationWrapper}`}
+                >
                   <input
                     ref={locationRef}
                     name="location"
@@ -209,11 +217,7 @@ export default function SignUp() {
 
                 {/* Terms */}
                 <div className={styles.checkboxGroup}>
-                  <input
-                    name="terms"
-                    className={styles.inp2}
-                    type="checkbox"
-                  />
+                  <input name="terms" className={styles.inp2} type="checkbox" />
                   <label className={styles.lbl2}>
                     I agree to the Terms of Service and Privacy Policy
                   </label>

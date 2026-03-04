@@ -14,17 +14,21 @@ export default function OtpVerified() {
   const email = localStorage.getItem("verifyEmail");
 
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
-  const [timer, setTimer] = useState(30);
-  const [isResendDisabled, setIsResendDisabled] = useState(true);
+  const [otpTimer, setOtpTimer] = useState(0);
+  const [resendTimer, setResendTimer] = useState(0);
+
   const inputsRef = useRef([]);
 
-  // 🔥 VERIFY OTP MUTATION
+  // ================= VERIFY OTP =================
   const { mutate, isPending } = useMutation({
     mutationKey: ["verify-otp"],
     mutationFn: verifyOtp,
     onSuccess: (data) => {
       if (data?.token) {
         Cookies.set("token", data.token, { expires: 7 });
+
+        localStorage.removeItem("otpExpiryTime");
+        localStorage.removeItem("resendEnableTime");
 
         setTimeout(() => {
           navigate("/", { replace: true });
@@ -36,46 +40,73 @@ export default function OtpVerified() {
     },
   });
 
-  // 🔥 RESEND OTP MUTATION (FIXED)
-  const { mutate: resendMutate, isPending: isResendPending } = useMutation({
-    mutationKey: ["resend-otp"],
-    mutationFn: resendOtp,
-    onSuccess: (data) => {
-      alert(data?.message || "OTP resent successfully ✅");
+  // ================= RESEND OTP =================
+  const { mutate: resendMutate, isPending: isResendPending } =
+    useMutation({
+      mutationKey: ["resend-otp"],
+      mutationFn: resendOtp,
+      onSuccess: (data) => {
+        alert(data?.message || "OTP resent successfully ✅");
 
-      // 🔥 CLEAR OTP INPUTS
-      setOtp(["", "", "", "", "", ""]);
+        setOtp(["", "", "", "", "", ""]);
+        if (inputsRef.current[0]) inputsRef.current[0].focus();
 
-      // 🔥 Focus first input
-      if (inputsRef.current[0]) {
-        inputsRef.current[0].focus();
-      }
+        const newExpiry = Date.now() + 90000; // 90 sec
+        const newResend = Date.now() + 30000; // 30 sec
 
-      setTimer(30);
-      setIsResendDisabled(true);
-    },
-    onError: (error) => {
-      alert(error?.response?.data?.message || "Resend failed ❌");
-    },
-  });
+        localStorage.setItem("otpExpiryTime", newExpiry);
+        localStorage.setItem("resendEnableTime", newResend);
 
-  // ⏳ TIMER
+        setOtpTimer(90);
+        setResendTimer(30);
+      },
+      onError: (error) => {
+        alert(error?.response?.data?.message || "Resend failed ❌");
+      },
+    });
+
+  // ================= TIMER LOGIC (FIXED) =================
   useEffect(() => {
-    let interval = null;
+  if (!email) return;
 
-    if (isResendDisabled && timer > 0) {
-      interval = setInterval(() => {
-        setTimer((prev) => prev - 1);
-      }, 1000);
-    } else if (timer === 0) {
-      setIsResendDisabled(false);
-      clearInterval(interval);
-    }
+  const now = Date.now();
 
-    return () => clearInterval(interval);
-  }, [timer, isResendDisabled]);
+  if (!localStorage.getItem("otpExpiryTime")) {
+    localStorage.setItem("otpExpiryTime", now + 90000);
+  }
 
-  // 🔐 OTP INPUT CHANGE
+  if (!localStorage.getItem("resendEnableTime")) {
+    localStorage.setItem("resendEnableTime", now + 30000);
+  }
+
+  const updateTimer = () => {
+    const current = Date.now();
+
+    const expiryTime = Number(localStorage.getItem("otpExpiryTime"));
+    const resendTime = Number(localStorage.getItem("resendEnableTime"));
+
+    const otpRemaining = Math.max(
+      0,
+      Math.floor((expiryTime - current) / 1000)
+    );
+
+    const resendRemaining = Math.max(
+      0,
+      Math.floor((resendTime - current) / 1000)
+    );
+
+    setOtpTimer(otpRemaining);
+    setResendTimer(resendRemaining);
+  };
+
+  updateTimer();
+
+  const interval = setInterval(updateTimer, 1000);
+
+  return () => clearInterval(interval);
+  }, [email]);
+
+  // ================= OTP INPUT =================
   const handleChange = (value, index) => {
     if (!/^[0-9]?$/.test(value)) return;
 
@@ -94,7 +125,7 @@ export default function OtpVerified() {
     }
   };
 
-  // ✅ VERIFY SUBMIT
+  // ================= SUBMIT =================
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -105,18 +136,15 @@ export default function OtpVerified() {
       return;
     }
 
-    mutate({
-      email,
-      otp: finalOtp,
-    });
+    mutate({ email, otp: finalOtp });
   };
 
-  // 🔁 RESEND FUNCTION
+  // ================= RESEND =================
   const handleResendOtp = () => {
     resendMutate({ email });
   };
 
-  // 🔒 If no email found
+  // ================= EMAIL CHECK =================
   useEffect(() => {
     if (!email) {
       navigate("/signin");
@@ -167,7 +195,9 @@ export default function OtpVerified() {
                       maxLength="1"
                       value={digit}
                       ref={(el) => (inputsRef.current[index] = el)}
-                      onChange={(e) => handleChange(e.target.value, index)}
+                      onChange={(e) =>
+                        handleChange(e.target.value, index)
+                      }
                       onKeyDown={(e) => handleKeyDown(e, index)}
                       style={{
                         width: "70px",
@@ -183,10 +213,14 @@ export default function OtpVerified() {
                 </div>
 
                 <div style={{ textAlign: "center", marginBottom: "25px" }}>
-                  {isResendDisabled ? (
+                  <p style={{ color: "#494949", fontSize: "14px" }}>
+                    OTP expires in <strong>{otpTimer}s</strong>
+                  </p>
+
+                  {resendTimer > 0 ? (
                     <p style={{ color: "#494949", fontSize: "14px" }}>
-                      {isResendPending ? "Sending..." : "Resend OTP"} in{" "}
-                      <strong>{timer}s</strong>
+                      Resend available in{" "}
+                      <strong>{resendTimer}s</strong>
                     </p>
                   ) : (
                     <button
@@ -198,11 +232,15 @@ export default function OtpVerified() {
                         border: "none",
                         color: "#ff2d2d",
                         fontWeight: "600",
-                        cursor: isResendPending ? "not-allowed" : "pointer",
+                        cursor: isResendPending
+                          ? "not-allowed"
+                          : "pointer",
                         fontSize: "14px",
                       }}
                     >
-                      {isResendPending ? "Sending..." : "Resend OTP"}
+                      {isResendPending
+                        ? "Sending..."
+                        : "Resend OTP"}
                     </button>
                   )}
                 </div>

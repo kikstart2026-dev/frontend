@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
 import face from "../../../assets/images/face.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./AuthLeft.module.scss";
+import { useGoogleLogin } from "@react-oauth/google";
+import { googleAuth } from "../../../apis/api";
+import Cookies from "js-cookie";
+import { useMutation } from "@tanstack/react-query";
 
 export default function AuthLeft({ comment, linkName }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(false);
-  const [activeSocial, setActiveSocial] = useState(null); // NEW
+  const [activeSocial, setActiveSocial] = useState(null);
 
   const oppositePath =
     location.pathname === "/signup" ? "/signin" : "/signup";
@@ -21,11 +26,69 @@ export default function AuthLeft({ comment, linkName }) {
     }
   }, [darkMode]);
 
+  // ⭐ Mutation Google Login
+  const { mutate: googleMutate } = useMutation({
+    mutationFn: googleAuth,
+
+    onSuccess: (result) => {
+      const { token, user } = result;
+
+      // ✅ Save token in cookie
+      Cookies.set("token", token, {
+        expires: 7,
+        secure: true,
+        sameSite: "Strict",
+      });
+
+      // ✅ Save user info
+      localStorage.setItem("verifyEmail", user.email);
+      // localStorage.setItem(
+      //   "user-info",
+      //   JSON.stringify({
+      //     email: user.email,
+      //     name: user.fullname,
+      //     image: user.image,
+      //     token,
+      //   })
+      // );
+
+      navigate("/");
+    },
+
+    onError: (error) => {
+      console.log(
+        "Google Login Error:",
+        error?.response?.data || error.message
+      );
+    },
+  });
+
+  // ⭐ Google Response
+  const responseGoogle = async (authResult) => {
+    try {
+      if (authResult["code"]) {
+        googleMutate({
+          code: authResult.code,
+        });
+      } else {
+        console.log(authResult);
+        throw new Error(authResult);
+      }
+    } catch (e) {
+      console.log("Error while Google Login...", e);
+    }
+  };
+
+  // ⭐ Google Login Hook
+  const googleLogin = useGoogleLogin({
+    onSuccess: responseGoogle,
+    onError: responseGoogle,
+    flow: "auth-code",
+  });
+
   return (
     <div className={`${styles.left} ${darkMode ? styles.dark : ""}`}>
       <div className={styles.leftDiv}>
-
-        {/* Toggle Button */}
         <div className={styles.toggleWrap}>
           <button
             className={styles.toggleBtn}
@@ -52,10 +115,12 @@ export default function AuthLeft({ comment, linkName }) {
           </div>
         )}
 
-        {/* Social Buttons */}
         <div className={styles.socialLogin}>
           <button
-            onClick={() => setActiveSocial("google")}
+            onClick={() => {
+              setActiveSocial("google");
+              googleLogin();
+            }}
             className={`${styles.googleBtn} ${
               activeSocial === "google" ? styles.activeGoogle : ""
             }`}
@@ -75,8 +140,7 @@ export default function AuthLeft({ comment, linkName }) {
           </button>
         </div>
 
-        <div className={styles.decor}> </div>
-
+        <div className={styles.decor}></div>
       </div>
     </div>
   );

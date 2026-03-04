@@ -25,8 +25,18 @@
     margin-top: 30px;
 }
 
+.btn-b {
+    button {
+        padding: 16px 50px !important;   /* BACK button */
+    }
+}
+
 .btn-r {
     margin-left: 15px;
+
+    button {
+        padding: 16px 40px !important;   /* NEXT button */
+    }
 }
 
 .mid h3 {
@@ -35,6 +45,7 @@
     text-transform: capitalize;
     color: #2B2B2B;
 }
+
 .program-info {
   display: flex;
   align-items: center;
@@ -59,6 +70,7 @@
   font-weight: 500;
   color: #2b2b2b;
 }
-.program-right{
+
+.program-right {
     margin-left: 100px;
 }

@@ -31,6 +31,18 @@ export const resendOtp = async (payload) => {
   return res.data;
 };
 
+export const logoutUser = async (payload) => {
+  const res = await axiosInstance.post(endpoints.logout, payload);
+  return res.data;
+};
+
+export const googleAuth = async (payload) => {
+  const res = await axiosInstance.post(endpoints.googleAuth, payload);
+  return res.data;
+};
+
+
+
 export const contactUs = async (payload) => {
   const res = await axiosInstance.post(endpoints.contactUs, payload);
   return res.data;
