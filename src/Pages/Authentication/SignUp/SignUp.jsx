@@ -13,6 +13,9 @@ export default function SignUp() {
   const formRef = useRef(null);
   const locationRef = useRef(null);
 
+  // const [ data,setData0] = useState({
+
+  // })
   // 📍 Location Function
   const handleGetLocation = () => {
     if (!navigator.geolocation) {

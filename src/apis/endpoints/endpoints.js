@@ -8,6 +8,7 @@ export const endpoints = {
   resendOtp:"/resendotp",
   forgotPass:"/forgot-password",
   reetPass:"/reset-password",
+  logout: "/logout",
 
 
   // Enquiry---------------------->>

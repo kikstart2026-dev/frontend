@@ -7,6 +7,9 @@ import {
   Navigate,
 } from "react-router-dom";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import Cookies from "js-cookie";
 
 import Header from "./Shared/Header/Header";
@@ -175,6 +178,8 @@ function App() {
   return (
     <div className="App">
       <Router>
+        <ToastContainer position="top-center" />
+
         <Layout />
       </Router>
     </div>
