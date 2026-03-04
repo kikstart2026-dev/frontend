@@ -49,13 +49,7 @@ export const createEnq = async (payload) => {
 
 // ✅ Create Home Banner (FormData লাগবে)
 export const createHomeBanner = async (payload) => {
-  const res = await axiosInstance.post(
-    endpoints.createHomeBanner,
-    payload,
-    {
-      headers: { "Content-Type": "multipart/form-data" }
-    }
-  );
+  const res = await axiosInstance.post(endpoints.createHomeBanner, payload);
   return res.data;
 };
 
@@ -76,12 +70,7 @@ export const getHomeBannerById = async (id) => {
 // ✅ Update Home Banner (FormData লাগবে)
 export const updateHomeBanner = async (id, payload) => {
   const res = await axiosInstance.put(
-    endpoints.updateHomeBanner(id),
-    payload,
-    {
-      headers: { "Content-Type": "multipart/form-data" }
-    }
-  );
+    endpoints.updateHomeBanner(id),payload);
   return res.data;
 };
 
