@@ -47,7 +47,7 @@ export const createEnq = async (payload) => {
     Home Banner APIs
 ================================ */
 
-// ✅ Create Home Banner (FormData লাগবে)
+// ✅ Create 
 export const createHomeBanner = async (payload) => {
   const res = await axiosInstance.post(
     endpoints.createHomeBanner,
@@ -59,13 +59,13 @@ export const createHomeBanner = async (payload) => {
   return res.data;
 };
 
-// ✅ Get All Home Banner
+// ✅ Get All
 export const getAllHomeBanner = async () => {
   const res = await axiosInstance.get(endpoints.getAllHomeBanner);
   return res.data;
 };
 
-// ✅ Get Home Banner By ID
+// ✅ Get By ID
 export const getHomeBannerById = async (id) => {
   const res = await axiosInstance.get(
     endpoints.getHomeBannerById(id)
@@ -73,7 +73,7 @@ export const getHomeBannerById = async (id) => {
   return res.data;
 };
 
-// ✅ Update Home Banner (FormData লাগবে)
+// ✅ Update 
 export const updateHomeBanner = async (id, payload) => {
   const res = await axiosInstance.put(
     endpoints.updateHomeBanner(id),
@@ -110,12 +110,11 @@ export const multipleDeleteHomeBanner = async () => {
   return res.data;
 };
 
-
 /* ================================
     Why Choose Us APIs
 ================================ */
 
-// ✅ Create All Why Choose Us
+// ✅ Create
 export const createWhyChooseUs = async (payload) => {
   const res = await axiosInstance.post(
     endpoints.createWhyChooseUs,
@@ -124,13 +123,13 @@ export const createWhyChooseUs = async (payload) => {
   return res.data;
 };
 
-// ✅ Get All Why Choose Us
+// ✅ Get All 
 export const getAllWhyChooseUs = async () => {
-  const res = await axiosInstance.get(endpoints.getWhyAllChooseUs);
+  const res = await axiosInstance.get(endpoints.getAllWhyChooseUs);
   return res.data;
 };
 
-// ✅ Get Why Choose Us By ID
+// ✅ Get By ID
 export const getWhyChooseUsById = async (id) => {
   const res = await axiosInstance.get(
     endpoints.getHomeBannerById(id)
@@ -138,7 +137,7 @@ export const getWhyChooseUsById = async (id) => {
   return res.data;
 };
 
-// ✅ Update Why Choose Us 
+// ✅ Update
 export const updateWhyChooseUs = async (id, payload) => {
   const res = await axiosInstance.put(
     endpoints.updateWhyChooseUs(id),
@@ -147,7 +146,7 @@ export const updateWhyChooseUs = async (id, payload) => {
   return res.data;
 };
 
-// ✅ Delete Selective
+// ✅ Selective Delete 
 export const selectiveDeleteWhyChooseUs = async (payload) => {
   const res = await axiosInstance.delete(
     endpoints.selectiveDeleteWhyChooseUs,
@@ -156,7 +155,7 @@ export const selectiveDeleteWhyChooseUs = async (payload) => {
   return res.data;
 };
 
-// ✅ Delete Single
+// ✅ Single Delete
 export const singleDeleteWhyChooseUs = async (id) => {
   const res = await axiosInstance.delete(
     endpoints.singleDeleteWhyChooseUs(id)

@@ -1,5 +1,3 @@
-import { updateWhyChooseUs } from "../api";
-
 export const endpoints = {
 
   //Signup,login,otp-verify,reset-pass,etc------------------>>
