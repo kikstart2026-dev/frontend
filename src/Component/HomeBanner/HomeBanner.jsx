@@ -76,7 +76,7 @@ export default function HomeBanner() {
               <figure>
                 {banner?.image && (
                   <img
-                    src={`${BASE_URL}${banner.image}`}
+                    src={`${banner.image}`}
                     alt="Banner"
                   />
                 )}
