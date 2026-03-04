@@ -31,6 +31,18 @@ export const resendOtp = async (payload) => {
   return res.data;
 };
 
+export const logoutUser = async (payload) => {
+  const res = await axiosInstance.post(endpoints.logout, payload);
+  return res.data;
+};
+
+export const googleAuth = async (payload) => {
+  const res = await axiosInstance.post(endpoints.googleAuth, payload);
+  return res.data;
+};
+
+
+
 export const contactUs = async (payload) => {
   const res = await axiosInstance.post(endpoints.contactUs, payload);
   return res.data;
@@ -41,21 +53,13 @@ export const createEnq = async (payload) => {
   return res.data;
 };
 
-
-
 /* ================================
     Home Banner APIs
 ================================ */
 
 // ✅ Create 
 export const createHomeBanner = async (payload) => {
-  const res = await axiosInstance.post(
-    endpoints.createHomeBanner,
-    payload,
-    {
-      headers: { "Content-Type": "multipart/form-data" }
-    }
-  );
+  const res = await axiosInstance.post(endpoints.createHomeBanner, payload);
   return res.data;
 };
 
@@ -67,46 +71,34 @@ export const getAllHomeBanner = async () => {
 
 // ✅ Get By ID
 export const getHomeBannerById = async (id) => {
-  const res = await axiosInstance.get(
-    endpoints.getHomeBannerById(id)
-  );
+  const res = await axiosInstance.get(endpoints.getHomeBannerById(id));
   return res.data;
 };
 
 // ✅ Update 
 export const updateHomeBanner = async (id, payload) => {
   const res = await axiosInstance.put(
-    endpoints.updateHomeBanner(id),
-    payload,
-    {
-      headers: { "Content-Type": "multipart/form-data" }
-    }
-  );
+    endpoints.updateHomeBanner(id),payload);
   return res.data;
 };
 
 // ✅ Delete Single
 export const singleDeleteHomeBanner = async (id) => {
-  const res = await axiosInstance.delete(
-    endpoints.singleDeleteHomeBanner(id)
-  );
+  const res = await axiosInstance.delete(endpoints.singleDeleteHomeBanner(id));
   return res.data;
 };
 
 // ✅ Delete Selective
 export const selectiveDeleteHomeBanner = async (payload) => {
-  const res = await axiosInstance.delete(
-    endpoints.selectiveDeleteHomeBanner,
-    { data: payload }
-  );
+  const res = await axiosInstance.delete(endpoints.selectiveDeleteHomeBanner, {
+    data: payload,
+  });
   return res.data;
 };
 
 // ✅ Delete All
 export const multipleDeleteHomeBanner = async () => {
-  const res = await axiosInstance.delete(
-    endpoints.multipleDeleteHomeBanner
-  );
+  const res = await axiosInstance.delete(endpoints.multipleDeleteHomeBanner);
   return res.data;
 };
 
@@ -168,5 +160,43 @@ export const multipleDeleteWhyChooseUs = async () => {
   const res = await axiosInstance.delete(
     endpoints.multipleDeleteWhyChooseUs
   );
+  return res.data;
+};
+/* ================================ Service APIs ================================ */
+// ✅ Create Service
+export const createService = async (payload) => {
+  const res = await axiosInstance.post(endpoints.createService, payload);
+  return res.data;
+};
+// ✅ Get All services
+export const getAllService = async () => {
+  const res = await axiosInstance.get(endpoints.getAllService);
+  return res.data;
+};
+// ✅ Get sevice By ID
+export const getServiceById = async (id) => {
+  const res = await axiosInstance.get(endpoints.getServiceById(id));
+  return res.data;
+};
+// ✅ Update service
+export const updateService = async (id, payload) => {
+  const res = await axiosInstance.put(endpoints.updateService(id), payload);
+  return res.data;
+};
+// ✅ Delete Single
+export const singleDeleteService = async (id) => {
+  const res = await axiosInstance.delete(endpoints.singleDeleteService(id));
+  return res.data;
+};
+// ✅ Delete Selective
+export const selectiveDeleteService = async (payload) => {
+  const res = await axiosInstance.delete(endpoints.selectiveDeleteService, {
+    data: payload,
+  });
+  return res.data;
+};
+// ✅ Delete All
+export const multipleDeleteService = async () => {
+  const res = await axiosInstance.delete(endpoints.multipleDeleteService);
   return res.data;
 };

@@ -1,13 +1,14 @@
 export const endpoints = {
-
   //Signup,login,otp-verify,reset-pass,etc------------------>>
 
-  signUp: "/signup",
-  login: "/login",
-  verifyOtp: "/verify-otp",
-  resendOtp: "/resendotp",
-  forgotPass: "/forgot-password",
-  reetPass: "/reset-password",
+  signUp: "/signup",  
+  login:"/login",
+  verifyOtp:"/verify-otp",
+  resendOtp:"/resendotp",
+  forgotPass:"/forgot-password",
+  reetPass:"/reset-password",
+  logout: "/logout",
+  googleAuth: "/google",
 
 
   // Enquiry---------------------->>
@@ -36,7 +37,15 @@ export const endpoints = {
   updateWhyChooseUs: (id) => `/why-choose-us/${id}`,
   singleDeleteWhyChooseUs: (id) => `/why-choose-us/${id}`,
   selectiveDeleteWhyChooseUs:"/why-choose-us/select/delete",
-  multipleDeleteWhyChooseUs:"/why-choose-us/delete/all"
+  multipleDeleteWhyChooseUs:"/why-choose-us/delete/all",
+  
+  // service------------------------------------>>
+
+  createService:"/service/create",
+  getAllService:"/service/",
+  getServiceById: (id) => `/service/${id}`,
+  updateService: (id) => `/service/${id}`,
+  singleDeleteService: (id) => `/service/${id}`,
+  selectiveDeleteService:"/service/select/delete",
+  multipleDeleteService :"/service/delete/all",
 };
-
-

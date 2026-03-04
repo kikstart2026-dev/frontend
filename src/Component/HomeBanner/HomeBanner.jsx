@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import CmnHeading from "../../Component/CmnHeading/CmnHeading";
 import Button from "../../Component/Buttons/Button";
 import { getAllHomeBanner } from "../../apis/api";
+import Cookies from "js-cookie";
+// import mask from "../../assets/images/Mask group.png";
 import "../../Main.scss";
 import styles from "./HomeBanner.module.scss";
 
@@ -33,6 +35,8 @@ export default function HomeBanner() {
   }, []);
 
   if (loading) return <p>Loading...</p>;
+  // ✅ Check token
+  const token = Cookies.get("token");
 
   return (
     <div className={styles.homeBanner}>
@@ -58,14 +62,17 @@ export default function HomeBanner() {
                 {banner?.headingData?.description}
               </p>
 
-              <div className={styles.bannerBtn}>
-                <Button
-                  className={styles.editbtn}
-                  text="SIGN UP NOW"
-                  variant="primary"
-                  onClick={() => navigate("/signup")}
-                />
-              </div>
+              {/* ✅ Show button only if NOT logged in */}
+              {!token && (
+                <div className={styles.bannerBtn}>
+                  <Button
+                    className={styles.editbtn}
+                    text="SIGN UP NOW"
+                    variant="primary"
+                    onClick={() => navigate("/signup")}
+                  />
+                </div>
+              )}
 
             </div>
           </div>
