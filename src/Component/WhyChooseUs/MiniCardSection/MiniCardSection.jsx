@@ -10,10 +10,12 @@ export default function MiniCardSection({ limit, showHeading = true }) {
   const [heading, setHeading] = useState(null);
   const [cards, setCards] = useState([]);
 
-  useEffect(() => {
+   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await getAllWhyChooseUs();
+
+        console.log("API:", res);
 
         if (res?.data) {
           setHeading(res.data.heading);
