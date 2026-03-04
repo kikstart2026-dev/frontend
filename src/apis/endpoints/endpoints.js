@@ -9,6 +9,7 @@ export const endpoints = {
   forgotPass:"/forgot-password",
   reetPass:"/reset-password",
   logout: "/logout",
+  googleAuth: "/google",
 
 
   // Enquiry---------------------->>

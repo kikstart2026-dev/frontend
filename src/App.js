@@ -1,3 +1,4 @@
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -6,6 +7,7 @@ import {
   useLocation,
   Navigate,
 } from "react-router-dom";
+
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -177,11 +179,12 @@ function Layout() {
 function App() {
   return (
     <div className="App">
-      <Router>
-        <ToastContainer position="top-center" />
-
-        <Layout />
-      </Router>
+      <GoogleOAuthProvider clientId="377086841705-5qap8i7ifjqmr9hu09emtonof1qo2mnb.apps.googleusercontent.com">
+        <Router>
+          <ToastContainer position="top-center" />
+          <Layout />
+        </Router>
+      </GoogleOAuthProvider>
     </div>
   );
 }
