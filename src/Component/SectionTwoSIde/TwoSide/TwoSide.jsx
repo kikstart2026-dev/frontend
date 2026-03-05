@@ -44,9 +44,15 @@ export default function TwoSide() {
               title={about.headingData?.subheading}
               subtitle={about.headingData?.heading}
               details={
-                <p className={styles.firstPara}>
-                  {about.headingData?.description}
-                </p>
+                <>
+                  <p className={styles.firstPara}>
+                    {about?.headingData?.description?.split("|")[0]}
+                  </p>
+
+                  <p className={styles.secondPara}>
+                    {about?.headingData?.description?.split("|")[1]}
+                  </p>
+                </>
               }
               align="left"
             />
