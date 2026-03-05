@@ -170,3 +170,67 @@ export const multipleDeleteWhyChooseUs = async () => {
   );
   return res.data;
 };
+
+
+/* ================================
+    About Us APIs
+================================ */
+
+// Create
+export const createAboutUs = async (payload) => {
+  const res = await axiosInstance.post(
+    endpoints.createAboutUs,
+    payload
+  );
+  return res.data;
+};
+
+// Get All
+export const getAllAboutUs = async () => {
+  const res = await axiosInstance.get(
+    endpoints.getAllAboutUs
+  );
+  return res.data;
+};
+
+// Get By ID
+export const getAboutUsById = async (id) => {
+  const res = await axiosInstance.get(
+    endpoints.getAboutUsById(id)
+  );
+  return res.data;
+};
+
+// Update
+export const updateAboutUs = async (id, payload) => {
+  const res = await axiosInstance.put(
+    endpoints.updateAboutUs(id),
+    payload
+  );
+  return res.data;
+};
+
+// Selective Delete
+export const selectiveDeleteAboutUs = async (payload) => {
+  const res = await axiosInstance.delete(
+    endpoints.selectiveDeleteAboutUs,
+    { data: payload }
+  );
+  return res.data;
+};
+
+// Single Delete
+export const singleDeleteAboutUs = async (id) => {
+  const res = await axiosInstance.delete(
+    endpoints.singleDeleteAboutUs(id)
+  );
+  return res.data;
+};
+
+// Delete All
+export const multipleDeleteAboutUs = async () => {
+  const res = await axiosInstance.delete(
+    endpoints.multipleDeleteAboutUs
+  );
+  return res.data;
+};
