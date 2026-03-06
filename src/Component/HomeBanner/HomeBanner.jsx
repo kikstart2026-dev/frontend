@@ -16,23 +16,30 @@ export default function HomeBanner() {
 
   const BASE_URL = "http://localhost:8008";
 
-  useEffect(() => {
-    const fetchBanner = async () => {
-      try {
-        const res = await getAllHomeBanner();
+useEffect(() => {
+  const fetchBanner = async () => {
+    try {
+      const res = await getAllHomeBanner();
 
-        if (res?.data?.length > 0) {
-          setBanner(res.data[0]);
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
+      const banners = res?.data?.data || res?.data || [];
+
+      const sorted = [...banners].sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+
+      if (sorted.length > 0) {
+        setBanner(sorted[0]); // latest banner
       }
-    };
 
-    fetchBanner();
-  }, []);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchBanner();
+}, []);
 
   if (loading) return <p>Loading...</p>;
   // ✅ Check token
