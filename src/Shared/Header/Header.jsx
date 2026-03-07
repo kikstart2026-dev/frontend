@@ -7,6 +7,7 @@ import kikstart from "../../assets/images/KIKSTART_logo.png";
 import styles from "./Header.module.scss";
 import Button from "../../Component/Buttons/Button";
 import { logoutUser } from "../../apis/api";
+import { handleSuccess } from "../../utils";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,7 +31,7 @@ export default function Header() {
     onSuccess: (data) => {
       Cookies.remove("token");                 // ✅ remove token
       localStorage.removeItem("verifyEmail");  // ✅ remove email
-      toast.success(data?.message || "Logged out successfully ✅");
+      handleSuccess("Logged out successfully ✅");
     },
     onError: (error) => {
       toast.error(error?.response?.data?.message || "Logout failed ❌");
@@ -41,12 +42,12 @@ export default function Header() {
   const handleLogoutClick = () => {
     toast(
       ({ closeToast }) => (
-        <div style={{ textAlign: "center" }}>
+        <div>
           <p style={{ marginBottom: "15px", fontWeight: "500" }}>
             Are You Sure Want To Logout?
           </p>
 
-          <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
+          <div style={{ display: "flex", gap: "10px" }}>
             <button
               onClick={() => closeToast()}
               style={{
