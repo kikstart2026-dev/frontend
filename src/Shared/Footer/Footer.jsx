@@ -83,8 +83,8 @@ export default function Footer() {
 
       <div className="container">
         <div className={styles.footerLower}>
-          <p>© Copyright 2024 kikstart - All Rights Reserved</p>
-          <p className={styles.right}>Website Design by Webskitters</p>
+          <p>© Copyright 2026 kikstart - Made with ❤️ for Kids</p>
+          <p className={styles.right}>Learning, Playing & Growing Together</p>
         </div>
       </div>
     </div>
