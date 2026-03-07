@@ -107,7 +107,7 @@ export default function SchoolDetailsForm() {
 
                         {/* NEXT BUTTON */}
                         <Button
-                            className={styles.nextBtn}
+                            className={`${styles.nextBtn} ${styles2.redbtn}`}
                             type="submit"
                             text="NEXT"
                             variant="primary"
