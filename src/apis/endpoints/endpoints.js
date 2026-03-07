@@ -1,12 +1,12 @@
 export const endpoints = {
   //Signup,login,otp-verify,reset-pass,etc------------------>>
 
-  signUp: "/signup",  
-  login:"/login",
-  verifyOtp:"/verify-otp",
-  resendOtp:"/resendotp",
-  forgotPass:"/forgot-password",
-  reetPass:"/reset-password",
+  signUp: "/signup",
+  login: "/login",
+  verifyOtp: "/verify-otp",
+  resendOtp: "/resendotp",
+  forgotPass: "/forgot-password",
+  reetPass: "/reset-password",
   logout: "/logout",
   googleAuth: "/google",
 
@@ -26,8 +26,8 @@ export const endpoints = {
   getHomeBannerById: (id) => `/home-banner/${id}`,
   updateHomeBanner: (id) => `/home-banner/${id}`,
   singleDeleteHomeBanner: (id) => `/home-banner/${id}`,
-  selectiveDeleteHomeBanner:"/home-banner/select/delete",
-  multipleDeleteHomeBanner:"/home-banner/delete/all",
+  selectiveDeleteHomeBanner: "/home-banner/select/delete",
+  multipleDeleteHomeBanner: "/home-banner/delete/all",
 
   // Why Choose Us------------------------------------>>
 
@@ -36,16 +36,31 @@ export const endpoints = {
   getWhyChooseUsById: (id) => `/why-choose-us/${id}`,
   updateWhyChooseUs: (id) => `/why-choose-us/${id}`,
   singleDeleteWhyChooseUs: (id) => `/why-choose-us/${id}`,
-  selectiveDeleteWhyChooseUs:"/why-choose-us/select/delete",
-  multipleDeleteWhyChooseUs:"/why-choose-us/delete/all",
-  
+  selectiveDeleteWhyChooseUs: "/why-choose-us/select/delete",
+  multipleDeleteWhyChooseUs: "/why-choose-us/delete/all",
+
   // service------------------------------------>>
 
-  createService:"/service/create",
-  getAllService:"/service/",
+  createService: "/service/create",
+  getAllService: "/service/",
   getServiceById: (id) => `/service/${id}`,
   updateService: (id) => `/service/${id}`,
   singleDeleteService: (id) => `/service/${id}`,
-  selectiveDeleteService:"/service/select/delete",
-  multipleDeleteService :"/service/delete/all",
+  selectiveDeleteService: "/service/select/delete",
+  multipleDeleteService: "/service/delete/all",
+
+  // About Us------------------------------------>>
+
+  createAboutUs: "/about-us/create",
+  getAllAboutUs: "/about-us",
+  getAboutUsById: (id) => `/about-us/${id}`,
+  updateAboutUs: (id) => `/about-us/${id}`,
+  singleDeleteAboutUs: (id) => `/about-us/${id}`,
+  selectiveDeleteAboutUs: "/about-us/select/delete",
+  multipleDeleteAboutUs: "/about-us/delete/all",
 };
+
+
+
+
+
