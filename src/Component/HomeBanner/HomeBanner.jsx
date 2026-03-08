@@ -1,49 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import CmnHeading from "../../Component/CmnHeading/CmnHeading";
 import Button from "../../Component/Buttons/Button";
 import { getAllHomeBanner } from "../../apis/api";
 import Cookies from "js-cookie";
-// import mask from "../../assets/images/Mask group.png";
 import "../../Main.scss";
 import styles from "./HomeBanner.module.scss";
 
 export default function HomeBanner() {
+
   const navigate = useNavigate();
+  const token = Cookies.get("token");
 
-  const [banner, setBanner] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { data: banner, isLoading, error } = useQuery({
+    queryKey: ["homeBanner"],
+    queryFn: async () => {
 
-  const BASE_URL = "http://localhost:8008";
-
-useEffect(() => {
-  const fetchBanner = async () => {
-    try {
       const res = await getAllHomeBanner();
-
       const banners = res?.data?.data || res?.data || [];
 
       const sorted = [...banners].sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
 
-      if (sorted.length > 0) {
-        setBanner(sorted[0]); // latest banner
-      }
+      return sorted[0]; // latest banner
+    },
+  });
 
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchBanner();
-}, []);
-
-  if (loading) return <p>Loading...</p>;
-  // ✅ Check token
-  const token = Cookies.get("token");
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Failed to load banner</p>;
 
   return (
     <div className={styles.homeBanner}>
@@ -58,6 +44,7 @@ useEffect(() => {
                 title={banner?.headingData?.subheading}
                 align="left"
               />
+
               <h1 className={styles.bannerSubtitle}>
                 {banner?.headingData?.heading?.split("|")[0]}
                 <span className={styles.redText}>
@@ -69,7 +56,7 @@ useEffect(() => {
                 {banner?.headingData?.description}
               </p>
 
-              {/* ✅ Show button only if NOT logged in */}
+              {/* Show button only if NOT logged in */}
               {!token && (
                 <div className={styles.bannerBtn}>
                   <Button
@@ -90,7 +77,7 @@ useEffect(() => {
               <figure>
                 {banner?.image && (
                   <img
-                    src={`${banner.image}`}
+                    src={banner.image}
                     alt="Banner"
                   />
                 )}

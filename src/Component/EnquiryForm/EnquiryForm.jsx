@@ -91,10 +91,15 @@ export default function EnquiryForm() {
               <div className={styles.inputWrapper}>
                 <input
                   className={styles.inp}
-                  type="text"
+                  type="tel"
                   name="schoolPhone"
                   placeholder=" "
                   required
+                  maxLength="10"
+                  inputMode="numeric"
+                  onInput={(e) => {
+                    e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                  }}
                 />
                 <label className={styles.lbl}>
                   Phone Number Of The School
