@@ -162,6 +162,7 @@ export const multipleDeleteWhyChooseUs = async () => {
   );
   return res.data;
 };
+
 /* ================================ Service APIs ================================ */
 // ✅ Create Service
 export const createService = async (payload) => {
@@ -264,3 +265,53 @@ export const multipleDeleteAboutUs = async () => {
   );
   return res.data;
 };
+
+
+/* ================================
+        FAQ APIs
+================================ */
+
+// // ✅ Create FAQ (Admin)
+// export const createFaq = async (payload) => {
+//   const res = await axiosInstance.post(endpoints.createFaq, payload);
+//   return res.data;
+// };
+
+// // ✅ Get All FAQ (Admin)
+// export const getAllFaqsAdmin = async () => {
+//   const res = await axiosInstance.get(endpoints.getAllFaqsAdmin);
+//   return res.data;
+// };
+
+// ✅ Get All FAQ (User)
+export const getAllFaqsUser = async () => {
+  const res = await axiosInstance.get(endpoints.getAllFaqsUser);
+  return res.data;
+};
+
+// // ✅ Get FAQ By ID (Admin)
+// export const getFaqByIdAdmin = async (id) => {
+//   const res = await axiosInstance.get(endpoints.getFaqByIdAdmin(id));
+//   return res.data;
+// };
+
+// ✅ Get FAQ By ID (User)
+export const getFaqByIdUser = async (id) => {
+  const res = await axiosInstance.get(endpoints.getFaqByIdUser(id));
+  return res.data;
+};
+
+// // ✅ Update FAQ (Admin)
+// export const updateFaq = async (id, payload) => {
+//   const res = await axiosInstance.put(
+//     endpoints.updateFaq(id),
+//     payload
+//   );
+//   return res.data;
+// };
+
+// // ✅ Delete FAQ (Admin)
+// export const deleteFaq = async (id) => {
+//   const res = await axiosInstance.delete(endpoints.deleteFaq(id));
+//   return res.data;
+// };

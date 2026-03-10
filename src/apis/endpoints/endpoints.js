@@ -58,9 +58,17 @@ export const endpoints = {
   singleDeleteAboutUs: (id) => `/about-us/${id}`,
   selectiveDeleteAboutUs: "/about-us/select/delete",
   multipleDeleteAboutUs: "/about-us/delete/all",
+
+
+  // FAQ --------------------------------------->>
+
+  createFaq: "/faq/admin/create",
+  getAllFaqsAdmin: "/faq/admin",
+  getAllFaqsUser: "/faq/user",
+  getFaqByIdAdmin: (id) => `/faq/admin/${id}`,
+  getFaqByIdUser: (id) => `/faq/user/${id}`,
+  updateFaq: (id) => `/faq/admin/${id}`,
+  deleteFaq: (id) => `/faq/admin/${id}`,
 };
-
-
-
 
 
