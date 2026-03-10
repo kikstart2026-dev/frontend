@@ -39,7 +39,7 @@ export default function MiniCardSection({ limit, showHeading = true }) {
         {showHeading && heading && (
           <div className={styles["why-choose-us"]}>
             <CmnHeading
-              title={heading.subheading}
+              title={heading.tagline}
               subtitle={heading.heading}
               details={heading.description}
               align="center"
