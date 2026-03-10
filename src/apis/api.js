@@ -57,11 +57,11 @@ export const createEnq = async (payload) => {
     Home Banner APIs
 ================================ */
 
-// ✅ Create 
-export const createHomeBanner = async (payload) => {
-  const res = await axiosInstance.post(endpoints.createHomeBanner, payload);
-  return res.data;
-};
+// // ✅ Create 
+// export const createHomeBanner = async (payload) => {
+//   const res = await axiosInstance.post(endpoints.createHomeBanner, payload);
+//   return res.data;
+// };
 
 // ✅ Get All
 export const getAllHomeBanner = async () => {
@@ -75,32 +75,32 @@ export const getHomeBannerById = async (id) => {
   return res.data;
 };
 
-// ✅ Update 
-export const updateHomeBanner = async (id, payload) => {
-  const res = await axiosInstance.put(
-    endpoints.updateHomeBanner(id),payload);
-  return res.data;
-};
+// // ✅ Update 
+// export const updateHomeBanner = async (id, payload) => {
+//   const res = await axiosInstance.put(
+//     endpoints.updateHomeBanner(id),payload);
+//   return res.data;
+// };
 
-// ✅ Delete Single
-export const singleDeleteHomeBanner = async (id) => {
-  const res = await axiosInstance.delete(endpoints.singleDeleteHomeBanner(id));
-  return res.data;
-};
+// // ✅ Delete Single
+// export const singleDeleteHomeBanner = async (id) => {
+//   const res = await axiosInstance.delete(endpoints.singleDeleteHomeBanner(id));
+//   return res.data;
+// };
 
-// ✅ Delete Selective
-export const selectiveDeleteHomeBanner = async (payload) => {
-  const res = await axiosInstance.delete(endpoints.selectiveDeleteHomeBanner, {
-    data: payload,
-  });
-  return res.data;
-};
+// // ✅ Delete Selective
+// export const selectiveDeleteHomeBanner = async (payload) => {
+//   const res = await axiosInstance.delete(endpoints.selectiveDeleteHomeBanner, {
+//     data: payload,
+//   });
+//   return res.data;
+// };
 
-// ✅ Delete All
-export const multipleDeleteHomeBanner = async () => {
-  const res = await axiosInstance.delete(endpoints.multipleDeleteHomeBanner);
-  return res.data;
-};
+// // ✅ Delete All
+// export const multipleDeleteHomeBanner = async () => {
+//   const res = await axiosInstance.delete(endpoints.multipleDeleteHomeBanner);
+//   return res.data;
+// };
 
 /* ================================
     Why Choose Us APIs

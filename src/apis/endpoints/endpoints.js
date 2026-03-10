@@ -20,14 +20,15 @@ export const endpoints = {
   contactUs: "/contact",
 
   // Home Banner------------------------------------>>
+  getAllHomeBanner: "user/home-banner",
+  getHomeBannerById: (id) => `user/home-banner/${id}`,
 
-  createHomeBanner: "/home-banner/create",
-  getAllHomeBanner: "/home-banner",
-  getHomeBannerById: (id) => `/home-banner/${id}`,
-  updateHomeBanner: (id) => `/home-banner/${id}`,
-  singleDeleteHomeBanner: (id) => `/home-banner/${id}`,
-  selectiveDeleteHomeBanner: "/home-banner/select/delete",
-  multipleDeleteHomeBanner: "/home-banner/delete/all",
+
+  // createHomeBanner: "/home-banner/create",
+  // updateHomeBanner: (id) => `/home-banner/${id}`,
+  // singleDeleteHomeBanner: (id) => `/home-banner/${id}`,
+  // selectiveDeleteHomeBanner: "/home-banner/select/delete",
+  // multipleDeleteHomeBanner: "/home-banner/delete/all",
 
   // Why Choose Us------------------------------------>>
 
