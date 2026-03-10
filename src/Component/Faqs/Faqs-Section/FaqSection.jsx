@@ -1,12 +1,25 @@
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import CmnHeading from "../../CmnHeading/CmnHeading";
-import FaqsRightImg from "../../../assets/images/faqs-right-img.png";
 import "../../../Main.scss";
 import Faqs from "../Faqs";
 import styles from "./FaqSection.module.scss";
-import faqData from "../../../data/faqData";
+import { getAllFaqsUser } from "../../../apis/api";
 
 export default function FaqSection() {
+
+  const { data: faqData, isLoading } = useQuery({
+    queryKey: ["faqs"],
+    queryFn: async () => {
+      const res = await getAllFaqsUser();
+      return res?.data || [];
+    }
+  });
+
+  if (isLoading) return null;
+
+  const headingData = faqData?.[0]?.headingData || {};
+
   return (
     <section className={`${styles.faqsSection} common-space`}>
       <div className="container">
@@ -15,8 +28,8 @@ export default function FaqSection() {
           {/* LEFT SIDE */}
           <div className={`col-6 ${styles.faqsLeft}`}>
             <CmnHeading
-              title="FAQs"
-              subtitle="Have question"
+              title={headingData?.heading}
+              subtitle={headingData?.subheading}
               align="left"
             />
 
@@ -27,7 +40,7 @@ export default function FaqSection() {
           <div className={`col-6 ${styles.faqsRight}`}>
             <figure>
               <img
-                src={FaqsRightImg}
+                src="http://localhost:8008/uploads/images/1773166023559-837503757.png"
                 alt="Kikstart character"
                 className={styles.faqsCharacter}
               />

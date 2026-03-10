@@ -57,11 +57,11 @@ export const createEnq = async (payload) => {
     Home Banner APIs
 ================================ */
 
-// ✅ Create 
-export const createHomeBanner = async (payload) => {
-  const res = await axiosInstance.post(endpoints.createHomeBanner, payload);
-  return res.data;
-};
+// // ✅ Create 
+// export const createHomeBanner = async (payload) => {
+//   const res = await axiosInstance.post(endpoints.createHomeBanner, payload);
+//   return res.data;
+// };
 
 // ✅ Get All
 export const getAllHomeBanner = async () => {
@@ -75,32 +75,32 @@ export const getHomeBannerById = async (id) => {
   return res.data;
 };
 
-// ✅ Update 
-export const updateHomeBanner = async (id, payload) => {
-  const res = await axiosInstance.put(
-    endpoints.updateHomeBanner(id),payload);
-  return res.data;
-};
+// // ✅ Update 
+// export const updateHomeBanner = async (id, payload) => {
+//   const res = await axiosInstance.put(
+//     endpoints.updateHomeBanner(id),payload);
+//   return res.data;
+// };
 
-// ✅ Delete Single
-export const singleDeleteHomeBanner = async (id) => {
-  const res = await axiosInstance.delete(endpoints.singleDeleteHomeBanner(id));
-  return res.data;
-};
+// // ✅ Delete Single
+// export const singleDeleteHomeBanner = async (id) => {
+//   const res = await axiosInstance.delete(endpoints.singleDeleteHomeBanner(id));
+//   return res.data;
+// };
 
-// ✅ Delete Selective
-export const selectiveDeleteHomeBanner = async (payload) => {
-  const res = await axiosInstance.delete(endpoints.selectiveDeleteHomeBanner, {
-    data: payload,
-  });
-  return res.data;
-};
+// // ✅ Delete Selective
+// export const selectiveDeleteHomeBanner = async (payload) => {
+//   const res = await axiosInstance.delete(endpoints.selectiveDeleteHomeBanner, {
+//     data: payload,
+//   });
+//   return res.data;
+// };
 
-// ✅ Delete All
-export const multipleDeleteHomeBanner = async () => {
-  const res = await axiosInstance.delete(endpoints.multipleDeleteHomeBanner);
-  return res.data;
-};
+// // ✅ Delete All
+// export const multipleDeleteHomeBanner = async () => {
+//   const res = await axiosInstance.delete(endpoints.multipleDeleteHomeBanner);
+//   return res.data;
+// };
 
 /* ================================
     Why Choose Us APIs
@@ -286,3 +286,52 @@ export const getTestById= async (id) => {
   );
   return res.data;
 };
+
+/* ================================
+    FAQ APIs
+================================ */
+
+// // ✅ Create FAQ (Admin)
+// export const createFaq = async (payload) => {
+//   const res = await axiosInstance.post(endpoints.createFaq, payload);
+//   return res.data;
+// };
+
+// // ✅ Get All FAQ (Admin)
+// export const getAllFaqsAdmin = async () => {
+//   const res = await axiosInstance.get(endpoints.getAllFaqsAdmin);
+//   return res.data;
+// };
+
+// ✅ Get All FAQ (User)
+export const getAllFaqsUser = async () => {
+  const res = await axiosInstance.get(endpoints.getAllFaqsUser);
+  return res.data;
+};
+
+// // ✅ Get FAQ By ID (Admin)
+// export const getFaqByIdAdmin = async (id) => {
+//   const res = await axiosInstance.get(endpoints.getFaqByIdAdmin(id));
+//   return res.data;
+// };
+
+// ✅ Get FAQ By ID (User)
+export const getFaqByIdUser = async (id) => {
+  const res = await axiosInstance.get(endpoints.getFaqByIdUser(id));
+  return res.data;
+};
+
+// // ✅ Update FAQ (Admin)
+// export const updateFaq = async (id, payload) => {
+//   const res = await axiosInstance.put(
+//     endpoints.updateFaq(id),
+//     payload
+//   );
+//   return res.data;
+// };
+
+// // ✅ Delete FAQ (Admin)
+// export const deleteFaq = async (id) => {
+//   const res = await axiosInstance.delete(endpoints.deleteFaq(id));
+//   return res.data;
+// };

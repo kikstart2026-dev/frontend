@@ -20,24 +20,20 @@ export const endpoints = {
   contactUs: "/contact",
 
   // Home Banner------------------------------------>>
+  getAllHomeBanner: "user/home-banner",
+  getHomeBannerById: (id) => `user/home-banner/${id}`,
 
-  createHomeBanner: "/home-banner/create",
-  getAllHomeBanner: "/home-banner",
-  getHomeBannerById: (id) => `/home-banner/${id}`,
-  updateHomeBanner: (id) => `/home-banner/${id}`,
-  singleDeleteHomeBanner: (id) => `/home-banner/${id}`,
-  selectiveDeleteHomeBanner: "/home-banner/select/delete",
-  multipleDeleteHomeBanner: "/home-banner/delete/all",
+
+  // createHomeBanner: "/home-banner/create",
+  // updateHomeBanner: (id) => `/home-banner/${id}`,
+  // singleDeleteHomeBanner: (id) => `/home-banner/${id}`,
+  // selectiveDeleteHomeBanner: "/home-banner/select/delete",
+  // multipleDeleteHomeBanner: "/home-banner/delete/all",
 
   // Why Choose Us------------------------------------>>
 
-  createWhyChooseUs: "/why-choose-us/create",
-  getAllWhyChooseUs: "/why-choose-us",
-  getWhyChooseUsById: (id) => `/why-choose-us/${id}`,
-  updateWhyChooseUs: (id) => `/why-choose-us/${id}`,
-  singleDeleteWhyChooseUs: (id) => `/why-choose-us/${id}`,
-  selectiveDeleteWhyChooseUs: "/why-choose-us/select/delete",
-  multipleDeleteWhyChooseUs: "/why-choose-us/delete/all",
+  getAllWhyChooseUs: "user/why-choose-us",
+  getWhyChooseUsById: (id) => `user/why-choose-us/${id}`,
 
   // service------------------------------------>>
 
@@ -63,9 +59,16 @@ export const endpoints = {
 
   getAllTest: "/user/testimonal",
   getTestById: (id) => `user/testimonal/${id}`,
+
+  // FAQ --------------------------------------->>
+
+  // createFaq: "/faq/admin/create",
+  // getAllFaqsAdmin: "/faq/admin",
+  getAllFaqsUser: "user/faq",
+  // getFaqByIdAdmin: (id) => `/faq/admin/${id}`,
+  getFaqByIdUser: (id) => `user/faq/${id}`,
+  // updateFaq: (id) => `/faq/admin/${id}`,
+  // deleteFaq: (id) => `/faq/admin/${id}`,
 };
-
-
-
 
 
