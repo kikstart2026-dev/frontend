@@ -31,7 +31,7 @@ export default function HomeBanner() {
   // Dummy fallback if no banner
   const displayedBanner = banner || {
     headingData: {
-      subheading: "Welcome to Our Website",
+      tagline: "Welcome to Our Website",
       heading: "Dummy| Banner",
       description: "This is banner description.",
     },
@@ -49,7 +49,7 @@ export default function HomeBanner() {
           <div className="col-5">
             <div className={styles.leftContent}>
               <CmnHeading
-                title={displayedBanner.headingData?.subheading}
+                title={displayedBanner.headingData?.tagline}
                 align="left"
               />
 
