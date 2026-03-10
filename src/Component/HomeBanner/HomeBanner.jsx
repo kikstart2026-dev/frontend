@@ -19,11 +19,9 @@ export default function HomeBanner() {
       const res = await getAllHomeBanner();
       const banners = res?.data?.data || res?.data || [];
 
-      const sorted = [...banners].sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-      );
+      const activeBanner = banners.find((b) => b.isActive);
 
-      return sorted[0] || null; // latest banner or null
+      return activeBanner || banners[0] || null;
     },
   });
 
