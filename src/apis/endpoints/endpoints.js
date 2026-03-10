@@ -58,6 +58,11 @@ export const endpoints = {
   singleDeleteAboutUs: (id) => `/about-us/${id}`,
   selectiveDeleteAboutUs: "/about-us/select/delete",
   multipleDeleteAboutUs: "/about-us/delete/all",
+
+  // Testimonials------------------------------------>>
+
+  getAllTest: "/user/testimonal",
+  getTestById: (id) => `user/testimonal/${id}`,
 };
 
 
