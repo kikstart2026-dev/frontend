@@ -31,13 +31,8 @@ export const endpoints = {
 
   // Why Choose Us------------------------------------>>
 
-  createWhyChooseUs: "/why-choose-us/create",
-  getAllWhyChooseUs: "/why-choose-us",
-  getWhyChooseUsById: (id) => `/why-choose-us/${id}`,
-  updateWhyChooseUs: (id) => `/why-choose-us/${id}`,
-  singleDeleteWhyChooseUs: (id) => `/why-choose-us/${id}`,
-  selectiveDeleteWhyChooseUs: "/why-choose-us/select/delete",
-  multipleDeleteWhyChooseUs: "/why-choose-us/delete/all",
+  getAllWhyChooseUs: "user/why-choose-us",
+  getWhyChooseUsById: (id) => `user/why-choose-us/${id}`,
 
   // service------------------------------------>>
 
