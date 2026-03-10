@@ -2,7 +2,7 @@ import React from 'react'
 import CommonBanner from '../../Component/CommonBanner/CommonBanner'
 // import faqData from '../../data/faqData'
 // import Faqs from '../../Component/Faqs/Faqs'
-import "./FaqsPage.scss"
+import "./FaqsPage.module.scss"
 import Faqs from '../../Component/Faqs/Faqs'
 import faqData from '../../data/faqData'
 

@@ -64,9 +64,9 @@ export const endpoints = {
 
   // createFaq: "/faq/admin/create",
   // getAllFaqsAdmin: "/faq/admin",
-  getAllFaqsUser: "/faq/user",
+  getAllFaqsUser: "user/faq",
   // getFaqByIdAdmin: (id) => `/faq/admin/${id}`,
-  getFaqByIdUser: (id) => `/faq/user/${id}`,
+  getFaqByIdUser: (id) => `user/faq/${id}`,
   // updateFaq: (id) => `/faq/admin/${id}`,
   // deleteFaq: (id) => `/faq/admin/${id}`,
 };
