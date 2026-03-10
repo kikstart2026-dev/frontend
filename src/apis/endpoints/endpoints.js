@@ -59,9 +59,16 @@ export const endpoints = {
 
   getAllTest: "/user/testimonal",
   getTestById: (id) => `user/testimonal/${id}`,
+
+  // FAQ --------------------------------------->>
+
+  // createFaq: "/faq/admin/create",
+  // getAllFaqsAdmin: "/faq/admin",
+  getAllFaqsUser: "/faq/user",
+  // getFaqByIdAdmin: (id) => `/faq/admin/${id}`,
+  getFaqByIdUser: (id) => `/faq/user/${id}`,
+  // updateFaq: (id) => `/faq/admin/${id}`,
+  // deleteFaq: (id) => `/faq/admin/${id}`,
 };
-
-
-
 
 
