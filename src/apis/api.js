@@ -162,6 +162,7 @@ export const multipleDeleteWhyChooseUs = async () => {
   );
   return res.data;
 };
+
 /* ================================ Service APIs ================================ */
 // ✅ Create Service
 export const createService = async (payload) => {
