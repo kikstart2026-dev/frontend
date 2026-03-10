@@ -264,3 +264,24 @@ export const multipleDeleteAboutUs = async () => {
   );
   return res.data;
 };
+
+
+/* ================================
+    Testimonial APIs
+================================ */
+
+// Get All
+export const getAllTest = async () => {
+  const res = await axiosInstance.get(
+    endpoints.getAllTest
+  );
+  return res.data;
+};
+
+// Get By ID
+export const getTestById= async (id) => {
+  const res = await axiosInstance.get(
+    endpoints.getTestById(id)
+  );
+  return res.data;
+};
