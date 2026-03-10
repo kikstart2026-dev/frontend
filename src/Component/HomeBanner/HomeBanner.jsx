@@ -7,16 +7,15 @@ import { getAllHomeBanner } from "../../apis/api";
 import Cookies from "js-cookie";
 import "../../Main.scss";
 import styles from "./HomeBanner.module.scss";
+import noImg from "../../assets/images/no-img.png"; // local fallback image
 
 export default function HomeBanner() {
-
   const navigate = useNavigate();
   const token = Cookies.get("token");
 
   const { data: banner, isLoading, error } = useQuery({
     queryKey: ["homeBanner"],
     queryFn: async () => {
-
       const res = await getAllHomeBanner();
       const banners = res?.data?.data || res?.data || [];
 
@@ -24,36 +23,45 @@ export default function HomeBanner() {
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
 
-      return sorted[0]; // latest banner
+      return sorted[0] || null; // latest banner or null
     },
   });
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Failed to load banner</p>;
 
+  // Dummy fallback if no banner
+  const displayedBanner = banner || {
+    headingData: {
+      subheading: "Welcome to Our Website",
+      heading: "Dummy| Banner",
+      description: "This is banner description.",
+    },
+    image: noImg,
+  };
+
+  // Safely split heading
+  const headingParts = displayedBanner.headingData?.heading?.split("|") || ["", ""];
+
   return (
     <div className={styles.homeBanner}>
       <div className="container">
         <div className="row bannerWrap" style={{ alignItems: "center" }}>
-
           {/* LEFT SIDE */}
           <div className="col-5">
             <div className={styles.leftContent}>
-
               <CmnHeading
-                title={banner?.headingData?.subheading}
+                title={displayedBanner.headingData?.subheading}
                 align="left"
               />
 
               <h1 className={styles.bannerSubtitle}>
-                {banner?.headingData?.heading?.split("|")[0]}
-                <span className={styles.redText}>
-                  {banner?.headingData?.heading?.split("|")[1]}
-                </span>
+                {headingParts[0]}
+                <span className={styles.redText}>{headingParts[1]}</span>
               </h1>
 
               <p className={styles.text}>
-                {banner?.headingData?.description}
+                {displayedBanner.headingData?.description}
               </p>
 
               {/* Show button only if NOT logged in */}
@@ -67,7 +75,6 @@ export default function HomeBanner() {
                   />
                 </div>
               )}
-
             </div>
           </div>
 
@@ -75,16 +82,13 @@ export default function HomeBanner() {
           <div className="col-7">
             <div className={styles.rightImage}>
               <figure>
-                {banner?.image && (
-                  <img
-                    src={banner.image}
-                    alt="Banner"
-                  />
-                )}
+                <img
+                  src={displayedBanner.image || noImg} // fallback if image is missing
+                  alt="Banner"
+                />
               </figure>
             </div>
           </div>
-
         </div>
       </div>
     </div>
