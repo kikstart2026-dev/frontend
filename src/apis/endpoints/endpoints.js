@@ -23,13 +23,6 @@ export const endpoints = {
   getAllHomeBanner: "user/home-banner",
   getHomeBannerById: (id) => `user/home-banner/${id}`,
 
-
-  // createHomeBanner: "/home-banner/create",
-  // updateHomeBanner: (id) => `/home-banner/${id}`,
-  // singleDeleteHomeBanner: (id) => `/home-banner/${id}`,
-  // selectiveDeleteHomeBanner: "/home-banner/select/delete",
-  // multipleDeleteHomeBanner: "/home-banner/delete/all",
-
   // Why Choose Us------------------------------------>>
 
   getAllWhyChooseUs: "user/why-choose-us",
@@ -62,13 +55,8 @@ export const endpoints = {
 
   // FAQ --------------------------------------->>
 
-  // createFaq: "/faq/admin/create",
-  // getAllFaqsAdmin: "/faq/admin",
   getAllFaqsUser: "user/faq",
-  // getFaqByIdAdmin: (id) => `/faq/admin/${id}`,
   getFaqByIdUser: (id) => `user/faq/${id}`,
-  // updateFaq: (id) => `/faq/admin/${id}`,
-  // deleteFaq: (id) => `/faq/admin/${id}`,
 };
 
 

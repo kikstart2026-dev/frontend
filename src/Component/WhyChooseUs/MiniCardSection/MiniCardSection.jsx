@@ -1,36 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import CmnHeading from "../../CmnHeading/CmnHeading";
 import MiniCard from "../MiniCard";
 import styles from "./MiniCardSection.module.scss";
 import "../../../Main.scss";
-import {getAllWhyChooseUs} from "../../../apis/api"
+import { getAllWhyChooseUs } from "../../../apis/api";
 
 export default function MiniCardSection({ limit, showHeading = true }) {
 
-  const [heading, setHeading] = useState(null);
-  const [cards, setCards] = useState([]);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["whyChooseUs"],
+    queryFn: async () => {
+      const res = await getAllWhyChooseUs();
+      console.log("API:", res);
+      return res?.data || null;
+    },
+  });
 
-   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await getAllWhyChooseUs();
-
-        console.log("API:", res);
-
-        if (res?.data) {
-          setHeading(res.data.heading);
-          setCards(res.data.cards);
-        }
-
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const heading = data?.heading || null;
+  const cards = data?.cards || [];
 
   const displayData = limit ? cards.slice(0, limit) : cards;
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Failed to load data</p>;
 
   return (
     <section className={styles["mini-section"]}>
