@@ -46,7 +46,7 @@ export default function ProgramsSection({ limit, showHeading = true }) {
         {showHeading && headingData && (
           <div className="why-choose-us">
             <CmnHeading
-              title={headingData.subheading}
+              title={headingData.tagline}
               subtitle={headingData.heading}
               align="center"
             />
