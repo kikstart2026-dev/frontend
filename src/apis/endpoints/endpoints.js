@@ -40,13 +40,9 @@ export const endpoints = {
 
   // About Us------------------------------------>>
 
-  createAboutUs: "/about-us/create",
-  getAllAboutUs: "/about-us",
-  getAboutUsById: (id) => `/about-us/${id}`,
-  updateAboutUs: (id) => `/about-us/${id}`,
-  singleDeleteAboutUs: (id) => `/about-us/${id}`,
-  selectiveDeleteAboutUs: "/about-us/select/delete",
-  multipleDeleteAboutUs: "/about-us/delete/all",
+  getAllAboutUs: "/user/about-us",
+  getAboutUsById: (id) => `user/about-us/${id}`,
+
 
   // Testimonials------------------------------------>>
 
