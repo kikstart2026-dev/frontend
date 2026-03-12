@@ -19,7 +19,9 @@ export default function TestSection() {
   if (isLoading) return <p>Loading...</p>
   if (error) return <p>Error loading testimonials</p>
 
+  const tagline = data?.data?.heading?.tagline
   const heading = data?.data?.heading?.heading
+  const description = data?.data?.heading?.description
   const cards = data?.data?.cards || []
 
   return (
@@ -27,8 +29,9 @@ export default function TestSection() {
       <div className={styles.relative}>
 
         <CmnHeading
-          title="testimonials"
+          title={tagline}
           subtitle={heading}
+          details={description}
         />
 
         <Swiper
