@@ -5,6 +5,7 @@ import MiniCard from "../MiniCard";
 import styles from "./MiniCardSection.module.scss";
 import "../../../Main.scss";
 import { getAllWhyChooseUs } from "../../../apis/api";
+import noImg from "../../../assets/images/no-img.png"; // fallback image
 
 export default function MiniCardSection({ limit, showHeading = true }) {
 
@@ -25,29 +26,71 @@ export default function MiniCardSection({ limit, showHeading = true }) {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Failed to load data</p>;
 
+  // Dummy fallback heading
+  const displayedHeading = heading || {
+    tagline: "No heading found",
+    heading: "",
+    description: "",
+  };
+
+  // Dummy fallback card
+  const displayedCards =
+    displayData.length > 0
+      ? displayData
+      : [
+          {
+            _id: "dummy-card",
+            icon: noImg,
+            title: "No text",
+            description: "",
+            color: "#ccc",
+          },
+          {
+            _id: "dummy-card",
+            icon: noImg,
+            title: "No text",
+            description: "",
+            color: "#ccc",
+          },
+          {
+            _id: "dummy-card",
+            icon: noImg,
+            title: "No text",
+            description: "",
+            color: "#ccc",
+          },
+          {
+            _id: "dummy-card",
+            icon: noImg,
+            title: "No text",
+            description: "",
+            color: "#ccc",
+          },
+        ];
+
   return (
     <section className={styles["mini-section"]}>
       <div className="container">
 
-        {showHeading && heading && (
+        {showHeading && (
           <div className={styles["why-choose-us"]}>
             <CmnHeading
-              title={heading.tagline}
-              subtitle={heading.heading}
-              details={heading.description}
+              title={displayedHeading.tagline}
+              subtitle={displayedHeading.heading}
+              details={displayedHeading.description}
               align="center"
             />
           </div>
         )}
 
         <div className={`row g-4 ${styles["cards-section"]}`}>
-          {displayData.map((item) => (
+          {displayedCards.map((item) => (
             <div
               key={item._id}
               className="col-lg-3 col-md-6 col-12"
             >
               <MiniCard
-                icon={item.icon}
+                icon={item.icon || noImg}
                 title={item.title}
                 description={item.description}
                 color={item.color}
