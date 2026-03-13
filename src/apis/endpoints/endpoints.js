@@ -30,13 +30,8 @@ export const endpoints = {
 
   // service------------------------------------>>
 
-  createService: "/service/create",
-  getAllService: "/service/",
-  getServiceById: (id) => `/service/${id}`,
-  updateService: (id) => `/service/${id}`,
-  singleDeleteService: (id) => `/service/${id}`,
-  selectiveDeleteService: "/service/select/delete",
-  multipleDeleteService: "/service/delete/all",
+  getAllService: "user/service/",
+  getServiceById: (id) => `user/service/${id}`,
 
   // About Us------------------------------------>>
 
