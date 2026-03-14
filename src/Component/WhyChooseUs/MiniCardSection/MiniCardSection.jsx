@@ -30,7 +30,7 @@ export default function MiniCardSection({ limit, showHeading = true }) {
   const displayedHeading = heading || {
     tagline: "Not found",
     heading: "No Heading",
-    description: "Description not available ]",
+    description: "Description not available",
   };
 
   // Dummy fallback card
