@@ -7,7 +7,7 @@ import { getAllHomeBanner } from "../../apis/api";
 import Cookies from "js-cookie";
 import "../../Main.scss";
 import styles from "./HomeBanner.module.scss";
-import noImg from "../../assets/images/no-img.png"; // local fallback image
+import noImg from "../../assets/images/no-img.png";
 
 export default function HomeBanner() {
   const navigate = useNavigate();
@@ -28,7 +28,6 @@ export default function HomeBanner() {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Failed to load banner</p>;
 
-  // Dummy fallback if no banner
   const displayedBanner = banner || {
     headingData: {
       tagline: "Welcome to Our Website",
@@ -38,16 +37,18 @@ export default function HomeBanner() {
     image: noImg,
   };
 
-  // Safely split heading
-  const headingParts = displayedBanner.headingData?.heading?.split("|") || ["", ""];
+  const headingParts =
+    displayedBanner.headingData?.heading?.split("|") || ["", ""];
 
   return (
     <div className={styles.homeBanner}>
       <div className="container">
         <div className="row bannerWrap" style={{ alignItems: "center" }}>
+          
           {/* LEFT SIDE */}
           <div className="col-5">
             <div className={styles.leftContent}>
+              
               <CmnHeading
                 title={displayedBanner.headingData?.tagline}
                 align="left"
@@ -58,11 +59,14 @@ export default function HomeBanner() {
                 <span className={styles.redText}>{headingParts[1]}</span>
               </h1>
 
-              <p className={styles.text}>
-                {displayedBanner.headingData?.description}
-              </p>
+              {/* CKEditor HTML render */}
+              <p
+                className={styles.text}
+                dangerouslySetInnerHTML={{
+                  __html: displayedBanner.headingData?.description,
+                }}
+              ></p>
 
-              {/* Show button only if NOT logged in */}
               {!token && (
                 <div className={styles.bannerBtn}>
                   <Button
@@ -81,12 +85,13 @@ export default function HomeBanner() {
             <div className={styles.rightImage}>
               <figure>
                 <img
-                  src={displayedBanner.image || noImg} // fallback if image is missing
+                  src={displayedBanner.image || noImg}
                   alt="Banner"
                 />
               </figure>
             </div>
           </div>
+
         </div>
       </div>
     </div>
