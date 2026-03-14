@@ -5,7 +5,7 @@ import styles from './TestSection.module.scss'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay } from 'swiper/modules'
 import 'swiper/css'
-
+import noImage from "../../../assets/images/no-img.png";
 import { useQuery } from '@tanstack/react-query'
 import { getAllTest } from '../../../apis/api'
 
@@ -19,19 +19,53 @@ export default function TestSection() {
   if (isLoading) return <p>Loading...</p>
   if (error) return <p>Error loading testimonials</p>
 
-  const tagline = data?.data?.heading?.tagline
-  const heading = data?.data?.heading?.heading
-  const description = data?.data?.heading?.description
-  const cards = data?.data?.cards || []
+  const apiHeading = data?.data?.heading
+
+  const apiCards = data?.data?.cards || []
+
+  // Dummy Heading
+  const displayedHeading = apiHeading || {
+    tagline: "Not Found",
+    heading: "No Heading",
+    description: "Description not available"
+  }
+
+  // Dummy testimonials
+  const dummyCards = [
+    {
+      _id: "1",
+      image: noImage,
+      description: "This platform helped me grow my skills and confidence. Highly recommended!",
+      name: "Person 1",
+      designation: "Designation"
+    },
+    {
+      _id: "2",
+      image: noImage,
+      description: "Amazing experience! The mentors were very supportive.",
+      name: "Person 2",
+      designation: "Designation"
+    },
+    {
+      _id: "3",
+      image: noImage,
+      description: "A great place to learn and build real world projects.",
+      name: "Person 3",
+      designation: "Designation"
+    }
+  ]
+
+  // if api empty -> use dummy
+  const cards = apiCards.length > 0 ? apiCards : dummyCards
 
   return (
     <div className={styles.all}>
       <div className={styles.relative}>
 
         <CmnHeading
-          title={tagline}
-          subtitle={heading}
-          details={description}
+          title={displayedHeading.tagline}
+          subtitle={displayedHeading.heading}
+          details={displayedHeading.description}
         />
 
         <Swiper

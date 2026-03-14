@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import MainTwoSide from "../MainTwoSide";
 import Button from "../../Buttons/Button";
 import CmnHeading from "../../CmnHeading/CmnHeading";
@@ -7,27 +8,22 @@ import { getAllAboutUs } from "../../../apis/api";
 
 export default function TwoSide() {
 
-  const [about, setAbout] = useState(null);
+  const { data: about, isLoading, error } = useQuery({
+    queryKey: ["aboutSection"],
+    queryFn: async () => {
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await getAllAboutUs();
+      const res = await getAllAboutUs();
 
-        console.log("ABOUT API:", res);
+      const aboutData = res?.data?.data || res?.data || [];
 
-        if (res?.data?.length) {
-          setAbout(res.data[0]);
-        }
+      const activeAbout = aboutData.find((a) => a.isActive);
 
-      } catch (error) {
-        console.log(error);
-      }
-    };
+      return activeAbout || aboutData[0] || null;
+    },
+  });
 
-    fetchData();
-  }, []);
-
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Failed to load about section</p>;
   if (!about) return null;
 
   return (
@@ -40,6 +36,7 @@ export default function TwoSide() {
           </div>
 
           <div className="col-lg-6 col-md-6 col-12">
+
             <CmnHeading
               title={about.headingData?.tagline}
               subtitle={about.headingData?.heading}

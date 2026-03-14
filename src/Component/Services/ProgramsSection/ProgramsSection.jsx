@@ -1,38 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ProgramCard from "../ProgramCard";
 import styles from "./ProgramsSection.module.scss";
 import Button from "../../Buttons/Button";
 import { Link } from "react-router-dom";
 import CmnHeading from "../../CmnHeading/CmnHeading";
 import { getAllService } from "../../../apis/api";
+import { useQuery } from "@tanstack/react-query";
 
 export default function ProgramsSection({ limit, showHeading = true }) {
-  const [services, setServices] = useState([]);
   const [headingData, setHeadingData] = useState(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const res = await getAllService();
+  const { data: services = [], isLoading: loading } = useQuery({
+    queryKey: ["services"],
+    queryFn: async () => {
+      const res = await getAllService();
+      const serviceData = res.data;
 
-        const serviceData = res.data;
-        setServices(serviceData);
-
-        // 🔥 Heading backend থেকে নিচ্ছি (first item থেকে)
-        if (serviceData.length > 0) {
-          setHeadingData(serviceData[0].headingData);
-        }
-
-      } catch (error) {
-        console.error("Failed to fetch services:", error);
-      } finally {
-        setLoading(false);
+      // 🔥 Heading backend থেকে নিচ্ছি (first item থেকে)
+      if (serviceData.length > 0) {
+        setHeadingData(serviceData[0].headingData);
       }
-    };
 
-    fetchServices();
-  }, []);
+      return serviceData;
+    },
+  });
 
   const displayPrograms = limit
     ? services.slice(0, limit)
