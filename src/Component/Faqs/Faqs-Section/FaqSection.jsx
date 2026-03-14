@@ -4,14 +4,14 @@ import CmnHeading from "../../CmnHeading/CmnHeading";
 import "../../../Main.scss";
 import Faqs from "../Faqs";
 import styles from "./FaqSection.module.scss";
-import { getAllFaqsUser } from "../../../apis/api";
+import { getAllFaqs } from "../../../apis/api";
 
 export default function FaqSection() {
 
   const { data: faqData, isLoading } = useQuery({
     queryKey: ["faqs"],
     queryFn: async () => {
-      const res = await getAllFaqsUser();
+      const res = await getAllFaqs();
       return res?.data || [];
     }
   });
@@ -29,7 +29,7 @@ export default function FaqSection() {
           <div className={`col-6 ${styles.faqsLeft}`}>
             <CmnHeading
               title={headingData?.heading}
-              subtitle={headingData?.subheading}
+              subtitle={headingData?.tagline}
               align="left"
             />
 
