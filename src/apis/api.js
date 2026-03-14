@@ -305,7 +305,7 @@ export const getTestById= async (id) => {
 
 // ✅ Get All FAQ (User)
 export const getAllFaqs = async () => {
-  const res = await axiosInstance.get(endpoints.getAllFaqs);
+  const res = await axiosInstance.get(endpoints.getAllFaqsUser);
   return res.data;
 };
 

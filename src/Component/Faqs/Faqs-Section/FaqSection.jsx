@@ -29,7 +29,7 @@ export default function FaqSection() {
           <div className={`col-6 ${styles.faqsLeft}`}>
             <CmnHeading
               title={headingData?.heading}
-              subtitle={headingData?.subheading}
+              subtitle={headingData?.tagline}
               align="left"
             />
 
