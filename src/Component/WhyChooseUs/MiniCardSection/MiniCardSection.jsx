@@ -1,60 +1,96 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import CmnHeading from "../../CmnHeading/CmnHeading";
 import MiniCard from "../MiniCard";
 import styles from "./MiniCardSection.module.scss";
 import "../../../Main.scss";
-import {getAllWhyChooseUs} from "../../../apis/api"
+import { getAllWhyChooseUs } from "../../../apis/api";
+import noImg from "../../../assets/images/no-img.png"; // fallback image
 
 export default function MiniCardSection({ limit, showHeading = true }) {
 
-  const [heading, setHeading] = useState(null);
-  const [cards, setCards] = useState([]);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["whyChooseUs"],
+    queryFn: async () => {
+      const res = await getAllWhyChooseUs();
+      console.log("API:", res);
+      return res?.data || null;
+    },
+  });
 
-   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await getAllWhyChooseUs();
-
-        console.log("API:", res);
-
-        if (res?.data) {
-          setHeading(res.data.heading);
-          setCards(res.data.cards);
-        }
-
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const heading = data?.heading || null;
+  const cards = data?.cards || [];
 
   const displayData = limit ? cards.slice(0, limit) : cards;
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Failed to load data</p>;
+
+  // Dummy fallback heading
+  const displayedHeading = heading || {
+    tagline: "No heading found",
+    heading: "",
+    description: "",
+  };
+
+  // Dummy fallback card
+  const displayedCards =
+    displayData.length > 0
+      ? displayData
+      : [
+          {
+            _id: "dummy-card",
+            icon: noImg,
+            title: "No text",
+            description: "",
+            color: "#ccc",
+          },
+          {
+            _id: "dummy-card",
+            icon: noImg,
+            title: "No text",
+            description: "",
+            color: "#ccc",
+          },
+          {
+            _id: "dummy-card",
+            icon: noImg,
+            title: "No text",
+            description: "",
+            color: "#ccc",
+          },
+          {
+            _id: "dummy-card",
+            icon: noImg,
+            title: "No text",
+            description: "",
+            color: "#ccc",
+          },
+        ];
 
   return (
     <section className={styles["mini-section"]}>
       <div className="container">
 
-        {showHeading && heading && (
+        {showHeading && (
           <div className={styles["why-choose-us"]}>
             <CmnHeading
-              title={heading.subheading}
-              subtitle={heading.heading}
-              details={heading.description}
+              title={displayedHeading.tagline}
+              subtitle={displayedHeading.heading}
+              details={displayedHeading.description}
               align="center"
             />
           </div>
         )}
 
         <div className={`row g-4 ${styles["cards-section"]}`}>
-          {displayData.map((item) => (
+          {displayedCards.map((item) => (
             <div
               key={item._id}
               className="col-lg-3 col-md-6 col-12"
             >
               <MiniCard
-                icon={item.icon}
+                icon={item.icon || noImg}
                 title={item.title}
                 description={item.description}
                 color={item.color}

@@ -41,7 +41,7 @@ export default function TwoSide() {
 
           <div className="col-lg-6 col-md-6 col-12">
             <CmnHeading
-              title={about.headingData?.subheading}
+              title={about.headingData?.tagline}
               subtitle={about.headingData?.heading}
               details={
                 <>

@@ -1,0 +1,1634 @@
+{
+  "info": {
+    "_postman_id": "1b48257a-10fb-4e46-a528-feef399bd15c",
+    "name": "Kikstart-api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "47298899"
+  },
+  "item": [
+    {
+      "name": "Heading",
+      "item": [
+        {
+          "name": "update heading",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"subheading\": \"Updated Sub\",\r\n  \"heading\": \"Updated Heading\",\r\n  \"description\": \"Updated description\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/69a5b357171101fcb7499a18",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "69a5b357171101fcb7499a18"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create-heading",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"subheading\": \"Sub title\",\r\n  \"heading\": \"Main Heading\",\r\n  \"description\": \"Some description here\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/create",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get heading by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8008/api/v1/69a5b357171101fcb7499a18",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "69a5b357171101fcb7499a18"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8008/api/v1/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete by id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8008/api/v1/69a5b357171101fcb7499a18",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "69a5b357171101fcb7499a18"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "selective-delete",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"ids\": [\r\n    \"69a5b6c329596995cf21f4dc\",\r\n    \"69a5b6c829596995cf21f4de\"\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/selective-delete",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "selective-delete"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete many heading",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8008/api/v1/delete-all",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "delete-all"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Admin",
+          "item": [
+            {
+              "name": "Update_ALL_USERS",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YTliNjNlYjMyYWYzOTc5NWQ0N2JlOCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc3MjczMDY2NSwiZXhwIjoxNzczMzM1NDY1fQ.AphNwwKi0InoZGg_PdN2lhvm7YTVMrGiDPzD33jJYHI",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"fullname\": \"S B Chowdhury\",\r\n  \"location\": \"Dhaka\",\r\n  \"isVerified\": false\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8008/api/v1/admin/user/69a9b63eb32af39795d47be8",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8008",
+                  "path": [
+                    "api",
+                    "v1",
+                    "admin",
+                    "user",
+                    "69a9b63eb32af39795d47be8"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get_ALL_USERS",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YTliNWMxYjMyYWYzOTc5NWQ0N2JlMyIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzcyNzI5ODE5LCJleHAiOjE3NzMzMzQ2MTl9.B1yuxCicxqaD5hde0HqNpPc-7EylDkMqEenpKuLAl4Y",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "http://localhost:8008/api/v1/admin/users",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8008",
+                  "path": [
+                    "api",
+                    "v1",
+                    "admin",
+                    "users"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete_ONE_USER",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8008/api/v1/admin/user/69a889913630ef3cd239d9ec",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8008",
+                  "path": [
+                    "api",
+                    "v1",
+                    "admin",
+                    "user",
+                    "69a889913630ef3cd239d9ec"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete_SELECTIVE_USERS",
+              "request": {
+                "method": "DELETE",
+                "header": []
+              },
+              "response": []
+            },
+            {
+              "name": "Delete_ALL_USERS",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8008/api/v1/admin/users/delete-multiple",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8008",
+                  "path": [
+                    "api",
+                    "v1",
+                    "admin",
+                    "users",
+                    "delete-multiple"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get_SINGLE_USER",
+              "request": {
+                "method": "GET",
+                "header": []
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "signup",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"fullname\": \"KIK-ADMIN\",\r\n  \"email\": \"kikstart2026@gmail.com\",\r\n  \"phone\": \"8017498629\",\r\n  \"location\": \"Kolkata\",\r\n  \"passcode\": \"700049\",\r\n  \"password\": \"KikStart2026\",\r\n  \"confirmPass\": \"KikStart2026\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/signup",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "signup"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "otp-verify",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"kikstart2026@gmail.com\",\r\n    \"otp\":\"132085\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/verify-otp",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "verify-otp"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "resend-otp",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"kik3@yopmail.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/resendotp",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "resendotp"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"kik3@yopmail.com\",\r\n    \"password\": \"12345678\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "forgot-pass",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\":\"kik3@yopmail.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/forgot-password",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "forgot-password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "reset-pass",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"kik3@yopmail.com\",\r\n    \"otp\":\"595842\",\r\n    \"password\": \"123456\",\r\n    \"confirmpass\":\"123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/reset-password",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "reset-password"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Home Banner",
+      "item": [
+        {
+          "name": "CreateBannerHeading",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "headingId",
+                  "value": "69a6622f11389763fd8afad3",
+                  "type": "text",
+                  "uuid": "fedb1d16-9a5d-4cd2-8cab-1499b793f72e"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "d5115a00-004e-4e58-acd9-a9bf8673f46b",
+                  "src": "/D:/Kikstart_project/frontend/src/assets/images/banner-img.png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/home-banner/create",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "home-banner",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8008/api/v1/home-banner",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "home-banner"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update banner",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "headingId",
+                  "value": "69a671cfcf8d00b2e10833be",
+                  "type": "text",
+                  "uuid": "4e870658-e178-48d3-bbb8-2c816fcfd3d0"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "46e7f6a1-51ea-443e-95ef-6672172b988f",
+                  "src": "/D:/Kikstart_project/frontend/src/assets/images/baccha.png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/home-banner/69a671e6cf8d00b2e10833c0",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "home-banner",
+                "69a671e6cf8d00b2e10833c0"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete by id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8008/api/v1/home-banner/69a671e6cf8d00b2e10833c0",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "home-banner",
+                "69a671e6cf8d00b2e10833c0"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete all",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"ids\": [\r\n    \"69a66f37b7857ca52aca8814\"\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/home-banner/select/delete",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "home-banner",
+                "select",
+                "delete"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "AllMedia",
+      "item": [
+        {
+          "name": "create",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "uuid": "adda358d-e65c-4da2-a5a8-9461a747fb6a",
+                  "src": "/D:/Kikstart_project/frontend/src/assets/images/boy.png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/media/create",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "media",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8008/api/v1/media/69a7eb2a6695c9ed8b2453b8",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "media",
+                "69a7eb2a6695c9ed8b2453b8"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8008/api/v1/media/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "media",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "uuid": "2e379d62-256a-4360-819c-84c728da9cfa",
+                  "src": "postman-cloud:///1f0e22cd-a934-4b90-bc50-ff7f970f6f6d"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/media/69a7eb2a6695c9ed8b2453b8?file",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "media",
+                "69a7eb2a6695c9ed8b2453b8"
+              ],
+              "query": [
+                {
+                  "key": "file",
+                  "value": null,
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete by id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8008/api/v1/media/69a7eb2a6695c9ed8b2453b8",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "media",
+                "69a7eb2a6695c9ed8b2453b8"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "selective delete",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"ids\": [\r\n    \"69a7eac36695c9ed8b2453b4\",\r\n    \"69a7ea246695c9ed8b2453b0\"\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/media/selective/delete",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "media",
+                "selective",
+                "delete"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Service",
+      "item": [
+        {
+          "name": "create",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"headingId\": \"69a868dbe151ed49e76f1b56\",\r\n    \"title\": \"Program name 1\",\r\n    \"details\":\"Lorem ipsum dolor sit amet consectetur. Nunc id adipiscing at interdum eu...\",\r\n    \"image\":\"http://localhost:8008/uploads/images/1772644738771-27662997.png\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/service/create",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "service",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getAll",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8008/api/v1/service/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "service",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getById",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8008/api/v1/service/69a86a1be151ed49e76f1b5a",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "service",
+                "69a86a1be151ed49e76f1b5a"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"headingId\": \"69a868dbe151ed49e76f1b56\",\r\n    \"title\": \"Program name 4\",\r\n    \"details\":\"Lorem ipsum dolor sit amet consectetur. Nunc id adipiscing at interdum eu...\",\r\n    \"image\":\"http://localhost:8008/uploads/images/1772645177809-912801988.png\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/service/69a86a1be151ed49e76f1b5a",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "service",
+                "69a86a1be151ed49e76f1b5a"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8008/api/v1/service/69a86a1be151ed49e76f1b5a",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "service",
+                "69a86a1be151ed49e76f1b5a"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Why Choose Us",
+      "item": [
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "headingId",
+                  "value": "69a5c3353d2de5165b5f6abe",
+                  "type": "text",
+                  "uuid": "0d7eee96-2fb1-4d7b-9747-db6b8f2c0558"
+                },
+                {
+                  "key": "title",
+                  "value": "Experienced Coaches",
+                  "type": "text",
+                  "uuid": "3e7dce86-0c02-4325-8739-124379fe6fd7"
+                },
+                {
+                  "key": "description",
+                  "value": "Lorem ipsum dolor sit amet consectetur. Nunc id adipiscing at interdum eu viverra. ",
+                  "type": "text",
+                  "uuid": "557eefdd-2d1e-42b8-8f7a-2776cb9d1e5c"
+                },
+                {
+                  "key": "color",
+                  "value": "#FFF8F8",
+                  "type": "text",
+                  "uuid": "20cc7d49-272e-4bed-8104-bb0b0180e70e"
+                },
+                {
+                  "key": "icon",
+                  "type": "file",
+                  "uuid": "9a0c0c2d-8c2f-4bdc-abcb-589adbdcf6aa",
+                  "src": "/D:/PROJECT/Kikstart Project/frontend/src/assets/images/human_logo.png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/why-choose-us/create",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "why-choose-us",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8008/api/v1/why-choose-us/69a710011bb16e29da320274",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "why-choose-us",
+                "69a710011bb16e29da320274"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "text 1",
+                  "type": "text",
+                  "uuid": "ee85cd0e-3837-428e-b407-15835edf7f8b"
+                },
+                {
+                  "key": "description",
+                  "value": "Lorem......",
+                  "type": "text",
+                  "uuid": "6bebd75e-5098-40c6-9846-20d81886273a"
+                },
+                {
+                  "key": "color",
+                  "value": "#FFFBEF",
+                  "type": "text",
+                  "uuid": "9e5a073f-bc48-4220-aacf-645b1b57452f"
+                },
+                {
+                  "key": "headingId",
+                  "value": "69a687d15beac9d3f49f3d05",
+                  "type": "text",
+                  "uuid": "1a4906df-9e53-4383-9abc-78852cc99c46"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/why-choose-us/69a710011bb16e29da320274",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "why-choose-us",
+                "69a710011bb16e29da320274"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8008/api/v1/why-choose-us/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "why-choose-us",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Selective Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"ids\": [\r\n    \"69a73b255297f79fee35fc3b\"\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/why-choose-us/select/delete",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "why-choose-us",
+                "select",
+                "delete"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Single",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8008/api/v1/why-choose-us/69a7d2974234756ffa803c9c",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "why-choose-us",
+                "69a7d2974234756ffa803c9c"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete All",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8008/api/v1/why-choose-us/delete/all",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "why-choose-us",
+                "delete",
+                "all"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "AboutUs",
+      "item": [
+        {
+          "name": "create",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"headingId\" : \"69a7c2b54234756ffa803c98\",\r\n    \"image\" : \"http://localhost:8008/uploads/images/1772633274185-823461107.png\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/about-us/create",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "about-us",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8008/api/v1/about-us/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "about-us",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8008/api/v1/about-us/69a84e5af50fba22e99fee6e",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "about-us",
+                "69a84e5af50fba22e99fee6e"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "selective delete",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"headingId\" : \"69a7c2b54234756ffa803c98\",\r\n    \"image\" : \"http://localhost:8008/uploads/images/1772633274185-823461107.png\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/about-us/select/delete",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "about-us",
+                "select",
+                "delete"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete by id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8008/api/v1/about-us/69a87cfdc536ecb8d4368e12",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "about-us",
+                "69a87cfdc536ecb8d4368e12"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Testimonal",
+      "item": [
+        {
+          "name": "create",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YTliNWMxYjMyYWYzOTc5NWQ0N2JlMyIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzcyNzI5ODE5LCJleHAiOjE3NzMzMzQ2MTl9.B1yuxCicxqaD5hde0HqNpPc-7EylDkMqEenpKuLAl4Y",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"headingId\": \"69afdaf4a33f88839b9038ab\",\r\n  \"image\": \"http://localhost:8008/uploads/images/1773132164585-467509400.png\",\r\n  \"name\": \"John Ibrahim\",\r\n  \"description\": \"Lorem ipsum dolor sit amet consectetur. Tortor sed ipsum tortor in et. Arcu tortor phasellus elementum sed natoque pellentesque in elit imperdiet. Sit nisi turpis arcu malesuada purus semper. Bibendum urna dolor at ut tincidunt. Scelerisque dictumst sed.\",\r\n  \"designation\": \"Junior Coach\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/testimonal/admin/create",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "testimonal",
+                "admin",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8008/api/v1/testimonal/admin/get-all",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "testimonal",
+                "admin",
+                "get-all"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8008/api/v1/testimonal/admin/get/69afdc74a33f88839b9038b2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "testimonal",
+                "admin",
+                "get",
+                "69afdc74a33f88839b9038b2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"headingId\": \"69afdaf4a33f88839b9038ab\",\r\n  \"image\": \"http://localhost:8008/uploads/images/1773132164585-467509400.png\",\r\n  \"name\": \"John Ibrahim\",\r\n  \"description\": \"Lorem ipsum dolor sit amet consectetur. Tortor sed ipsum tortor in et. Arcu tortor phasellus elementum sed natoque pellentesque in elit imperdiet. Sit nisi turpis arcu malesuada purus semper. Bibendum urna dolor at ut tincidunt. Scelerisque dictumst sed.\",\r\n  \"designation\": \"junior assistant\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/testimonal/admin/update/69afdc74a33f88839b9038b2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "testimonal",
+                "admin",
+                "update",
+                "69afdc74a33f88839b9038b2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete single",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8008/api/v1/testimonal/admin/delete/69afdc74a33f88839b9038b2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "testimonal",
+                "admin",
+                "delete",
+                "69afdc74a33f88839b9038b2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete selective",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"ids\": [\r\n    \"69afdd93a33f88839b9038ba\",\r\n    \"69afdd8aa33f88839b9038b8\"\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8008/api/v1/testimonal/admin/delete-selected",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "testimonal",
+                "admin",
+                "delete-selected"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete all",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8008/api/v1/testimonal/admin/delete-all",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8008",
+              "path": [
+                "api",
+                "v1",
+                "testimonal",
+                "admin",
+                "delete-all"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "createEnq",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"school\": \"St. Xavier's Institute\",\r\n  \"contactPerson\": \"Rahul Sharma\",\r\n  \"schoolEmail\": \"admin12@stxavierskolkata.edu\",\r\n  \"schoolPhone\": \"9876543212\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8008/api/v1/createEnq",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8008",
+          "path": [
+            "api",
+            "v1",
+            "createEnq"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "contact-us",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Jane 7745\",\r\n  \"email\": \"jane@yopmail.com\",\r\n  \"subject\": \"Partnership Inquiry\",\r\n  \"details\": \"Hello, I would like to know more about collaboration opportunities with KikStart.\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8008/api/v1/contact",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8008",
+          "path": [
+            "api",
+            "v1",
+            "contact"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

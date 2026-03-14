@@ -20,48 +20,33 @@ export const endpoints = {
   contactUs: "/contact",
 
   // Home Banner------------------------------------>>
-
-  createHomeBanner: "/home-banner/create",
-  getAllHomeBanner: "/home-banner",
-  getHomeBannerById: (id) => `/home-banner/${id}`,
-  updateHomeBanner: (id) => `/home-banner/${id}`,
-  singleDeleteHomeBanner: (id) => `/home-banner/${id}`,
-  selectiveDeleteHomeBanner: "/home-banner/select/delete",
-  multipleDeleteHomeBanner: "/home-banner/delete/all",
+  getAllHomeBanner: "user/home-banner",
+  getHomeBannerById: (id) => `user/home-banner/${id}`,
 
   // Why Choose Us------------------------------------>>
 
-  createWhyChooseUs: "/why-choose-us/create",
-  getAllWhyChooseUs: "/why-choose-us",
-  getWhyChooseUsById: (id) => `/why-choose-us/${id}`,
-  updateWhyChooseUs: (id) => `/why-choose-us/${id}`,
-  singleDeleteWhyChooseUs: (id) => `/why-choose-us/${id}`,
-  selectiveDeleteWhyChooseUs: "/why-choose-us/select/delete",
-  multipleDeleteWhyChooseUs: "/why-choose-us/delete/all",
+  getAllWhyChooseUs: "user/why-choose-us",
+  getWhyChooseUsById: (id) => `user/why-choose-us/${id}`,
 
   // service------------------------------------>>
 
-  createService: "/service/create",
-  getAllService: "/service/",
-  getServiceById: (id) => `/service/${id}`,
-  updateService: (id) => `/service/${id}`,
-  singleDeleteService: (id) => `/service/${id}`,
-  selectiveDeleteService: "/service/select/delete",
-  multipleDeleteService: "/service/delete/all",
+  getAllService: "user/service/",
+  getServiceById: (id) => `user/service/${id}`,
 
   // About Us------------------------------------>>
 
-  createAboutUs: "/about-us/create",
-  getAllAboutUs: "/about-us",
-  getAboutUsById: (id) => `/about-us/${id}`,
-  updateAboutUs: (id) => `/about-us/${id}`,
-  singleDeleteAboutUs: (id) => `/about-us/${id}`,
-  selectiveDeleteAboutUs: "/about-us/select/delete",
-  multipleDeleteAboutUs: "/about-us/delete/all",
+  getAllAboutUs: "/user/about-us",
+  getAboutUsById: (id) => `user/about-us/${id}`,
 
+
+  // Testimonials------------------------------------>>
+
+  getAllTest: "/user/testimonal",
+  getTestById: (id) => `user/testimonal/${id}`,
 
   // FAQ --------------------------------------->>
 
+<<<<<<< HEAD
   // createFaq: "/faq/admin/create",
   // getAllFaqsAdmin: "/faq/admin",
   getAllFaqs: "user/faq",
@@ -69,6 +54,10 @@ export const endpoints = {
   getFaqById: (id) => `user/faq/${id}`,
   // updateFaq: (id) => `/faq/admin/${id}`,
   // deleteFaq: (id) => `/faq/admin/${id}`,
+=======
+  getAllFaqsUser: "user/faq",
+  getFaqByIdUser: (id) => `user/faq/${id}`,
+>>>>>>> 2a3c0f8beaa038f394a85c398ac095824a2e90db
 };
 
 

@@ -17,7 +17,7 @@ export default function Home() {
 
             <TwoSide />
 
-            <MiniCardSection limit={4} />
+            <MiniCardSection/>
 
             <ProgramsSection limit={3} />
 

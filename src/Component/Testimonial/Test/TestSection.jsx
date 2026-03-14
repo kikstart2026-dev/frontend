@@ -1,21 +1,37 @@
 import React from 'react'
 import Testimonial from '../Testimonial'
 import CmnHeading from '../../CmnHeading/CmnHeading'
-import testimonialData from '../../../data/testimonialData'
 import styles from './TestSection.module.scss'
-
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay } from 'swiper/modules'
 import 'swiper/css'
 
+import { useQuery } from '@tanstack/react-query'
+import { getAllTest } from '../../../apis/api'
+
 export default function TestSection() {
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['testimonials'],
+    queryFn: getAllTest
+  })
+
+  if (isLoading) return <p>Loading...</p>
+  if (error) return <p>Error loading testimonials</p>
+
+  const tagline = data?.data?.heading?.tagline
+  const heading = data?.data?.heading?.heading
+  const description = data?.data?.heading?.description
+  const cards = data?.data?.cards || []
+
   return (
     <div className={styles.all}>
       <div className={styles.relative}>
 
         <CmnHeading
-          title="testimonials"
-          subtitle="Whats our client say"
+          title={tagline}
+          subtitle={heading}
+          details={description}
         />
 
         <Swiper
@@ -23,9 +39,14 @@ export default function TestSection() {
           autoplay={{ delay: 2000 }}
           loop={true}
         >
-          {testimonialData.map((item) => (
-            <SwiperSlide key={item.id}>
-              <Testimonial {...item} />
+          {cards.map((item) => (
+            <SwiperSlide key={item._id}>
+              <Testimonial
+                img={item.image}
+                para={item.description}
+                miniheading={item.name}
+                coach={item.designation}
+              />
             </SwiperSlide>
           ))}
         </Swiper>
