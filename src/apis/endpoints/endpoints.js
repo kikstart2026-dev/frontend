@@ -35,7 +35,7 @@ export const endpoints = {
 
   // About Us------------------------------------>>
 
-  getAllAboutUs: "/user/about-us",
+  getAllAboutUs: "user/about-us",
   getAboutUsById: (id) => `user/about-us/${id}`,
 
 
