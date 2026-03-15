@@ -7,7 +7,6 @@ import { getAllAboutUs } from "../../../apis/api";
 import noImg from "../../../assets/images/no-img.png";
 import CmnHeading from "../../CmnHeading/CmnHeading";
 
-
 export default function TwoSide() {
 
   const { data: about, isLoading, error } = useQuery({
@@ -31,14 +30,10 @@ export default function TwoSide() {
     headingData: {
       tagline: "Not Found",
       heading: "No Heading",
-      description:
-        "Descrption is not available",
+      description: "Description is not available",
     },
     image: noImg,
   };
-
-
-
 
   return (
     <div className="both-space">
@@ -56,13 +51,19 @@ export default function TwoSide() {
               subtitle={displayedAbout.headingData?.heading}
               details={
                 <>
-                  <p className={styles.firstPara}>
-                    {displayedAbout?.headingData?.description?.split("|")[0]}
-                  </p>
+                  <p
+                    className={styles.firstPara}
+                    dangerouslySetInnerHTML={{
+                      __html: displayedAbout?.headingData?.description?.split("|")[0] || "",
+                    }}
+                  />
 
-                  <p className={styles.secondPara}>
-                    {displayedAbout?.headingData?.description?.split("|")[1]}
-                  </p>
+                  <p
+                    className={styles.secondPara}
+                    dangerouslySetInnerHTML={{
+                      __html: displayedAbout?.headingData?.description?.split("|")[1] || "",
+                    }}
+                  />
                 </>
               }
               align="left"
