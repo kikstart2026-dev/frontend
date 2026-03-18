@@ -9,8 +9,8 @@ export default function Testimonial({ img, para, miniheading, coach }) {
                 <img src={img} alt="client" />
             </figure>
 
-            <p className={`${styles.paragraph} ${styles.center}`}>
-                {para}
+            <p className={`${styles.paragraph} ${styles.center}`} 
+            dangerouslySetInnerHTML={{ __html: para }}>
             </p>
 
             <h3 className={`${styles.miniheading} ${styles.center}`}>
