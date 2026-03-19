@@ -1,8 +1,21 @@
+ body.modalOpen {
+  overflow: hidden; /* prevent scroll */
+  position: fixed;
+  width: 100%;
+  top: 0;
+}
+
+.call.modalFixed {
+  position: fixed;       /* Fix page content */
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
 .call {
   background-color: #FFF8F8;
   max-width: 100%;
   margin: 0 auto;
-
 }
 
 .nav-bar {
@@ -83,10 +96,141 @@
   margin-left: auto;
 }
 
+/* ================= LOGOUT MODAL (MODULE STYLE) ================= */
+
+/* Card */
+.logoutToast {
+  background: #fff;
+  padding: 40px 30px;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 600px;
+  /* ✅ wider modal */
+  width: 90%;
+  /* ✅ responsive */
+  margin: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+/* ================= MODAL BACKGROUND ================= */
+.modalOverlay {
+  position: fixed;
+  /* ✅ fixed to viewport */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(6px);
+  /* Background blur */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Semi-transparent overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  overflow: hidden;
+  /* prevent scroll on overlay */
+}
+
+.logoutIconCircle {
+  background: #FFF8F8;
+  // padding: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 111px;
+  height: 111px;
+  margin: 0 auto 32px;
+}
+
+/* Icon */
+.logoutIcon {
+  width: 92px;
+  height: 92px;
+  background: #ED1C24;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+
+
+
+}
+
+/* Text */
+.logoutText {
+
+  margin-bottom: 25px;
+
+  font-family: 'PT Sans';
+  font-weight: 700;
+  font-size: 20px;
+  text-transform: capitalize;
+  color: #2B2B2B;
+
+
+}
+
+/* Actions */
+.logoutActions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Cancel */
+.btnCancel {
+
+  border: none;
+  padding: 16px 41px;
+  cursor: pointer;
+  background: #2B2B2B;
+  border-radius: 50px;
+
+
+
+  font-family: 'Noto Sans';
+  font-weight: 500;
+  font-size: 16px;
+  text-transform: uppercase;
+  color: #FFFFFF;
+
+
+
+}
+
+/* Confirm */
+.btnConfirm {
+  border: none;
+  padding: 16px 47px;
+  cursor: pointer;
+
+  background: #ED1C24;
+  border-radius: 50px;
+
+
+  font-family: 'Noto Sans';
+  font-weight: 500;
+  font-size: 16px;
+  text-transform: uppercase;
+  color: #FFFFFF;
+
+
+
+}
+
+/* Prevent body scroll when modal is open */
+body.modalOpen {
+  overflow: hidden;
+}
+
 /* Collapse below 991px */
-
 @media (max-width: 991px) {
-
   .navbar-toggler {
     display: block;
   }
@@ -123,5 +267,11 @@
 
   .nav-bar img {
     height: 60px;
+  }
+
+  /* Modal responsive for mobile */
+  .logoutToast {
+    width: 95%;
+    padding: 30px 20px;
   }
 }
