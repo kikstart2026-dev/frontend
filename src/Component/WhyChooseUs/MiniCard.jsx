@@ -13,7 +13,7 @@ export default function MiniCard({ icon, title, description, color }) {
       </figure>
 
       <h3>{title}</h3>
-      <p>{description}</p>
+      <p dangerouslySetInnerHTML={{__html: {description},}}></p>
     </div>
   );
 }
