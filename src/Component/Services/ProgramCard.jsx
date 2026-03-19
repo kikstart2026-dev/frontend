@@ -10,7 +10,9 @@ export default function ProgramCard({ image, title, description }) {
 
       <div className={styles.overlay}>
         <h3>{title}</h3>
-        <p>{description}</p>
+        <p
+          dangerouslySetInnerHTML={{ __html: description }}
+        ></p>
       </div>
     </div>
   );
