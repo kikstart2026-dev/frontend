@@ -7,7 +7,7 @@ import kikstart from "../../assets/images/KIKSTART_logo.png";
 import styles from "./Header.module.scss";
 import Button from "../../Component/Buttons/Button";
 import { logoutUser } from "../../apis/api";
-import { handleSuccess } from "../../utils";
+import { handleError, handleSuccess } from "../../utils";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,8 +29,8 @@ export default function Header() {
   const { mutate: logoutMutate, isPending } = useMutation({
     mutationFn: logoutUser,
     onSuccess: (data) => {
-      Cookies.remove("token");                 // ✅ remove token
-      localStorage.removeItem("verifyEmail");  // ✅ remove email
+      Cookies.remove("token"); // ✅ remove token
+      localStorage.removeItem("verifyEmail"); // ✅ remove email
       handleSuccess("Logged out successfully ✅");
     },
     onError: (error) => {
@@ -39,58 +39,47 @@ export default function Header() {
   });
 
   // ================= LOGOUT POPUP =================
-  const handleLogoutClick = () => {
-    toast(
-      ({ closeToast }) => (
-        <div>
-          <p style={{ marginBottom: "15px", fontWeight: "500" }}>
-            Are You Sure Want To Logout?
-          </p>
+const handleLogoutClick = () => {
+  toast(
+    ({ closeToast }) => (
+      <div className="logout-toast">
+        <div className="logout-icon">⚠️</div>
 
-          <div style={{ display: "flex", gap: "10px" }}>
-            <button
-              onClick={() => closeToast()}
-              style={{
-                padding: "6px 15px",
-                borderRadius: "20px",
-                border: "none",
-                background: "#333",
-                color: "#fff",
-                cursor: "pointer",
-              }}
-            >
-              Cancel
-            </button>
+        <p className="logout-text">
+          Are you sure you want to logout?
+        </p>
 
-            <button
-              onClick={() => {
-                if (!email) {
-                  toast.error("Email not found ❌");
-                  return;
-                }
-                logoutMutate({ email }); // ✅ send email to backend
-                closeToast();
-              }}
-              style={{
-                padding: "6px 15px",
-                borderRadius: "20px",
-                border: "none",
-                background: "#ff2d2d",
-                color: "#fff",
-                cursor: "pointer",
-              }}
-            >
-              {isPending ? "Logging out..." : "Yes"}
-            </button>
-          </div>
+        <div className="logout-actions">
+          <button className="btn-cancel" onClick={closeToast}>
+            Cancel
+          </button>
+
+          <button
+            className="btn-confirm"
+            onClick={() => {
+              if (!email) {
+                handleError("Email not found ❌");
+                return;
+              }
+              logoutMutate({ email });
+              closeToast();
+            }}
+          >
+            {isPending ? "Logging..." : "Yes, Logout"}
+          </button>
         </div>
-      ),
-      {
-        autoClose: false,
-        closeOnClick: false,
-      }
-    );
-  };
+      </div>
+    ),
+    {
+      position: "top-center",
+      autoClose: false,
+      closeOnClick: false,
+      draggable: false,
+      hideProgressBar: true,
+      className: "logout-toast-wrapper",
+    }
+  );
+};
 
   return (
     <div className={styles.call}>
@@ -136,10 +125,7 @@ export default function Header() {
               onClick={handleLogoutClick}
               style={{ cursor: "pointer" }}
             >
-              <Button
-                text="Logout"
-                variant="dark"
-              />
+              <Button text="Logout" variant="dark" />
             </div>
           )}
 

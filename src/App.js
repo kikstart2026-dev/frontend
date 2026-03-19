@@ -8,7 +8,6 @@ import {
   Navigate,
 } from "react-router-dom";
 
-
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -40,7 +39,6 @@ import SchoolDetails from "./Pages/FormDetails/SchoolDetails/SchoolDetails";
 // import FormParas from "./Component/FormPara/FormParas";
 import WaiverAcceptance from "./Pages/FormDetails/WaiverAcceptance/WaiverAcceptance";
 import ProgramDetailss from "./Pages/FormDetails/ProgramDetailss/ProgramDetailss";
-
 
 // ================= PROTECTED ROUTE =================
 function ProtectedRoute({ children }) {
@@ -97,14 +95,17 @@ function Layout() {
 
       <Routes>
         {/* ================= AUTH ROUTES ================= */}
-        <Route path="/signup" element={
+        <Route
+          path="/signup"
+          element={
             <AuthRoute>
               <SignUp />
             </AuthRoute>
           }
         />
 
-        <Route path="/signin"
+        <Route
+          path="/signin"
           element={
             <AuthRoute>
               <SignIn />
@@ -150,7 +151,7 @@ function Layout() {
         />
 
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<AboutUs/>} />
+        <Route path="/about" element={<AboutUs />} />
         <Route path="/faqs" element={<FaqsPage />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/why-us" element={<WhyUs />} />
@@ -160,11 +161,9 @@ function Layout() {
         <Route path="/ProgramDeatailsPage" element={<ProgramDeatailsPage />} />
         <Route path="/contactform" element={<ContactForm />} />
         <Route path="/Childrendetails" element={<ChildrenDetails />} />
-        <Route path="/Schooldetails" element={<SchoolDetails/>} />
-        <Route path="/WaiverAcceptance" element={<WaiverAcceptance/>} />
-        <Route path="/ProgramDetailss" element={<ProgramDetailss/>} />
-
-
+        <Route path="/Schooldetails" element={<SchoolDetails />} />
+        <Route path="/WaiverAcceptance" element={<WaiverAcceptance />} />
+        <Route path="/ProgramDetailss" element={<ProgramDetailss />} />
 
         <Route path="/ChildrenDetailsForm" element={<ChildrenDetailsForm />} />
         <Route path="/SchoolDetailsForm" element={<SchoolDetails />} />
@@ -181,7 +180,13 @@ function App() {
     <div className="App">
       <GoogleOAuthProvider clientId="377086841705-5qap8i7ifjqmr9hu09emtonof1qo2mnb.apps.googleusercontent.com">
         <Router>
-          <ToastContainer position="top-center" />
+          <ToastContainer
+            position="top-center"
+            toastClassName="center-toast"
+            bodyClassName="center-toast-body"
+            closeOnClick={false}
+            draggable={false}
+          />
           <Layout />
         </Router>
       </GoogleOAuthProvider>

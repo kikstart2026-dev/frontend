@@ -13,7 +13,11 @@ export default function HomeBanner() {
   const navigate = useNavigate();
   const token = Cookies.get("token");
 
-  const { data: banner, isLoading, error } = useQuery({
+  const {
+    data: banner,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["homeBanner"],
     queryFn: async () => {
       const res = await getAllHomeBanner();
@@ -37,18 +41,18 @@ export default function HomeBanner() {
     image: noImg,
   };
 
-  const headingParts =
-    displayedBanner.headingData?.heading?.split("|") || ["", ""];
+  const headingParts = displayedBanner.headingData?.heading?.split("|") || [
+    "",
+    "",
+  ];
 
   return (
     <div className={styles.homeBanner}>
       <div className="container">
         <div className="row bannerWrap" style={{ alignItems: "center" }}>
-          
           {/* LEFT SIDE */}
           <div className="col-5">
             <div className={styles.leftContent}>
-              
               <CmnHeading
                 title={displayedBanner.headingData?.tagline}
                 align="left"
@@ -67,13 +71,22 @@ export default function HomeBanner() {
                 }}
               ></p>
 
-              {!token && (
+              {!token ? (
                 <div className={styles.bannerBtn}>
                   <Button
                     className={styles.editbtn}
                     text="SIGN UP NOW"
                     variant="primary"
                     onClick={() => navigate("/signup")}
+                  />
+                </div>
+              ) : (
+                <div className={styles.bannerBtn}>
+                  <Button
+                    className={styles.editbtn}
+                    text="SUBSCRIPTION"
+                    variant="primary"
+                    onClick={() => navigate("/enrolment-package")}
                   />
                 </div>
               )}
@@ -84,14 +97,10 @@ export default function HomeBanner() {
           <div className="col-7">
             <div className={styles.rightImage}>
               <figure>
-                <img
-                  src={displayedBanner.image || noImg}
-                  alt="Banner"
-                />
+                <img src={displayedBanner.image || noImg} alt="Banner" />
               </figure>
             </div>
           </div>
-
         </div>
       </div>
     </div>

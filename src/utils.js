@@ -1,27 +1,33 @@
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-export function handleError(message) {
-    toast.error(`Sorry Sarver Error !\n${message}`,{
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-    });
-}
+const config = {
+  position: "top-center",
+  autoClose: 3000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+};
 
-export function handleSuccess(message) {
-    toast.success(`Yahooooo !!!\n${message}`,{
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-    });
-}
+export const handleError = (message) => {
+  toast.error(
+    <div className="toast-content">
+      <span>❌</span>
+      <p>{message}</p>
+    </div>,
+    { ...config, className: "toast-error" }
+  );
+};
 
-export const ApiUrl = process.env.baseURL;
+export const handleSuccess = (message) => {
+  toast.success(
+    <div className="toast-content">
+      <span>🎉</span>
+      <p>{message}</p>
+    </div>,
+    { ...config, className: "toast-success" }
+  );
+};
+
+export const ApiUrl = process.env.REACT_APP_BASE_URL;
