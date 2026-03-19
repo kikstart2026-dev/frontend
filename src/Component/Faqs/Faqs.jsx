@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import styles from "./Faqs.module.scss";   // ✅ module import
+import styles from "./Faqs.module.scss";
 import "../../Main.scss";
+import DOMPurify from "dompurify"; // ✅ safe HTML rendering
 
 export default function Faqs({ data = [], limit }) {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -13,12 +14,11 @@ export default function Faqs({ data = [], limit }) {
 
   return (
     <div className={`accordion ${styles.accordionWrapper}`} id="faqsAccordion">
-      
       {displayedData.map((item, index) => (
         <div
-          key={item.id || index}
+          key={item._id || index}
           className={styles.faqsItem}
-          onClick={() => toggleAccordion(index)}
+          onClick={() => toggleAccordion(index)} // ✅ full div clickable
           style={{ cursor: "pointer" }}
         >
           <h2 className="accordion-header">
@@ -38,7 +38,13 @@ export default function Faqs({ data = [], limit }) {
             }`}
           >
             <div className={`accordion-body ${styles.accordionBody}`}>
-              <p className={styles.faqsDetails}>{item.answer}</p>
+              {/* ✅ Safe CKEditor HTML rendering */}
+              <div
+                className={styles.faqsDetails}
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(item.answer),
+                }}
+              />
             </div>
           </div>
         </div>

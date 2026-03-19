@@ -8,7 +8,7 @@ import { getAllFaqs } from "../../../apis/api";
 
 export default function FaqSection() {
 
-  const { data: faqData, isLoading } = useQuery({
+  const { data: faqData = [], isLoading } = useQuery({
     queryKey: ["faqs"],
     queryFn: async () => {
       const res = await getAllFaqs();
@@ -18,30 +18,37 @@ export default function FaqSection() {
 
   if (isLoading) return null;
 
-  const headingData = faqData?.[0]?.headingData || {};
+  // ✅ ONLY ACTIVE
+  const activeFaqs = faqData.filter(item => item.isActive);
+
+  // ✅ HEADING SAFE
+  const headingData =
+    activeFaqs?.[0]?.headingData ||
+    faqData?.[0]?.headingData ||
+    {};
 
   return (
     <section className={`${styles.faqsSection} common-space`}>
       <div className="container">
         <div className={`row align-items-center ${styles.faqsWrap}`}>
 
-          {/* LEFT SIDE */}
+          {/* LEFT */}
           <div className={`col-6 ${styles.faqsLeft}`}>
             <CmnHeading
-              title={headingData?.heading}
-              subtitle={headingData?.tagline}
+              title={headingData?.tagline}
+              subtitle={headingData?.heading}
               align="left"
             />
 
-            <Faqs data={faqData} limit={5} />
+            <Faqs data={activeFaqs} limit={5} />
           </div>
 
-          {/* RIGHT SIDE */}
+          {/* RIGHT */}
           <div className={`col-6 ${styles.faqsRight}`}>
             <figure>
               <img
                 src="http://localhost:8008/uploads/images/1773166023559-837503757.png"
-                alt="Kikstart character"
+                alt="faq"
                 className={styles.faqsCharacter}
               />
             </figure>
