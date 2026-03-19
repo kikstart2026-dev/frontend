@@ -1,12 +1,7 @@
- body.modalOpen {
-  overflow: hidden; /* prevent scroll */
-  position: fixed;
-  width: 100%;
-  top: 0;
-}
+
 
 .call.modalFixed {
-  position: fixed;       /* Fix page content */
+  position: fixed;   /* fix content while modal open */
   top: 0;
   left: 0;
   width: 100%;
@@ -114,24 +109,38 @@
 }
 
 /* ================= MODAL BACKGROUND ================= */
-.modalOverlay {
+// .modalOverlay {
+//   position: fixed;
+//   /* ✅ fixed to viewport */
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   backdrop-filter: blur(6px);
+//   /* Background blur */
+//   background-color: rgba(0, 0, 0, 0.4);
+//   /* Semi-transparent overlay */
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   z-index: 1000;
+//   overflow: hidden;
+//   /* prevent scroll on overlay */
+
+  .modalOverlay {
   position: fixed;
-  /* ✅ fixed to viewport */
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   backdrop-filter: blur(6px);
-  /* Background blur */
   background-color: rgba(0, 0, 0, 0.4);
-  /* Semi-transparent overlay */
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   z-index: 1000;
-  overflow: hidden;
-  /* prevent scroll on overlay */
 }
+
 
 .logoutIconCircle {
   background: #FFF8F8;

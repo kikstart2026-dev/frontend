@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useMutation } from "@tanstack/react-query";
@@ -25,6 +25,25 @@ export default function Header() {
     { name: "Coach's Login", path: "/coach-login" },
   ];
 
+  useEffect(() => {
+  if (showLogoutModal) {
+    // Lock scroll
+    const scrollY = window.scrollY;
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = "100%";
+    document.body.style.overflow = "hidden";
+  } else {
+    // Unlock scroll
+    const scrollY = -parseInt(document.body.style.top || "0", 10);
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.width = "";
+    document.body.style.overflow = "";
+    window.scrollTo(0, scrollY);
+  }
+}, [showLogoutModal]);
+
   // ================= LOGOUT API =================
   const { mutate: logoutMutate, isPending } = useMutation({
     mutationFn: logoutUser,
@@ -39,30 +58,6 @@ export default function Header() {
   });
 
   const handleLogoutClick = () => setShowLogoutModal(true);
-
-  // ================= LOCK SCROLL & FIX BACKGROUND =================
-  useEffect(() => {
-    const callDiv = document.querySelector(`.${styles.call}`);
-    if (!callDiv) return;
-
-    if (showLogoutModal) {
-      const scrollY = window.scrollY;
-      callDiv.style.position = "fixed";
-      callDiv.style.top = `-${scrollY}px`;
-      callDiv.style.width = "100%";
-      document.body.style.overflow = "hidden";
-
-      // store scroll position
-      callDiv.dataset.scrollY = scrollY;
-    } else {
-      const scrollY = callDiv.dataset.scrollY || 0;
-      callDiv.style.position = "";
-      callDiv.style.top = "";
-      callDiv.style.width = "";
-      document.body.style.overflow = "";
-      window.scrollTo(0, scrollY);
-    }
-  }, [showLogoutModal]);
 
   return (
     <>
@@ -126,8 +121,9 @@ export default function Header() {
           <div className={styles.logoutToast}>
             <div className={styles.logoutIconCircle}>
               <div className={styles.logoutIcon}>
-                <i className="bi bi-box-arrow-left"></i>
+              <i class="bi bi-box-arrow-left"></i>
               </div>
+
             </div>
 
             <p className={styles.logoutText}>
