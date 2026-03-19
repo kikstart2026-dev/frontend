@@ -30,4 +30,14 @@ export const handleSuccess = (message) => {
   );
 };
 
+// export const handleAuth = (message) => {
+//   toast.success(
+//     <div className="toast-content">
+//       <span>🎉</span>
+//       <p>{message}</p>
+//     </div>,
+//     { ...config, className: "toast-success" }
+//   );
+// };
+
 export const ApiUrl = process.env.REACT_APP_BASE_URL;

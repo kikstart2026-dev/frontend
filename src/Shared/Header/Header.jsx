@@ -58,7 +58,7 @@ const handleLogoutClick = () => {
             className="btn-confirm"
             onClick={() => {
               if (!email) {
-                handleError("Email not found ❌");
+                handleError("Email not found ❌ ");
                 return;
               }
               logoutMutate({ email });

@@ -8,6 +8,7 @@ import Button from "../../../Component/Buttons/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "../../../apis/api";
+import { handleError, handleSuccess } from "../../../utils";
 
 export default function SignIn() {
   const [loginType, setLoginType] = useState("email");
@@ -31,11 +32,13 @@ export default function SignIn() {
     }
 
     alert("Login successful ✅");
+    handleSuccess("Login successfully ✅");
     navigate("/");
   }
 },
     onError: (error) => {
-      alert(error?.response?.data?.message || "Login failed ❌");
+      // alert(error?.response?.data?.message || "Login failed ❌");
+    handleError(error?.response?.data?.message || "Login failed ❌");
     },
   });
 

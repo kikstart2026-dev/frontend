@@ -7,6 +7,7 @@ import Button from "../../../Component/Buttons/Button";
 import { useMutation } from "@tanstack/react-query";
 import { signUp } from "../../../apis/api";
 import { useNavigate } from "react-router-dom";
+import { handleSuccess } from "../../../utils";
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -50,6 +51,7 @@ export default function SignUp() {
     onSuccess: (_, variables) => {
       localStorage.setItem("verifyEmail", variables.email);
       alert("Account created successfully ✅");
+      // handleSuccess();
       formRef.current.reset();
       navigate("/Otp");
     },
