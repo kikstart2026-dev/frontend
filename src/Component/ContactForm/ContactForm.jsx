@@ -4,6 +4,7 @@ import styles from "./ContactForm.module.scss";
 import Button from "../Buttons/Button";
 import { useMutation } from "@tanstack/react-query";
 import { contactUs } from "../../apis/api";
+import { handleError, handleSuccess } from "../../utils";
 
 export default function ContactForm() {
   const formRef = useRef(null);
@@ -14,12 +15,12 @@ export default function ContactForm() {
 
     onSuccess: () => {
       formRef.current?.reset();   // ✅ reset form
-      alert("Message sent successfully ✅");
+      handleSuccess("Message sent successfully ✅");
     },
 
     onError: (error) => {
       console.error("FULL ERROR:", error?.response);
-      alert(
+      handleError(
         error?.response?.data?.message || "Something went wrong ❌"
       );
     },
