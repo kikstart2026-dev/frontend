@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./utils.scss"
 
 const config = {
   position: "top-center",
@@ -11,20 +12,22 @@ const config = {
 };
 
 export const handleError = (message) => {
-  toast.error(
+  
+    toast.error(
     <div className="toast-content">
       <span>❌</span>
-      <p>{message}</p>
+      <p className="error_P">{message}</p>
     </div>,
-    { ...config, className: "toast-error" }
-  );
+    {...config, className: "toast-error" }
+    );
+  
 };
 
 export const handleSuccess = (message) => {
   toast.success(
     <div className="toast-content">
       <span>🎉</span>
-      <p>{message}</p>
+      <p className="success_p">{message}</p>
     </div>,
     { ...config, className: "toast-success" }
   );

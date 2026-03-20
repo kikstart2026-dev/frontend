@@ -5,6 +5,8 @@ import Button from "../Buttons/Button";
 import { useMutation } from "@tanstack/react-query";
 import { createEnq } from "../../apis/api";
 
+import { handleError, handleSuccess } from "../../utils";
+
 export default function EnquiryForm() {
   const formRef = useRef(null);
 
@@ -14,11 +16,14 @@ export default function EnquiryForm() {
 
     onSuccess: () => {
       formRef.current?.reset();
-      alert("Enquiry submitted successfully ✅");
+      handleSuccess("Enquiry submitted successfully");
+      // alert("Enquiry submitted successfully ✅");
     },
 
     onError: (error) => {
-      alert(error?.response?.data?.message || "Something went wrong ❌");
+      handleError(error?.response?.data?.message || "Something went wrong ❌");
+     
+      // alert(error?.response?.data?.message || "Something went wrong ❌");
     },
   });
 
