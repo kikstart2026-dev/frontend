@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useMutation } from "@tanstack/react-query";
 import kikstart from "../../assets/images/KIKSTART_logo.png";
@@ -9,6 +9,7 @@ import { logoutUser } from "../../apis/api";
 import { handleError, handleSuccess } from "../../utils";
 
 export default function Header() {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
@@ -50,7 +51,8 @@ export default function Header() {
     onSuccess: () => {
       Cookies.remove("token");
       localStorage.removeItem("verifyEmail");
-      handleSuccess("Logged out successfully ✅");
+      handleSuccess("Logged out successfully");
+      navigate("/signin");
     },
     onError: (error) => {
       handleError(error?.response?.data?.message || "Logout failed ❌");
@@ -104,7 +106,7 @@ export default function Header() {
                 onClick={handleLogoutClick}
                 style={{ cursor: "pointer" }}
               >
-                <Button text="Logout" variant="dark" />
+                <Button text={isPending ? "Logging out..." : "Logout"} variant="dark" />
               </div>
             )}
 

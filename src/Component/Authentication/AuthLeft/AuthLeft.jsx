@@ -27,7 +27,7 @@ export default function AuthLeft({ comment, linkName }) {
   }, [darkMode]);
 
   // ⭐ Mutation Google Login
-  const { mutate: googleMutate } = useMutation({
+  const { mutate: googleMutate, isPending } = useMutation({
     mutationFn: googleAuth,
 
     onSuccess: (result) => {
@@ -42,15 +42,6 @@ export default function AuthLeft({ comment, linkName }) {
 
       // ✅ Save user info
       localStorage.setItem("verifyEmail", user.email);
-      // localStorage.setItem(
-      //   "user-info",
-      //   JSON.stringify({
-      //     email: user.email,
-      //     name: user.fullname,
-      //     image: user.image,
-      //     token,
-      //   })
-      // );
 
       navigate("/");
     },
@@ -126,7 +117,7 @@ export default function AuthLeft({ comment, linkName }) {
             }`}
           >
             <i className="bi bi-google ii"></i>
-            Continue with Google
+            {isPending ? "Logging in..." : "Continue with Google"}
           </button>
 
           <button

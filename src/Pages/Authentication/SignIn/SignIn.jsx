@@ -31,7 +31,7 @@ export default function SignIn() {
       Cookies.set("token", data.token, { expires: 7 });
     }
 
-    alert("Login successful ✅");
+    // alert("Login successful ✅");
     handleSuccess("Login successfully ✅");
     navigate("/");
   }
