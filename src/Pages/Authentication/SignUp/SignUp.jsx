@@ -48,10 +48,18 @@ export default function SignUp() {
   const { mutate, isPending } = useMutation({
     mutationKey: ["sign-up"],
     mutationFn: signUp,
-    onSuccess: (_, variables) => {
+    // onSuccess: (_, variables) => {
+    //   localStorage.setItem("verifyEmail", variables.email);
+    //   alert(data?.data?.message);
+    //   // handleSuccess();
+    //   formRef.current.reset();
+    //   navigate("/Otp");
+    // },
+    onSuccess: (data, variables) => {
       localStorage.setItem("verifyEmail", variables.email);
-      alert("Account created successfully ✅");
-      // handleSuccess();
+
+      alert(data?.message); // ✅ ekhon thik
+
       formRef.current.reset();
       navigate("/Otp");
     },
