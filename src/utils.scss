@@ -1,43 +1,71 @@
 .toast-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 
-    p{
-        width: 600;
-        font-size: 16px;
-    }
+  span {
+    margin-right: 10px;
+    font-size: 18px;
+  }
 
-    span {
-        margin-right: 10px;
-    }
+  p {
+    font-size: 16px;
+    margin: 0;
+  }
 
-    p.error_P {
-        color: #ED1C24;
-    }
-    .success_p{
-        color: rgb(60, 218, 100);
-    }
+  p.error_P {
+    color: #ED1C24;
+  }
+
+  .success_p {
+    color: rgb(60, 218, 100);
+  }
+
+  .warning_p {
+    color: #f59e0b;
+  }
 }
 
+/* 🔴 ERROR TOAST */
 .toast-error {
-    width: 100%;
-    background-color: #fdf5f5;
-    box-shadow: 0px 10px 10px #5d4a4a7a;
+  width: 100%;
+  background-color: #fdf5f5;
+  box-shadow: 0px 10px 10px rgba(93, 74, 74, 0.48);
+  border-left: 5px solid #ED1C24;
 }
 
-
-.toast-success{
-     width: 100%;
-    background-color: #f0fef4;
-    box-shadow: 0px 10px 10px #4a5d567a;
+/* 🟢 SUCCESS TOAST */
+.toast-success {
+  width: 100%;
+  background-color: #f0fef4;
+  box-shadow: 0px 10px 10px rgba(74, 93, 86, 0.48);
+  border-left: 5px solid rgb(60, 218, 100);
 }
 
-.Toastify__close-button>svg {
-    display: none;
+/* 🟡 WARNING TOAST */
+.toast-warning {
+  width: 100%;
+  background-color: #fffbed;
+  box-shadow: 0px 10px 10px rgba(93, 90, 74, 0.48);
+  border-left: 5px solid #f59e0b;
 }
 
+/* ❌ Hide default close button */
+.Toastify__close-button > svg {
+  display: none;
+}
+
+/* 🔴 Error progress bar */
 .Toastify__progress-bar--error {
-    background: #ED1C24;
+  background: #ED1C24;
 }
 
+/* 🟢 Success progress bar */
+.Toastify__progress-bar--success {
+  background: rgb(60, 218, 100);
+}
+
+/* 🟡 Warning progress bar */
+.Toastify__progress-bar--warning {
+  background: #f59e0b;
+}
