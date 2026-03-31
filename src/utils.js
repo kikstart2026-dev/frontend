@@ -23,6 +23,16 @@ export const handleError = (message) => {
   
 };
 
+export const handleWarning = (message) => {
+  toast.warning(
+    <div className="toast-content">
+      <span>⚠️</span>
+      <p className="warning_P">{message}</p>
+    </div>,
+    { ...config, className: "toast-warning" }
+  );
+};
+
 export const handleSuccess = (message) => {
   toast.success(
     <div className="toast-content">

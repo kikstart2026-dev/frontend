@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./ChildrenDetailsForm.module.scss";
 import styles2 from "../SchoolDetailsForm/SchoolDetailsForm.module.scss";
 import Button from "../Buttons/Button";
+import {handleError, handleSuccess} from "../../utils"
 
 export default function ChildrenDetailsForm() {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export default function ChildrenDetailsForm() {
   /* ---------------- Location ---------------- */
   const handleGetLocation = () => {
     if (!navigator.geolocation) {
-      alert("Geolocation is not supported");
+      handleError("Geolocation is not supported");
       return;
     }
 
@@ -37,7 +38,7 @@ export default function ChildrenDetailsForm() {
           locationRef.current.value = `${latitude}, ${longitude}`;
         }
       },
-      () => alert("Unable to retrieve location")
+      () => handleError("Unable to retrieve location")
     );
   };
 
