@@ -40,7 +40,7 @@ export default function FaqSection() {
               align="left"
             />
 
-            <Faqs data={activeFaqs}  />
+            <Faqs data={activeFaqs}  limit={5}  />
           </div>
 
           {/* RIGHT */}
