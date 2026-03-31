@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from './FormParas.module.scss'
 import CmnHeading from '../CmnHeading/CmnHeading'
 import Button from '../Buttons/Button'
+import { handleError } from '../../utils';
 
 export default function FormParas() {
     const navigate = useNavigate();
@@ -10,7 +11,7 @@ export default function FormParas() {
 
     const handleNext = () => {
         if (!checked) {
-            alert("Please accept the waiver conditions first.");
+            handleError("Please accept the waiver conditions first.");
             return;
         }
         navigate("/ProgramDetailss");

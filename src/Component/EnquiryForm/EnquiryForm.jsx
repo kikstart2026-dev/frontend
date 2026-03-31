@@ -17,13 +17,10 @@ export default function EnquiryForm() {
     onSuccess: () => {
       formRef.current?.reset();
       handleSuccess("Enquiry submitted successfully");
-      // alert("Enquiry submitted successfully ✅");
     },
 
     onError: (error) => {
       handleError(error?.response?.data?.message || "Something went wrong ❌");
-     
-      // alert(error?.response?.data?.message || "Something went wrong ❌");
     },
   });
 
