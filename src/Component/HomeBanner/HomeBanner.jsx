@@ -63,13 +63,13 @@ export default function HomeBanner() {
                 <span className={styles.redText}>{headingParts[1]}</span>
               </h1>
 
-              {/* CKEditor HTML render */}
-              <p
-                className={styles.text}
+              {/* Quill HTML render */}
+              <div
+                className={`${styles.text} ql-editor`}
                 dangerouslySetInnerHTML={{
                   __html: displayedBanner.headingData?.description,
                 }}
-              ></p>
+              ></div>
 
               {!token ? (
                 <div className={styles.bannerBtn}>
