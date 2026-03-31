@@ -10,7 +10,8 @@ export default function Faqs({ data = [], limit }) {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
-  const displayedData = limit ? data.slice(0, limit) : data;
+  const safeData = Array.isArray(data) ? data : []; 
+  const displayedData = limit ? safeData.slice(0, limit) : safeData;
 
   return (
     <div className={`accordion ${styles.accordionWrapper}`} id="faqsAccordion">
