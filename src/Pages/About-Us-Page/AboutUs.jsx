@@ -1,27 +1,57 @@
 import React from 'react'
+import { useQuery } from '@tanstack/react-query'
 import AboutUsValue from '../../Component/AboutUsValue/AboutUsValue'
-import TestSection from '../../Component/Testimonial/Test/TestSection'
 import AboutMid from '../../Component/AboutMid/AboutMid'
-import styles from './AboutUs.module.scss'
+import TestSection from '../../Component/Testimonial/Test/TestSection'
 import CommonBanner from '../../Component/CommonBanner/CommonBanner'
+import styles from './AboutUs.module.scss'
+import { getAllAboutUs } from '../../apis/api'
 
 export default function AboutUs() {
+
+  // 🔥 About API Call (same logic as TwoSide)
+  const { data: about, isLoading, error } = useQuery({
+    queryKey: ["aboutSection"],
+    queryFn: async () => {
+
+      const res = await getAllAboutUs()
+
+      const aboutData = res?.data || []
+
+      const activeAbout = aboutData.find((a) => a.isActive)
+
+      return activeAbout || aboutData[0] || null
+    },
+  })
+
+  if (isLoading) return <p>Loading...</p>
+  if (error) return <p>Failed to load About section</p>
+
   return (
     <div className={styles.page}>
-        <CommonBanner
-        title={"About Us"}/>
+
+      <CommonBanner title={"About Us"} />
+
       <section className={styles.space1}>
         <div className="container">
-          <AboutUsValue />
-         <div className="space3">
-           <AboutMid />
-         </div>
+
+          {/* ✅ AboutUsValue gets API data */}
+          <AboutUsValue aboutData={about} />
+
+          <div className="space3">
+            {/* ✅ AboutMid also gets same API data */}
+            <AboutMid aboutData={about} />
+          </div>
+
         </div>
       </section>
 
       <section className={styles.space}>
         <div className="container">
+
+          {/* ✅ TestSection already uses testimonial API (no change needed) */}
           <TestSection />
+
         </div>
       </section>
 
