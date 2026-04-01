@@ -304,8 +304,9 @@ export const getTestById= async (id) => {
 // };
 
 // ✅ Get All FAQ (User)
-export const getAllFaqs = async () => {
-  const res = await axiosInstance.get(endpoints.getAllFaqsUser);
+export const getAllFaqs = async (page = 1, limit = 5) => {
+  // Query string URL-e dynamic bhabe boshano holo
+  const res = await axiosInstance.get(`${endpoints.getAllFaqsUser}?page=${page}&limit=${limit}`);
   return res.data;
 };
 

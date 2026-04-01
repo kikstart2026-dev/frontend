@@ -9,9 +9,10 @@ import { getAllFaqs } from "../../../apis/api";
 export default function FaqSection() {
 
   const { data: faqData = [], isLoading } = useQuery({
-    queryKey: ["faqs"],
+    queryKey: ["faqs-home"], // ✅ Unique key for home
     queryFn: async () => {
-      const res = await getAllFaqs();
+      // ✅ Ekhane default-e 5 asbe (jodi api.js e limit=5 set kora thake)
+      const res = await getAllFaqs(1, 5); 
       return res?.data || [];
     }
   });
@@ -40,7 +41,8 @@ export default function FaqSection() {
               align="left"
             />
 
-            <Faqs data={activeFaqs}  limit={5}  />
+            {/* ✅ Ekhane sudhu limit kora data-tai show hobe */}
+            <Faqs data={activeFaqs} />
           </div>
 
           {/* RIGHT */}
