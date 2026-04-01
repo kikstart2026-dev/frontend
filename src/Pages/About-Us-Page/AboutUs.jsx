@@ -9,7 +9,7 @@ import { getAllAboutUs } from '../../apis/api'
 
 export default function AboutUs() {
 
-  // 🔥 About API Call (same logic as TwoSide)
+
   const { data: about, isLoading, error } = useQuery({
     queryKey: ["aboutSection"],
     queryFn: async () => {
@@ -35,11 +35,9 @@ export default function AboutUs() {
       <section className={styles.space1}>
         <div className="container">
 
-          {/* ✅ AboutUsValue gets API data */}
           <AboutUsValue aboutData={about} />
 
           <div className="space3">
-            {/* ✅ AboutMid also gets same API data */}
             <AboutMid aboutData={about} />
           </div>
 
@@ -49,7 +47,6 @@ export default function AboutUs() {
       <section className={styles.space}>
         <div className="container">
 
-          {/* ✅ TestSection already uses testimonial API (no change needed) */}
           <TestSection />
 
         </div>
