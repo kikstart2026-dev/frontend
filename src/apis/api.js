@@ -172,8 +172,10 @@ export const createService = async (payload) => {
   return res.data;
 };
 // ✅ Get All services
-export const getAllService = async () => {
-  const res = await axiosInstance.get(endpoints.getAllService);
+export const getAllService = async (page = 1, limit = 9) => {
+  const res = await axiosInstance.get(
+    `${endpoints.getAllService}?page=${page}&limit=${limit}`
+  );
   return res.data;
 };
 // ✅ Get sevice By ID

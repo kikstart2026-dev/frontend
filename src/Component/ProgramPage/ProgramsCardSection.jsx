@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ProgramCard from "../Services/ProgramCard";
 import styles from "./ProgramsCardSection.module.scss";
 import "../../Main.scss";
@@ -8,64 +8,87 @@ import { useQuery } from "@tanstack/react-query";
 
 export default function Programs() {
 
-  const { data: services = [], isLoading: loading } = useQuery({
-    queryKey: ["services"],
+  const [page, setPage] = useState(1);
+  const limit = 9;
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["services", page],
     queryFn: async () => {
-      const res = await getAllService();
-      return res.data;
+      return await getAllService(page, limit);
     },
+    keepPreviousData: true,
   });
 
-  // ✅ Only first 9 items
-  const firstNineServices = services.slice(0, 9);
+  // ✅ IMPORTANT FIX
+  const services = data?.data || [];
+  const totalPages = data?.totalPages || 1;
 
   return (
-    <>
-      <section className={styles.programSection}>
-        <div className="container">
+    <section className={styles.programSection}>
+      <div className="container">
 
-          {loading ? (
-            <p className="text-center">Loading...</p>
-          ) : (
-            <div className={`row ${styles.cardsRow}`}>
-              {firstNineServices.map((item, index) => (
-                <div
-                  key={index}
-                  className={`col-lg-4 col-md-6 col-12 ${styles.cardWrapper}`}
+        {isLoading ? (
+          <p className="text-center">Loading...</p>
+        ) : (
+          <div className={`row ${styles.cardsRow}`}>
+            {services.map((item, index) => (
+              <div
+                key={index}
+                className={`col-lg-4 col-md-6 col-12 ${styles.cardWrapper}`}
+              >
+                <ProgramCard
+                  image={item.image}
+                  title={item.title}
+                  description={item.details}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* 🔥 FULL DYNAMIC PAGINATION */}
+        <nav className="mt-4">
+          <ul className={`pagination justify-content-center ${styles.customPagination}`}>
+
+            {/* PREV */}
+            <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
+              <button
+                className="page-link"
+                onClick={() => setPage(page - 1)}
+              >
+                &lt;
+              </button>
+            </li>
+
+            {/* PAGE NUMBERS */}
+            {[...Array(totalPages)].map((_, i) => (
+              <li
+                key={i}
+                className={`page-item ${page === i + 1 ? "active" : ""}`}
+              >
+                <button
+                  className="page-link"
+                  onClick={() => setPage(i + 1)}
                 >
-                  <ProgramCard
-                    image={item.image}
-                    title={item.title}
-                    description={item.details} 
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Pagination same */}
-          <nav className="mt-4">
-            <ul className={`pagination justify-content-center ${styles.customPagination}`}>
-              <li className="page-item arrow">
-                <button className="page-link arrow">&lt;</button>
+                  {i + 1}
+                </button>
               </li>
+            ))}
 
-              <li className="page-item active">
-                <button className="page-link num">1</button>
-              </li>
+            {/* NEXT */}
+            <li className={`page-item ${page === totalPages ? "disabled" : ""}`}>
+              <button
+                className="page-link"
+                onClick={() => setPage(page + 1)}
+              >
+                &gt;
+              </button>
+            </li>
 
-              <li className="page-item">
-                <button className="page-link num2">2</button>
-              </li>
+          </ul>
+        </nav>
 
-              <li className="page-item arrow">
-                <button className="page-link arrow">&gt;</button>
-              </li>
-            </ul>
-          </nav>
-
-        </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
