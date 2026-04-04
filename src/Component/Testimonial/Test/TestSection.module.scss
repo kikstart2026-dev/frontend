@@ -62,7 +62,7 @@
   opacity: 1;
 }
 :global(.swiper-slide p) {
-  white-space: normal;
-  word-break: break-word;
-  overflow-wrap: break-word;
+  white-space: nowrap;
+  // word-break: break-word;
+  // overflow-wrap: break-word;
 }

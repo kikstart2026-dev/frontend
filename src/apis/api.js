@@ -116,8 +116,10 @@ export const createWhyChooseUs = async (payload) => {
 };
 
 // ✅ Get All 
-export const getAllWhyChooseUs = async () => {
-  const res = await axiosInstance.get(endpoints.getAllWhyChooseUs);
+export const getAllWhyChooseUs = async ({ page = 1, limit = 4 } = {}) => {
+  const res = await axiosInstance.get(
+    `${endpoints.getAllWhyChooseUs}?page=${page}&limit=${limit}`
+  );
   return res.data;
 };
 
