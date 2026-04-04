@@ -11,7 +11,7 @@ export default function FaqSection() {
   const { data: faqData = [], isLoading } = useQuery({
     queryKey: ["faqs-home"], // ✅ Unique key for home
     queryFn: async () => {
-      // ✅ Ekhane default-e 5 asbe (jodi api.js e limit=5 set kora thake)
+      // ✅ default 5
       const res = await getAllFaqs(1, 5); 
       return res?.data || [];
     }
@@ -41,7 +41,7 @@ export default function FaqSection() {
               align="left"
             />
 
-            {/* ✅ Ekhane sudhu limit kora data-tai show hobe */}
+            {/* ✅ show limited data */}
             <Faqs data={activeFaqs} />
           </div>
 
