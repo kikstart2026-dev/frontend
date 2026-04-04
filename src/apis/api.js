@@ -345,7 +345,7 @@ export const getFaqById = async (id) => {
 ================================ */
 
 // Get All Schools with Pagination
-export const getAllSchools = async (page = 1, limit = 6) => {
+export const getAllSchools = async (page = 1, limit = 9) => {
   const res = await axiosInstance.get(
     `${endpoints.getAllSchools}?page=${page}&limit=${limit}`
   );
