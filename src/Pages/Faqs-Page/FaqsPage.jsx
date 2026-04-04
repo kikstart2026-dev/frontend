@@ -3,20 +3,22 @@ import CommonBanner from '../../Component/CommonBanner/CommonBanner'
 import "./FaqsPage.module.scss"
 import Faqs from '../../Component/Faqs/Faqs'
 import { useQuery } from "@tanstack/react-query";
-import { getAllFaqs } from "../../apis/api";
+import { getAllFaqs } from "../../apis/api"; 
 
 export default function FaqsPage() {
 
   const { data: faqData = [], isLoading } = useQuery({
-    queryKey: ["faqs"],
+    queryKey: ["faqs-all-frontend"],
     queryFn: async () => {
-      const res = await getAllFaqs();
+      // ✅ Ekhane limit 1000 pathachhi jate backend theke sob data ashe
+      const res = await getAllFaqs(1, 1000); 
       return res?.data || [];
     }
   });
 
   if (isLoading) return <p>Loading...</p>;
 
+  // Sudhu active gulo filter korchi
   const activeFaqs = faqData.filter(item => item.isActive);
 
   return (
