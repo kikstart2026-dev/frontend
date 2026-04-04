@@ -25,14 +25,11 @@ export default function ProgramsSection({ limit, showHeading = true }) {
     },
   });
 
-  const displayPrograms = limit
-    ? services.slice(0, limit)
-    : services;
+  const displayPrograms = limit ? services.slice(0, limit) : services;
 
   return (
     <section className={styles["back-color"]}>
       <div className="container">
-
         {/* ✅ Dynamic Heading from Backend */}
         {showHeading && headingData && (
           <div className="why-choose-us">
@@ -57,6 +54,8 @@ export default function ProgramsSection({ limit, showHeading = true }) {
                   image={item.image}
                   title={item.title}
                   description={item.details}
+                  details2={item.details2}
+                  video={item.video}
                 />
               </div>
             ))}
@@ -68,7 +67,6 @@ export default function ProgramsSection({ limit, showHeading = true }) {
             <Button text="View all" variant="primary" />
           </Link>
         </div>
-
       </div>
     </section>
   );

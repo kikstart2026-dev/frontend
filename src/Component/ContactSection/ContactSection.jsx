@@ -14,6 +14,10 @@ export default function ContactSection() {
         message: ""
     });
 
+    const Email = process.env.REACT_APP_OUR_MAIL;
+
+    
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
@@ -46,7 +50,7 @@ export default function ContactSection() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  kikstart2026@gmail.com
+                  {Email}
                 </a>
                         </div>
                     </div>
