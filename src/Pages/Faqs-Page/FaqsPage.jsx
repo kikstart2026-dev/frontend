@@ -10,7 +10,7 @@ export default function FaqsPage() {
   const { data: faqData = [], isLoading } = useQuery({
     queryKey: ["faqs-all-frontend"],
     queryFn: async () => {
-      // ✅ Ekhane limit 1000 pathachhi jate backend theke sob data ashe
+      // ✅ limit 1000
       const res = await getAllFaqs(1, 1000); 
       return res?.data || [];
     }
@@ -18,7 +18,7 @@ export default function FaqsPage() {
 
   if (isLoading) return <p>Loading...</p>;
 
-  // Sudhu active gulo filter korchi
+  // filter active part
   const activeFaqs = faqData.filter(item => item.isActive);
 
   return (
