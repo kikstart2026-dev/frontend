@@ -48,6 +48,18 @@ export const endpoints = {
 
   getAllFaqsUser: "user/faq",
   getFaqByIdUser: (id) => `user/faq/${id}`,
+
+  
+  // Interested Schools --------------------------------------->>
+
+  getAllSchools: "user/schools/",
+  getSchoolById: (id) => `user/schools/${id}`,
+
 };
+
+
+
+
+
 
 

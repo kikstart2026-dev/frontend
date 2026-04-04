@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "./SchoolsCard.module.scss";
 import "../../Main.scss";
+// 🔥 Essential: Import Quill's snow theme CSS to render styles correctly
+import "react-quill-new/dist/quill.snow.css"; 
 
 export default function SchoolsCard({
   image,
@@ -18,7 +20,14 @@ export default function SchoolsCard({
 
       <div className={styles.cardContent}>
         <h3>{title}</h3>
-        <p>{description}</p>
+
+        {/* 🔥 Quill HTML Rendering Logic */}
+        <div className="ql-snow">
+          <div
+            className={`ql-editor ${styles.description}`}
+            dangerouslySetInnerHTML={{ __html: description }}
+          />
+        </div>
 
         <div className={styles.cardAuthor}>
           <span>

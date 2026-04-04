@@ -338,3 +338,24 @@ export const getFaqById = async (id) => {
 //   const res = await axiosInstance.delete(endpoints.deleteFaq(id));
 //   return res.data;
 // };
+
+
+/* ================================
+    Schools APIs
+================================ */
+
+// Get All Schools with Pagination
+export const getAllSchools = async (page = 1, limit = 6) => {
+  const res = await axiosInstance.get(
+    `${endpoints.getAllSchools}?page=${page}&limit=${limit}`
+  );
+  return res.data;
+};
+
+// Get By ID (This was mostly correct, but ensure endpoints.getSchoolById is a function)
+export const getSchoolById = async (id) => {
+  const res = await axiosInstance.get(
+    endpoints.getSchoolById(id)
+  );
+  return res.data;
+};
