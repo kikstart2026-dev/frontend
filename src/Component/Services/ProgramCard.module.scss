@@ -3,7 +3,7 @@
   border-radius: 30px;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.5s ease;
+ 
 }
 
 /* Image */
@@ -26,7 +26,7 @@
   background: rgba(95, 94, 94, 0); // hidden initially
   display: flex;
   align-items: flex-end;
-  padding: 20px;
+  padding: 25px;
 
   transition: background 0.4s ease;
 }
@@ -39,24 +39,48 @@
   transition: all 0.4s ease;
 }
 
+
 .content h3 {
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 8px;
 }
 
-.content p {
-  font-size: 14px;
+.clamp2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; // কয় লাইন দেখাবে
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  padding-right: 20px;
 }
+
+.content p {
+
+  font-weight: 400;
+  font-size: 15px;
+  color: #FFFFFF;
+
+
+
+}
+
+
 
 /* 🔥 HOVER FIX */
 // .card:hover img {
 //   transform: scale(1.08);
 // }
 
-.card:hover .overlay {
-  background: rgba(51, 51, 51, 0.55); // NOW WORK করবে
+.card:hover {
+
+  .overlay {
+    background: linear-gradient(to top,
+        rgba(0, 0, 0, 0.458) 30%,
+        rgba(81, 81, 81, 0.073) 60%); // NOW WORK করবে
+  }
 }
+
+
 
 .card:hover .content {
   transform: translateY(0);

@@ -20,15 +20,17 @@ export default function ProgramCard({ image, title, description, details2, video
         </div>
       </div> */}
       <div className={styles.card}>
-       <img src={image} alt={title} />
+        <img src={image} alt={title} />
 
-       <div className={styles.overlay}>
-         <div className={styles.content}>
-           <h3>{title}</h3>
-           <p>{description}</p>
-         </div>
+        <div className={styles.overlay}>
+          <div className={styles.content}>
+            <h3>{title}</h3>
+            <p className={styles.clamp2}>
+              {description}
+            </p>
+          </div>
+        </div>
       </div>
-     </div>
     </Link>
   );
 }
