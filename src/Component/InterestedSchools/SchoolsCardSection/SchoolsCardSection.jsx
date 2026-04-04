@@ -14,7 +14,7 @@ export default function SchoolsCardSection() {
       const data = await getAllSchools(pageNum);
 
       // Reset schools to empty first to ensure the UI updates
-      setSchools(data.data || []);
+      setSchools(data.data || []); 
       setTotalPages(data.totalPages || 1);
     } catch (error) {
       console.error("Error fetching schools:", error);
@@ -56,46 +56,41 @@ export default function SchoolsCardSection() {
         </div>
 
         {totalPages > 1 && (
-          <nav className="mt-4">
+          <nav className="mt-5">
             <ul className={`pagination justify-content-center ${styles.customPagination}`}>
-
-              {/* LEFT ARROW */}
+              {/* Prev */}
               <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
-                <button
-                  className="page-link arrow"
-                  onClick={() => setPage(page - 1)}
+                <button 
+                  className="page-link" 
+                  onClick={() => handlePageChange(page - 1)}
                   disabled={page === 1}
                 >
                   &lt;
                 </button>
               </li>
 
-              {/* PAGE NUMBERS */}
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
-                <li
-                  key={num}
-                  className={`page-item ${page === num ? "active" : ""}`}
-                >
+              {/* Page Numbers */}
+              {[...Array(totalPages)].map((_, i) => (
+                <li key={i + 1} className="page-item">
                   <button
-                    className={`page-link ${page === num ? "num" : ""}`}
-                    onClick={() => setPage(num)}
+                    className={`page-link ${page === i + 1 ? styles.active : ""}`}
+                    onClick={() => handlePageChange(i + 1)}
                   >
-                    {num}
+                    {i + 1}
                   </button>
                 </li>
               ))}
 
-              {/* RIGHT ARROW */}
+              {/* Next */}
               <li className={`page-item ${page === totalPages ? "disabled" : ""}`}>
-                <button
-                  className="page-link arrow"
-                  onClick={() => setPage(page + 1)}
+                <button 
+                  className="page-link" 
+                  onClick={() => handlePageChange(page + 1)}
                   disabled={page === totalPages}
                 >
                   &gt;
                 </button>
               </li>
-
             </ul>
           </nav>
         )}
