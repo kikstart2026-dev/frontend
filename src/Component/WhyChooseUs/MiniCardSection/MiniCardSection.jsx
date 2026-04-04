@@ -10,10 +10,12 @@ import noImg from "../../../assets/images/no-img.png"; // fallback image
 export default function MiniCardSection({ limit, showHeading = true }) {
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["whyChooseUs"],
+    queryKey: ["whyChooseUs", limit], // 🔥 important
     queryFn: async () => {
-      const res = await getAllWhyChooseUs();
-      console.log("API:", res);
+      const res = await getAllWhyChooseUs({
+        page: 1,
+        limit: limit || 4,
+      });
       return res?.data || null;
     },
   });
@@ -38,35 +40,35 @@ export default function MiniCardSection({ limit, showHeading = true }) {
     displayData.length > 0
       ? displayData
       : [
-          {
-            _id: "dummy-card",
-            icon: noImg,
-            title: "No text",
-            description: "",
-            color: "#ccc",
-          },
-          {
-            _id: "dummy-card",
-            icon: noImg,
-            title: "No text",
-            description: "",
-            color: "#ccc",
-          },
-          {
-            _id: "dummy-card",
-            icon: noImg,
-            title: "No text",
-            description: "",
-            color: "#ccc",
-          },
-          {
-            _id: "dummy-card",
-            icon: noImg,
-            title: "No text",
-            description: "",
-            color: "#ccc",
-          },
-        ];
+        {
+          _id: "dummy-card",
+          icon: noImg,
+          title: "No text",
+          description: "",
+          color: "#ccc",
+        },
+        {
+          _id: "dummy-card",
+          icon: noImg,
+          title: "No text",
+          description: "",
+          color: "#ccc",
+        },
+        {
+          _id: "dummy-card",
+          icon: noImg,
+          title: "No text",
+          description: "",
+          color: "#ccc",
+        },
+        {
+          _id: "dummy-card",
+          icon: noImg,
+          title: "No text",
+          description: "",
+          color: "#ccc",
+        },
+      ];
 
   return (
     <section className={styles["mini-section"]}>

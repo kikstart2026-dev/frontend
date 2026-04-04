@@ -77,7 +77,7 @@ export default function TestSection() {
             <SwiperSlide key={item._id}>
               <Testimonial
                 img={item.image}
-                para={item.description}
+                para={item.description || ""}
                 miniheading={item.name}
                 coach={item.designation}
               />

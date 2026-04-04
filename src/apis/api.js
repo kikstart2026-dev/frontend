@@ -116,8 +116,10 @@ export const createWhyChooseUs = async (payload) => {
 };
 
 // ✅ Get All 
-export const getAllWhyChooseUs = async () => {
-  const res = await axiosInstance.get(endpoints.getAllWhyChooseUs);
+export const getAllWhyChooseUs = async ({ page = 1, limit = 4 } = {}) => {
+  const res = await axiosInstance.get(
+    `${endpoints.getAllWhyChooseUs}?page=${page}&limit=${limit}`
+  );
   return res.data;
 };
 
@@ -304,8 +306,9 @@ export const getTestById= async (id) => {
 // };
 
 // ✅ Get All FAQ (User)
-export const getAllFaqs = async () => {
-  const res = await axiosInstance.get(endpoints.getAllFaqsUser);
+export const getAllFaqs = async (page = 1, limit = 5) => {
+  // Query string URL-e dynamic bhabe boshano holo
+  const res = await axiosInstance.get(`${endpoints.getAllFaqsUser}?page=${page}&limit=${limit}`);
   return res.data;
 };
 
@@ -335,3 +338,24 @@ export const getFaqById = async (id) => {
 //   const res = await axiosInstance.delete(endpoints.deleteFaq(id));
 //   return res.data;
 // };
+
+
+/* ================================
+    Schools APIs
+================================ */
+
+// Get All Schools with Pagination
+export const getAllSchools = async (page = 1, limit = 6) => {
+  const res = await axiosInstance.get(
+    `${endpoints.getAllSchools}?page=${page}&limit=${limit}`
+  );
+  return res.data;
+};
+
+// Get By ID (This was mostly correct, but ensure endpoints.getSchoolById is a function)
+export const getSchoolById = async (id) => {
+  const res = await axiosInstance.get(
+    endpoints.getSchoolById(id)
+  );
+  return res.data;
+};
