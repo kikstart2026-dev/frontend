@@ -66,12 +66,12 @@
     :global(.page-item.disabled .page-link) {
         border: none;
         background-color: #F5F5F5;
-        color: #C0C0C0; // ✅ change from #fff → soft gray
+        color: #C0C0C0; // 
         cursor: not-allowed;
     }
 
     :global(.page-link.arrow) {
-        font-size: 18px; // ✅ bigger arrow
-        font-weight: 700; // optional, bold feel
+        font-size: 18px; 
+        font-weight: 700;
     }
 }
