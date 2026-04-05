@@ -7,26 +7,27 @@ import styles from "./FaqSection.module.scss";
 import { getAllFaqs } from "../../../apis/api";
 
 export default function FaqSection() {
+  // 1. Heading er jonno alada state
+  const [headingData, setHeadingData] = React.useState(null);
 
   const { data: faqData = [], isLoading } = useQuery({
-    queryKey: ["faqs-home"], // ✅ Unique key for home
+    queryKey: ["faqs-home"],
     queryFn: async () => {
-      // ✅ default 5
       const res = await getAllFaqs(1, 5); 
-      return res?.data || [];
+      const actualData = res?.data || [];
+
+      // 2. 🔥 ProgramsSection er moto logic: First item theke headingData neya
+      if (actualData.length > 0 && actualData[0].headingData) {
+        setHeadingData(actualData[0].headingData);
+      }
+      
+      return actualData;
     }
   });
 
   if (isLoading) return null;
 
-  // ✅ ONLY ACTIVE
   const activeFaqs = faqData.filter(item => item.isActive);
-
-  // ✅ HEADING SAFE
-  const headingData =
-    activeFaqs?.[0]?.headingData ||
-    faqData?.[0]?.headingData ||
-    {};
 
   return (
     <section className={`${styles.faqsSection} common-space`}>
@@ -36,12 +37,11 @@ export default function FaqSection() {
           {/* LEFT */}
           <div className={`col-6 ${styles.faqsLeft}`}>
             <CmnHeading
-              title={headingData?.tagline}
-              subtitle={headingData?.heading}
+              title={headingData?.tagline || "FAQ"}
+              subtitle={headingData?.heading || "Control As You Want"}
               align="left"
             />
 
-            {/* ✅ show limited data */}
             <Faqs data={activeFaqs} />
           </div>
 
