@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./ProgramDeatails.module.scss";
 import { useLocation } from "react-router-dom";
 
 export default function ProgramDeatails() {
 
   const { state } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const {
     title,

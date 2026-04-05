@@ -1,34 +1,92 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./OthersProgram.module.scss";
-
-import img1 from "../../assets/images/other1.png";
-import img2 from "../../assets/images/other2.png";
-import img3 from "../../assets/images/other3.png";
-import img4 from "../../assets/images/other4.png";
+import { getAllService } from "../../apis/api";
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 
 function OthersProgram() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const { data: services = [], isLoading } = useQuery({
+    queryKey: ["services-all"],
+    queryFn: async () => {
+      const res = await getAllService(1, 1000); // 🔥 all data
+      return res.data;
+    },
+  });
+
+  // 🔥 Pagination logic (4 items per slide)
+  const itemsPerPage = 4;
+
+  const handleNext = () => {
+    if (currentIndex + itemsPerPage < services.length) {
+      setCurrentIndex(currentIndex + itemsPerPage);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentIndex - itemsPerPage >= 0) {
+      setCurrentIndex(currentIndex - itemsPerPage);
+    }
+  };
+
+  const visibleImages = services.slice(
+    currentIndex,
+    currentIndex + itemsPerPage,
+  );
+
   return (
     <section className={styles.othersProgram}>
       <div className="container">
         <h3 className={styles.programTitle}>Program Images</h3>
 
-        <div className={styles.programImages}>
-          <div className={styles.imageCard}>
-            <img src={img1} alt="program" />
-          </div>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <div className={styles.wrapper}>
+            {/* ⬅️ LEFT ARROW */}
+            <button
+              className={styles.arrow}
+              onClick={handlePrev}
+              disabled={currentIndex === 0}
+            >
+              <i className="bi bi-chevron-left"></i>
+            </button>
 
-          <div className={styles.imageCard}>
-            <img src={img2} alt="program" />
-          </div>
+            {/* 🔥 IMAGES */}
+            <div className={styles.programImages}>
+              {visibleImages.map((item, index) => (
+                <Link
+                  key={index}
+                  to="/ProgramDeatailsPage"
+                  onClick={() => {
+                    setTimeout(() => window.scrollTo(0, 0), 100);
+                  }}
+                  state={{
+                    image: item.image,
+                    title: item.title,
+                    description: item.details,
+                    details2: item.details2,
+                    video: item.video,
+                  }}
+                  style={{ display: "block" }} // 🔥 ADD THIS
+                >
+                  <div className={styles.imageCard}>
+                    <img src={item.image} alt="program" />
+                  </div>
+                </Link>
+              ))}
+            </div>
 
-          <div className={styles.imageCard}>
-            <img src={img3} alt="program" />
+            {/* ➡️ RIGHT ARROW */}
+            <button
+              className={styles.arrow}
+              onClick={handleNext}
+              disabled={currentIndex + itemsPerPage >= services.length}
+            >
+              <i className="bi bi-chevron-right"></i>
+            </button>
           </div>
-
-          <div className={styles.imageCard}>
-            <img src={img4} alt="program" />
-          </div>
-        </div>
+        )}
       </div>
     </section>
   );
