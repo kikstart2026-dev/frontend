@@ -63,7 +63,12 @@ export default function ProgramsSection({ limit, showHeading = true }) {
         )}
 
         <div className={styles["view-btn"]}>
-          <Link to="/Programs">
+          <Link
+            to="/Programs"
+            onClick={() => {
+              setTimeout(() => window.scrollTo(0, 0), 100);
+            }}
+          >
             <Button text="View all" variant="primary" />
           </Link>
         </div>
