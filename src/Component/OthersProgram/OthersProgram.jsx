@@ -6,11 +6,10 @@ import { Link } from "react-router-dom";
 
 function OthersProgram() {
   const [currentIndex, setCurrentIndex] = useState(0);
-
   const { data: services = [], isLoading } = useQuery({
-    queryKey: ["services"],
+    queryKey: ["services-all"],
     queryFn: async () => {
-      const res = await getAllService();
+      const res = await getAllService(1, 1000); // 🔥 all data
       return res.data;
     },
   });
@@ -59,6 +58,9 @@ function OthersProgram() {
                 <Link
                   key={index}
                   to="/ProgramDeatailsPage"
+                  onClick={() => {
+                    setTimeout(() => window.scrollTo(0, 0), 100);
+                  }}
                   state={{
                     image: item.image,
                     title: item.title,
