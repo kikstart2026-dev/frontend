@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import MiniCard from "../../Component/WhyChooseUs/MiniCard";
 import styles from "./WhyUss.module.scss";
@@ -6,6 +6,10 @@ import { getAllWhyChooseUs } from "../../apis/api";
 
 export default function WhyUs() {
   const [page, setPage] = useState(1);
+
+  useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["whyChooseUs", page],
