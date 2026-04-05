@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import CmnHeading from "../../CmnHeading/CmnHeading";
 import "../../../Main.scss";
@@ -7,23 +7,26 @@ import styles from "./FaqSection.module.scss";
 import { getAllFaqs } from "../../../apis/api";
 
 export default function FaqSection() {
-  // 1. Heading er jonno alada state
   const [headingData, setHeadingData] = React.useState(null);
 
   const { data: faqData = [], isLoading } = useQuery({
     queryKey: ["faqs-home"],
     queryFn: async () => {
-      const res = await getAllFaqs(1, 5); 
-      const actualData = res?.data || [];
-
-      // 2. 🔥 ProgramsSection er moto logic: First item theke headingData neya
-      if (actualData.length > 0 && actualData[0].headingData) {
-        setHeadingData(actualData[0].headingData);
-      }
-      
-      return actualData;
+      const res = await getAllFaqs(1, 5);
+      return res?.data || [];
     }
   });
+
+  // ✅ 🔥 FIX HERE
+  useEffect(() => {
+    if (faqData.length > 0) {
+      const validHeading = faqData.find(item => item.headingData);
+
+      if (validHeading?.headingData) {
+        setHeadingData(validHeading.headingData);
+      }
+    }
+  }, [faqData]);
 
   if (isLoading) return null;
 
@@ -37,8 +40,8 @@ export default function FaqSection() {
           {/* LEFT */}
           <div className={`col-6 ${styles.faqsLeft}`}>
             <CmnHeading
-              title={headingData?.tagline || "FAQ"}
-              subtitle={headingData?.heading || "Control As You Want"}
+              title={headingData?.tagline}
+              subtitle={headingData?.heading}
               align="left"
             />
 

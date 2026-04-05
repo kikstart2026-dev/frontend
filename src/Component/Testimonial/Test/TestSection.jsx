@@ -70,7 +70,7 @@ export default function TestSection() {
 
         <Swiper
           modules={[Autoplay]}
-          autoplay={{ delay: 2000 }}
+          autoplay={{ delay: 200000 }}
           loop={true}
         >
           {cards.map((item) => (

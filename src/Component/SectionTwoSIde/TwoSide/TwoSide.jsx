@@ -8,17 +8,12 @@ import noImg from "../../../assets/images/no-img.png";
 import CmnHeading from "../../CmnHeading/CmnHeading";
 
 export default function TwoSide() {
-
   const { data: about, isLoading, error } = useQuery({
     queryKey: ["aboutSection"],
     queryFn: async () => {
-
       const res = await getAllAboutUs();
-
       const aboutData = res?.data?.data || res?.data || [];
-
       const activeAbout = aboutData.find((a) => a.isActive);
-
       return activeAbout || aboutData[0] || null;
     },
   });
@@ -35,43 +30,39 @@ export default function TwoSide() {
     image: noImg,
   };
 
+  // ✅ CLEAN + FIX HTML STRING
+  const cleanDescription = (displayedAbout?.headingData?.description || "")
+    .replace(/([.!?])([A-Za-z])/g, "$1 $2") // fix: Generator!This → Generator! This
+    .replace(/&nbsp;/g, " "); // fix: remove &nbsp;
+
   return (
     <div className="both-space">
       <div className="container">
         <div className="row align-items-center">
-
+          
+          {/* LEFT IMAGE */}
           <div className="col-lg-6 col-md-6 col-12">
             <MainTwoSide img={displayedAbout.image} />
           </div>
 
+          {/* RIGHT CONTENT */}
           <div className="col-lg-6 col-md-6 col-12">
-
+            
             <CmnHeading
               title={displayedAbout.headingData?.tagline}
               subtitle={displayedAbout.headingData?.heading}
               details={
-                <>
-                  <p
-                    className={styles.firstPara}
-                    dangerouslySetInnerHTML={{
-                      __html: displayedAbout?.headingData?.description?.split("|")[0] || "",
-                    }}
-                  />
-
-                  <p
-                    className={styles.secondPara}
-                    dangerouslySetInnerHTML={{
-                      __html: displayedAbout?.headingData?.description?.split("|")[1] || "",
-                    }}
-                  />
-                </>
+                <div
+                  className={styles.firstPara}
+                  dangerouslySetInnerHTML={{ __html: cleanDescription }}
+                />
               }
               align="left"
             />
 
             {about && (
               <div className={styles.buttonWrapper}>
-                <Button text="know more" variant="primary" />
+                <Button text="Know More" variant="primary" />
               </div>
             )}
 

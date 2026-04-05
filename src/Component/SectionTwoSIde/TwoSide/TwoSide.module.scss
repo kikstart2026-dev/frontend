@@ -1,8 +1,10 @@
 .twoSide {
+
   img {
     max-width: 100%;
     height: auto;
     display: block;
+    
   }
 }
 
@@ -16,9 +18,10 @@
 }
 
 .firstPara {
-  max-width: 540px;
+  // max-width: 540px;
+  word-break: break-all;
 }
 
 .secondPara {
-  max-width: 580px;
+  // max-width: 580px;
 }
