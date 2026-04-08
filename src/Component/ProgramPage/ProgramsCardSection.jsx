@@ -35,6 +35,7 @@ export default function Programs() {
                 className={`col-lg-4 col-md-6 col-12 ${styles.cardWrapper}`}
               >
                 <ProgramCard
+                  id={item._id} // ✅ ONLY ADD THIS
                   image={item.image}
                   title={item.title}
                   description={item.details}
@@ -47,49 +48,51 @@ export default function Programs() {
         )}
 
         {/* 🔥 FULL DYNAMIC PAGINATION */}
-    
-              <nav className="mt-4">
-                <ul className={`pagination justify-content-center ${styles.customPagination}`}>
-      
-                  {/* LEFT ARROW */}
-                  <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
-                    <button
-                      className="page-link arrow"
-                      onClick={() => setPage(page - 1)}
-                      disabled={page === 1}
-                    >
-                      &lt;
-                    </button>
-                  </li>
-      
-                  {/* PAGE NUMBERS */}
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
-                    <li
-                      key={num}
-                      className={`page-item ${page === num ? "active" : ""}`}
-                    >
-                      <button
-                        className={`page-link ${page === num ? "num" : ""}`}
-                        onClick={() => setPage(num)}
-                      >
-                        {num}
-                      </button>
-                    </li>
-                  ))}
-      
-                  {/* RIGHT ARROW */}
-                  <li className={`page-item ${page === totalPages ? "disabled" : ""}`}>
-                    <button
-                      className="page-link arrow"
-                      onClick={() => setPage(page + 1)}
-                      disabled={page === totalPages}
-                    >
-                      &gt;
-                    </button>
-                  </li>
-      
-                </ul>
-              </nav>
+
+        <nav className="mt-4">
+          <ul
+            className={`pagination justify-content-center ${styles.customPagination}`}
+          >
+            {/* LEFT ARROW */}
+            <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
+              <button
+                className="page-link arrow"
+                onClick={() => setPage(page - 1)}
+                disabled={page === 1}
+              >
+                &lt;
+              </button>
+            </li>
+
+            {/* PAGE NUMBERS */}
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
+              <li
+                key={num}
+                className={`page-item ${page === num ? "active" : ""}`}
+              >
+                <button
+                  className={`page-link ${page === num ? "num" : ""}`}
+                  onClick={() => setPage(num)}
+                >
+                  {num}
+                </button>
+              </li>
+            ))}
+
+            {/* RIGHT ARROW */}
+            <li
+              className={`page-item ${page === totalPages ? "disabled" : ""}`}
+            >
+              <button
+                className="page-link arrow"
+                onClick={() => setPage(page + 1)}
+                disabled={page === totalPages}
+              >
+                &gt;
+              </button>
+            </li>
+          </ul>
+        </nav>
       </div>
     </section>
   );

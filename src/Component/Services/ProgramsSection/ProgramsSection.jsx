@@ -51,6 +51,7 @@ export default function ProgramsSection({ limit, showHeading = true }) {
                 className={`col-lg-4 col-md-6 col-12 mb-4 d-flex ${styles.programCardCol}`}
               >
                 <ProgramCard
+                  id={item._id} // ✅ ONLY ADD THIS
                   image={item.image}
                   title={item.title}
                   description={item.details}
