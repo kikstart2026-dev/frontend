@@ -1,12 +1,12 @@
 import React from "react";
-import styles from "./ProgramCard.module.scss";
-import { Link } from "react-router-dom";
+import styles from "./ProgramCard.module.scss"; // ✅ MUST
+import { Link } from "react-router-dom"; // ✅ MUST
 
-export default function ProgramCard({ image, title, description, details2, video }) {
+export default function ProgramCard({ id, image, title, description }) {
   return (
     <Link
-      to="/ProgramDeatailsPage"
-      state={{ image, title, description, details2, video }}
+      to="/ProgramDeatailsPage" // ✅ SAME URL (no change)
+      state={{ id }} // ✅ ONLY ID PASS
       style={{ textDecoration: "none", color: "inherit" }}
     >
       <div className={styles.card}>
@@ -15,9 +15,7 @@ export default function ProgramCard({ image, title, description, details2, video
         <div className={styles.overlay}>
           <div className={styles.content}>
             <h3>{title}</h3>
-            <p className={styles.clamp2}>
-              {description}
-            </p>
+            <p className={styles.clamp2}>{description}</p>
           </div>
         </div>
       </div>
