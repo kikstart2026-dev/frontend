@@ -9,23 +9,20 @@ import { getAllAboutUs } from '../../apis/api'
 
 export default function AboutUs() {
 
-
-  const { data: about, isLoading, error } = useQuery({
+  const { data: aboutList = [], isLoading, error } = useQuery({
     queryKey: ["aboutSection"],
     queryFn: async () => {
+      const res = await getAllAboutUs();
 
-      const res = await getAllAboutUs()
+      // 🔥 Normalize data (always array)
+      const raw = res?.data?.data || res?.data || [];
 
-      const aboutData = res?.data || []
-
-      const activeAbout = aboutData.find((a) => a.isActive)
-
-      return activeAbout || aboutData[0] || null
+      return Array.isArray(raw) ? raw : [raw];
     },
-  })
+  });
 
-  if (isLoading) return <p>Loading...</p>
-  if (error) return <p>Failed to load About section</p>
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Failed to load About section</p>;
 
   return (
     <div className={styles.page}>
@@ -35,20 +32,29 @@ export default function AboutUs() {
       <section className={styles.space1}>
         <div className="container">
 
-          <AboutUsValue aboutData={about} />
+          {/* 🔥 Multiple About Section Render */}
+          {Array.isArray(aboutList) && aboutList.length > 0 ? (
 
-          <div className="space3">
-            <AboutMid aboutData={about} />
-          </div>
+            aboutList.map((item, index) => (
+              <div key={item._id}>
+                {index % 2 === 0 ? (
+                  <AboutUsValue aboutData={item} />
+                ) : (
+                  <AboutMid aboutData={item} />
+                )}
+              </div>
+            ))
+
+          ) : (
+            <p>No About Data Found</p>
+          )}
 
         </div>
       </section>
 
       <section className={styles.space}>
         <div className="container">
-
           <TestSection />
-
         </div>
       </section>
 
