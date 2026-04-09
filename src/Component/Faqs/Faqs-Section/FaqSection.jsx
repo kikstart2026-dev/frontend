@@ -17,7 +17,6 @@ export default function FaqSection() {
     }
   });
 
-  // ✅ 🔥 FIX HERE
   useEffect(() => {
     if (faqData.length > 0) {
       const validHeading = faqData.find(item => item.headingData);
