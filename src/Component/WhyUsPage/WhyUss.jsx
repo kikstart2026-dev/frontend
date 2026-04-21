@@ -36,7 +36,7 @@ export default function WhyUs() {
 
         {/* DESCRIPTION FROM API */}
         <div className={styles["WhyUs-para"]}>
-          <p>{description}</p>
+          <div dangerouslySetInnerHTML={{ __html: description }} />
         </div>
 
         {/* CARDS */}
