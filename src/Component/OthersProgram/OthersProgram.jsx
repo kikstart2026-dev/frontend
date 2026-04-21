@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./OthersProgram.module.scss";
 import { getAllService } from "../../apis/api";
 import { useQuery } from "@tanstack/react-query";
@@ -56,19 +56,11 @@ function OthersProgram() {
             <div className={styles.programImages}>
               {visibleImages.map((item, index) => (
                 <Link
-                  key={index}
                   to="/ProgramDeatailsPage"
-                  onClick={() => {
-                    setTimeout(() => window.scrollTo(0, 0), 100);
-                  }}
-                  state={{
-                    image: item.image,
-                    title: item.title,
-                    description: item.details,
-                    details2: item.details2,
-                    video: item.video,
-                  }}
-                  style={{ display: "block" }} // 🔥 ADD THIS
+                  state={{ id: item._id }}
+                  key={item._id}
+                  onClick={() => window.scrollTo(0, 0)} // ✅ fixed
+                  style={{ textDecoration: "none", color: "inherit" }}
                 >
                   <div className={styles.imageCard}>
                     <img src={item.image} alt="program" />
