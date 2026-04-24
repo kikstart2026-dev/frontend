@@ -361,3 +361,6 @@ export const getSchoolById = async (id) => {
   );
   return res.data;
 };
+
+
+

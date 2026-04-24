@@ -151,7 +151,7 @@ export default function Header() {
                   setShowLogoutModal(false);
                 }}
               >
-                {isPending ? "Logging..." : "Yes"}
+                {isPending ? "logging out..." : "Yes"}
               </button>
             </div>
           </div>

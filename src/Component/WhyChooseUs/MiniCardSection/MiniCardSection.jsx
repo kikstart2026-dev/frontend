@@ -73,15 +73,17 @@ export default function MiniCardSection({ limit, showHeading = true }) {
   return (
     <section className={styles["mini-section"]}>
       <div className="container">
-
         {showHeading && (
           <div className={styles["why-choose-us"]}>
             <CmnHeading
               title={displayedHeading.tagline}
               subtitle={displayedHeading.heading}
-              details={displayedHeading.description}
+              details={""}
               align="center"
+
             />
+
+            <div dangerouslySetInnerHTML={{ __html: displayedHeading.description }} />
           </div>
         )}
 
