@@ -4,10 +4,9 @@ import CmnHeading from "../../CmnHeading/CmnHeading";
 import "../../../Main.scss";
 import Faqs from "../Faqs";
 import styles from "./FaqSection.module.scss";
-import { getAllFaqs } from "../../../apis/api";
+import { getAllFaqs, getHeading } from "../../../apis/api";
 
 export default function FaqSection() {
-  const [headingData, setHeadingData] = React.useState(null);
 
   const { data: faqData = [], isLoading } = useQuery({
     queryKey: ["faqs-home"],
@@ -17,15 +16,14 @@ export default function FaqSection() {
     }
   });
 
-  useEffect(() => {
-    if (faqData.length > 0) {
-      const validHeading = faqData.find(item => item.headingData);
 
-      if (validHeading?.headingData) {
-        setHeadingData(validHeading.headingData);
-      }
-    }
-  }, [faqData]);
+  const { data: headingRes } = useQuery({
+    queryKey: ["faq-heading"],
+    queryFn: getHeading
+  });
+
+
+  const headingData = headingRes?.data?.[0];
 
   if (isLoading) return null;
 
@@ -39,8 +37,8 @@ export default function FaqSection() {
           {/* LEFT */}
           <div className={`col-6 ${styles.faqsLeft}`}>
             <CmnHeading
-              title={headingData?.tagline}
-              subtitle={headingData?.heading}
+              title={headingData?.tagline || "FAQ"}
+              subtitle={headingData?.heading || "Frequently Asked Questions"}
               align="left"
             />
 

@@ -4,11 +4,11 @@ import styles from "./ProgramsSection.module.scss";
 import Button from "../../Buttons/Button";
 import { Link } from "react-router-dom";
 import CmnHeading from "../../CmnHeading/CmnHeading";
-import { getAllService } from "../../../apis/api";
+import { getAllService, getHeading } from "../../../apis/api";
 import { useQuery } from "@tanstack/react-query";
 
 export default function ProgramsSection({ limit, showHeading = true }) {
-  const [headingData, setHeadingData] = useState(null);
+  // const [headingData, setHeadingData] = useState(null);
 
   const { data: services = [], isLoading: loading } = useQuery({
     queryKey: ["services"],
@@ -16,14 +16,24 @@ export default function ProgramsSection({ limit, showHeading = true }) {
       const res = await getAllService();
       const serviceData = res.data;
 
-      // 🔥 Heading backend থেকে নিচ্ছি (first item থেকে)
-      if (serviceData.length > 0) {
-        setHeadingData(serviceData[0].headingData);
-      }
+      // // 🔥 Heading backend থেকে নিচ্ছি (first item থেকে)
+      // if (serviceData.length > 0) {
+      //   setHeadingData(serviceData[0].headingData);
+      // }
+
+      
 
       return serviceData;
     },
   });
+
+    const { data: headingRes } = useQuery({
+      queryKey: ["faq-heading"],
+      queryFn: getHeading
+    });
+  
+  
+   const headingData = headingRes?.data?.[1]; // service heading
 
   const displayPrograms = limit ? services.slice(0, limit) : services;
 
