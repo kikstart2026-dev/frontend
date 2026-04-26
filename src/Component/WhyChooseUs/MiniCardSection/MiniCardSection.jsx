@@ -69,6 +69,9 @@ export default function MiniCardSection({ limit, showHeading = true }) {
           color: "#ccc",
         },
       ];
+  const cleanHtml = (displayedHeading.description || "")
+    .replace(/style="[^"]*"/g, "")
+    .replace(/&nbsp;/g, " ");
 
   return (
     <section className={styles["mini-section"]}>
@@ -78,12 +81,14 @@ export default function MiniCardSection({ limit, showHeading = true }) {
             <CmnHeading
               title={displayedHeading.tagline}
               subtitle={displayedHeading.heading}
-              details={""}
+              description=""
               align="center"
-
             />
 
-            <div dangerouslySetInnerHTML={{ __html: displayedHeading.description }} />
+            <div
+              dangerouslySetInnerHTML={{
+                __html: cleanHtml,
+              }} />
           </div>
         )}
 
