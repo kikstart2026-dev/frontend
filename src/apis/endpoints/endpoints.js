@@ -19,6 +19,9 @@ export const endpoints = {
 
   contactUs: "/contact",
 
+  // Heading---------------------->>
+  getAllHeadings: "/headings",
+
   // Home Banner------------------------------------>>
   getAllHomeBanner: "user/home-banner",
   getHomeBannerById: (id) => `user/home-banner/${id}`,

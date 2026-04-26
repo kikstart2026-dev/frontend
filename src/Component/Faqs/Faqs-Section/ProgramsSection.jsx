@@ -4,11 +4,11 @@ import styles from "./ProgramsSection.module.scss";
 import Button from "../../Buttons/Button";
 import { Link } from "react-router-dom";
 import CmnHeading from "../../CmnHeading/CmnHeading";
-import { getAllService, getHeading } from "../../../apis/api";
+import { getAllService } from "../../../apis/api";
 import { useQuery } from "@tanstack/react-query";
 
 export default function ProgramsSection({ limit, showHeading = true }) {
-  // const [headingData, setHeadingData] = useState(null);
+  const [headingData, setHeadingData] = useState(null);
 
   const { data: services = [], isLoading: loading } = useQuery({
     queryKey: ["services"],
@@ -16,30 +16,23 @@ export default function ProgramsSection({ limit, showHeading = true }) {
       const res = await getAllService();
       const serviceData = res.data;
 
-      // // 🔥 Heading backend থেকে নিচ্ছি (first item থেকে)
-      // if (serviceData.length > 0) {
-      //   setHeadingData(serviceData[0].headingData);
-      // }
-
-      
+      // 🔥 Heading backend থেকে নিচ্ছি (first item থেকে)
+      if (serviceData.length > 0) {
+        setHeadingData(serviceData[0].headingData);
+      }
 
       return serviceData;
     },
   });
 
-    const { data: headingRes } = useQuery({
-      queryKey: ["faq-heading"],
-      queryFn: getHeading
-    });
-  
-  
-   const headingData = headingRes?.data?.[1]; // service heading
-
-  const displayPrograms = limit ? services.slice(0, limit) : services;
+  const displayPrograms = limit
+    ? services.slice(0, limit)
+    : services;
 
   return (
     <section className={styles["back-color"]}>
       <div className="container">
+
         {/* ✅ Dynamic Heading from Backend */}
         {showHeading && headingData && (
           <div className="why-choose-us">
@@ -61,12 +54,9 @@ export default function ProgramsSection({ limit, showHeading = true }) {
                 className={`col-lg-4 col-md-6 col-12 mb-4 d-flex ${styles.programCardCol}`}
               >
                 <ProgramCard
-                  id={item._id} // ✅ ONLY ADD THIS
                   image={item.image}
                   title={item.title}
                   description={item.details}
-                  details2={item.details2}
-                  video={item.video}
                 />
               </div>
             ))}
@@ -74,15 +64,11 @@ export default function ProgramsSection({ limit, showHeading = true }) {
         )}
 
         <div className={styles["view-btn"]}>
-          <Link
-            to="/Programs"
-            onClick={() => {
-              setTimeout(() => window.scrollTo(0, 0), 100);
-            }}
-          >
+          <Link to="/Programs">
             <Button text="View all" variant="primary" />
           </Link>
         </div>
+
       </div>
     </section>
   );

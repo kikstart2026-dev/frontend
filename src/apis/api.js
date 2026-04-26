@@ -53,6 +53,14 @@ export const createEnq = async (payload) => {
   return res.data;
 };
 
+
+// heading //
+export const getHeading = async () => {
+  const res = await axiosInstance.get(endpoints.getAllHeadings);
+  return res.data;
+};
+
+
 /* ================================
     Home Banner APIs
 ================================ */
