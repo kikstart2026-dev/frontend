@@ -70,6 +70,7 @@ export default function MiniCardSection({ limit, showHeading = true }) {
         },
       ];
 const cleanHtml = (displayedHeading.description || "")
+  .replace(/style="[^"]*"/g, "")
   .replace(/&nbsp;/g, " ");
 
   return (
