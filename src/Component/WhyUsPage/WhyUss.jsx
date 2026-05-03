@@ -31,7 +31,6 @@ export default function WhyUs() {
   if (error) return <p>Failed to load data</p>;
 
     const cleanHtml = (heading.description || "")
-    .replace(/style="[^"]*"/g, "")
     .replace(/&nbsp;/g, " ");
   return (
     <section className="common-space1">
