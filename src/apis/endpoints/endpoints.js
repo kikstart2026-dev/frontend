@@ -54,9 +54,12 @@ export const endpoints = {
 
   
   // Interested Schools --------------------------------------->>
-
+  
   getAllSchools: "user/schools/",
   getSchoolById: (id) => `user/schools/${id}`,
+  
+  // Payment Gateway --------------------------------------->>
+  payment: "payment/kikPayment",
 
 };
 
