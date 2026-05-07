@@ -351,6 +351,19 @@ export const getFaqById = async (id) => {
 
 
 /* ================================
+    Payment APIs
+================================ */
+
+export const kikpayment = async (paymentData) => {
+  const res = await axiosInstance.post(
+    endpoints.payment,
+    paymentData
+  );
+
+  return res.data;
+};
+
+/* ================================
     Schools APIs
 ================================ */
 
