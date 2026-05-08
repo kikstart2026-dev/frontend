@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Enrolment.module.scss";
 import Button from "../Buttons/Button";
-
+import {handleError, handleSuccess, handleWarning, handleConfirm, } from "../../utils"
 import { kikpayment } from "../../apis/api";
 
 export default function Enrolment({ data, type }) {
@@ -34,7 +34,7 @@ export default function Enrolment({ data, type }) {
         handler: function (response) {
           console.log("Payment Success:", response);
 
-          alert("Payment Successful!");
+          handleSuccess("Payment Successful!");
         },
 
         prefill: {
@@ -54,7 +54,7 @@ export default function Enrolment({ data, type }) {
 
     } catch (error) {
       console.error("Payment Error:", error);
-      alert("Payment Failed");
+      handleError("Payment Failed");
     }
   };
 

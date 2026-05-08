@@ -7,6 +7,7 @@ import Button from "../../../Component/Buttons/Button";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { reetPass } from "../../../apis/api";
+import {handleError, handleSuccess, handleWarning, handleConfirm, } from "../../../utils"
 
 export default function ResetPassword() {
   const [email, setEmail] = useState("");
@@ -34,7 +35,7 @@ export default function ResetPassword() {
     onSuccess: (data) => {
       console.log("Reset Response:", data);
 
-      alert("Password updated successfully ✅");
+      handleSuccess("Password updated successfully ✅");
 
       localStorage.removeItem("verifyEmail");
 
@@ -42,7 +43,7 @@ export default function ResetPassword() {
     },
 
     onError: (error) => {
-      alert(error?.response?.data?.message || "Reset failed ❌");
+      handleError(error?.response?.data?.message || "Reset failed ❌");
     },
   });
 
@@ -52,13 +53,13 @@ export default function ResetPassword() {
     const storedEmail = localStorage.getItem("verifyEmail");
 
     if (!storedEmail) {
-      alert("Email not found. Please try again.");
+      handleWarning("Email not found. Please try again.");
       navigate("/forget-pass");
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      alert("Passwords do not match!");
+      handleWarning("Passwords do not match!");
       return;
     }
 
