@@ -7,7 +7,7 @@ import Button from "../../../Component/Buttons/Button";
 import { useMutation } from "@tanstack/react-query";
 import { signUp } from "../../../apis/api";
 import { useNavigate } from "react-router-dom";
-import { handleSuccess } from "../../../utils";
+import {handleError, handleSuccess, handleWarning, handleConfirm, } from "../../../utils"
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ export default function SignUp() {
   // 📍 Location Function
   const handleGetLocation = () => {
     if (!navigator.geolocation) {
-      alert("Geolocation is not supported");
+      handleWarning("Geolocation is not supported");
       return;
     }
 
@@ -40,7 +40,7 @@ export default function SignUp() {
           locationRef.current.value = `${latitude}, ${longitude}`;
         }
       },
-      () => alert("Unable to retrieve location"),
+      () => handleError("Unable to retrieve location"),
     );
   };
 
@@ -50,7 +50,7 @@ export default function SignUp() {
     mutationFn: signUp,
     // onSuccess: (_, variables) => {
     //   localStorage.setItem("verifyEmail", variables.email);
-    //   alert(data?.data?.message);
+  
     //   // handleSuccess();
     //   formRef.current.reset();
     //   navigate("/Otp");
@@ -58,13 +58,13 @@ export default function SignUp() {
     onSuccess: (data, variables) => {
       localStorage.setItem("verifyEmail", variables.email);
 
-      alert(data?.message); // ✅ ekhon thik
+      handleWarning(data?.message); // ✅ ekhon thik
 
       formRef.current.reset();
       navigate("/Otp");
     },
     onError: (error) => {
-      alert(error?.response?.data?.message || "Signup failed ❌");
+      handleError(error?.response?.data?.message || "Signup failed ❌");
     },
   });
 
@@ -78,12 +78,12 @@ export default function SignUp() {
     const terms = formData.get("terms");
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match ❌");
+      handleWarning("Passwords do not match ❌");
       return;
     }
 
     if (!terms) {
-      alert("Accept Terms & Conditions ❌");
+      handleWarning("Accept Terms & Conditions ❌");
       return;
     }
 

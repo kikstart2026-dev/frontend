@@ -8,6 +8,7 @@ import Button from "../../../Component/Buttons/Button";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { verifyOtp, resendOtp } from "../../../apis/api";
+import {handleError, handleSuccess, handleWarning, handleConfirm, } from "../../../utils"
 
 export default function OtpVerified() {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ export default function OtpVerified() {
       }
     },
     onError: (error) => {
-      alert(error?.response?.data?.message || "OTP verification failed ❌");
+      handleError(error?.response?.data?.message || "OTP verification failed ❌");
     },
   });
 
@@ -46,7 +47,7 @@ export default function OtpVerified() {
       mutationKey: ["resend-otp"],
       mutationFn: resendOtp,
       onSuccess: (data) => {
-        alert(data?.message || "OTP resent successfully ✅");
+        handleSuccess(data?.message || "OTP resent successfully ✅");
 
         setOtp(["", "", "", "", "", ""]);
         if (inputsRef.current[0]) inputsRef.current[0].focus();
@@ -61,7 +62,7 @@ export default function OtpVerified() {
         setResendTimer(30);
       },
       onError: (error) => {
-        alert(error?.response?.data?.message || "Resend failed ❌");
+        handleError(error?.response?.data?.message || "Resend failed ❌");
       },
     });
 
@@ -132,7 +133,7 @@ export default function OtpVerified() {
     const finalOtp = otp.join("");
 
     if (finalOtp.length !== 6) {
-      alert("Enter complete OTP ❌");
+      handleWarning("Enter complete OTP ❌");
       return;
     }
 
