@@ -149,7 +149,9 @@ const ChildrenProfile = () => {
 
                         <div className={styles.card}>
                             <label>Allergy Details</label>
-                            <p>{activeChild.allergyDetails || "N/A"}</p>
+                            <p> {activeChild.allergy
+                                ? activeChild.allergyDetails || "N/A"
+                                : "N/A"}</p>
                         </div>
 
                         <div className={styles.card}>

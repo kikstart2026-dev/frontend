@@ -156,7 +156,19 @@
   font-weight: 600;
   cursor: pointer;
 
-  width: auto;       
+  width: auto;
   display: inline-block;
-  align-self: flex-start;  /* ✅ left align (flex container হলে কাজ করবে) */
+  align-self: flex-start;
+  /* ✅ left align (flex container হলে কাজ করবে) */
+}
+
+/* remove number input arrows */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
 }

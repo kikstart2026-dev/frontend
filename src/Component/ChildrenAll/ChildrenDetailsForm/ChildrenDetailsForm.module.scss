@@ -1,18 +1,19 @@
 .childrenForm {
   .previewContainer {
-  width: 100px;  
-  height: 100px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
 
-  .previewImage {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    .previewImage {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
-}
+
   .formBox {
     width: 100%;
     max-width: 580px;
@@ -213,5 +214,16 @@
     &:hover {
       color: #ff2d2d;
     }
+  }
+
+  /* remove number input arrows */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
   }
 }

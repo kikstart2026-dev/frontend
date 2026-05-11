@@ -132,8 +132,15 @@ const ChildrenEdit = () => {
                     <div className={styles.card}>
                         <label>Allergy Details</label>
                         <input
-                            value={data.allergyDetails || ""}
-                            onChange={(e) => handleChange("allergyDetails", e.target.value)}
+                            value={
+                                data.allergy
+                                    ? data.allergyDetails || ""
+                                    : "N/A"
+                            }
+                            disabled={!data.allergy}
+                            onChange={(e) =>
+                                handleChange("allergyDetails", e.target.value)
+                            }
                         />
                     </div>
 

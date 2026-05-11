@@ -176,6 +176,7 @@ function Layout() {
         <Route path="/dashboard" element={<DashboardLayout />}>
 
           <Route index element={<UserDashboard />} />
+          <Route path="children-profile" element={<ChildrenProfile />} />
           <Route path="children-profile/:id" element={<ChildrenProfile />} />
           <Route path="children-edit/:id" element={<ChildrenEdit />} />
 
