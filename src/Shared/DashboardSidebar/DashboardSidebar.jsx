@@ -21,7 +21,7 @@ export default function DashboardSidebar() {
           Programs
         </NavLink>
 
-        <NavLink to="/dashboard/children-profile">
+        <NavLink to="/dashboard/children-profile/:id">
           Children Profile
         </NavLink>
 

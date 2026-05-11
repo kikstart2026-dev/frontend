@@ -9,8 +9,7 @@ const ChildrenEdit = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const IMAGE_BASE_URL = "http://localhost:5000";
-
+    const IMAGE_BASE_URL = "http://localhost:8008";
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -42,18 +41,18 @@ const ChildrenEdit = () => {
     const handleSave = async () => {
         try {
             const res = await updateChild(id, {
-    fullName: data.fullName,
-    age: data.age,
-    location: data.location,
-    foodHabit: data.foodHabit,
-    allergy: data.allergy,
-    allergyDetails: data.allergyDetails,
-    prolongDisease: data.prolongDisease,
-});
+                fullName: data.fullName,
+                age: data.age,
+                location: data.location,
+                foodHabit: data.foodHabit,
+                allergy: data.allergy,
+                allergyDetails: data.allergyDetails,
+                prolongDisease: data.prolongDisease,
+            });
 
             if (res.success) {
                 alert("Updated Successfully");
-                navigate("/dashboard/children-profile");
+                navigate(`/dashboard/children-profile/${id}`);
             }
 
         } catch (err) {
@@ -77,18 +76,22 @@ const ChildrenEdit = () => {
                     <div className={styles.card}>
                         <label>Full Name</label>
                         <input
-    value={data.fullName || ""}
-    onChange={(e) => handleChange("fullName", e.target.value)}
-/>
+                            value={data.fullName || ""}
+                            onChange={(e) => handleChange("fullName", e.target.value)}
+                        />
                     </div>
 
                     <div className={styles.card}>
                         <label>Age</label>
+
                         <input
-    type="number"
-    value={data.age || ""}
-    onChange={(e) => handleChange("age", e.target.value)}
-/>
+                            type="number"
+                            value={data.age ?? ""}
+                            onChange={(e) =>
+                                handleChange("age", e.target.value)
+                            }
+                            onWheel={(e) => e.target.blur()}
+                        />
                     </div>
 
                     <div className={styles.card}>
@@ -110,8 +113,19 @@ const ChildrenEdit = () => {
                     <div className={styles.card}>
                         <label>Allergy</label>
                         <input
-                            value={data.allergy || ""}
-                            onChange={(e) => handleChange("allergy", e.target.value)}
+                            value={
+                                data.allergy === true
+                                    ? "Yes"
+                                    : data.allergy === false
+                                        ? "No"
+                                        : ""
+                            }
+                            onChange={(e) =>
+                                handleChange(
+                                    "allergy",
+                                    e.target.value.toLowerCase() === "yes"
+                                )
+                            }
                         />
                     </div>
 
@@ -145,7 +159,7 @@ const ChildrenEdit = () => {
                         <img
                             src={
                                 data.profileImage
-                                    ? `${IMAGE_BASE_URL}/${data.profileImage}`
+                                    ? `${IMAGE_BASE_URL}${data.profileImage}`
                                     : "https://placehold.co/300x300"
                             }
                             alt="child"

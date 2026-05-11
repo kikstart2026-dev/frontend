@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import styles from "./ChildrenDetailsForm.module.scss";
-import styles2 from "../SchoolDetailsForm/SchoolDetailsForm";
+import styles2 from "../SchoolDetailsForm/SchoolDetailsForm.module.scss";
 
 import Button from "../../Buttons/Button";
 import { handleError, handleSuccess } from "../../../utils";
@@ -12,6 +12,7 @@ export default function ChildrenDetailsForm() {
   const navigate = useNavigate();
 
   const [allergy, setAllergy] = useState("");
+  const [allergyDetails, setAllergyDetails] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -109,7 +110,7 @@ export default function ChildrenDetailsForm() {
 
       if (res.success) {
         handleSuccess("Child created successfully");
-        navigate("/dashboard//Schooldetails");
+        navigate("/dashboard/Schooldetails");
       } else {
         handleError(res.message || "Something went wrong");
       }
@@ -202,6 +203,7 @@ export default function ChildrenDetailsForm() {
                     className="dropdown-item"
                     onClick={() => {
                       setAllergy(true);
+                      setAllergyDetails("");
                       setIsOpen(false);
                     }}
                   >
@@ -229,9 +231,28 @@ export default function ChildrenDetailsForm() {
           </div>
 
           {/* Allergy Details */}
+          {/* Allergy Details */}
+          {/* Allergy Details */}
           <div className={styles.inputWrapper}>
-            <input name="allergyDetails" className={styles.inp} type="text" placeholder=" " />
-            <label className={styles.lbl}>Allergy Details</label>
+            <input
+              name="allergyDetails"
+              className={styles.inp}
+              type="text"
+              placeholder=" "
+              value={
+                allergy === false
+                  ? "N/A"
+                  : allergyDetails
+              }
+              disabled={allergy === false}
+              onChange={(e) =>
+                setAllergyDetails(e.target.value)
+              }
+            />
+
+            <label className={styles.lbl}>
+              Allergy Details
+            </label>
           </div>
 
           {/* Disease */}
