@@ -15,6 +15,8 @@ const ChildrenEdit = () => {
     const [imageFile, setImageFile] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
 
+    const locationRef = useRef(null);
+
     const fileRef = useRef();
 
     // ================= FETCH =================
@@ -33,6 +35,52 @@ const ChildrenEdit = () => {
         fetchChild();
     }, [id]);
 
+
+    //================= LOCATION ======================
+    const handleGetLocation = () => {
+        if (!navigator.geolocation) {
+            alert("Geolocation is not supported");
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                const { latitude, longitude } = position.coords;
+
+                try {
+                    const response = await fetch(
+                        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+                    );
+
+                    const data = await response.json();
+
+                    const location =
+                        data.display_name || `${latitude}, ${longitude}`;
+
+                    // update UI state
+                    handleChange("location", location);
+
+                    // update input directly (optional safety)
+                    if (locationRef.current) {
+                        locationRef.current.value = location;
+                    }
+
+                } catch (err) {
+                    const fallback = `${latitude}, ${longitude}`;
+
+                    handleChange("location", fallback);
+
+                    if (locationRef.current) {
+                        locationRef.current.value = fallback;
+                    }
+                }
+            },
+            () => {
+                alert("Unable to retrieve location");
+            }
+        );
+    };
+
     // ================= HANDLE INPUT =================
     const handleChange = (field, value) => {
         setData((prev) => ({
@@ -42,12 +90,12 @@ const ChildrenEdit = () => {
     };
 
     // ================= IMAGE CHANGE =================
-   const handleImageChange = (file) => {
-    if (!file) return;
+    const handleImageChange = (file) => {
+        if (!file) return;
 
-    setImageFile(file);
-    setPreviewImage(URL.createObjectURL(file));
-};
+        setImageFile(file);
+        setPreviewImage(URL.createObjectURL(file));
+    };
 
     // ================= SAVE =================
     const handleSave = async () => {
@@ -114,10 +162,22 @@ const ChildrenEdit = () => {
 
                     <div className={styles.card}>
                         <label>Location</label>
-                        <input
-                            value={data.location || ""}
-                            onChange={(e) => handleChange("location", e.target.value)}
-                        />
+
+                        <div className={styles.locationWrapper}>
+                            <input
+                                ref={locationRef}
+                                value={data.location || ""}
+                                onChange={(e) => handleChange("location", e.target.value)}
+                            />
+
+                            <button
+                                type="button"
+                                className={styles.locationBtn}
+                                onClick={handleGetLocation}
+                            >
+                                <i className="fa-solid fa-location-crosshairs"></i>
+                            </button>
+                        </div>
                     </div>
 
                     <div className={styles.card}>
@@ -181,16 +241,16 @@ const ChildrenEdit = () => {
 
                     <div className={styles.profileCard}>
 
-                       <img
-    src={
-        previewImage
-            ? previewImage
-            : data.profileImage
-                ? `${IMAGE_BASE_URL}${data.profileImage}`
-                : "https://placehold.co/300x300"
-    }
-    alt="child"
-/>
+                        <img
+                            src={
+                                previewImage
+                                    ? previewImage
+                                    : data.profileImage
+                                        ? `${IMAGE_BASE_URL}${data.profileImage}`
+                                        : "https://placehold.co/300x300"
+                            }
+                            alt="child"
+                        />
 
                         <h3>{data.fullName}</h3>
                         <span>{data.age} years old</span>

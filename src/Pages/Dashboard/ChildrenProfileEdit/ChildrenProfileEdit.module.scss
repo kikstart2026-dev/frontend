@@ -172,3 +172,31 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+.locationWrapper {
+    position: relative;
+}
+
+.locationWrapper input {
+    width: 100%;
+    padding-right: 40px; /* icon space */
+}
+
+.locationBtn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+
+    color: #555;
+    font-size: 16px;
+}
+
+.locationBtn:focus {
+    outline: none;
+}
