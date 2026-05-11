@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styles from "./ChildrenProfileEdit.module.scss";
 import { useParams, useNavigate } from "react-router-dom";
-
 import { getChildById, updateChild } from "../../../apis/api";
 
 const ChildrenEdit = () => {
@@ -10,8 +9,13 @@ const ChildrenEdit = () => {
     const navigate = useNavigate();
 
     const IMAGE_BASE_URL = "http://localhost:8008";
+
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [imageFile, setImageFile] = useState(null);
+    const [previewImage, setPreviewImage] = useState(null);
+
+    const fileRef = useRef();
 
     // ================= FETCH =================
     const fetchChild = async () => {
@@ -29,7 +33,7 @@ const ChildrenEdit = () => {
         fetchChild();
     }, [id]);
 
-    // ================= CHANGE =================
+    // ================= HANDLE INPUT =================
     const handleChange = (field, value) => {
         setData((prev) => ({
             ...prev,
@@ -37,22 +41,41 @@ const ChildrenEdit = () => {
         }));
     };
 
+    // ================= IMAGE CHANGE =================
+   const handleImageChange = (file) => {
+    if (!file) return;
+
+    setImageFile(file);
+    setPreviewImage(URL.createObjectURL(file));
+};
+
     // ================= SAVE =================
     const handleSave = async () => {
         try {
-            const res = await updateChild(id, {
-                fullName: data.fullName,
-                age: data.age,
-                location: data.location,
-                foodHabit: data.foodHabit,
-                allergy: data.allergy,
-                allergyDetails: data.allergyDetails,
-                prolongDisease: data.prolongDisease,
-            });
+            const formData = new FormData();
+
+            formData.append("fullName", data.fullName);
+            formData.append("age", data.age);
+            formData.append("location", data.location);
+            formData.append("foodHabit", data.foodHabit);
+            formData.append("allergy", data.allergy);
+            formData.append("allergyDetails", data.allergyDetails);
+            formData.append("prolongDisease", data.prolongDisease);
+
+            if (imageFile) {
+                formData.append("profileImage", imageFile);
+            }
+
+            const res = await updateChild(id, formData);
 
             if (res.success) {
                 alert("Updated Successfully");
-                navigate(`/dashboard/children-profile/${id}`);
+
+                setData(res.data); // immediate UI update
+
+                setTimeout(() => {
+                    navigate(`/dashboard/children-profile/${id}`);
+                }, 300);
             }
 
         } catch (err) {
@@ -65,7 +88,6 @@ const ChildrenEdit = () => {
     return (
         <div className={styles.childrenProfileEdit}>
 
-            {/* ================= CONTENT ================= */}
             <div className={styles.content}>
 
                 {/* ================= LEFT SIDE ================= */}
@@ -83,14 +105,10 @@ const ChildrenEdit = () => {
 
                     <div className={styles.card}>
                         <label>Age</label>
-
                         <input
                             type="number"
                             value={data.age ?? ""}
-                            onChange={(e) =>
-                                handleChange("age", e.target.value)
-                            }
-                            onWheel={(e) => e.target.blur()}
+                            onChange={(e) => handleChange("age", e.target.value)}
                         />
                     </div>
 
@@ -163,21 +181,31 @@ const ChildrenEdit = () => {
 
                     <div className={styles.profileCard}>
 
-                        <img
-                            src={
-                                data.profileImage
-                                    ? `${IMAGE_BASE_URL}${data.profileImage}`
-                                    : "https://placehold.co/300x300"
-                            }
-                            alt="child"
-                        />
+                       <img
+    src={
+        previewImage
+            ? previewImage
+            : data.profileImage
+                ? `${IMAGE_BASE_URL}${data.profileImage}`
+                : "https://placehold.co/300x300"
+    }
+    alt="child"
+/>
 
                         <h3>{data.fullName}</h3>
                         <span>{data.age} years old</span>
 
-                        <button>
+                        <button onClick={() => fileRef.current.click()}>
                             Change Image
                         </button>
+
+                        <input
+                            type="file"
+                            ref={fileRef}
+                            style={{ display: "none" }}
+                            accept="image/*"
+                            onChange={(e) => handleImageChange(e.target.files[0])}
+                        />
 
                     </div>
 
