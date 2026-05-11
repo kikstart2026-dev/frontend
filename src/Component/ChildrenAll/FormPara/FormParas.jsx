@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import styles from './FormParas.module.scss'
-import CmnHeading from '../CmnHeading/CmnHeading'
-import Button from '../Buttons/Button'
-import { handleError } from '../../utils';
+import CmnHeading from "../../CmnHeading/CmnHeading";
+import Button from "../../Buttons/Button";
+import { handleError } from "../../../utils";
 
 export default function FormParas() {
     const navigate = useNavigate();
@@ -14,7 +14,7 @@ export default function FormParas() {
             handleError("Please accept the waiver conditions first.");
             return;
         }
-        navigate("/ProgramDetailss");
+       navigate("/dashboard/programdetailss");
     };
 
     return (
@@ -59,7 +59,7 @@ export default function FormParas() {
                     <Button 
                         text="back" 
                         variant="dark"
-                        onClick={() => navigate("/Schooldetails")}
+                        onClick={() => navigate("/dashboard/schooldetails")}
                     />
                 </div>
 

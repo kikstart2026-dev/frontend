@@ -1,8 +1,8 @@
 import React from "react";
-import FormDetailsLeft from "../../../Component/FormDetailsLeft/FormDetailsLeft";
+import FormDetailsLeft from "../../../Component/ChildrenAll/FormDetailsLeft/FormDetailsLeft";
 import styles from "./ProgramDetailss.module.scss";
 import "../../../Main.scss"; 
-import NextFormPara from "../../../Component/NextFormPara/NextFormPara";
+import NextFormPara from "../../../Component/ChildrenAll/NextFormPara/NextFormPara";
 import FillFormHeading from "../../../Component/FillFormHeading/FillFormHeading";
 
 export default function ProgramDetailss() {

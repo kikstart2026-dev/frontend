@@ -32,11 +32,17 @@ import Programs from "./Pages/Programs-Page/Programs";
 import EnrolmentPackage from "./Pages/EnrolmentPackage/EnrolmentPackage";
 import ProgramDeatailsPage from "./Pages/ProgramDeatailsPage/ProgramDeatailsPage";
 import ContactForm from "./Component/ContactForm/ContactForm";
+
+
+//DASHBOARD
+import DashboardLayout from "./Layouts/DashboardLayout";
+import UserDashboard from "./Pages/Dashboard/UserDashboard/UserDashboard";
+import ChildrenProfile from "./Pages/Dashboard/ChildrenProfile/ChildrenProfile";
+import ChildrenEdit from "./Pages/Dashboard/ChildrenProfileEdit/ChildrenProfileEdit";
+
 import ChildrenDetails from "./Pages/FormDetails/ChildrenDetails/ChildrenDetails";
-import ChildrenDetailsForm from "./Component/ChildrenDetailsForm/ChildrenDetailsForm";
-// import SchoolDetailsForm from "./Component/SchoolDetailsForm/SchoolDetailsForm";
 import SchoolDetails from "./Pages/FormDetails/SchoolDetails/SchoolDetails";
-// import FormParas from "./Component/FormPara/FormParas";
+import FormParas from "./Component/ChildrenAll/FormPara/FormParas";
 import WaiverAcceptance from "./Pages/FormDetails/WaiverAcceptance/WaiverAcceptance";
 import ProgramDetailss from "./Pages/FormDetails/ProgramDetailss/ProgramDetailss";
 
@@ -89,9 +95,11 @@ function Layout() {
 
   const isAuthPage = authRoutes.includes(location.pathname);
 
+  const isDashboardRoute = location.pathname.startsWith("/dashboard");
+
   return (
     <>
-      {!isAuthPage && <Header />}
+      {!isAuthPage && !isDashboardRoute && <Header />}
 
       <Routes>
         {/* ================= AUTH ROUTES ================= */}
@@ -157,19 +165,30 @@ function Layout() {
         <Route path="/why-us" element={<WhyUs />} />
         <Route path="/Interested-Schools" element={<InterestedSchoolsPage />} />
         <Route path="/programs" element={<Programs />} />
-        <Route path="/enrolment-package" element={<EnrolmentPackage />} />
         <Route path="/ProgramDeatailsPage" element={<ProgramDeatailsPage />} />
         <Route path="/contactform" element={<ContactForm />} />
-        <Route path="/Childrendetails" element={<ChildrenDetails />} />
-        <Route path="/Schooldetails" element={<SchoolDetails />} />
-        <Route path="/WaiverAcceptance" element={<WaiverAcceptance />} />
-        <Route path="/ProgramDetailss" element={<ProgramDetailss />} />
 
-        <Route path="/ChildrenDetailsForm" element={<ChildrenDetailsForm />} />
-        <Route path="/SchoolDetailsForm" element={<SchoolDetails />} />
+       
+
+
+        {/* ================= DASHBOARD ROUTES ================= */}
+
+        <Route path="/dashboard" element={<DashboardLayout />}>
+
+          <Route index element={<UserDashboard />} />
+          <Route path="children-profile" element={<ChildrenProfile />} />
+          <Route path="children-edit/:id" element={<ChildrenEdit />} />
+
+
+          <Route path="Children-details" element={<ChildrenDetails />} />
+          <Route path="Schooldetails" element={<SchoolDetails />} />
+          <Route path="WaiverAcceptance" element={<WaiverAcceptance />} />
+          <Route path="ProgramDetailss" element={<ProgramDetailss />} />
+          <Route path="enrolment-package" element={<EnrolmentPackage />} />
+        </Route>
       </Routes>
 
-      {!isAuthPage && <Footer />}
+      {!isAuthPage && !isDashboardRoute && <Footer />}
     </>
   );
 }

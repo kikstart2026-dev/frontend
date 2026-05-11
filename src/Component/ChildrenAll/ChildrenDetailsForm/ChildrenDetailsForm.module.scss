@@ -1,4 +1,18 @@
 .childrenForm {
+  .previewContainer {
+  width: 100px;  
+  height: 100px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+
+  .previewImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
   .formBox {
     width: 100%;
     max-width: 580px;

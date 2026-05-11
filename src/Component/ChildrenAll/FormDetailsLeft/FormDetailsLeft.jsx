@@ -1,11 +1,11 @@
 import React from "react";
-import "../../Main.scss";
+import "../../../Main.scss";
 import styles from "./FormDetailsLeft.module.scss";
 
-import childIcon from "../../assets/images/child.png";
-import schoolIcon from "../../assets/images/school.png";
-import waiverIcon from "../../assets/images/waiver.png";
-import programIcon from "../../assets/images/program.png";
+import childIcon from "../../../assets/images/child.png";
+import schoolIcon from "../../../assets/images/school.png";
+import waiverIcon from "../../../assets/images/waiver.png";
+import programIcon from "../../../assets/images/program.png";
 
 const StepSidebar = ({ activeStep = 0 }) => {
 
