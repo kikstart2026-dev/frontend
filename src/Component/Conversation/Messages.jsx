@@ -8,6 +8,7 @@ import React, {
 import {
     useMutation,
     useQuery,
+    useQueryClient
 } from "@tanstack/react-query";
 
 
@@ -20,6 +21,7 @@ import {
     sendMessage,
     getChatUsers,
     createConversation,
+    deleteConversation 
 } from "../../apis/api";
 
 import styles from "./Messages.module.scss";
@@ -35,6 +37,8 @@ import {
 import EmojiPicker from "emoji-picker-react";
 
 export default function Messages() {
+
+    const queryClient = useQueryClient();
     const user = JSON.parse(
         localStorage.getItem("user")
     );
@@ -59,6 +63,8 @@ export default function Messages() {
 
     const [twilioClient, setTwilioClient] =
         useState(null);
+
+    const [twilioConversations, setTwilioConversations] = useState([]);
 
     const messageEndRef = useRef(null);
 
@@ -147,12 +153,12 @@ export default function Messages() {
         usersData,
         currentUserId,
     ]);
+    
 
     /* ================= CONVERSATIONS ================= */
     const {
         data: conversationData,
-        refetch:
-        refetchConversations,
+        refetch: refetchConversations,
     } = useQuery({
         queryKey: [
             "user-conversations",
@@ -172,7 +178,6 @@ export default function Messages() {
 
         enabled: !!currentUserId,
     });
-
     const conversations =
         conversationData?.conversations ||
         [];
@@ -192,19 +197,38 @@ export default function Messages() {
                     );
                 },
 
-            onSuccess: async (
-                data
-            ) => {
-                const newConversation =
-                    data?.conversation;
+            onSuccess: async (data) => {
+                const newConversation = data?.conversation;
 
-                setSelectedConversation(
-                    newConversation
-                );
+                setSelectedConversation(newConversation);
 
+                // 🔥 IMPORTANT FIX: force query update
                 await refetchConversations();
+
+                // optional but better (ensures UI refresh)
+                queryClient.invalidateQueries({
+                    queryKey: ["user-conversations", currentUserId],
+                });
             },
         });
+
+
+        const deleteConversationMutation = useMutation({
+    mutationFn: async (conversationSid) => {
+        return await deleteConversation(conversationSid);
+    },
+
+    onSuccess: () => {
+        // sidebar refresh
+        queryClient.invalidateQueries({
+            queryKey: ["user-conversations", currentUserId],
+        });
+
+        // if deleted chat was open
+        setSelectedConversation(null);
+        setAllMessages([]);
+    },
+});
 
     /* ================= SELECT USER ================= */
     const handleSelectUser = async (
@@ -287,30 +311,58 @@ export default function Messages() {
     }, [messageData]);
 
     /* ================= REALTIME ================= */
-    useEffect(() => {
-        if (!twilioClient) return;
+   useEffect(() => {
+    if (!twilioClient) return;
 
-        const handleNewMessage =
-            (message) => {
-                setAllMessages(
-                    (prev) => [
-                        ...prev,
-                        message,
-                    ]
-                );
-            };
+    const handleNewMessage = (message) => {
+        const convoSid = message?.conversation?.sid;
 
-        twilioClient.on(
+        if (
+            convoSid !==
+            selectedConversation?.twilioConversationSid
+        ) {
+            return;
+        }
+
+        setAllMessages((prev) => [...prev, message]);
+    };
+
+    twilioClient.on("messageAdded", handleNewMessage);
+
+    return () => {
+        twilioClient.removeListener(
             "messageAdded",
             handleNewMessage
         );
+    };
+}, [twilioClient, selectedConversation]);
 
-        return () => {
-            twilioClient.removeListener(
-                "messageAdded",
-                handleNewMessage
+    //last message show -------------------------------------------
+
+    useEffect(() => {
+        if (!twilioClient) return;
+
+        const loadConversations = async () => {
+            const convoList = await twilioClient.getSubscribedConversations();
+
+            const formatted = await Promise.all(
+                convoList.items.map(async (conv) => {
+                    const msgs = await conv.getMessages(1);
+
+                    return {
+                        sid: conv.sid,
+                        friendlyName: conv.friendlyName,
+                        isGroup: conv.uniqueName?.includes("group"),
+                        lastMessage:
+                            msgs.items?.[0]?.body || "No messages yet",
+                    };
+                })
             );
+
+            setTwilioConversations(formatted);
         };
+
+        loadConversations();
     }, [twilioClient]);
 
     /* ================= SCROLL ================= */
@@ -363,48 +415,43 @@ export default function Messages() {
         });
     };
 
+
+
+
     const handleCreateGroup = () => {
-        if (
-            !groupName ||
-            selectedGroupUsers.length === 0
-        ) {
+        if (!groupName || selectedGroupUsers.length === 0) {
             return;
         }
 
         createConversationMutation.mutate(
             {
                 friendlyName: groupName,
-
-                participants: [
-                    currentUserId,
-                    ...selectedGroupUsers,
-                ],
-
+                participants: [currentUserId, ...selectedGroupUsers],
                 isGroup: true,
-
                 groupAdmin: currentUserId,
             },
             {
                 onSuccess: (data) => {
                     const newConversation =
-                        data?.conversation;
+                        data?.conversation ||
+                        data?.data?.conversation;
 
-                    setSelectedConversation(
-                        newConversation
-                    );
+                    if (newConversation) {
+                        setSelectedConversation(newConversation);
+                    }
 
                     setShowGroupModal(false);
-
                     setGroupName("");
+                    setSelectedGroupUsers([]);
 
-                    setSelectedGroupUsers(
-                        []
-                    );
+                    // 🔥 IMPORTANT FIX (sidebar refresh)
+                    queryClient.invalidateQueries([
+                        "user-conversations",
+                    ]);
                 },
             }
         );
     };
-
     const handleSendMessage = () => {
         if (
             !messageText.trim() ||
@@ -448,11 +495,8 @@ export default function Messages() {
         <div className={styles.wrapper}>
             {/* LEFT SIDE */}
             <div className={styles.leftSide}>
-                <div
-                    className={
-                        styles.searchBox
-                    }
-                >
+                {/* SEARCH BOX */}
+                <div className={styles.searchBox}>
                     <FiSearch />
 
                     <input
@@ -460,119 +504,140 @@ export default function Messages() {
                         placeholder="Search User"
                         value={searchText}
                         onChange={(e) =>
-                            setSearchText(
-                                e.target.value
-                            )
+                            setSearchText(e.target.value)
                         }
                     />
                 </div>
 
+                {/* CREATE GROUP BUTTON */}
                 <button
                     className={styles.groupBtn}
-                    onClick={() =>
-                        setShowGroupModal(true)
-                    }
+                    onClick={() => setShowGroupModal(true)}
                 >
                     <FiUsers />
                     Create Group
                 </button>
 
-                {/* USERS LIST */}
-                <div
-                    className={
-                        styles.chatList
-                    }
-                >
-                    {usersLoading ? (
-                        <p
-                            style={{
-                                padding:
-                                    "10px",
-                            }}
+                {/* CHAT LIST */}
+                <div className={styles.chatList}>
+                    {twilioConversations?.map((conv) => (
+                        <div
+                            key={conv.sid}
+                            className={styles.chatItem}
+                            onClick={() => setSelectedConversation(conv)}
                         >
-                            Loading...
-                        </p>
-                    ) : filteredUsers?.length >
-                        0 ? (
-                        filteredUsers.map(
-                            (u) => (
+                            <div
+                                style={{
+                                    width: "45px",
+                                    height: "45px",
+                                    borderRadius: "50%",
+                                    background: conv.isGroup ? "#1890ff" : "#ff4d4f",
+                                    color: "#fff",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    fontWeight: "700",
+                                }}
+                            >
+                                {getInitial(conv.friendlyName)}
+                            </div>
+
+                            <div className={styles.chatInfo}>
+                                <h4>{conv.friendlyName}</h4>
+                                <p>{conv.lastMessage}</p>
+                            </div>
+                        </div>
+                    ))}
+                    {/* ================= CONVERSATIONS (GROUP + CHAT) ================= */}
+                    {conversations?.map((conv) => {
+                        const isGroup = conv?.isGroup;
+
+                        const lastMsg =
+                            conv?.lastMessage?.body ||
+                            conv?.lastMessage ||
+                            "No messages yet";
+
+                        return (
+                            <div
+                                key={conv._id}
+                                className={styles.chatItem}
+                                onClick={() =>
+                                    setSelectedConversation(conv)
+                                }
+                            >
+                                {/* AVATAR */}
                                 <div
-                                    key={u._id}
-                                    className={
-                                        styles.chatItem
-                                    }
-                                    onClick={() =>
-                                        handleSelectUser(
-                                            u
-                                        )
-                                    }
+                                    style={{
+                                        width: "45px",
+                                        height: "45px",
+                                        borderRadius: "50%",
+                                        background: isGroup
+                                            ? "#1890ff"
+                                            : "#ff4d4f",
+                                        color: "#fff",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        fontWeight: "700",
+                                        fontSize: "16px",
+                                    }}
                                 >
-                                    {/* USER IMAGE / LETTER */}
-                                    {u?.image ? (
-                                        <img
-                                            src={
-                                                u.image
-                                            }
-                                            alt="user"
-                                        />
-                                    ) : (
-                                        <div
-                                            style={{
-                                                width:
-                                                    "45px",
-                                                height:
-                                                    "45px",
-                                                borderRadius:
-                                                    "50%",
-                                                background:
-                                                    "#ff4d4f",
-                                                color:
-                                                    "#fff",
-                                                display:
-                                                    "flex",
-                                                alignItems:
-                                                    "center",
-                                                justifyContent:
-                                                    "center",
-                                                fontWeight:
-                                                    "700",
-                                                fontSize:
-                                                    "18px",
-                                            }}
-                                        >
-                                            {getInitial(
-                                                u?.fullname
-                                            )}
-                                        </div>
-                                    )}
-
-                                    <div
-                                        className={
-                                            styles.chatInfo
-                                        }
-                                    >
-                                        <h4>
-                                            {
-                                                u.fullname
-                                            }
-                                        </h4>
-
-                                        <p>
-                                            {
-                                                u.email
-                                            }
-                                        </p>
-                                    </div>
+                                    {getInitial(conv?.friendlyName)}
                                 </div>
-                            )
-                        )
+
+                                {/* INFO */}
+                                <div className={styles.chatInfo}>
+                                    <h4>{conv?.friendlyName}</h4>
+                                    <p>{lastMsg}</p>
+                                </div>
+                            </div>
+                        );
+                    })}
+
+                    {/* ================= USERS LIST ================= */}
+                    {usersLoading ? (
+                        <p style={{ padding: "10px" }}>Loading...</p>
+                    ) : filteredUsers?.length > 0 ? (
+                        filteredUsers.map((u) => (
+                            <div
+                                key={u._id}
+                                className={styles.chatItem}
+                                onClick={() => handleSelectUser(u)}
+                            >
+                                {/* USER IMAGE / LETTER */}
+                                {u?.image ? (
+                                    <img src={u.image} alt="user" />
+                                ) : (
+                                    <div
+                                        style={{
+                                            width: "45px",
+                                            height: "45px",
+                                            borderRadius: "50%",
+                                            background: "#ff4d4f",
+                                            color: "#fff",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            fontWeight: "700",
+                                            fontSize: "18px",
+                                        }}
+                                    >
+                                        {getInitial(u?.fullname)}
+                                    </div>
+                                )}
+
+                                <div className={styles.chatInfo}>
+                                    <h4>{u.fullname}</h4>
+
+                                    {/* EMAIL → fallback if no lastMessage */}
+                                    <p>
+                                        {u.email || "No message yet"}
+                                    </p>
+                                </div>
+                            </div>
+                        ))
                     ) : (
-                        <p
-                            style={{
-                                padding:
-                                    "10px",
-                            }}
-                        >
+                        <p style={{ padding: "10px" }}>
                             No users found
                         </p>
                     )}
@@ -825,91 +890,62 @@ export default function Messages() {
             </div>
 
 
-            {
-                showGroupModal && (
-                    <div className={styles.modal}>
-                        <div
-                            className={
-                                styles.modalContent
+            {/* GROUP MODAL */}
+            {showGroupModal && (
+                <div className={styles.modal}>
+                    <div className={styles.modalContent}>
+                        <h3>Create Group</h3>
+
+                        <input
+                            type="text"
+                            placeholder="Group Name"
+                            value={groupName}
+                            onChange={(e) =>
+                                setGroupName(e.target.value)
                             }
-                        >
-                            <h3>Create Group</h3>
+                            className={styles.groupInput}
+                        />
 
-                            <input
-                                type="text"
-                                placeholder="Group Name"
-                                value={groupName}
-                                onChange={(e) =>
-                                    setGroupName(
-                                        e.target.value
-                                    )
-                                }
-                                className={
-                                    styles.groupInput
-                                }
-                            />
-
-                            <div
-                                className={
-                                    styles.groupUsers
-                                }
-                            >
-                                {users.map((u) => (
-                                    <div
-                                        key={u._id}
-                                        className={
-                                            styles.groupUser
-                                        }
-                                        onClick={() =>
-                                            handleSelectGroupUser(
-                                                u._id
-                                            )
-                                        }
-                                    >
-                                        <input
-                                            type="checkbox"
-                                            checked={selectedGroupUsers.includes(
-                                                u._id
-                                            )}
-                                            readOnly
-                                        />
-
-                                        <span>
-                                            {
-                                                u.fullname
-                                            }
-                                        </span>
-                                    </div>
-                                ))}
-                            </div>
-
-                            <div
-                                className={
-                                    styles.modalActions
-                                }
-                            >
-                                <button
+                        <div className={styles.groupUsers}>
+                            {users.map((u) => (
+                                <div
+                                    key={u._id}
+                                    className={styles.groupUser}
                                     onClick={() =>
-                                        setShowGroupModal(
-                                            false
-                                        )
+                                        handleSelectGroupUser(u._id)
                                     }
                                 >
-                                    Cancel
-                                </button>
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedGroupUsers.includes(
+                                            u._id
+                                        )}
+                                        readOnly
+                                    />
 
-                                <button
-                                    onClick={
-                                        handleCreateGroup
-                                    }
-                                >
-                                    Create
-                                </button>
-                            </div>
+                                    <span>{u.fullname}</span>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className={styles.modalActions}>
+                            <button
+                                onClick={() =>
+                                    setShowGroupModal(false)
+                                }
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                onClick={handleCreateGroup}
+                            >
+                                Create
+                            </button>
                         </div>
                     </div>
-                )
-            }
+                </div>
+            )}
 
 
 
