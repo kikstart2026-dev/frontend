@@ -8,7 +8,7 @@ import Button from "../../../Component/Buttons/Button";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { verifyOtp, resendOtp } from "../../../apis/api";
-import {handleError, handleSuccess, handleWarning, handleConfirm, } from "../../../utils"
+import { handleError, handleSuccess, handleWarning, handleConfirm, } from "../../../utils"
 
 export default function OtpVerified() {
   const navigate = useNavigate();
@@ -25,16 +25,46 @@ export default function OtpVerified() {
     mutationKey: ["verify-otp"],
     mutationFn: verifyOtp,
     onSuccess: (data) => {
+
+      // ✅ TOKEN SAVE
       if (data?.token) {
-        Cookies.set("token", data.token, { expires: 7 });
-
-        localStorage.removeItem("otpExpiryTime");
-        localStorage.removeItem("resendEnableTime");
-
-        setTimeout(() => {
-          navigate("/", { replace: true });
-        }, 100);
+        Cookies.set(
+          "token",
+          data.token,
+          { expires: 7 }
+        );
       }
+
+      // ✅ USER SAVE
+      if (data?.user) {
+        localStorage.setItem(
+          "user",
+          JSON.stringify(data.user)
+        );
+      }
+
+      // ✅ CLEANUP
+      localStorage.removeItem(
+        "otpExpiryTime"
+      );
+
+      localStorage.removeItem(
+        "resendEnableTime"
+      );
+
+      localStorage.removeItem(
+        "verifyEmail"
+      );
+
+      handleSuccess(
+        "OTP verified successfully ✅"
+      );
+
+      setTimeout(() => {
+        navigate("/", {
+          replace: true,
+        });
+      }, 100);
     },
     onError: (error) => {
       handleError(error?.response?.data?.message || "OTP verification failed ❌");
@@ -68,43 +98,43 @@ export default function OtpVerified() {
 
   // ================= TIMER LOGIC (FIXED) =================
   useEffect(() => {
-  if (!email) return;
+    if (!email) return;
 
-  const now = Date.now();
+    const now = Date.now();
 
-  if (!localStorage.getItem("otpExpiryTime")) {
-    localStorage.setItem("otpExpiryTime", now + 90000);
-  }
+    if (!localStorage.getItem("otpExpiryTime")) {
+      localStorage.setItem("otpExpiryTime", now + 90000);
+    }
 
-  if (!localStorage.getItem("resendEnableTime")) {
-    localStorage.setItem("resendEnableTime", now + 30000);
-  }
+    if (!localStorage.getItem("resendEnableTime")) {
+      localStorage.setItem("resendEnableTime", now + 30000);
+    }
 
-  const updateTimer = () => {
-    const current = Date.now();
+    const updateTimer = () => {
+      const current = Date.now();
 
-    const expiryTime = Number(localStorage.getItem("otpExpiryTime"));
-    const resendTime = Number(localStorage.getItem("resendEnableTime"));
+      const expiryTime = Number(localStorage.getItem("otpExpiryTime"));
+      const resendTime = Number(localStorage.getItem("resendEnableTime"));
 
-    const otpRemaining = Math.max(
-      0,
-      Math.floor((expiryTime - current) / 1000)
-    );
+      const otpRemaining = Math.max(
+        0,
+        Math.floor((expiryTime - current) / 1000)
+      );
 
-    const resendRemaining = Math.max(
-      0,
-      Math.floor((resendTime - current) / 1000)
-    );
+      const resendRemaining = Math.max(
+        0,
+        Math.floor((resendTime - current) / 1000)
+      );
 
-    setOtpTimer(otpRemaining);
-    setResendTimer(resendRemaining);
-  };
+      setOtpTimer(otpRemaining);
+      setResendTimer(resendRemaining);
+    };
 
-  updateTimer();
+    updateTimer();
 
-  const interval = setInterval(updateTimer, 1000);
+    const interval = setInterval(updateTimer, 1000);
 
-  return () => clearInterval(interval);
+    return () => clearInterval(interval);
   }, [email]);
 
   // ================= OTP INPUT =================
