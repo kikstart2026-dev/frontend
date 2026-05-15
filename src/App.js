@@ -45,6 +45,7 @@ import SchoolDetails from "./Pages/FormDetails/SchoolDetails/SchoolDetails";
 import FormParas from "./Component/ChildrenAll/FormPara/FormParas";
 import WaiverAcceptance from "./Pages/FormDetails/WaiverAcceptance/WaiverAcceptance";
 import ProgramDetailss from "./Pages/FormDetails/ProgramDetailss/ProgramDetailss";
+import Messages from "./Component/Conversation/Messages";
 
 // ================= PROTECTED ROUTE =================
 function ProtectedRoute({ children }) {
@@ -185,6 +186,8 @@ function Layout() {
           <Route path="WaiverAcceptance" element={<WaiverAcceptance />} />
           <Route path="ProgramDetailss" element={<ProgramDetailss />} />
           <Route path="enrolment-package" element={<EnrolmentPackage />} />
+            <Route path="messages" element={<Messages />}/>
+
         </Route>
       </Routes>
 

@@ -292,7 +292,7 @@ export const getAllTest = async () => {
 };
 
 // Get By ID
-export const getTestById= async (id) => {
+export const getTestById = async (id) => {
   const res = await axiosInstance.get(
     endpoints.getTestById(id)
   );
@@ -388,58 +388,58 @@ export const getSchoolById = async (id) => {
 
 // CREATE
 export const createChild = async (data) => {
-    const res = await axiosInstance.post(
-        endpoints.createChild,
-        data
-    );
+  const res = await axiosInstance.post(
+    endpoints.createChild,
+    data
+  );
 
-    return res.data;
+  return res.data;
 };
 
 // GET ALL
 export const getAllChild = async () => {
-    const res = await axiosInstance.get(
-        endpoints.getAllChild
-    );
+  const res = await axiosInstance.get(
+    endpoints.getAllChild
+  );
 
-    return res.data;
+  return res.data;
 };
 
 // GET BY ID
 export const getChildById = async (id) => {
-    const res = await axiosInstance.get(
-        `${endpoints.getChildById}/${id}`
-    );
+  const res = await axiosInstance.get(
+    `${endpoints.getChildById}/${id}`
+  );
 
-    return res.data;
+  return res.data;
 };
 
 // UPDATE
 export const updateChild = async (id, data) => {
-    const res = await axiosInstance.put(
-        `${endpoints.updateChild}/${id}`,
-        data
-    );
+  const res = await axiosInstance.put(
+    `${endpoints.updateChild}/${id}`,
+    data
+  );
 
-    return res.data;
+  return res.data;
 };
 
 // DELETE
 export const deleteChild = async (id) => {
-    const res = await axiosInstance.delete(
-        `${endpoints.deleteChild}/${id}`
-    );
+  const res = await axiosInstance.delete(
+    `${endpoints.deleteChild}/${id}`
+  );
 
-    return res.data;
+  return res.data;
 };
 
 // DELETE ALL
 export const deleteAllChild = async () => {
-    const res = await axiosInstance.delete(
-        endpoints.deleteAllChild
-    );
+  const res = await axiosInstance.delete(
+    endpoints.deleteAllChild
+  );
 
-    return res.data;
+  return res.data;
 };
 
 
@@ -494,5 +494,89 @@ export const deleteAllSchoolDetails = async () => {
   const res = await axiosInstance.delete(
     endpoints.deleteAllSchoolDetails
   );
+  return res.data;
+};
+
+
+
+
+/* -------------------------------------------------------------------------- */
+/*                             Conversation APIs                              */
+/* -------------------------------------------------------------------------- */
+
+// CREATE CONVERSATION
+export const createConversation = async (payload) => {
+  const res = await axiosInstance.post(
+    endpoints.createConversation, payload
+  );
+  return res.data;
+};
+
+// ADD PARTICIPANT
+export const addParticipant = async (payload) => {
+  const res = await axiosInstance.post(
+    endpoints.addParticipant, payload
+  );
+
+  return res.data;
+};
+
+// GET USER CONVERSATIONS
+export const getUserConversations = async (userId) => {
+  const res = await axiosInstance.get(
+    endpoints.getUserConversations(userId)
+  );
+
+  return res.data;
+};
+
+// DELETE CONVERSATION
+export const deleteConversation = async (conversationSid) => {
+  const res = await axiosInstance.delete(
+    endpoints.deleteConversation(
+      conversationSid
+    )
+  );
+
+  return res.data;
+};
+
+// GENERATE TOKEN
+export const generateToken = async (payload) => {
+  const res = await axiosInstance.post(
+    endpoints.generateToken,
+    payload
+  );
+
+  return res.data;
+};
+
+/* -------------------------------------------------------------------------- */
+/*                               Message APIs                                 */
+/* -------------------------------------------------------------------------- */
+
+// SEND MESSAGE
+export const sendMessage = async (payload) => {
+  const res = await axiosInstance.post(
+    endpoints.sendMessage,
+    payload
+  );
+
+  return res.data;
+};
+
+// GET MESSAGES
+export const getMessages = async (conversationSid) => {
+  const res = await axiosInstance.get(
+    endpoints.getMessages(conversationSid)
+  );
+
+  return res.data;
+};
+
+
+export const getChatUsers = async () => {
+  const res = await axiosInstance.get(
+    endpoints.getChatUsers);
   return res.data;
 };
