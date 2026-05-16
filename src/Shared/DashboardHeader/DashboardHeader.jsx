@@ -21,9 +21,9 @@ export default function DashboardHeader({
       <h2>{title}</h2>
 
       <div className={styles.userBox}>
-        {admin?.image ? (
+        {admin?.user?.image ? (
           <img
-            src={admin.image}
+            src={admin.user.image}
             alt="user"
             className={styles.avatar}
           />
