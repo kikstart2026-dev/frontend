@@ -9,7 +9,7 @@ export default function DashboardHeader({
 
   useEffect(() => {
     const storedAdmin =
-      localStorage.getItem("adminUser");
+      localStorage.getItem("user");
 
     if (storedAdmin) {
       setAdmin(JSON.parse(storedAdmin));
