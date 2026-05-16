@@ -14,7 +14,9 @@ export default function Header() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const token = Cookies.get("token");
-  const email = localStorage.getItem("verifyEmail"); // ✅ get email
+  const user = JSON.parse(localStorage.getItem("user"));
+
+const email = user?.email;
 
   const navItems = [
     { name: "About Us", path: "/about" },
@@ -50,7 +52,7 @@ export default function Header() {
     mutationFn: logoutUser,
     onSuccess: () => {
       Cookies.remove("token");
-      localStorage.removeItem("verifyEmail");
+      localStorage.removeItem("user");
       handleSuccess("Logged out successfully");
       navigate("/signin");
     },

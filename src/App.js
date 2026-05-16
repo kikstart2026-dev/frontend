@@ -200,7 +200,7 @@ function Layout() {
 function App() {
   return (
     <div className="App">
-      <GoogleOAuthProvider clientId="377086841705-5qap8i7ifjqmr9hu09emtonof1qo2mnb.apps.googleusercontent.com">
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
         <Router>
           <ToastContainer
             position="top-center"
