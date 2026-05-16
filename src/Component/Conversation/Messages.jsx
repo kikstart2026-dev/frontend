@@ -327,30 +327,40 @@ export default function Messages() {
 
     /* ================= REALTIME ================= */
     useEffect(() => {
+
         if (!twilioClient) return;
 
-        const handleNewMessage = (message) => {
-            const convoSid = message?.conversation?.sid;
+        const handleConversationAdded =
+            async () => {
 
-            if (
-                convoSid !==
-                selectedConversation?.twilioConversationSid
-            ) {
-                return;
-            }
+                await refetchConversations();
 
-            setAllMessages((prev) => [...prev, message]);
-        };
+                queryClient.invalidateQueries({
+                    queryKey: [
+                        "user-conversations",
+                        currentUserId,
+                    ],
+                });
+            };
 
-        twilioClient.on("messageAdded", handleNewMessage);
+        twilioClient.on(
+            "conversationAdded",
+            handleConversationAdded
+        );
 
         return () => {
             twilioClient.removeListener(
-                "messageAdded",
-                handleNewMessage
+                "conversationAdded",
+                handleConversationAdded
             );
         };
-    }, [twilioClient, selectedConversation]);
+
+    }, [
+        twilioClient,
+        currentUserId,
+        refetchConversations,
+        queryClient,
+    ]);
 
     //last message show -------------------------------------------
 
