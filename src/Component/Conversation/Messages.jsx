@@ -64,6 +64,9 @@ export default function Messages() {
     const [twilioClient, setTwilioClient] =
         useState(null);
 
+
+
+    const [unreadCounts, setUnreadCounts] = useState({});
     // const [twilioConversations, setTwilioConversations] = useState([]);
 
     const messageEndRef = useRef(null);
@@ -398,60 +401,69 @@ export default function Messages() {
 
     useEffect(() => {
         if (messageData?.messages) {
-            setAllMessages(
-                messageData.messages
+            const sorted = [...messageData.messages].sort(
+                (a, b) =>
+                    new Date(a.dateCreated) - new Date(b.dateCreated)
             );
+
+            setAllMessages(sorted);
         }
     }, [messageData]);
 
     /* ================= REALTIME ================= */
-  useEffect(() => {
+    useEffect(() => {
 
-    if (!twilioClient) return;
+        if (!twilioClient) return;
 
-    const handleMessageAdded =
-        async (message) => {
-
-            // REFRESH CONVERSATIONS
+        const handleMessageAdded = async (message) => {
             await refetchConversations();
 
             queryClient.invalidateQueries({
-                queryKey: [
-                    "user-conversations",
-                    currentUserId,
-                ],
+                queryKey: ["user-conversations", currentUserId],
             });
 
-            // IF CURRENT CHAT OPEN
-            if (
-                selectedConversation?.twilioConversationSid ===
-                message?.conversationSid
-            ) {
+            const activeSid =
+                selectedConversation?.twilioConversationSid;
+
+            const incomingSid =
+                message?.conversationSid ||
+                message?.conversation?.sid;
+
+            // 👉 যদি active chat না খোলা থাকে
+            if (activeSid === incomingSid) {
                 await refetchMessages();
+            } else {
+                // 🔥 UNREAD COUNT UPDATE
+                setUnreadCounts((prev) => {
+                    return {
+                        ...prev,
+                        [incomingSid]: (prev[incomingSid] || 0) + 1,
+                    };
+                });
             }
         };
 
-    twilioClient.on(
-        "messageAdded",
-        handleMessageAdded
-    );
-
-    return () => {
-
-        twilioClient.removeListener(
+        twilioClient.on(
             "messageAdded",
             handleMessageAdded
         );
-    };
 
-}, [
-    twilioClient,
-    currentUserId,
-    selectedConversation,
-    refetchMessages,
-    refetchConversations,
-    queryClient,
-]);
+        return () => {
+
+            twilioClient.removeListener(
+                "messageAdded",
+                handleMessageAdded
+            );
+        };
+
+    }, [
+        twilioClient,
+        currentUserId,
+        selectedConversation,
+        refetchMessages,
+        refetchConversations,
+        queryClient,
+    ]);
 
 
 
@@ -558,89 +570,65 @@ export default function Messages() {
 
 
     //==============================================================
-   const handleSendMessage = async () => {
+    const handleSendMessage = async () => {
+        if (!messageText.trim() || !selectedConversation) return;
 
-    if (
-        !messageText.trim() ||
-        !selectedConversation
-    ) return;
+        const tempMessage = {
+            body: messageText,
+            author: currentUserId,
+            dateCreated: new Date().toISOString(),
+            _temp: true,
+        };
 
-    // SIDEBAR INSTANT UPDATE
-    queryClient.setQueryData(
-        [
-            "user-conversations",
-            currentUserId,
-        ],
-        (oldData) => {
+        // 🔥 OPTIMISTIC MESSAGE ADD (RIGHT PLACE)
+        setAllMessages((prev) => [...prev, tempMessage]);
 
-            if (!oldData?.conversations)
-                return oldData;
+        setMessageText("");
 
-            const updated =
-                oldData.conversations.map(
-                    (conv) => {
+        // SIDEBAR INSTANT UPDATE
+        queryClient.setQueryData(
+            ["user-conversations", currentUserId],
+            (oldData) => {
+                if (!oldData?.conversations) return oldData;
 
-                        if (
-                            conv.twilioConversationSid ===
-                            selectedConversation.twilioConversationSid
-                        ) {
-                            return {
-                                ...conv,
-
-                                lastMessage:
-                                    messageText,
-
-                                updatedAt:
-                                    new Date(),
-
-                                lastMessageTime:
-                                    new Date(),
-                            };
-                        }
-
-                        return conv;
+                const updated = oldData.conversations.map((conv) => {
+                    if (
+                        conv.twilioConversationSid ===
+                        selectedConversation.twilioConversationSid
+                    ) {
+                        return {
+                            ...conv,
+                            lastMessage: messageText,
+                            updatedAt: new Date(),
+                            lastMessageTime: new Date(),
+                        };
                     }
-                );
+                    return conv;
+                });
 
-            // MOVE TO TOP
-            updated.sort((a, b) => {
+                updated.sort((a, b) => {
+                    const getTime = (x) =>
+                        new Date(
+                            x?.updatedAt || x?.lastMessageTime
+                        ).getTime();
 
-                const aTime =
-                    new Date(
-                        a?.updatedAt ||
-                        a?.lastMessageTime
-                    ).getTime();
+                    return getTime(b) - getTime(a);
+                });
 
-                const bTime =
-                    new Date(
-                        b?.updatedAt ||
-                        b?.lastMessageTime
-                    ).getTime();
+                return {
+                    ...oldData,
+                    conversations: updated,
+                };
+            }
+        );
 
-                return bTime - aTime;
-            });
-
-            return {
-                ...oldData,
-                conversations:
-                    updated,
-            };
-        }
-    );
-
-    // SEND MESSAGE
-    sendMessageMutation.mutate({
-        conversationSid:
-            selectedConversation?.twilioConversationSid,
-
-        author:
-            currentUserId,
-
-        message:
-            messageText,
-    });
-};
-
+        // SEND MESSAGE API
+        sendMessageMutation.mutate({
+            conversationSid: selectedConversation?.twilioConversationSid,
+            author: currentUserId,
+            message: tempMessage.body,
+        });
+    };
     /* ================= FILTER USERS ================= */
     const filteredUsers = useMemo(() => {
         return users.filter((u) =>
@@ -734,8 +722,18 @@ export default function Messages() {
 
                                         if (!conv?.isGroup) {
                                             setSelectedUser(otherUser);
+
                                         }
+
+
+                                        // 🔥 reset unread
+                                        setUnreadCounts((prev) => ({
+                                            ...prev,
+                                            [conv.twilioConversationSid]: 0,
+                                        }));
                                     }}
+
+
                                 >
 
                                     {/* GROUP AVATAR */}
