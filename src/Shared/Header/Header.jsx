@@ -110,8 +110,8 @@ export default function Header() {
               </div>
             )}
 
-            <Link to="/demo">
-              <Button text="REQUEST A FREE DEMO" variant="primary" />
+            <Link to="/dashboard">
+              <Button text="GO TO DASHBOARD" variant="primary" />
             </Link>
           </div>
         </div>

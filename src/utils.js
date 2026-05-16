@@ -43,6 +43,45 @@ export const handleSuccess = (message) => {
   );
 };
 
+export const handleConfirm = (message, onConfirm) => {
+  toast.warning(
+    ({ closeToast }) => (
+      <div className="toast-content">
+      
+        {/* <span>⚠️</span> */}
+
+        <p className="confirm_p">{message}</p>
+
+        <div className="confirm-actions">
+          <button
+            className="btn-confirm"
+            onClick={async () => {
+              await onConfirm();   
+              closeToast();
+            }}
+          >
+            Yes
+          </button>
+
+          <button className="btn-cancel" onClick={closeToast}>
+            Cancel
+          </button>
+        </div>
+      </div>
+      
+    ),
+    { ...config, className: "toast-confirm" }
+
+    // {
+    //   position: "top-center",
+    //   autoClose: false,   // ❗ must (user click না করা পর্যন্ত থাকবে)
+    //   closeOnClick: false,
+    //   draggable: false,
+       
+    // }
+  );
+};
+
 // export const handleAuth = (message) => {
 //   toast.success(
 //     <div className="toast-content">

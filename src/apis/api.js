@@ -292,7 +292,7 @@ export const getAllTest = async () => {
 };
 
 // Get By ID
-export const getTestById= async (id) => {
+export const getTestById = async (id) => {
   const res = await axiosInstance.get(
     endpoints.getTestById(id)
   );
@@ -351,6 +351,19 @@ export const getFaqById = async (id) => {
 
 
 /* ================================
+    Payment APIs
+================================ */
+
+export const kikpayment = async (paymentData) => {
+  const res = await axiosInstance.post(
+    endpoints.payment,
+    paymentData
+  );
+
+  return res.data;
+};
+
+/* ================================
     Schools APIs
 ================================ */
 
@@ -371,4 +384,199 @@ export const getSchoolById = async (id) => {
 };
 
 
+// ================ CHILDREN PROFILE ================================
 
+// CREATE
+export const createChild = async (data) => {
+  const res = await axiosInstance.post(
+    endpoints.createChild,
+    data
+  );
+
+  return res.data;
+};
+
+// GET ALL
+export const getAllChild = async () => {
+  const res = await axiosInstance.get(
+    endpoints.getAllChild
+  );
+
+  return res.data;
+};
+
+// GET BY ID
+export const getChildById = async (id) => {
+  const res = await axiosInstance.get(
+    `${endpoints.getChildById}/${id}`
+  );
+
+  return res.data;
+};
+
+// UPDATE
+export const updateChild = async (id, data) => {
+  const res = await axiosInstance.put(
+    `${endpoints.updateChild}/${id}`,
+    data
+  );
+
+  return res.data;
+};
+
+// DELETE
+export const deleteChild = async (id) => {
+  const res = await axiosInstance.delete(
+    `${endpoints.deleteChild}/${id}`
+  );
+
+  return res.data;
+};
+
+// DELETE ALL
+export const deleteAllChild = async () => {
+  const res = await axiosInstance.delete(
+    endpoints.deleteAllChild
+  );
+
+  return res.data;
+};
+
+
+/* ================================
+   SCHOOL DETAILS APIs
+================================ */
+
+// CREATE SCHOOL
+export const createSchoolDetails = async (payload) => {
+  const res = await axiosInstance.post(
+    endpoints.createSchoolDetails,
+    payload
+  );
+  return res.data;
+};
+
+// GET ALL SCHOOL
+export const getAllSchoolDetails = async () => {
+  const res = await axiosInstance.get(
+    endpoints.getAllSchoolDetails
+  );
+  return res.data;
+};
+
+// GET SCHOOL BY ID
+export const getSchoolDetailsById = async (id) => {
+  const res = await axiosInstance.get(
+    endpoints.getSchoolDetailsById(id)
+  );
+  return res.data;
+};
+
+// UPDATE SCHOOL
+export const updateSchoolDetails = async (id, payload) => {
+  const res = await axiosInstance.put(
+    endpoints.updateSchoolDetails(id),
+    payload
+  );
+  return res.data;
+};
+
+// DELETE SCHOOL
+export const deleteSchoolDetails = async (id) => {
+  const res = await axiosInstance.delete(
+    endpoints.deleteSchoolDetails(id)
+  );
+  return res.data;
+};
+
+// DELETE ALL SCHOOL
+export const deleteAllSchoolDetails = async () => {
+  const res = await axiosInstance.delete(
+    endpoints.deleteAllSchoolDetails
+  );
+  return res.data;
+};
+
+
+
+
+/* -------------------------------------------------------------------------- */
+/*                             Conversation APIs                              */
+/* -------------------------------------------------------------------------- */
+
+// CREATE CONVERSATION
+export const createConversation = async (payload) => {
+  const res = await axiosInstance.post(
+    endpoints.createConversation, payload
+  );
+  return res.data;
+};
+
+// ADD PARTICIPANT
+export const addParticipant = async (payload) => {
+  const res = await axiosInstance.post(
+    endpoints.addParticipant, payload
+  );
+
+  return res.data;
+};
+
+// GET USER CONVERSATIONS
+export const getUserConversations = async (userId) => {
+  const res = await axiosInstance.get(
+    endpoints.getUserConversations(userId)
+  );
+
+  return res.data;
+};
+
+// DELETE CONVERSATION
+export const deleteConversation = async (conversationSid) => {
+  const res = await axiosInstance.delete(
+    endpoints.deleteConversation(
+      conversationSid
+    )
+  );
+
+  return res.data;
+};
+
+// GENERATE TOKEN
+export const generateToken = async (payload) => {
+  const res = await axiosInstance.post(
+    endpoints.generateToken,
+    payload
+  );
+
+  return res.data;
+};
+
+/* -------------------------------------------------------------------------- */
+/*                               Message APIs                                 */
+/* -------------------------------------------------------------------------- */
+
+// SEND MESSAGE
+export const sendMessage = async (payload) => {
+  const res = await axiosInstance.post(
+    endpoints.sendMessage,
+    payload
+  );
+
+  return res.data;
+};
+
+// GET MESSAGES
+export const getMessages = async (conversationSid) => {
+  const res = await axiosInstance.get(
+    endpoints.getMessages(conversationSid)
+  );
+
+  return res.data;
+};
+
+
+export const getChatUsers = async () => {
+  const res = await axiosInstance.get(
+    endpoints.getChatUsers);
+  return res.data;
+};

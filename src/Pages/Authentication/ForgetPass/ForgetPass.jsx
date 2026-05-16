@@ -7,6 +7,7 @@ import Button from "../../../Component/Buttons/Button";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { forgotPass } from "../../../apis/api";
+import {handleError, handleSuccess, handleWarning, handleConfirm, } from "../../../utils"
 
 export default function ForgetPass() {
   const [email, setEmail] = useState("");
@@ -22,13 +23,13 @@ export default function ForgetPass() {
       // OTP always being sent according to you
       localStorage.setItem("verifyEmail", email);
 
-      alert("OTP sent to your email 📩");
+      handleSuccess("OTP sent to your email 📩");
 
       navigate("/reset-pass");
     },
 
     onError: (error) => {
-      alert(error?.response?.data?.message || "OTP send failed ❌");
+      handleError(error?.response?.data?.message || "OTP send failed ❌");
     },
   });
 
@@ -36,7 +37,7 @@ export default function ForgetPass() {
     e.preventDefault();
 
     if (!email.trim()) {
-      alert("Email is required");
+      handleWarning("Email is required");
       return;
     }
 

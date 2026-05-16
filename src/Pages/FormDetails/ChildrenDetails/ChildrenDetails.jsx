@@ -1,8 +1,8 @@
 import React from "react";
-import FormDetailsLeft from "../../../Component/FormDetailsLeft/FormDetailsLeft";
+import FormDetailsLeft from "../../../Component/ChildrenAll/FormDetailsLeft/FormDetailsLeft";
 import styles from "./ChildrenDetails.module.scss";
 import "../../../Main.scss"; 
-import ChildrenDetailsForm from "../../../Component/ChildrenDetailsForm/ChildrenDetailsForm";
+import ChildrenDetailsForm from "../../../Component/ChildrenAll/ChildrenDetailsForm/ChildrenDetailsForm";
 import FillFormHeading from "../../../Component/FillFormHeading/FillFormHeading";
 
 export default function ChildrenDetails() {

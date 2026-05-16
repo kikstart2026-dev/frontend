@@ -30,13 +30,16 @@ export default function WhyUs() {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Failed to load data</p>;
 
+    const cleanHtml = (heading.description || "")
+    .replace(/&nbsp;/g, " ");
   return (
     <section className="common-space1">
       <div className="container">
 
         {/* DESCRIPTION FROM API */}
         <div className={styles["WhyUs-para"]}>
-          <div dangerouslySetInnerHTML={{ __html: description }} />
+          {/* <p>{description}</p> */}
+          <div dangerouslySetInnerHTML={{__html: cleanHtml,}} />
         </div>
 
         {/* CARDS */}

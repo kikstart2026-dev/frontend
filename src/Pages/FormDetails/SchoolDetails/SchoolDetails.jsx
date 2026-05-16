@@ -1,8 +1,8 @@
 import React from "react";
-import FormDetailsLeft from "../../../Component/FormDetailsLeft/FormDetailsLeft";
+import FormDetailsLeft from "../../../Component/ChildrenAll/FormDetailsLeft/FormDetailsLeft";
 import styles from "./SchoolDetails.module.scss";
 import "../../../Main.scss"; 
-import SchoolDetailsForm from "../../../Component/SchoolDetailsForm/SchoolDetailsForm";
+import SchoolDetailsForm from "../../../Component/ChildrenAll/SchoolDetailsForm/SchoolDetailsForm";
 import FillFormHeading from "../../../Component/FillFormHeading/FillFormHeading";
 
 

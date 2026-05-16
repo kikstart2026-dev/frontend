@@ -1,21 +1,30 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 import styles from "./ChildrenDetailsForm.module.scss";
 import styles2 from "../SchoolDetailsForm/SchoolDetailsForm.module.scss";
-import Button from "../Buttons/Button";
-import {handleError, handleSuccess} from "../../utils"
+
+import Button from "../../Buttons/Button";
+import { handleError, handleSuccess } from "../../../utils";
+import { createChild } from "../../../apis/api";
 
 export default function ChildrenDetailsForm() {
   const navigate = useNavigate();
 
   const [allergy, setAllergy] = useState("");
+  const [allergyDetails, setAllergyDetails] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [preview, setPreview] = useState(null);
+  const [file, setFile] = useState(null); // ✅ FIX
 
   const locationRef = useRef(null);
   const fileRef = useRef(null);
   const dropdownRef = useRef(null);
 
   /* ---------------- Location ---------------- */
+
   const handleGetLocation = () => {
     if (!navigator.geolocation) {
       handleError("Geolocation is not supported");
@@ -30,6 +39,7 @@ export default function ChildrenDetailsForm() {
           const response = await fetch(
             `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
           );
+
           const data = await response.json();
 
           locationRef.current.value =
@@ -43,44 +53,75 @@ export default function ChildrenDetailsForm() {
   };
 
   /* ---------------- Upload ---------------- */
+
   const handleUpload = () => {
     fileRef.current.click();
   };
 
-  /* ---------------- Outside Click Close ---------------- */
+  /* ---------------- Outside click ---------------- */
+
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
         setIsOpen(false);
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   /* ---------------- Submit ---------------- */
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData(e.target);
+    try {
+      setLoading(true);
 
-    const data = {
-      name: formData.get("name"),
-      location: formData.get("location"),
-      age: formData.get("age"),
-      foodHabit: formData.get("foodHabit"),
-      allergy,
-      allergyDetails: formData.get("allergyDetails"),
-      disease: formData.get("disease"),
-      image: formData.get("image"),
-    };
+      const formData = new FormData(e.target);
+      const data = new FormData();
 
-    console.log(data);
+      data.append("fullName", formData.get("name"));
+      data.append("location", formData.get("location"));
+      data.append("age", formData.get("age"));
+      data.append("foodHabit", formData.get("foodHabit"));
+      data.append("allergy", allergy);
+      data.append("allergyDetails", formData.get("allergyDetails"));
+      data.append("prolongDisease", formData.get("disease"));
 
-    navigate("/Schooldetails");
+      // ✅ PASSCODE FIX (IMPORTANT)
+      data.append("passCode", formData.get("passCode"));
+
+      // ✅ IMAGE FIX
+      if (fileRef.current.files[0]) {
+        data.append("profileImage", fileRef.current.files[0]);
+      }
+
+      const res = await createChild(data);
+
+      console.log("CREATE CHILD => ", res);
+
+      if (res.success) {
+        handleSuccess("Child created successfully");
+        navigate("/dashboard/Schooldetails");
+      } else {
+        handleError(res.message || "Something went wrong");
+      }
+    } catch (error) {
+      console.log(error);
+      handleError(
+        error?.response?.data?.message || "Failed to create child"
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -94,12 +135,7 @@ export default function ChildrenDetailsForm() {
         <form className={styles.form} onSubmit={handleSubmit}>
           {/* Name */}
           <div className={styles.inputWrapper}>
-            <input
-              name="name"
-              className={styles.inp}
-              type="text"
-              placeholder=" "
-            />
+            <input name="name" className={styles.inp} type="text" placeholder=" " required />
             <label className={styles.lbl}>Full Name</label>
           </div>
 
@@ -111,7 +147,9 @@ export default function ChildrenDetailsForm() {
               className={`${styles.inp} ${styles.spInp}`}
               type="text"
               placeholder=" "
+              required
             />
+
             <label className={styles.lbl}>Location</label>
 
             <button
@@ -125,27 +163,29 @@ export default function ChildrenDetailsForm() {
 
           {/* Age */}
           <div className={styles.inputWrapper}>
-            <input
-              name="age"
-              className={styles.inp}
-              type="text"
-              placeholder=" "
-            />
+            <input name="age" className={styles.inp} type="number" placeholder=" " required />
             <label className={styles.lbl}>Age</label>
+          </div>
+
+          {/* PASSCODE (FIX ADDED) */}
+          <div className={styles.inputWrapper}>
+            <input
+              name="passCode"
+              className={styles.inp}
+              type="password"
+              placeholder=" "
+              required
+            />
+            <label className={styles.lbl}>Pass Code</label>
           </div>
 
           {/* Food Habit */}
           <div className={styles.inputWrapper}>
-            <input
-              name="foodHabit"
-              className={styles.inp}
-              type="text"
-              placeholder=" "
-            />
+            <input name="foodHabit" className={styles.inp} type="text" placeholder=" " />
             <label className={styles.lbl}>Food Habit</label>
           </div>
 
-          {/* Allergy Dropdown */}
+          {/* Allergy */}
           <div className={styles.inputWrapper} ref={dropdownRef}>
             <div className={`dropdown ${styles.customDropdown}`}>
               <button
@@ -153,31 +193,29 @@ export default function ChildrenDetailsForm() {
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
               >
-                {allergy || ""}
+                {allergy === true ? "Yes" : allergy === false ? "No" : ""}
               </button>
 
-              <ul
-                className={`dropdown-menu ${isOpen ? "show" : ""}`}
-              >
+              <ul className={`dropdown-menu ${isOpen ? "show" : ""}`}>
                 <li>
                   <button
                     type="button"
                     className="dropdown-item"
                     onClick={() => {
-                      setAllergy("Yes");
+                      setAllergy(true);
+                      setAllergyDetails("");
                       setIsOpen(false);
                     }}
                   >
                     Yes
                   </button>
                 </li>
-
                 <li>
                   <button
                     type="button"
                     className="dropdown-item"
                     onClick={() => {
-                      setAllergy("No");
+                      setAllergy(false);
                       setIsOpen(false);
                     }}
                   >
@@ -187,13 +225,13 @@ export default function ChildrenDetailsForm() {
               </ul>
             </div>
 
-            <label
-              className={`${styles.lbl} ${allergy ? styles.lblActive : ""}`}
-            >
+            <label className={`${styles.lbl} ${allergy !== "" ? styles.lblActive : ""}`}>
               Have Any Type Of Allergy?
             </label>
           </div>
 
+          {/* Allergy Details */}
+          {/* Allergy Details */}
           {/* Allergy Details */}
           <div className={styles.inputWrapper}>
             <input
@@ -201,18 +239,25 @@ export default function ChildrenDetailsForm() {
               className={styles.inp}
               type="text"
               placeholder=" "
+              value={
+                allergy === false
+                  ? "N/A"
+                  : allergyDetails
+              }
+              disabled={allergy === false}
+              onChange={(e) =>
+                setAllergyDetails(e.target.value)
+              }
             />
-            <label className={styles.lbl}>Allergy Details</label>
+
+            <label className={styles.lbl}>
+              Allergy Details
+            </label>
           </div>
 
           {/* Disease */}
           <div className={styles.inputWrapper}>
-            <input
-              name="disease"
-              className={styles.inp}
-              type="text"
-              placeholder=" "
-            />
+            <input name="disease" className={styles.inp} type="text" placeholder=" " />
             <label className={styles.lbl}>Any Prolong Disease</label>
           </div>
 
@@ -222,22 +267,56 @@ export default function ChildrenDetailsForm() {
               Upload image Within size of 5MB
             </span>
 
-            <button
-              type="button"
-              className={styles.uploadBtn}
-              onClick={handleUpload}
-            >
-              UPLOAD
-            </button>
+            {/* UPLOAD BUTTON (unchanged UI) */}
+            {!file && (
+              <button
+                type="button"
+                className={styles.uploadBtn}
+                onClick={handleUpload}
+              >
+                UPLOAD
+              </button>
+            )}
 
-            <input type="file" name="image" ref={fileRef} hidden />
+            <input
+              type="file"
+              name="image"
+              ref={fileRef}
+              hidden
+              onChange={(e) => {
+                const selected = e.target.files[0];
+
+                console.log("SELECTED FILE =>", selected);
+
+                if (selected) {
+                  setFile(selected);
+                  setPreview(URL.createObjectURL(selected));
+                }
+              }}
+            />
+
+            {/* Preview */}
+            {preview && (
+              <img
+                src={preview}
+                alt="preview"
+                style={{
+                  width: "80px",
+                  height: "80px",
+                  marginTop: "10px",
+                  objectFit: "cover",
+                  borderRadius: "10px",
+                }}
+              />
+            )}
           </div>
 
+          {/* Button */}
           <div className={styles2.btns}>
             <Button
               className={styles.nextBtn}
               type="submit"
-              text="NEXT"
+              text={loading ? "LOADING..." : "NEXT"}
               variant="primary"
             />
           </div>

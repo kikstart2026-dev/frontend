@@ -7,7 +7,7 @@ export default function MiniCard({ icon, title, description, color }) {
 
 
 const cleanHtml = description
-  .replace(/style="[^"]*"/g, "")   // remove inline styles
+  // .replace(/style="[^"]*"/g, "")   // remove inline styles
   .replace(/&nbsp;/g, " ");        // fix spacing
 
   return (

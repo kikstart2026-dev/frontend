@@ -54,11 +54,57 @@ export const endpoints = {
 
   
   // Interested Schools --------------------------------------->>
-
+  
   getAllSchools: "user/schools/",
   getSchoolById: (id) => `user/schools/${id}`,
+  
+  // Payment Gateway --------------------------------------->>
+  payment: "payment/kikPayment",
 
+  // CHILDREN PROFILE ------------------------------------->>
+
+  createChild: "/children/createChild",
+
+  getAllChild: "/children/getAllChild",
+
+  getChildById: "/children/getChildById",
+
+  updateChild: "/children/updateChild",
+
+  deleteChild: "/children/deleteChild",
+
+  deleteAllChild: "/children/deleteAllChild",
+
+
+// Schools (PUBLIC / USER SIDE)-------------------------------->>
+
+createSchoolDetails: "school/createSchoolDetails",
+getAllSchoolDetails: "school/getAllSchoolDetails",
+getSchoolDetailsById: (id) => `school/getSchoolDetailsById/${id}`,
+updateSchoolDetails: (id) => `school/updateSchoolDetails/${id}`,
+deleteSchoolDetails: (id) => `school/deleteSchoolDetails/${id}`,
+deleteAllSchoolDetails: "school/deleteAllSchoolDetails",
+  
+
+
+
+// Conversation
+createConversation: "conversation/create",
+addParticipant: "conversation/participant",
+getUserConversations: (userId) =>`conversation/my-chats/${userId}`,
+deleteConversation: (conversationSid) =>`conversation/${conversationSid}`,
+generateToken: "conversation/token",
+
+// Message
+sendMessage: "message/send",
+getMessages: (conversationSid) => `message/${conversationSid}`,
+
+//chat user only
+getChatUsers: "admin/users/chat-users",
 };
+
+
+
 
 
 

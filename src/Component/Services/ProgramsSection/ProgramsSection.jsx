@@ -1,46 +1,36 @@
-import React, { useState } from "react";
+import React from "react";
 import ProgramCard from "../ProgramCard";
 import styles from "./ProgramsSection.module.scss";
 import Button from "../../Buttons/Button";
 import { Link } from "react-router-dom";
 import CmnHeading from "../../CmnHeading/CmnHeading";
-import { getAllService, getHeading } from "../../../apis/api";
+import { getAllService } from "../../../apis/api";
 import { useQuery } from "@tanstack/react-query";
 
 export default function ProgramsSection({ limit, showHeading = true }) {
-  // const [headingData, setHeadingData] = useState(null);
 
   const { data: services = [], isLoading: loading } = useQuery({
     queryKey: ["services"],
     queryFn: async () => {
       const res = await getAllService();
-      const serviceData = res.data;
 
-      // // 🔥 Heading backend থেকে নিচ্ছি (first item থেকে)
-      // if (serviceData.length > 0) {
-      //   setHeadingData(serviceData[0].headingData);
-      // }
-
-      
-
-      return serviceData;
+      // ✅ IMPORTANT
+      return res.data;
     },
   });
 
-    const { data: headingRes } = useQuery({
-      queryKey: ["faq-heading"],
-      queryFn: getHeading
-    });
-  
-  
-   const headingData = headingRes?.data?.[1]; // service heading
+  // ✅ First service থেকে heading নিচ্ছি
+  const headingData = services?.[0]?.headingData;
 
-  const displayPrograms = limit ? services.slice(0, limit) : services;
+  const displayPrograms = limit
+    ? services.slice(0, limit)
+    : services;
 
   return (
     <section className={styles["back-color"]}>
       <div className="container">
-        {/* ✅ Dynamic Heading from Backend */}
+
+        {/* ✅ Dynamic Heading */}
         {showHeading && headingData && (
           <div className="why-choose-us">
             <CmnHeading
@@ -55,13 +45,13 @@ export default function ProgramsSection({ limit, showHeading = true }) {
           <p className="text-center">Loading...</p>
         ) : (
           <div className={`row ${styles["programs-section"]}`}>
-            {displayPrograms.map((item, index) => (
+            {displayPrograms.map((item) => (
               <div
-                key={index}
+                key={item._id}
                 className={`col-lg-4 col-md-6 col-12 mb-4 d-flex ${styles.programCardCol}`}
               >
                 <ProgramCard
-                  id={item._id} // ✅ ONLY ADD THIS
+                  id={item._id}
                   image={item.image}
                   title={item.title}
                   description={item.details}
@@ -83,6 +73,7 @@ export default function ProgramsSection({ limit, showHeading = true }) {
             <Button text="View all" variant="primary" />
           </Link>
         </div>
+
       </div>
     </section>
   );

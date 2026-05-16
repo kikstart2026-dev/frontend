@@ -1,7 +1,7 @@
 import React from 'react'
 import './NextFormPara.scss'
-import CmnHeading from '../CmnHeading/CmnHeading'
-import Button from '../Buttons/Button'
+import CmnHeading from '../../CmnHeading/CmnHeading'
+import Button from '../../Buttons/Button'
 import { useNavigate } from 'react-router-dom'
 
 export default function NextFormPara({ name, duration }) {
@@ -50,7 +50,7 @@ export default function NextFormPara({ name, duration }) {
                     <Button 
                     text="back" 
                     variant="dark"
-                    onClick={() => navigate("/WaiverAcceptance")}  
+                   onClick={() => navigate("/dashboard/waiveracceptance")} 
                      />
                 </div>
 
@@ -58,7 +58,7 @@ export default function NextFormPara({ name, duration }) {
                     <Button 
                     text="next" 
                     variant="primary"
-                    onClick={() => navigate("/enrolment-package")}  
+                   onClick={() => navigate("/dashboard/enrolment-package")} 
                      />
                 </div>
 

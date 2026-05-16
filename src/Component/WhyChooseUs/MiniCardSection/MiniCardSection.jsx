@@ -69,9 +69,8 @@ export default function MiniCardSection({ limit, showHeading = true }) {
           color: "#ccc",
         },
       ];
-  const cleanHtml = (displayedHeading.description || "")
-    .replace(/style="[^"]*"/g, "")
-    .replace(/&nbsp;/g, " ");
+const cleanHtml = (displayedHeading.description || "")
+  .replace(/&nbsp;/g, " ");
 
   return (
     <section className={styles["mini-section"]}>
