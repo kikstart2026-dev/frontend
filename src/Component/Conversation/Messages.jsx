@@ -552,18 +552,7 @@ export default function Messages() {
                                 }}
                             >
                                 <div
-                                    style={{
-                                        width: "45px",
-                                        height: "45px",
-                                        borderRadius: "50%",
-                                        background: "#1890ff",
-                                        color: "#fff",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        fontWeight: "700",
-                                        fontSize: "18px",
-                                    }}
+                                    className={styles.groupAvatar}
                                 >
                                     {getInitial(group?.friendlyName)}
                                 </div>
@@ -583,7 +572,7 @@ export default function Messages() {
 
                     {/* ================= USERS LIST ================= */}
                     {usersLoading ? (
-                        <p style={{ padding: "10px" }}>
+                        <p className={styles.infoText}>
                             Loading...
                         </p>
                     ) : filteredUsers?.length > 0 ? (
@@ -623,22 +612,7 @@ export default function Messages() {
                                             alt="user"
                                         />
                                     ) : (
-                                        <div
-                                            style={{
-                                                width: "45px",
-                                                height: "45px",
-                                                borderRadius: "50%",
-                                                background:
-                                                    "#ff4d4f",
-                                                color: "#fff",
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent:
-                                                    "center",
-                                                fontWeight: "700",
-                                                fontSize: "18px",
-                                            }}
-                                        >
+                                        <div className={styles.userAvatar}>
                                             {getInitial(
                                                 u?.fullname
                                             )}
@@ -656,7 +630,7 @@ export default function Messages() {
                             );
                         })
                     ) : (
-                        <p style={{ padding: "10px" }}>
+                        <p className={styles.infoText}>
                             No users found
                         </p>
                     )}
@@ -778,38 +752,16 @@ ${isMine
                                                     ? styles.myMessageRow
                                                     : ""
                                                 }`}
-                                            style={{
-                                                justifyContent: isMine
-                                                    ? "flex-end"
-                                                    : "flex-start",
-                                            }}
                                         >
                                             {!isMine && showAvatar && (
                                                 <div
-                                                    style={{
-                                                        width: "35px",
-                                                        height: "35px",
-                                                        borderRadius: "50%",
-                                                        overflow: "hidden",
-                                                        background: "#999",
-                                                        color: "#fff",
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        justifyContent: "center",
-                                                        fontWeight: "700",
-                                                        flexShrink: 0,
-                                                        marginRight: "8px",
-                                                    }}
+                                                    className={styles.messageAvatarLeft}
                                                 >
                                                     {otherImage ? (
                                                         <img
                                                             src={otherImage}
                                                             alt="user"
-                                                            style={{
-                                                                width: "100%",
-                                                                height: "100%",
-                                                                objectFit: "cover",
-                                                            }}
+                                                            className={styles.avatarImage}
                                                         />
                                                     ) : (
                                                         getInitial(
@@ -833,33 +785,14 @@ ${isMine
 
                                             {isMine && (
                                                 <div
-                                                    style={{
-                                                        width: "35px",
-                                                        height: "35px",
-                                                        borderRadius: "50%",
-                                                        overflow: "hidden",
-                                                        background: "#ff4d4f",
-                                                        color: "#fff",
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        justifyContent: "center",
-                                                        fontWeight: "700",
-                                                        flexShrink: 0,
-                                                        marginLeft: "8px",
-                                                        visibility: showAvatar
-                                                            ? "visible"
-                                                            : "hidden",
-                                                    }}
+                                                    className={`${styles.messageAvatarRight} ${!showAvatar ? styles.hiddenAvatar : ""
+                                                        }`}
                                                 >
                                                     {myImage ? (
                                                         <img
                                                             src={myImage}
                                                             alt="me"
-                                                            style={{
-                                                                width: "100%",
-                                                                height: "100%",
-                                                                objectFit: "cover",
-                                                            }}
+                                                            className={styles.avatarImage}
                                                         />
                                                     ) : (
                                                         getInitial(user?.fullname)
