@@ -21,7 +21,7 @@ import {
     sendMessage,
     getChatUsers,
     createConversation,
-    deleteConversation 
+    deleteConversation
 } from "../../apis/api";
 
 import styles from "./Messages.module.scss";
@@ -64,7 +64,7 @@ export default function Messages() {
     const [twilioClient, setTwilioClient] =
         useState(null);
 
-    const [twilioConversations, setTwilioConversations] = useState([]);
+    // const [twilioConversations, setTwilioConversations] = useState([]);
 
     const messageEndRef = useRef(null);
 
@@ -147,13 +147,13 @@ export default function Messages() {
         // নিজের user remove
         return allUsers.filter(
             (u) =>
-                u._id !== currentUserId
+                String(u._id) !== String(currentUserId)
         );
     }, [
         usersData,
         currentUserId,
     ]);
-    
+
 
     /* ================= CONVERSATIONS ================= */
     const {
@@ -213,55 +213,55 @@ export default function Messages() {
         });
 
 
-        const deleteConversationMutation = useMutation({
-    mutationFn: async (conversationSid) => {
-        return await deleteConversation(conversationSid);
-    },
+    const deleteConversationMutation = useMutation({
+        mutationFn: async (conversationSid) => {
+            return await deleteConversation(conversationSid);
+        },
 
-    onSuccess: () => {
-        // sidebar refresh
-        queryClient.invalidateQueries({
-            queryKey: ["user-conversations", currentUserId],
-        });
+        onSuccess: () => {
+            // sidebar refresh
+            queryClient.invalidateQueries({
+                queryKey: ["user-conversations", currentUserId],
+            });
 
-        // if deleted chat was open
-        setSelectedConversation(null);
-        setAllMessages([]);
-    },
-});
+            // if deleted chat was open
+            setSelectedConversation(null);
+            setAllMessages([]);
+        },
+    });
 
     /* ================= SELECT USER ================= */
     const handleSelectUser = async (
         selectedUserData
     ) => {
-        setSelectedUser(
-            selectedUserData
-        );
 
         // Existing conversation check
         const existingConversation =
             conversations.find(
                 (conv) =>
+                    !conv?.isGroup &&
                     conv?.participants?.some(
                         (p) =>
-                            p ===
-                            selectedUserData._id ||
-                            p?._id ===
-                            selectedUserData._id
+                            String(p?._id || p) ===
+                            String(selectedUserData._id)
                     )
             );
 
-        if (
-            existingConversation
-        ) {
+        // ✅ existing
+        if (existingConversation) {
+
             setSelectedConversation(
                 existingConversation
+            );
+
+            setSelectedUser(
+                selectedUserData
             );
 
             return;
         }
 
-        // Create new conversation
+        // ✅ create new
         createConversationMutation.mutate(
             {
                 friendlyName:
@@ -273,6 +273,21 @@ export default function Messages() {
                 ],
 
                 isGroup: false,
+            },
+            {
+                onSuccess: (data) => {
+
+                    const newConversation =
+                        data?.conversation;
+
+                    setSelectedConversation(
+                        newConversation
+                    );
+
+                    setSelectedUser(
+                        selectedUserData
+                    );
+                },
             }
         );
     };
@@ -311,59 +326,34 @@ export default function Messages() {
     }, [messageData]);
 
     /* ================= REALTIME ================= */
-   useEffect(() => {
-    if (!twilioClient) return;
-
-    const handleNewMessage = (message) => {
-        const convoSid = message?.conversation?.sid;
-
-        if (
-            convoSid !==
-            selectedConversation?.twilioConversationSid
-        ) {
-            return;
-        }
-
-        setAllMessages((prev) => [...prev, message]);
-    };
-
-    twilioClient.on("messageAdded", handleNewMessage);
-
-    return () => {
-        twilioClient.removeListener(
-            "messageAdded",
-            handleNewMessage
-        );
-    };
-}, [twilioClient, selectedConversation]);
-
-    //last message show -------------------------------------------
-
     useEffect(() => {
         if (!twilioClient) return;
 
-        const loadConversations = async () => {
-            const convoList = await twilioClient.getSubscribedConversations();
+        const handleNewMessage = (message) => {
+            const convoSid = message?.conversation?.sid;
 
-            const formatted = await Promise.all(
-                convoList.items.map(async (conv) => {
-                    const msgs = await conv.getMessages(1);
+            if (
+                convoSid !==
+                selectedConversation?.twilioConversationSid
+            ) {
+                return;
+            }
 
-                    return {
-                        sid: conv.sid,
-                        friendlyName: conv.friendlyName,
-                        isGroup: conv.uniqueName?.includes("group"),
-                        lastMessage:
-                            msgs.items?.[0]?.body || "No messages yet",
-                    };
-                })
-            );
-
-            setTwilioConversations(formatted);
+            setAllMessages((prev) => [...prev, message]);
         };
 
-        loadConversations();
-    }, [twilioClient]);
+        twilioClient.on("messageAdded", handleNewMessage);
+
+        return () => {
+            twilioClient.removeListener(
+                "messageAdded",
+                handleNewMessage
+            );
+        };
+    }, [twilioClient, selectedConversation]);
+
+    //last message show -------------------------------------------
+
 
     /* ================= SCROLL ================= */
     useEffect(() => {
@@ -389,10 +379,23 @@ export default function Messages() {
                 );
             },
 
-            onSuccess: () => {
+            onSuccess: async () => {
+
                 setMessageText("");
 
-                refetchMessages();
+                // refresh current chat
+                await refetchMessages();
+
+                // refresh sidebar last message
+                await refetchConversations();
+
+                // optional extra safe refresh
+                queryClient.invalidateQueries({
+                    queryKey: [
+                        "user-conversations",
+                        currentUserId,
+                    ],
+                });
             },
         });
 
@@ -481,6 +484,14 @@ export default function Messages() {
     }, [users, searchText]);
 
     /* ================= GET INITIAL ================= */
+    const selectedConversationUser =
+        selectedConversation?.participants?.find(
+            (p) =>
+                String(p?._id || p) !==
+                String(currentUserId)
+        );
+
+    /* ================= GET INITIAL ================= */
     const getInitial = (
         name
     ) => {
@@ -520,122 +531,118 @@ export default function Messages() {
 
                 {/* CHAT LIST */}
                 <div className={styles.chatList}>
-                    {twilioConversations?.map((conv) => (
-                        <div
-                            key={conv.sid}
-                            className={styles.chatItem}
-                            onClick={() => setSelectedConversation(conv)}
-                        >
+                    {/* ================= CONVERSATIONS (GROUP + CHAT) ================= */}
+                    {conversations
+                        ?.filter((conv) => conv?.isGroup)
+                        ?.map((group) => (
                             <div
-                                style={{
-                                    width: "45px",
-                                    height: "45px",
-                                    borderRadius: "50%",
-                                    background: conv.isGroup ? "#1890ff" : "#ff4d4f",
-                                    color: "#fff",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    fontWeight: "700",
+                                key={group._id}
+                                className={styles.chatItem}
+                                onClick={() => {
+                                    setSelectedConversation(group);
+                                    setSelectedUser(null);
                                 }}
                             >
-                                {getInitial(conv.friendlyName)}
-                            </div>
-
-                            <div className={styles.chatInfo}>
-                                <h4>{conv.friendlyName}</h4>
-                                <p>{conv.lastMessage}</p>
-                            </div>
-                        </div>
-                    ))}
-                    {/* ================= CONVERSATIONS (GROUP + CHAT) ================= */}
-                    {conversations?.map((conv) => {
-                        const isGroup = conv?.isGroup;
-
-                        const lastMsg =
-                            conv?.lastMessage?.body ||
-                            conv?.lastMessage ||
-                            "No messages yet";
-
-                        return (
-                            <div
-                                key={conv._id}
-                                className={styles.chatItem}
-                                onClick={() =>
-                                    setSelectedConversation(conv)
-                                }
-                            >
-                                {/* AVATAR */}
                                 <div
                                     style={{
                                         width: "45px",
                                         height: "45px",
                                         borderRadius: "50%",
-                                        background: isGroup
-                                            ? "#1890ff"
-                                            : "#ff4d4f",
+                                        background: "#1890ff",
                                         color: "#fff",
                                         display: "flex",
                                         alignItems: "center",
                                         justifyContent: "center",
                                         fontWeight: "700",
-                                        fontSize: "16px",
+                                        fontSize: "18px",
                                     }}
                                 >
-                                    {getInitial(conv?.friendlyName)}
+                                    {getInitial(group?.friendlyName)}
                                 </div>
 
-                                {/* INFO */}
                                 <div className={styles.chatInfo}>
-                                    <h4>{conv?.friendlyName}</h4>
-                                    <p>{lastMsg}</p>
-                                </div>
-                            </div>
-                        );
-                    })}
+                                    <h4>
+                                        {group?.friendlyName}
+                                    </h4>
 
-                    {/* ================= USERS LIST ================= */}
-                    {usersLoading ? (
-                        <p style={{ padding: "10px" }}>Loading...</p>
-                    ) : filteredUsers?.length > 0 ? (
-                        filteredUsers.map((u) => (
-                            <div
-                                key={u._id}
-                                className={styles.chatItem}
-                                onClick={() => handleSelectUser(u)}
-                            >
-                                {/* USER IMAGE / LETTER */}
-                                {u?.image ? (
-                                    <img src={u.image} alt="user" />
-                                ) : (
-                                    <div
-                                        style={{
-                                            width: "45px",
-                                            height: "45px",
-                                            borderRadius: "50%",
-                                            background: "#ff4d4f",
-                                            color: "#fff",
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            fontWeight: "700",
-                                            fontSize: "18px",
-                                        }}
-                                    >
-                                        {getInitial(u?.fullname)}
-                                    </div>
-                                )}
-
-                                <div className={styles.chatInfo}>
-                                    <h4>{u.fullname}</h4>
-
-                                    {/* EMAIL → fallback if no lastMessage */}
                                     <p>
-                                        {u.email || "No message yet"}
+                                        {group?.lastMessage ||
+                                            "No messages yet"}
                                     </p>
                                 </div>
                             </div>
-                        ))
+                        ))}
+
+                    {/* ================= USERS LIST ================= */}
+                    {usersLoading ? (
+                        <p style={{ padding: "10px" }}>
+                            Loading...
+                        </p>
+                    ) : filteredUsers?.length > 0 ? (
+                        filteredUsers.map((u) => {
+
+                            const existingConversation =
+                                conversations.find(
+                                    (conv) =>
+                                        !conv?.isGroup &&
+                                        conv?.participants?.some(
+                                            (p) =>
+                                                String(p?._id || p) ===
+                                                String(u._id)
+                                        )
+                                );
+
+                            const lastMsg =
+                                existingConversation?.lastMessage ||
+                                u.email;
+
+                            return (
+                                <div
+                                    key={u._id}
+                                    className={styles.chatItem}
+                                    onClick={() =>
+                                        handleSelectUser(u)
+                                    }
+                                >
+                                    {/* USER IMAGE / LETTER */}
+                                    {u?.image ? (
+                                        <img
+                                            src={u.image}
+                                            alt="user"
+                                        />
+                                    ) : (
+                                        <div
+                                            style={{
+                                                width: "45px",
+                                                height: "45px",
+                                                borderRadius: "50%",
+                                                background:
+                                                    "#ff4d4f",
+                                                color: "#fff",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent:
+                                                    "center",
+                                                fontWeight: "700",
+                                                fontSize: "18px",
+                                            }}
+                                        >
+                                            {getInitial(
+                                                u?.fullname
+                                            )}
+                                        </div>
+                                    )}
+
+                                    <div
+                                        className={styles.chatInfo}
+                                    >
+                                        <h4>{u.fullname}</h4>
+
+                                        <p>{lastMsg}</p>
+                                    </div>
+                                </div>
+                            );
+                        })
                     ) : (
                         <p style={{ padding: "10px" }}>
                             No users found
@@ -659,10 +666,10 @@ export default function Messages() {
                                     styles.userInfo
                                 }
                             >
-                                {selectedUser?.image ? (
+                                {selectedConversationUser?.image ? (
                                     <img
                                         src={
-                                            selectedUser?.image
+                                            selectedConversationUser?.image
                                         }
                                         alt="user"
                                     />
@@ -692,7 +699,9 @@ export default function Messages() {
                                         }}
                                     >
                                         {getInitial(
-                                            selectedUser?.fullname
+                                            selectedConversation?.isGroup
+                                                ? selectedConversation?.friendlyName
+                                                : selectedConversationUser?.fullname
                                         )}
                                     </div>
                                 )}
@@ -700,7 +709,9 @@ export default function Messages() {
                                 <div>
                                     <h3>
                                         {
-                                            selectedUser?.fullname
+                                            selectedConversation?.isGroup
+                                                ? selectedConversation?.friendlyName
+                                                : selectedConversationUser?.fullname
                                         }
                                     </h3>
 
@@ -765,7 +776,9 @@ export default function Messages() {
                                                     }}
                                                 >
                                                     {getInitial(
-                                                        selectedUser?.fullname
+                                                        selectedConversation?.isGroup
+                                                            ? selectedConversation?.friendlyName
+                                                            : selectedConversationUser?.fullname
                                                     )}
                                                 </div>
                                             )}
