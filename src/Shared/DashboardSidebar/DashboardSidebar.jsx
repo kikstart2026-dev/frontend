@@ -9,8 +9,14 @@ export default function DashboardSidebar() {
   return (
     <div className={styles.sidebar}>
       <div className="d-flex align-items-center">
-           <img src={kiklogo} alt="logo" className={styles.logo} />
-       </div>
+        <NavLink to="/">
+          <img
+            src={kiklogo}
+            alt="logo"
+            className={styles.logo}
+          />
+        </NavLink>
+      </div>
 
       <nav>
         <NavLink to="/dashboard">
