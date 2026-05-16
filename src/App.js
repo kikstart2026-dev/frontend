@@ -39,6 +39,8 @@ import SchoolDetails from "./Pages/FormDetails/SchoolDetails/SchoolDetails";
 // import FormParas from "./Component/FormPara/FormParas";
 import WaiverAcceptance from "./Pages/FormDetails/WaiverAcceptance/WaiverAcceptance";
 import ProgramDetailss from "./Pages/FormDetails/ProgramDetailss/ProgramDetailss";
+import ChildrenProfile from "./Component/ChildrenProfile/ChildrenProfile";
+
 
 // ================= PROTECTED ROUTE =================
 function ProtectedRoute({ children }) {
@@ -167,6 +169,7 @@ function Layout() {
 
         <Route path="/ChildrenDetailsForm" element={<ChildrenDetailsForm />} />
         <Route path="/SchoolDetailsForm" element={<SchoolDetails />} />
+        <Route path="/children" element={<ChildrenProfile />} />
       </Routes>
 
       {!isAuthPage && <Footer />}
