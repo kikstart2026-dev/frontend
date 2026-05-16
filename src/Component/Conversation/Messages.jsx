@@ -754,59 +754,118 @@ export default function Messages() {
                                         msg?.author ===
                                         currentUserId;
 
+                                    const prevMsg =
+                                        allMessages[index + 1];
+
+                                    const showAvatar =
+                                        !prevMsg ||
+                                        prevMsg.author !== msg.author;
+                                    const myImage =
+                                        user?.image ||
+                                        user?.profileImage;
+
+                                    const otherImage =
+                                        selectedConversationUser?.image ||
+                                        selectedConversationUser?.profileImage;
+
                                     return (
                                         <div
                                             key={
                                                 index
                                             }
-                                            className={`${styles.messageRow
-                                                } ${isMine
+                                            className={`${styles.messageRow}
+${isMine
                                                     ? styles.myMessageRow
                                                     : ""
                                                 }`}
+                                            style={{
+                                                justifyContent: isMine
+                                                    ? "flex-end"
+                                                    : "flex-start",
+                                            }}
                                         >
-                                            {!isMine && (
+                                            {!isMine && showAvatar && (
                                                 <div
                                                     style={{
-                                                        width:
-                                                            "35px",
-                                                        height:
-                                                            "35px",
-                                                        borderRadius:
-                                                            "50%",
-                                                        background:
-                                                            "#999",
-                                                        color:
-                                                            "#fff",
-                                                        display:
-                                                            "flex",
-                                                        alignItems:
-                                                            "center",
-                                                        justifyContent:
-                                                            "center",
-                                                        fontWeight:
-                                                            "700",
+                                                        width: "35px",
+                                                        height: "35px",
+                                                        borderRadius: "50%",
+                                                        overflow: "hidden",
+                                                        background: "#999",
+                                                        color: "#fff",
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        fontWeight: "700",
+                                                        flexShrink: 0,
+                                                        marginRight: "8px",
                                                     }}
                                                 >
-                                                    {getInitial(
-                                                        selectedConversation?.isGroup
-                                                            ? selectedConversation?.friendlyName
-                                                            : selectedConversationUser?.fullname
+                                                    {otherImage ? (
+                                                        <img
+                                                            src={otherImage}
+                                                            alt="user"
+                                                            style={{
+                                                                width: "100%",
+                                                                height: "100%",
+                                                                objectFit: "cover",
+                                                            }}
+                                                        />
+                                                    ) : (
+                                                        getInitial(
+                                                            selectedConversation?.isGroup
+                                                                ? selectedConversation?.friendlyName
+                                                                : selectedConversationUser?.fullname
+                                                        )
                                                     )}
                                                 </div>
                                             )}
 
                                             <div
-                                                className={`${styles.messageBubble
-                                                    } ${isMine
+                                                className={`${styles.messageBubble}
+    ${isMine
                                                         ? styles.myBubble
                                                         : styles.otherBubble
                                                     }`}
                                             >
-                                                {
-                                                    msg?.body
-                                                }
+                                                {msg.body}
                                             </div>
+
+                                            {isMine && (
+                                                <div
+                                                    style={{
+                                                        width: "35px",
+                                                        height: "35px",
+                                                        borderRadius: "50%",
+                                                        overflow: "hidden",
+                                                        background: "#ff4d4f",
+                                                        color: "#fff",
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        fontWeight: "700",
+                                                        flexShrink: 0,
+                                                        marginLeft: "8px",
+                                                        visibility: showAvatar
+                                                            ? "visible"
+                                                            : "hidden",
+                                                    }}
+                                                >
+                                                    {myImage ? (
+                                                        <img
+                                                            src={myImage}
+                                                            alt="me"
+                                                            style={{
+                                                                width: "100%",
+                                                                height: "100%",
+                                                                objectFit: "cover",
+                                                            }}
+                                                        />
+                                                    ) : (
+                                                        getInitial(user?.fullname)
+                                                    )}
+                                                </div>
+                                            )}
                                         </div>
                                     );
                                 }
