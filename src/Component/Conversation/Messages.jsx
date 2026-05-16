@@ -183,34 +183,46 @@ export default function Messages() {
         [];
 
     /* ================= CREATE CONVERSATION ================= */
-    const createConversationMutation =
-        useMutation({
-            mutationFn:
-                async (payload) => {
-                    const res =
-                        await createConversation(
-                            payload
-                        );
+    /* ================= CREATE CONVERSATION ================= */
+    const {
+        mutate: createConversationMutate,
+        isPending: creatingConversation,
+    } = useMutation({
+        mutationFn: async (payload) => {
 
-                    return (
-                        res?.data || res
-                    );
-                },
+            const res =
+                await createConversation(
+                    payload
+                );
 
-            onSuccess: async (data) => {
-                const newConversation = data?.conversation;
+            return (
+                res?.data || res
+            );
+        },
 
-                setSelectedConversation(newConversation);
+        onSuccess: async (data) => {
 
-                // 🔥 IMPORTANT FIX: force query update
-                await refetchConversations();
+            const newConversation =
+                data?.conversation;
 
-                // optional but better (ensures UI refresh)
-                queryClient.invalidateQueries({
-                    queryKey: ["user-conversations", currentUserId],
-                });
-            },
-        });
+            if (newConversation) {
+
+                setSelectedConversation(
+                    newConversation
+                );
+            }
+
+            // refresh sidebar
+            await refetchConversations();
+
+            queryClient.invalidateQueries({
+                queryKey: [
+                    "user-conversations",
+                    currentUserId,
+                ],
+            });
+        },
+    });
 
 
     const deleteConversationMutation = useMutation({
@@ -262,33 +274,20 @@ export default function Messages() {
         }
 
         // ✅ create new
-        createConversationMutation.mutate(
-            {
-                friendlyName:
-                    selectedUserData.fullname,
+        createConversationMutate({
+            friendlyName:
+                selectedUserData.fullname,
 
-                participants: [
-                    currentUserId,
-                    selectedUserData._id,
-                ],
+            participants: [
+                currentUserId,
+                selectedUserData._id,
+            ],
 
-                isGroup: false,
-            },
-            {
-                onSuccess: (data) => {
+            isGroup: false,
+        });
 
-                    const newConversation =
-                        data?.conversation;
-
-                    setSelectedConversation(
-                        newConversation
-                    );
-
-                    setSelectedUser(
-                        selectedUserData
-                    );
-                },
-            }
+        setSelectedUser(
+            selectedUserData
         );
     };
 
@@ -431,39 +430,38 @@ export default function Messages() {
 
 
 
-    const handleCreateGroup = () => {
-        if (!groupName || selectedGroupUsers.length === 0) {
+    const handleCreateGroup = async () => {
+
+        if (
+            !groupName.trim() ||
+            selectedGroupUsers.length === 0
+        ) {
             return;
         }
 
-        createConversationMutation.mutate(
-            {
-                friendlyName: groupName,
-                participants: [currentUserId, ...selectedGroupUsers],
-                isGroup: true,
-                groupAdmin: currentUserId,
-            },
-            {
-                onSuccess: (data) => {
-                    const newConversation =
-                        data?.conversation ||
-                        data?.data?.conversation;
+        // prevent duplicate click
+        if (creatingConversation) return;
 
-                    if (newConversation) {
-                        setSelectedConversation(newConversation);
-                    }
+        createConversationMutate({
+            friendlyName: groupName.trim(),
 
-                    setShowGroupModal(false);
-                    setGroupName("");
-                    setSelectedGroupUsers([]);
+            participants: [
+                currentUserId,
+                ...selectedGroupUsers,
+            ],
 
-                    // 🔥 IMPORTANT FIX (sidebar refresh)
-                    queryClient.invalidateQueries([
-                        "user-conversations",
-                    ]);
-                },
-            }
-        );
+            isGroup: true,
+
+            groupAdmin: currentUserId,
+        });
+
+        // close modal
+        setShowGroupModal(false);
+
+        // reset fields
+        setGroupName("");
+
+        setSelectedGroupUsers([]);
     };
     const handleSendMessage = () => {
         if (
@@ -590,6 +588,10 @@ export default function Messages() {
                         </p>
                     ) : filteredUsers?.length > 0 ? (
                         filteredUsers.map((u) => {
+                            const userImage =
+                                u?.image ||
+                                u?.profileImage ||
+                                "";
 
                             const existingConversation =
                                 conversations.find(
@@ -615,9 +617,9 @@ export default function Messages() {
                                     }
                                 >
                                     {/* USER IMAGE / LETTER */}
-                                    {u?.image ? (
+                                    {userImage ? (
                                         <img
-                                            src={u.image}
+                                            src={userImage}
                                             alt="user"
                                         />
                                     ) : (
@@ -676,7 +678,8 @@ export default function Messages() {
                                     styles.userInfo
                                 }
                             >
-                                {selectedConversationUser?.image ? (
+                                {!selectedConversation?.isGroup &&
+                                    selectedConversationUser?.image ? (
                                     <img
                                         src={
                                             selectedConversationUser?.image
@@ -962,8 +965,11 @@ export default function Messages() {
 
                             <button
                                 onClick={handleCreateGroup}
+                                disabled={creatingConversation}
                             >
-                                Create
+                                {creatingConversation
+                                    ? "Creating..."
+                                    : "Create"}
                             </button>
                         </div>
                     </div>
