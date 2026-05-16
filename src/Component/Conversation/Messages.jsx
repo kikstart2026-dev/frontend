@@ -515,27 +515,29 @@ export default function Messages() {
             {/* LEFT SIDE */}
             <div className={styles.leftSide}>
                 {/* SEARCH BOX */}
-                <div className={styles.searchBox}>
-                    <FiSearch />
+                <div className={styles.topBar}>
+                    {/* SEARCH BOX */}
+                    <div className={styles.searchBox}>
+                        <FiSearch />
 
-                    <input
-                        type="text"
-                        placeholder="Search User"
-                        value={searchText}
-                        onChange={(e) =>
-                            setSearchText(e.target.value)
-                        }
-                    />
+                        <input
+                            type="text"
+                            placeholder="Search User"
+                            value={searchText}
+                            onChange={(e) =>
+                                setSearchText(e.target.value)
+                            }
+                        />
+                    </div>
+
+                    {/* CREATE GROUP ICON */}
+                    <button
+                        className={styles.groupIconBtn}
+                        onClick={() => setShowGroupModal(true)}
+                    >
+                        <FiUsers />
+                    </button>
                 </div>
-
-                {/* CREATE GROUP BUTTON */}
-                <button
-                    className={styles.groupBtn}
-                    onClick={() => setShowGroupModal(true)}
-                >
-                    <FiUsers />
-                    Create Group
-                </button>
 
                 {/* CHAT LIST */}
                 <div className={styles.chatList}>
@@ -727,6 +729,12 @@ export default function Messages() {
                                     const isMine =
                                         msg?.author ===
                                         currentUserId;
+                                    const messageUser =
+                                        selectedConversation?.participants?.find(
+                                            (p) =>
+                                                String(p?._id || p) ===
+                                                String(msg?.author)
+                                        );
 
                                     const prevMsg =
                                         allMessages[index + 1];
@@ -739,8 +747,8 @@ export default function Messages() {
                                         user?.profileImage;
 
                                     const otherImage =
-                                        selectedConversationUser?.image ||
-                                        selectedConversationUser?.profileImage;
+                                        messageUser?.image ||
+                                        messageUser?.profileImage;
 
                                     return (
                                         <div
@@ -753,34 +761,51 @@ ${isMine
                                                     : ""
                                                 }`}
                                         >
-                                            {!isMine && showAvatar && (
+
+                                            {!isMine && (
                                                 <div
-                                                    className={styles.messageAvatarLeft}
+                                                    className={`${styles.messageAvatarLeft} ${!showAvatar ? styles.hiddenAvatar : ""
+                                                        }`}
                                                 >
-                                                    {otherImage ? (
-                                                        <img
-                                                            src={otherImage}
-                                                            alt="user"
-                                                            className={styles.avatarImage}
-                                                        />
-                                                    ) : (
-                                                        getInitial(
-                                                            selectedConversation?.isGroup
-                                                                ? selectedConversation?.friendlyName
-                                                                : selectedConversationUser?.fullname
-                                                        )
-                                                    )}
+                                                    {showAvatar &&
+                                                        (otherImage ? (
+                                                            <img
+                                                                src={otherImage}
+                                                                alt="user"
+                                                                className={styles.avatarImage}
+                                                            />
+                                                        ) : (
+                                                            getInitial(
+                                                                messageUser?.fullname
+                                                            )
+                                                        ))}
                                                 </div>
                                             )}
 
-                                            <div
-                                                className={`${styles.messageBubble}
-    ${isMine
-                                                        ? styles.myBubble
-                                                        : styles.otherBubble
-                                                    }`}
-                                            >
-                                                {msg.body}
+                                            <div className={styles.messageContent}>
+
+                                                {selectedConversation?.isGroup &&
+                                                    showAvatar && (
+                                                        <p
+                                                            className={`${styles.groupSenderName}
+                ${isMine ? styles.mySenderName : ""}`}
+                                                        >
+                                                            {isMine
+                                                                ? "You"
+                                                                : messageUser?.fullname}
+                                                        </p>
+                                                    )}
+
+                                                <div
+                                                    className={`${styles.messageBubble}
+        ${isMine
+                                                            ? styles.myBubble
+                                                            : styles.otherBubble
+                                                        }`}
+                                                >
+                                                    {msg.body}
+                                                </div>
+
                                             </div>
 
                                             {isMine && (
