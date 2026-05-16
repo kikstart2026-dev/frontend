@@ -102,11 +102,9 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background: linear-gradient(
-      180deg,
-      rgba(180, 180, 180, 0.45),
-      rgba(140, 140, 140, 0.28)
-    );
+    background: linear-gradient(180deg,
+        rgba(180, 180, 180, 0.45),
+        rgba(140, 140, 140, 0.28));
 
     border-radius: 999px;
     border: 1px solid rgba(255, 255, 255, 0.25);
@@ -117,11 +115,9 @@
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(
-      180deg,
-      rgba(150, 150, 150, 0.7),
-      rgba(120, 120, 120, 0.5)
-    );
+    background: linear-gradient(180deg,
+        rgba(150, 150, 150, 0.7),
+        rgba(120, 120, 120, 0.5));
   }
 }
 
@@ -153,19 +149,33 @@
   border: 1px solid #ffbdbd;
 }
 
+
+
 .chatInfo {
+  flex: 1;
+  min-width: 0;
+
   h4 {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
+    color: #111;
     margin-bottom: 4px;
-    color: #222;
   }
 
   p {
-    font-size: 13px;
-    color: #888;
+    font-size: 14px;
+    color: #7a7a7a;
+
+    /* IMPORTANT */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    width: 100%;
+    max-width: 220px;
   }
 }
+
 
 /* RIGHT SIDE */
 .rightSide {
@@ -393,7 +403,7 @@
 }
 
 .messageAvatarLeft {
-   margin-top: 2px;
+  margin-top: 2px;
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -409,7 +419,7 @@
 }
 
 .messageAvatarRight {
-   margin-top: 2px;
+  margin-top: 2px;
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -465,6 +475,7 @@
   align-items: center;
   gap: 10px;
 }
+
 /* SEND BUTTON */
 // .messageInputBox button {
 //   width: 46px;
@@ -522,6 +533,7 @@
     transform: scale(0.85);
     opacity: 0;
   }
+
   to {
     transform: scale(1);
     opacity: 1;
@@ -552,16 +564,16 @@
   }
 }
 
-.sendMsg{
-     background-color: red;
-    padding: 15px;
-    display: flex;
-    align-items: center;
-    border-radius: 50%;
-    justify-content: center;
-    border: none;
-    color: white;
-    font-size: 20px;
+.sendMsg {
+  background-color: red;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  justify-content: center;
+  border: none;
+  color: white;
+  font-size: 20px;
 }
 
 /* MODAL */
@@ -739,6 +751,7 @@
     }
   }
 }
+
 .otherMessageRow {
   justify-content: flex-start;
 }
