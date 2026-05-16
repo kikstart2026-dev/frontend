@@ -41,7 +41,10 @@ export default function AuthLeft({ comment, linkName }) {
       });
 
       // ✅ Save user info
-      localStorage.setItem("verifyEmail", user.email);
+        localStorage.setItem(
+          "user",
+          JSON.stringify(user)
+        );
 
       navigate("/");
     },
