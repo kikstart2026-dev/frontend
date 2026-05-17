@@ -547,7 +547,10 @@ export default function Messages() {
                         ?.map((group) => (
                             <div
                                 key={group._id}
-                                className={styles.chatItem}
+                                className={`${styles.chatItem} ${selectedConversation?._id === group?._id
+                                        ? styles.activeChat
+                                        : ""
+                                    }`}
                                 onClick={() => {
                                     setSelectedConversation(group);
                                     setSelectedUser(null);
