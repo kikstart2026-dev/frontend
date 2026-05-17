@@ -200,3 +200,24 @@ input[type="number"] {
 .locationBtn:focus {
     outline: none;
 }
+
+.selectField {
+ 
+  padding: 0 15px;
+  font-size: 16px;
+  text-align: left;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+  border: none;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.selectWrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}

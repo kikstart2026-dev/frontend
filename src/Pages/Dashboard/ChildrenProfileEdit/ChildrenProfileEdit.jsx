@@ -190,25 +190,37 @@ const ChildrenEdit = () => {
 
                     <div className={styles.card}>
                         <label>Allergy</label>
-                        <input
-                            value={
-                                data.allergy === true
-                                    ? "Yes"
-                                    : data.allergy === false
-                                        ? "No"
-                                        : ""
-                            }
-                            onChange={(e) =>
-                                handleChange(
-                                    "allergy",
-                                    e.target.value.toLowerCase() === "yes"
-                                )
-                            }
-                        />
+
+                        <div className={styles.selectWrapper}>
+                            <select
+                                className={styles.selectField}
+                                value={
+                                    data.allergy === true
+                                        ? "yes"
+                                        : "no"
+                                }
+                                onChange={(e) => {
+
+                                    const value = e.target.value === "yes";
+
+                                    handleChange("allergy", value);
+
+                                    if (!value) {
+                                        handleChange("allergyDetails", "N/A");
+                                    } else {
+                                        handleChange("allergyDetails", "");
+                                    }
+                                }}
+                            >
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div className={styles.card}>
                         <label>Allergy Details</label>
+
                         <input
                             value={
                                 data.allergy

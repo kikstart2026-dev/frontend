@@ -8,8 +8,17 @@
 
 .firstPara {
   max-width: 540px;
+  
 }
 
 .secondPara {
   max-width: 580px;
 }
+
+.firstPara p{
+  word-break: break-word;
+}
+.secondPara p{
+  word-break: break-word;
+}
+
