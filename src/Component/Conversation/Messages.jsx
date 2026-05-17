@@ -68,6 +68,10 @@ export default function Messages() {
 
     const messageEndRef = useRef(null);
 
+    const inputRef = useRef(null);
+
+    const emojiPickerRef = useRef(null);
+
 
 
     const [showEmojiPicker, setShowEmojiPicker] =
@@ -362,6 +366,33 @@ export default function Messages() {
     ]);
 
     //last message show -------------------------------------------
+    useEffect(() => {
+
+        const handleClickOutside = (event) => {
+
+            if (
+                emojiPickerRef.current &&
+                !emojiPickerRef.current.contains(
+                    event.target
+                )
+            ) {
+                setShowEmojiPicker(false);
+            }
+        };
+
+        document.addEventListener(
+            "mousedown",
+            handleClickOutside
+        );
+
+        return () => {
+            document.removeEventListener(
+                "mousedown",
+                handleClickOutside
+            );
+        };
+
+    }, []);
 
 
     /* ================= SCROLL ================= */
@@ -410,9 +441,15 @@ export default function Messages() {
 
 
     const handleEmojiClick = (emojiData) => {
+
         setMessageText(
             (prev) => prev + emojiData.emoji
         );
+
+        // focus back to input
+        setTimeout(() => {
+            inputRef.current?.focus();
+        }, 0);
     };
 
     const handleSelectGroupUser = (id) => {
@@ -464,11 +501,15 @@ export default function Messages() {
         setSelectedGroupUsers([]);
     };
     const handleSendMessage = () => {
+
         if (
             !messageText.trim() ||
             !selectedConversation
         )
             return;
+
+        // close emoji picker
+        setShowEmojiPicker(false);
 
         sendMessageMutation.mutate({
             conversationSid:
@@ -548,8 +589,8 @@ export default function Messages() {
                             <div
                                 key={group._id}
                                 className={`${styles.chatItem} ${selectedConversation?._id === group?._id
-                                        ? styles.activeChat
-                                        : ""
+                                    ? styles.activeChat
+                                    : ""
                                     }`}
                                 onClick={() => {
                                     setSelectedConversation(group);
@@ -850,7 +891,10 @@ ${isMine
                             }
                         >
 
-                            <div className={styles.emojiWrapper}>
+                            <div
+                                className={styles.emojiWrapper}
+                                ref={emojiPickerRef}
+                            >
                                 <button
                                     type="button"
                                     onClick={() =>
@@ -877,6 +921,7 @@ ${isMine
                                 )}
                             </div>
                             <input
+                                ref={inputRef}
                                 type="text"
                                 placeholder="Type a message..."
                                 value={
@@ -888,13 +933,15 @@ ${isMine
                                             .value
                                     )
                                 }
-                                onKeyDown={(
-                                    e
-                                ) => {
-                                    if (
-                                        e.key ===
-                                        "Enter"
-                                    ) {
+                                onKeyDown={(e) => {
+
+                                    // emoji picker open thakle enter ignore
+                                    // if (showEmojiPicker) return;
+
+                                    if (e.key === "Enter") {
+
+                                        e.preventDefault();
+
                                         handleSendMessage();
                                     }
                                 }}
