@@ -594,6 +594,9 @@ export default function Messages() {
                                                 String(u._id)
                                         )
                                 );
+                            const isActive =
+                                selectedConversation?._id ===
+                                existingConversation?._id;
 
                             const lastMsg =
                                 existingConversation?.lastMessage ||
@@ -602,7 +605,8 @@ export default function Messages() {
                             return (
                                 <div
                                     key={u._id}
-                                    className={styles.chatItem}
+                                    className={`${styles.chatItem} ${isActive ? styles.activeChat : ""
+                                        }`}
                                     onClick={() =>
                                         handleSelectUser(u)
                                     }
