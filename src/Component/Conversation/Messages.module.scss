@@ -154,18 +154,30 @@
 }
 
 .chatInfo {
+  flex: 1;
+  min-width: 0;
+
   h4 {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
+    color: #111;
     margin-bottom: 4px;
-    color: #222;
   }
 
   p {
-    font-size: 13px;
-    color: #888;
+    font-size: 14px;
+    color: #7a7a7a;
+
+    /* IMPORTANT */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    width: 100%;
+    max-width: 220px;
   }
 }
+
 
 /* RIGHT SIDE */
 .rightSide {
