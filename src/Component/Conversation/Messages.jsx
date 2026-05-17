@@ -64,9 +64,6 @@ export default function Messages() {
     const [twilioClient, setTwilioClient] =
         useState(null);
 
-
-
-    const [unreadCounts, setUnreadCounts] = useState({});
     // const [twilioConversations, setTwilioConversations] = useState([]);
 
     const messageEndRef = useRef(null);
@@ -181,91 +178,11 @@ export default function Messages() {
 
         enabled: !!currentUserId,
     });
+    const conversations =
+        conversationData?.conversations ||
+        [];
 
-
-
-    const conversations = useMemo(() => {
-
-        const allConversations =
-            conversationData?.conversations || [];
-
-        const uniqueMap = new Map();
-
-        allConversations.forEach((conv) => {
-
-            // GROUP হলে unique by conversation id
-            if (conv?.isGroup) {
-
-                uniqueMap.set(conv._id, conv);
-
-                return;
-            }
-
-            // OTHER USER
-            const otherUser =
-                conv?.participants?.find(
-                    (p) =>
-                        String(p?._id || p) !==
-                        String(currentUserId)
-                );
-
-            if (!otherUser?._id) return;
-
-            const userId =
-                String(otherUser._id);
-
-            const existing =
-                uniqueMap.get(userId);
-
-            // latest updated conversation রাখবে
-            const currentTime =
-                new Date(
-                    conv?.updatedAt ||
-                    conv?.lastMessageTime ||
-                    conv?.createdAt
-                ).getTime();
-
-            const existingTime =
-                existing
-                    ? new Date(
-                        existing?.updatedAt ||
-                        existing?.lastMessageTime ||
-                        existing?.createdAt
-                    ).getTime()
-                    : 0;
-
-            if (
-                !existing ||
-                currentTime > existingTime
-            ) {
-                uniqueMap.set(userId, conv);
-            }
-        });
-
-        return Array.from(
-            uniqueMap.values()
-        ).sort((a, b) => {
-
-            const aTime = new Date(
-                a?.updatedAt ||
-                a?.lastMessageTime ||
-                a?.createdAt
-            ).getTime();
-
-            const bTime = new Date(
-                b?.updatedAt ||
-                b?.lastMessageTime ||
-                b?.createdAt
-            ).getTime();
-
-            return bTime - aTime;
-        });
-
-    }, [
-        conversationData,
-        currentUserId,
-    ]);
-
+    /* ================= CREATE CONVERSATION ================= */
     /* ================= CREATE CONVERSATION ================= */
     const {
         mutate: createConversationMutate,
@@ -401,12 +318,9 @@ export default function Messages() {
 
     useEffect(() => {
         if (messageData?.messages) {
-            const sorted = [...messageData.messages].sort(
-                (a, b) =>
-                    new Date(a.dateCreated) - new Date(b.dateCreated)
+            setAllMessages(
+                messageData.messages
             );
-
-            setAllMessages(sorted);
         }
     }, [messageData]);
 
@@ -415,57 +329,39 @@ export default function Messages() {
 
         if (!twilioClient) return;
 
-        const handleMessageAdded = async (message) => {
-            await refetchConversations();
+        const handleConversationAdded =
+            async () => {
 
-            queryClient.invalidateQueries({
-                queryKey: ["user-conversations", currentUserId],
-            });
+                await refetchConversations();
 
-            const activeSid =
-                selectedConversation?.twilioConversationSid;
-
-            const incomingSid =
-                message?.conversationSid ||
-                message?.conversation?.sid;
-
-            // 👉 যদি active chat না খোলা থাকে
-            if (activeSid === incomingSid) {
-                await refetchMessages();
-            } else {
-                // 🔥 UNREAD COUNT UPDATE
-                setUnreadCounts((prev) => {
-                    return {
-                        ...prev,
-                        [incomingSid]: (prev[incomingSid] || 0) + 1,
-                    };
+                queryClient.invalidateQueries({
+                    queryKey: [
+                        "user-conversations",
+                        currentUserId,
+                    ],
                 });
-            }
-        };
+            };
 
         twilioClient.on(
-            "messageAdded",
-            handleMessageAdded
+            "conversationAdded",
+            handleConversationAdded
         );
 
         return () => {
-
             twilioClient.removeListener(
-                "messageAdded",
-                handleMessageAdded
+                "conversationAdded",
+                handleConversationAdded
             );
         };
 
     }, [
         twilioClient,
         currentUserId,
-        selectedConversation,
-        refetchMessages,
         refetchConversations,
         queryClient,
     ]);
 
-
+    //last message show -------------------------------------------
 
 
     /* ================= SCROLL ================= */
@@ -567,68 +463,23 @@ export default function Messages() {
 
         setSelectedGroupUsers([]);
     };
+    const handleSendMessage = () => {
+        if (
+            !messageText.trim() ||
+            !selectedConversation
+        )
+            return;
 
-
-    //==============================================================
-    const handleSendMessage = async () => {
-        if (!messageText.trim() || !selectedConversation) return;
-
-        const tempMessage = {
-            body: messageText,
-            author: currentUserId,
-            dateCreated: new Date().toISOString(),
-            _temp: true,
-        };
-
-        // 🔥 OPTIMISTIC MESSAGE ADD (RIGHT PLACE)
-        setAllMessages((prev) => [...prev, tempMessage]);
-
-        setMessageText("");
-
-        // SIDEBAR INSTANT UPDATE
-        queryClient.setQueryData(
-            ["user-conversations", currentUserId],
-            (oldData) => {
-                if (!oldData?.conversations) return oldData;
-
-                const updated = oldData.conversations.map((conv) => {
-                    if (
-                        conv.twilioConversationSid ===
-                        selectedConversation.twilioConversationSid
-                    ) {
-                        return {
-                            ...conv,
-                            lastMessage: messageText,
-                            updatedAt: new Date(),
-                            lastMessageTime: new Date(),
-                        };
-                    }
-                    return conv;
-                });
-
-                updated.sort((a, b) => {
-                    const getTime = (x) =>
-                        new Date(
-                            x?.updatedAt || x?.lastMessageTime
-                        ).getTime();
-
-                    return getTime(b) - getTime(a);
-                });
-
-                return {
-                    ...oldData,
-                    conversations: updated,
-                };
-            }
-        );
-
-        // SEND MESSAGE API
         sendMessageMutation.mutate({
-            conversationSid: selectedConversation?.twilioConversationSid,
+            conversationSid:
+                selectedConversation?.twilioConversationSid,
+
             author: currentUserId,
-            message: tempMessage.body,
+
+            message: messageText,
         });
     };
+
     /* ================= FILTER USERS ================= */
     const filteredUsers = useMemo(() => {
         return users.filter((u) =>
@@ -639,7 +490,6 @@ export default function Messages() {
                 )
         );
     }, [users, searchText]);
-
 
     /* ================= GET INITIAL ================= */
     const selectedConversationUser =
@@ -691,98 +541,99 @@ export default function Messages() {
 
                 {/* CHAT LIST */}
                 <div className={styles.chatList}>
+                    {/* ================= CONVERSATIONS (GROUP + CHAT) ================= */}
+                    {conversations
+                        ?.filter((conv) => conv?.isGroup)
+                        ?.map((group) => (
+                            <div
+                                key={group._id}
+                                className={styles.chatItem}
+                                onClick={() => {
+                                    setSelectedConversation(group);
+                                    setSelectedUser(null);
+                                }}
+                            >
+                                <div
+                                    className={styles.groupAvatar}
+                                >
+                                    {getInitial(group?.friendlyName)}
+                                </div>
 
+                                <div className={styles.chatInfo}>
+                                    <h4>
+                                        {group?.friendlyName}
+                                    </h4>
+
+                                    <p>
+                                        {group?.lastMessage ||
+                                            "No messages yet"}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+
+                    {/* ================= USERS LIST ================= */}
                     {usersLoading ? (
                         <p className={styles.infoText}>
                             Loading...
                         </p>
-                    ) : conversations?.length > 0 ? (
+                    ) : filteredUsers?.length > 0 ? (
+                        filteredUsers.map((u) => {
+                            const userImage =
+                                u?.image ||
+                                u?.profileImage ||
+                                "";
 
-                        conversations.map((conv) => {
-
-                            // ================= OTHER USER =================
-                            const otherUser =
-                                conv?.participants?.find(
-                                    (p) =>
-                                        String(p?._id || p) !==
-                                        String(currentUserId)
+                            const existingConversation =
+                                conversations.find(
+                                    (conv) =>
+                                        !conv?.isGroup &&
+                                        conv?.participants?.some(
+                                            (p) =>
+                                                String(p?._id || p) ===
+                                                String(u._id)
+                                        )
                                 );
 
-                            const userImage =
-                                otherUser?.image ||
-                                otherUser?.profileImage;
+                            const lastMsg =
+                                existingConversation?.lastMessage ||
+                                u.email;
 
                             return (
                                 <div
-                                    key={conv._id}
+                                    key={u._id}
                                     className={styles.chatItem}
-                                    onClick={() => {
-
-                                        setSelectedConversation(conv);
-
-                                        if (!conv?.isGroup) {
-                                            setSelectedUser(otherUser);
-
-                                        }
-
-
-                                        // 🔥 reset unread
-                                        setUnreadCounts((prev) => ({
-                                            ...prev,
-                                            [conv.twilioConversationSid]: 0,
-                                        }));
-                                    }}
-
-
+                                    onClick={() =>
+                                        handleSelectUser(u)
+                                    }
                                 >
-
-                                    {/* GROUP AVATAR */}
-                                    {conv?.isGroup ? (
-
-                                        <div className={styles.groupAvatar}>
-                                            {getInitial(
-                                                conv?.friendlyName
-                                            )}
-                                        </div>
-
-                                    ) : userImage ? (
-
+                                    {/* USER IMAGE / LETTER */}
+                                    {userImage ? (
                                         <img
                                             src={userImage}
                                             alt="user"
                                         />
-
                                     ) : (
-
                                         <div className={styles.userAvatar}>
                                             {getInitial(
-                                                otherUser?.fullname
+                                                u?.fullname
                                             )}
                                         </div>
                                     )}
 
-                                    <div className={styles.chatInfo}>
+                                    <div
+                                        className={styles.chatInfo}
+                                    >
+                                        <h4>{u.fullname}</h4>
 
-                                        <h4>
-                                            {conv?.isGroup
-                                                ? conv?.friendlyName
-                                                : otherUser?.fullname}
-                                        </h4>
-
-                                        <p>
-                                            {conv?.lastMessage ||
-                                                "No messages yet"}
-                                        </p>
-
+                                        <p>{lastMsg}</p>
                                     </div>
                                 </div>
                             );
                         })
-
                     ) : (
-
                         <p className={styles.infoText}>
-                            No conversations found
+                            No users found
                         </p>
                     )}
                 </div>
