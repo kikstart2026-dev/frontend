@@ -476,6 +476,40 @@
   gap: 10px;
 }
 
+<<<<<<< HEAD
+=======
+.chatItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  &:hover {
+    background: #f8f8f8;
+  }
+}
+
+.activeChat {
+  background: #ffe3e6;
+  border: 1px solid #ffc7ce;
+
+  &:hover {
+    background: #ffd9de;
+  }
+
+  h4 {
+    color: #222;
+    font-weight: 700;
+  }
+
+  p {
+    color: #666;
+  }
+}
+>>>>>>> 83f58807a6371c6782c23c905aec520c0d5a70e8
 /* SEND BUTTON */
 // .messageInputBox button {
 //   width: 46px;
