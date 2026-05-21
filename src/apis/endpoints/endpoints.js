@@ -59,7 +59,8 @@ export const endpoints = {
   getSchoolById: (id) => `user/schools/${id}`,
   
   // Payment Gateway --------------------------------------->>
-  payment: "payment/kikPayment",
+  payment: "/kikPayment",
+  getAllPayments:"/all-payments",
 
   // CHILDREN PROFILE ------------------------------------->>
 
