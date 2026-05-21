@@ -1,69 +1,124 @@
-import React from 'react'
-import './NextFormPara.scss'
-import CmnHeading from '../../CmnHeading/CmnHeading'
-import Button from '../../Buttons/Button'
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from "react";
+import styles from "./NextFormPara.module.scss";
+import CmnHeading from "../../CmnHeading/CmnHeading";
+import Button from "../../Buttons/Button";
+import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
-export default function NextFormPara({ name, duration }) {
-    const navigate = useNavigate();
-    return (
-        <div>
+import {
+  getAllService,
+  getServiceById,
+} from "../../../apis/api";
 
-            <div className="para-head">
-                <h3>Program Details</h3>
-                <p>Lorem ipsum dolor sit amet consectetur</p>
-            </div>
+export default function NextFormPara({ duration }) {
+  const navigate = useNavigate();
 
-            <div className="program-info">
-                <div className="program-left">
-                    <span className="label">Program Name:</span>
-                    <span className="value">{name || "Program Name 01"}</span>
-                </div>
+  const [selectedId, setSelectedId] = useState("");
 
-                <div className="program-right">
-                    <span className="label">Program Duration:</span>
-                    <span className="value">{duration || "2 Hours"}</span>
-                </div>
-            </div>
+  // ✅ Get All Services
+  const { data: servicesData } = useQuery({
+    queryKey: ["services"],
+    queryFn: () => getAllService(),
+  });
 
-            <div className="mid">
-                <h3>Details</h3>
+  const services = servicesData?.data || [];
 
-                <CmnHeading
-                    details={
-                        <>
-                            <p className="para">
-                                Quam in non velit malesuada arcu eget id. Id ut turpis tempor semper et in nunc aliquet. Orci cras faucibus aliquam eget orci egestas. Ut congue ut amet commodo eget. Nam eu duis imperdiet morbi orci ac tellus aenean. A pharetra at sodales praesent commodo nibh. At ac lacus morbi consectetur nisi. Vel pharetra viverra hendrerit odio eu amet elementum quam dui. Tincidunt sit ac ac interdum.
-                            </p>
-                            <p className="para">
-                                Velit auctor eros egestas nunc suspendisse amet fermentum lectus. Sed tellus nulla elit proin. Sit nibh urna elit amet netus nam convallis. Diam id auctor fermentum aliquam aliquet elit in suspendisse pellentesque. Quam fusce nec enim turpis nisl. Ac nec dictumst aliquet vivamus vel orci.
-                            </p>
-                        </>
-                    }
-                    align="left"
-                />
-            </div>
+  // ✅ Default first service
+  const activeId = selectedId || services?.[0]?._id;
 
-            <div className="btns">
+  // ✅ Get Single Service By ID
+  const { data: singleServiceData } = useQuery({
+    queryKey: ["single-service", activeId],
+    queryFn: () => getServiceById(activeId),
+    enabled: !!activeId,
+  });
 
-                <div className="btn-b">
-                    <Button 
-                    text="back" 
-                    variant="dark"
-                   onClick={() => navigate("/dashboard/waiveracceptance")} 
-                     />
-                </div>
+  const serviceDetails = singleServiceData?.data;
 
-                <div className="btn-r">
-                    <Button 
-                    text="next" 
-                    variant="primary"
-                   onClick={() => navigate("/dashboard/enrolment-package")} 
-                     />
-                </div>
+  return (
+    <div className={styles.nextFormPara}>
+      <div className={styles["para-head"]}>
+        <h3>Program Details</h3>
+        <p>Lorem ipsum dolor sit amet consectetur</p>
+      </div>
 
-            </div>
+      <div className={styles["program-info"]}>
+        <div className={styles["program-left"]}>
+          <span className={styles.label}>
+            Program Name:
+          </span>
 
+          {/* ✅ Dynamic Dropdown */}
+          <select
+            className={`${styles.value} ${styles.dropdown}`}
+            value={activeId}
+            onChange={(e) =>
+              setSelectedId(e.target.value)
+            }
+          >
+            {services.map((item) => (
+              <option
+                key={item._id}
+                value={item._id}
+              >
+                {item.title}
+              </option>
+            ))}
+          </select>
         </div>
-    )
+
+        <div className={styles["program-right"]}>
+          <span className={styles.label}>
+            Program Duration:
+          </span>
+
+          <span className={styles.value}>
+            {duration || "2 Hours"}
+          </span>
+        </div>
+      </div>
+
+      <div className={styles.mid}>
+        <h3>Details</h3>
+
+        <CmnHeading
+          details={
+            <>
+              <p className={styles.para}>
+                {serviceDetails?.details2 ||
+                  "No details found"}
+              </p>
+            </>
+          }
+          align="left"
+        />
+      </div>
+
+      <div className={styles.btns}>
+        <div className={styles["btn-b"]}>
+          <Button
+            text="back"
+            variant="dark"
+            onClick={() =>
+              navigate(
+                "/dashboard/waiveracceptance"
+              )
+            }
+          />
+        </div>
+
+        <div className={styles["btn-r"]}>
+          <Button
+            text="next"
+            variant="primary"
+            onClick={() =>
+              navigate(
+                "/dashboard/enrolment-package"
+              )
+            }
+          />
+        </div>
+      </div>
+    </div>
+  );
 }

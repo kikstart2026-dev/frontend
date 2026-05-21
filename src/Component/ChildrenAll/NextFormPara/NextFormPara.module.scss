@@ -1,0 +1,98 @@
+.nextFormPara {
+  .para-head {
+    h3 {
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 26px;
+      text-transform: capitalize;
+      color: #2b2b2b;
+    }
+
+    p {
+      font-weight: 400;
+      font-size: 15px;
+      color: #494949;
+      margin: 10px 0 33px 0;
+    }
+  }
+
+  .para {
+    max-width: 579px;
+  }
+
+  .btns {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+  }
+
+  .btn-b {
+    button {
+      padding: 16px 50px !important;
+    }
+  }
+
+  .btn-r {
+    margin-left: 15px;
+
+    button {
+      padding: 16px 40px !important;
+    }
+  }
+
+  .mid {
+    h3 {
+      font-weight: 700;
+      font-size: 16px;
+      text-transform: capitalize;
+      color: #2b2b2b;
+    }
+  }
+
+  .program-info {
+    display: flex;
+    align-items: center;
+    margin: 40px 0 30px 0;
+  }
+
+  .program-left,
+  .program-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .label {
+    font-size: 14px;
+    color: #9c9c9c;
+    font-weight: 400;
+  }
+
+  .value {
+    font-size: 16px;
+    font-weight: 500;
+    color: #2b2b2b;
+  }
+
+  .program-right {
+    margin-left: 100px;
+  }
+
+.dropdown {
+  border: none;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+  color: #2b2b2b;
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+/* Selected option red */
+.dropdown option:checked {
+  background-color: #ff1e1e;
+  color: #fff;
+}}
