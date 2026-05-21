@@ -1,0 +1,215 @@
+.nextFormPara {
+  .para-head {
+    h3 {
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 26px;
+      text-transform: capitalize;
+      color: #2b2b2b;
+    }
+
+    p {
+      font-weight: 400;
+      font-size: 15px;
+      color: #494949;
+      margin: 10px 0 33px 0;
+    }
+  }
+
+  .para {
+    max-width: 579px;
+  }
+
+  .btns {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+  }
+
+  .btn-b {
+    button {
+      padding: 16px 50px !important;
+    }
+  }
+
+  .btn-r {
+    margin-left: 15px;
+
+    button {
+      padding: 16px 40px !important;
+    }
+  }
+
+  .mid {
+    h3 {
+      font-weight: 700;
+      font-size: 16px;
+      text-transform: capitalize;
+      color: #2b2b2b;
+    }
+  }
+
+  .program-info {
+    display: flex;
+    align-items: center;
+    margin: 40px 0 30px 0;
+  }
+
+  .program-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .label {
+    white-space: nowrap;
+  }
+
+
+  .program-left,
+  .program-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .label {
+    font-size: 14px;
+    color: #9c9c9c;
+    font-weight: 400;
+  }
+
+  .value {
+
+
+font-weight: 400;
+font-size: 16px;
+text-transform: capitalize;
+color: #2B2B2B;
+
+
+  }
+
+  .program-right {
+    margin-left: 100px;
+  }
+
+
+  .customDropdown {
+    position: relative;
+    top: calc(100% + 8px);
+    left: 0;
+
+    width: 100%;
+    max-width: 320px;
+
+  }
+
+
+}
+
+.dropdownHeader {
+
+  background: #fff;
+
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+gap: 6px;
+  cursor: pointer;
+  transition: 0.3s ease;
+
+
+font-weight: 400;
+font-size: 16px;
+text-transform: capitalize;
+color: #2B2B2B;
+
+
+
+  &:hover {
+    border-color: #ff4d6d;
+  }
+}
+
+.arrow {
+  font-size: 12px;
+  transition: 0.3s ease;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+
+  width: 100%;
+  max-height: 220px;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  background: #fff;
+  
+
+  padding-right: 0px; // ✅ scrollbar inside
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.08);
+
+  z-index: 999;
+
+  /* ✅ INSIDE SCROLLBAR */
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #ff4d6d;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 0px 0;
+  }
+}
+
+.dropdownItem {
+     padding: 6px;
+    cursor: pointer;
+    transition: 0.25s ease;
+    font-size: 14px;
+    font-weight: 500;
+
+  &:hover {
+    background: #ffe5ec; // ✅ light pink hover
+    color: #ff1744;
+  }
+}
+
+.active {
+  background: #ff1744; // ✅ active red
+  color: #fff;
+
+  &:hover {
+    background: #ff1744;
+    color: #fff;
+  }
+}
+
+@keyframes dropdownAnim {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
