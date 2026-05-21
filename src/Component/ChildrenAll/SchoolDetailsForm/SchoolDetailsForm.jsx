@@ -96,13 +96,7 @@ export default function SchoolDetailsForm() {
                         />
                         <label className={styles.lbl}>School Location</label>
 
-                        <button
-                            type="button"
-                            className={styles.locationBtn}
-                            onClick={handleGetLocation}
-                        >
-                            <i className="fa-solid fa-location-crosshairs"></i>
-                        </button>
+                        
                     </div>
 
                     <div className={`${styles2.btns}`}>
