@@ -1,232 +1,468 @@
-import React, { useEffect, useState } from "react";
-import styles from "./ChildrenProfile.module.scss";
-import { useNavigate, useParams } from "react-router-dom";
+import React, {
+  useEffect,
+  useState,
+} from "react";
 
-import { getAllChild } from "../../../apis/api";
+import styles from "./ChildrenProfile.module.scss";
+
+import {
+  useNavigate,
+  useParams,
+} from "react-router-dom";
+
+import {
+  getAllChild,
+} from "../../../apis/api";
 
 const ChildrenProfile = () => {
 
-    const IMAGE_BASE_URL = "http://localhost:8008";
-    const { id } = useParams();
-    const navigate = useNavigate();
-    const [children, setChildren] = useState([]);
-    const [activeChild, setActiveChild] = useState(null);
-    const [loading, setLoading] = useState(true);
+  const IMAGE_BASE_URL =
+    "http://localhost:8008";
 
-    // ================= FETCH CHILDREN =================
-    const fetchChildren = async () => {
+  const { id } =
+    useParams();
 
-        try {
+  const navigate =
+    useNavigate();
 
-            const res = await getAllChild();
+  const [children, setChildren] =
+    useState([]);
 
-            console.log("CHILD RESPONSE => ", res);
+  const [
+    activeChild,
+    setActiveChild,
+  ] = useState(null);
 
-            if (res.success) {
+  const [loading, setLoading] =
+    useState(true);
 
-                setChildren(res.data);
+  // ================= FETCH CHILDREN =================
 
-                if (res.data.length > 0) {
+  const fetchChildren =
+    async () => {
 
-                    if (id) {
+      try {
 
-                        const selectedChild = res.data.find(
-                            (child) => child._id === id
-                        );
+        const res =
+          await getAllChild();
 
-                        setActiveChild(
-                            selectedChild || res.data[0]
-                        );
+        console.log(
+          "CHILD RESPONSE => ",
+          res
+        );
 
-                    } else {
+        if (res.success) {
 
-                        setActiveChild(res.data[0]);
+          setChildren(res.data);
 
-                    }
-                }
+          if (
+            res.data.length > 0
+          ) {
+
+            if (id) {
+
+              const selectedChild =
+                res.data.find(
+                  (child) =>
+                    child._id === id
+                );
+
+              setActiveChild(
+                selectedChild ||
+                  res.data[0]
+              );
+
+            } else {
+
+              setActiveChild(
+                res.data[0]
+              );
             }
-
-        } catch (error) {
-
-            console.log("FETCH ERROR => ", error);
-
-        } finally {
-
-            setLoading(false);
-
+          }
         }
+
+      } catch (error) {
+
+        console.log(
+          "FETCH ERROR => ",
+          error
+        );
+
+      } finally {
+
+        setLoading(false);
+      }
     };
 
-    useEffect(() => {
-        fetchChildren();
-    }, []);
+  useEffect(() => {
 
+    fetchChildren();
 
-    // ================= LOADING =================
-    if (loading) {
-        return <h2>Loading...</h2>;
-    }
+  }, []);
 
+  // ================= LOADING =================
 
-    return (
-        <div className={styles.childrenProfile}>
+  if (loading) {
 
-            {/* TOP BAR */}
-            <div className={styles.topBar}>
+    return <h2>Loading...</h2>;
+  }
 
-                <div className={styles.tabs}>
+  return (
 
-                    {children.map((child) => (
+    <div
+      className={
+        styles.childrenProfile
+      }
+    >
 
-                        <button
-                            key={child._id}
-                            className={
-                                activeChild?._id === child._id
-                                    ? styles.activeTab
-                                    : ""
-                            }
-                            onClick={() => setActiveChild(child)}
-                        >
-                            {child.fullName}
-                        </button>
+      {/* ================= TOP BAR ================= */}
 
-                    ))}
+      <div className={styles.topBar}>
 
-                </div>
+        <div className={styles.tabs}>
 
-                <button
-                    className={styles.addBtn}
-                    onClick={() => navigate("/dashboard/children-details")}
-                >
-                    +ADD CHILD
-                </button>
+          {children.map((child) => (
+
+            <button
+              key={child._id}
+              className={
+                activeChild?._id ===
+                child._id
+                  ? styles.activeTab
+                  : ""
+              }
+              onClick={() =>
+                setActiveChild(
+                  child
+                )
+              }
+            >
+
+              {child.fullName}
+
+            </button>
+          ))}
+
+        </div>
+
+        <button
+          className={
+            styles.addBtn
+          }
+          onClick={() =>
+            navigate(
+              "/dashboard/children-details"
+            )
+          }
+        >
+
+          +ADD CHILD
+
+        </button>
+
+      </div>
+
+      {/* ================= MAIN CONTENT ================= */}
+
+      {activeChild && (
+
+        <div className={styles.content}>
+
+          {/* ================= LEFT ================= */}
+
+          <div
+            className={
+              styles.leftSection
+            }
+          >
+
+            {/* FULL WIDTH NAME */}
+
+            <div
+              className={
+                styles.fullWidthCard
+              }
+            >
+
+              <label>
+                Full Name
+              </label>
+
+              <p>
+                {
+                  activeChild.fullName
+                }
+              </p>
 
             </div>
 
+            {/* EMAIL + AGE */}
 
-            {/* MAIN CONTENT */}
-            {activeChild && (
+            <div className={styles.row}>
 
-                <div className={styles.content}>
+              <div
+                className={
+                  styles.card
+                }
+              >
 
-                    {/* LEFT SIDE */}
-                    <div className={styles.leftSection}>
+                <label>
+                  Email Id
+                </label>
 
-                        <div className={styles.row}>
+                <p>
+                  {activeChild.email ||
+                    "N/A"}
+                </p>
 
-                            <div className={styles.card}>
-                                <label>Full Name</label>
-                                <p>{activeChild.fullName}</p>
-                            </div>
+              </div>
 
-                            <div className={styles.card}>
-                                <label>Age</label>
-                                <p>{activeChild.age} years</p>
-                            </div>
+              <div
+                className={
+                  styles.card
+                }
+              >
 
-                        </div>
+                <label>
+                  Age
+                </label>
 
-                        <div className={styles.card}>
-                            <label>Location</label>
-                            <p>{activeChild.location}</p>
-                        </div>
+                <p>
+                  {
+                    activeChild.age
+                  }{" "}
+                  years
+                </p>
 
-                        <div className={styles.card}>
-                            <label>Food Habit</label>
-                            <p>{activeChild.foodHabit || "N/A"}</p>
-                        </div>
+              </div>
 
-                        <div className={styles.card}>
-                            <label>Have Any Type Of Allergy?</label>
-                            <p>
-                                {activeChild.allergy === true
-                                    ? "Yes"
-                                    : activeChild.allergy === false
-                                        ? "No"
-                                        : "N/A"}
-                            </p>
-                        </div>
+            </div>
 
-                        <div className={styles.card}>
-                            <label>Allergy Details</label>
-                            <p> {activeChild.allergy
-                                ? activeChild.allergyDetails || "N/A"
-                                : "N/A"}</p>
-                        </div>
+            <div
+              className={
+                styles.card
+              }
+            >
 
-                        <div className={styles.card}>
-                            <label>Any Prolong Disease</label>
-                            <p>{activeChild.prolongDisease || "N/A"}</p>
-                        </div>
+              <label>
+                Location
+              </label>
 
-                    </div>
+              <p>
+                {
+                  activeChild.location
+                }
+              </p>
 
+            </div>
 
-                    {/* RIGHT SIDE */}
-                    <div className={styles.rightSection}>
+            <div
+              className={
+                styles.card
+              }
+            >
 
-                        {/* PROFILE CARD */}
-                        <div className={styles.profileCard}>
-                            {console.log("IMAGE => ", activeChild?.profileImage)}
+              <label>
+                Food Habit
+              </label>
 
-                            <img
-                                src={
-                                    activeChild.profileImage
-                                        ? `${IMAGE_BASE_URL}${activeChild.profileImage}`
-                                        : "https://placehold.co/300x300"
-                                }
-                                alt="child"
-                            />
+              <p>
+                {activeChild.foodHabit ||
+                  "N/A"}
+              </p>
 
-                            <h3>{activeChild.fullName}</h3>
+            </div>
 
-                            <span>
-                                {activeChild.age} years old
-                            </span>
-                            <button onClick={() => navigate(`/dashboard/children-edit/${activeChild._id}`)}>
-                                Edit Profile
-                            </button>
+            <div
+              className={
+                styles.card
+              }
+            >
 
-                        </div>
+              <label>
+                Have Any Type Of
+                Allergy?
+              </label>
 
+              <p>
 
-                        {/* PAYMENT CARD */}
-                        <div className={styles.paymentCard}>
+                {activeChild.allergy ===
+                true
+                  ? "Yes"
+                  : activeChild.allergy ===
+                    false
+                  ? "No"
+                  : "N/A"}
 
-                            <div className={styles.paymentBadge}>
-                                ONETIME PAYMENT
-                            </div>
+              </p>
 
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur.
-                                Pharetra et ac vitae.
-                            </p>
+            </div>
 
-                            <hr />
+            <div
+              className={
+                styles.card
+              }
+            >
 
-                            <div className={styles.paymentBottom}>
+              <label>
+                Allergy Details
+              </label>
 
-                                <div>
-                                    <h2>$49</h2>
-                                    <span>Onetime</span>
-                                </div>
+              <p>
 
-                                <div className={styles.paid}>
-                                    ● Full paid
-                                </div>
+                {activeChild.allergy
+                  ? activeChild.allergyDetails ||
+                    "N/A"
+                  : "N/A"}
 
-                            </div>
+              </p>
 
-                        </div>
+            </div>
 
-                    </div>
+            <div
+              className={
+                styles.card
+              }
+            >
+
+              <label>
+                Any Prolong
+                Disease
+              </label>
+
+              <p>
+
+                {activeChild.prolongDisease ||
+                  "N/A"}
+
+              </p>
+
+            </div>
+
+          </div>
+
+          {/* ================= RIGHT ================= */}
+
+          <div
+            className={
+              styles.rightSection
+            }
+          >
+
+            {/* PROFILE CARD */}
+
+            <div
+              className={
+                styles.profileCard
+              }
+            >
+
+              <img
+                src={
+                  activeChild.profileImage
+                    ? `${IMAGE_BASE_URL}${activeChild.profileImage}`
+                    : "https://placehold.co/300x300"
+                }
+                alt="child"
+              />
+
+              <h3>
+                {
+                  activeChild.fullName
+                }
+              </h3>
+
+              <span>
+
+                {
+                  activeChild.age
+                }{" "}
+                years old
+
+              </span>
+
+              <button
+                onClick={() =>
+                  navigate(
+                    `/dashboard/children-edit/${activeChild._id}`
+                  )
+                }
+              >
+
+                Edit Profile
+
+              </button>
+
+            </div>
+
+            {/* PAYMENT CARD */}
+
+            <div
+              className={
+                styles.paymentCard
+              }
+            >
+
+              <div
+                className={
+                  styles.paymentBadge
+                }
+              >
+
+                ONETIME PAYMENT
+
+              </div>
+
+              <p>
+
+                Lorem ipsum dolor
+                sit amet
+                consectetur.
+                Pharetra et ac
+                vitae.
+
+              </p>
+
+              <hr />
+
+              <div
+                className={
+                  styles.paymentBottom
+                }
+              >
+
+                <div>
+
+                  <h2>$49</h2>
+
+                  <span>
+                    Onetime
+                  </span>
 
                 </div>
 
-            )}
+                <div
+                  className={
+                    styles.paid
+                  }
+                >
+
+                  ● Full paid
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
 
         </div>
-    );
+
+      )}
+
+    </div>
+  );
 };
 
 export default ChildrenProfile;

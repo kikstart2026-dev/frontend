@@ -102,18 +102,5 @@ getMessages: (conversationSid) => `message/${conversationSid}`,
 
 //chat user only
 getChatUsers: "admin/users/chat-users",
+
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
