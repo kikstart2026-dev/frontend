@@ -103,6 +103,7 @@ const ChildrenEdit = () => {
             const formData = new FormData();
 
             formData.append("fullName", data.fullName);
+            formData.append("email", data.email);
             formData.append("age", data.age);
             formData.append("location", data.location);
             formData.append("foodHabit", data.foodHabit);
@@ -148,6 +149,14 @@ const ChildrenEdit = () => {
                         <input
                             value={data.fullName || ""}
                             onChange={(e) => handleChange("fullName", e.target.value)}
+                        />
+                    </div>
+                    
+                    <div className={styles.card}>
+                        <label>Email Id</label>
+                        <input
+                            value={data.email || ""}
+                            onChange={(e) => handleChange("email", e.target.value)}
                         />
                     </div>
 

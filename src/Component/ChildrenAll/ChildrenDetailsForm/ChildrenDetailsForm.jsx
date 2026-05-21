@@ -89,6 +89,7 @@ export default function ChildrenDetailsForm() {
       const data = new FormData();
 
       data.append("fullName", formData.get("name"));
+      data.append("email", formData.get("email"));
       data.append("location", formData.get("location"));
       data.append("age", formData.get("age"));
       data.append("foodHabit", formData.get("foodHabit"));
@@ -137,6 +138,12 @@ export default function ChildrenDetailsForm() {
           <div className={styles.inputWrapper}>
             <input name="name" className={styles.inp} type="text" placeholder=" " required />
             <label className={styles.lbl}>Full Name</label>
+          </div>
+          
+          {/* Email */}
+          <div className={styles.inputWrapper}>
+            <input name="email" className={styles.inp} type="text" placeholder=" " required />
+            <label className={styles.lbl}>Email Id</label>
           </div>
 
           {/* Location */}
