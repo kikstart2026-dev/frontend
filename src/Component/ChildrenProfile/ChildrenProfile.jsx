@@ -1,33 +1,33 @@
 import React, { useState } from "react";
 import styles from "./ChildrenProfile.module.scss";
 
-// const initialChildren = [
-//   {
-//     id: 1,
-//     name: "Jane Cooper",
-//     age: "5 years",
-//     location: "Lorem ipsum is a dummy location, 99 amet",
-//     school: "Topsail elementary school",
-//     foodHabit: "Lorem ipsum dolor sit amet consectetur",
-//     allergy: "Yes",
-//     allergyDetails:
-//       "Lorem ipsum dolor sit amet consectetur. Nulla egestas cursus in in.",
-//     disease: "Lorem ipsum dolor sit",
-//     image: "https://i.pravatar.cc/150?img=12",
-//   },
-//   {
-//     id: 2,
-//     name: "John Doe",
-//     age: "6 years",
-//     location: "New York",
-//     school: "ABC School",
-//     foodHabit: "Veg",
-//     allergy: "No",
-//     allergyDetails: "None",
-//     disease: "None",
-//     image: "https://i.pravatar.cc/150?img=5",
-//   },
-// ];
+const initialChildren = [
+  {
+    id: 1,
+    name: "Jane Cooper",
+    age: "5 years",
+    location: "Lorem ipsum is a dummy location, 99 amet",
+    school: "Topsail elementary school",
+    foodHabit: "Lorem ipsum dolor sit amet consectetur",
+    allergy: "Yes",
+    allergyDetails:
+      "Lorem ipsum dolor sit amet consectetur. Nulla egestas cursus in in.",
+    disease: "Lorem ipsum dolor sit",
+    image: "https://i.pravatar.cc/150?img=12",
+  },
+  {
+    id: 2,
+    name: "John Doe",
+    age: "6 years",
+    location: "New York",
+    school: "ABC School",
+    foodHabit: "Veg",
+    allergy: "No",
+    allergyDetails: "None",
+    disease: "None",
+    image: "https://i.pravatar.cc/150?img=5",
+  },
+];
 
 export default function ChildrenProfile() {
   const [children] = useState(initialChildren);
