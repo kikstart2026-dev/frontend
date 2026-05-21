@@ -170,29 +170,28 @@ export default function ChildrenDetailsForm() {
 
           {/* PASSCODE (FIX ADDED) */}
           {/* PASSCODE */}
-<div className={`${styles.inputWrapper} ${styles.passWrapper}`}>
-  <input
-    name="passCode"
-    className={styles.inp}
-    type={showPasscode ? "text" : "password"}
-    placeholder=" "
-    required
-  />
+          <div className={`${styles.inputWrapper} ${styles.passWrapper}`}>
+            <input
+              name="passCode"
+              className={styles.inp}
+              type={showPasscode ? "text" : "password"}
+              placeholder=" "
+              required
+            />
 
-  <label className={styles.lbl}>Pass Code</label>
+            <label className={styles.lbl}>Pass Code</label>
 
-  <button
-    type="button"
-    className={styles.eyeBtn}
-    onClick={() => setShowPasscode(!showPasscode)}
-  >
-    <i
-      className={`fa-solid ${
-        showPasscode ? "fa-eye-slash" : "fa-eye"
-      }`}
-    ></i>
-  </button>
-</div>
+            <button
+              type="button"
+              className={styles.eyeBtn}
+              onClick={() => setShowPasscode(!showPasscode)}
+            >
+              <i
+                className={`fa-solid ${showPasscode ? "fa-eye-slash" : "fa-eye"
+                  }`}
+              ></i>
+            </button>
+          </div>
 
           {/* Food Habit */}
           <div className={styles.inputWrapper}>
