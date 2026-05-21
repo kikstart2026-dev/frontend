@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+
 import styles from "./NextFormPara.module.scss";
 import CmnHeading from "../../CmnHeading/CmnHeading";
 import Button from "../../Buttons/Button";
@@ -10,10 +15,18 @@ import {
   getServiceById,
 } from "../../../apis/api";
 
-export default function NextFormPara({ duration }) {
+export default function NextFormPara({
+  duration,
+}) {
   const navigate = useNavigate();
 
-  const [selectedId, setSelectedId] = useState("");
+  const [selectedId, setSelectedId] =
+    useState("");
+
+  const [isOpen, setIsOpen] =
+    useState(false);
+
+  const dropdownRef = useRef(null);
 
   // ✅ Get All Services
   const { data: servicesData } = useQuery({
@@ -24,22 +37,61 @@ export default function NextFormPara({ duration }) {
   const services = servicesData?.data || [];
 
   // ✅ Default first service
-  const activeId = selectedId || services?.[0]?._id;
+  const activeId =
+    selectedId || services?.[0]?._id;
 
   // ✅ Get Single Service By ID
-  const { data: singleServiceData } = useQuery({
-    queryKey: ["single-service", activeId],
-    queryFn: () => getServiceById(activeId),
-    enabled: !!activeId,
-  });
+  const { data: singleServiceData } =
+    useQuery({
+      queryKey: ["single-service", activeId],
+      queryFn: () =>
+        getServiceById(activeId),
+      enabled: !!activeId,
+    });
 
-  const serviceDetails = singleServiceData?.data;
+  const serviceDetails =
+    singleServiceData?.data;
+
+  // ✅ Active Service Object
+  const activeService = services.find(
+    (item) => item._id === activeId
+  );
+
+  // ✅ Outside Click Close
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(
+          e.target
+        )
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener(
+      "mousedown",
+      handleClickOutside
+    );
+
+    return () => {
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
+    };
+  }, []);
 
   return (
     <div className={styles.nextFormPara}>
       <div className={styles["para-head"]}>
         <h3>Program Details</h3>
-        <p>Lorem ipsum dolor sit amet consectetur</p>
+
+        <p>
+          Lorem ipsum dolor sit amet
+          consectetur
+        </p>
       </div>
 
       <div className={styles["program-info"]}>
@@ -48,23 +100,61 @@ export default function NextFormPara({ duration }) {
             Program Name:
           </span>
 
-          {/* ✅ Dynamic Dropdown */}
-          <select
-            className={`${styles.value} ${styles.dropdown}`}
-            value={activeId}
-            onChange={(e) =>
-              setSelectedId(e.target.value)
-            }
+          {/* ✅ Custom Dropdown */}
+          <div
+            className={styles.customDropdown}
+            ref={dropdownRef}
           >
-            {services.map((item) => (
-              <option
-                key={item._id}
-                value={item._id}
+            <div
+              className={styles.dropdownHeader}
+              onClick={() =>
+                setIsOpen(!isOpen)
+              }
+            >
+              <span>
+                {activeService?.title ||
+                  "Select Program"}
+              </span>
+
+              <span
+                className={`${styles.arrow} ${
+                  isOpen
+                    ? styles.rotate
+                    : ""
+                }`}
               >
-                {item.title}
-              </option>
-            ))}
-          </select>
+                ▼
+              </span>
+            </div>
+
+            {isOpen && (
+              <div
+                className={
+                  styles.dropdownMenu
+                }
+              >
+                {services.map((item) => (
+                  <div
+                    key={item._id}
+                    className={`${styles.dropdownItem} ${
+                      activeId === item._id
+                        ? styles.active
+                        : ""
+                    }`}
+                    onClick={() => {
+                      setSelectedId(
+                        item._id
+                      );
+
+                      setIsOpen(false);
+                    }}
+                  >
+                    {item.title}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         <div className={styles["program-right"]}>
