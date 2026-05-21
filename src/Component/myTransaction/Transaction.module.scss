@@ -13,7 +13,7 @@
 }
 
 .transactionHeader {
-  padding: 25px 30px;
+  padding: 15px 25px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -22,14 +22,14 @@
 
   h3 {
     color: red;
-    font-size: 28px;
+    font-size: 25px;
     margin: 0;
     font-weight: 600;
   }
 }
 
 .arrow {
-  font-size: 28px;
+  font-size: 25px;
   color: red;
   transition: 0.3s;
 }
@@ -67,14 +67,14 @@
 
   h4 {
     color: red;
-    font-size: 22px;
+    font-size: 18px;
     margin-bottom: 15px;
     font-weight: 700;
   }
 
   p {
     color: #1f2937;
-    font-size: 28px;
+    font-size: 15px;
     line-height: 1.6;
     font-weight: 500;
     word-break: break-word;
