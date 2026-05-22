@@ -1,13 +1,21 @@
 .layout {
   display: flex;
   min-height: 100vh;
+    overflow-x: hidden;
 }
 
+/* SIDEBAR SPACE FIX */
 .main {
   flex: 1;
+  margin-left: 260px; /* sidebar width */
+  padding-top: 90px;
+    min-width: 0;
   background: #f7f7f7;
 }
 
-.content {
+
+/* CONTENT */
+.mainContent {
   padding: 20px;
+   min-width: 0;
 }
