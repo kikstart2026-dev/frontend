@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Enrolment.module.scss";
 import Button from "../Buttons/Button";
 import {handleError, handleSuccess, handleWarning, handleConfirm, } from "../../utils"
@@ -6,57 +7,58 @@ import { kikpayment } from "../../apis/api";
 
 export default function Enrolment({ data, type }) {
 
-  const handlePayment = async () => {
-    try {
+ const navigate = useNavigate();
 
-      // Dynamic amount
-      const amount =
-        type === "monthly"
-          ? Number(data.monthly)
-          : Number(data.onetime);
+const handlePayment = async () => {
+  try {
+    const amount =
+      type === "monthly"
+        ? Number(data.monthly)
+        : Number(data.onetime);
 
-      // Create Razorpay Order
-      const order = await kikpayment({
-        amount,
-        currency: "INR",
-      });
+    const order = await kikpayment({
+      amount,
+      currency: "INR",
+    });
 
-      const options = {
-        key: "rzp_test_SmWo5iYYM6AC9h",
+    const options = {
+      key: "rzp_test_SmWo5iYYM6AC9h",
+      amount: order.amount,
+      currency: order.currency,
+      order_id: order.id,
 
-        amount: order.amount,
-        currency: order.currency,
-        order_id: order.id,
+      name: "Your App Name",
+      description: `${data.name} Plan Payment`,
 
-        name: "Your App Name",
-        description: `${data.name} Plan Payment`,
+      handler: function (response) {
+        console.log("Payment Success:", response);
 
-        handler: function (response) {
-          console.log("Payment Success:", response);
+        handleSuccess("Payment Successful!");
 
-          handleSuccess("Payment Successful!");
-        },
+        setTimeout(() => {
+          navigate("/dashboard/children-profile/:id");
+        }, 1000);
+      },
 
-        prefill: {
-          name: "",
-          email: "",
-          contact: "",
-        },
+      prefill: {
+        name: "",
+        email: "",
+        contact: "",
+      },
 
-        theme: {
-          color: "#000000",
-        },
-      };
+      theme: {
+        color: "#000000",
+      },
+    };
 
-      const razor = new window.Razorpay(options);
+    const razor = new window.Razorpay(options);
+    razor.open();
 
-      razor.open();
-
-    } catch (error) {
-      console.error("Payment Error:", error);
-      handleError("Payment Failed");
-    }
-  };
+  } catch (error) {
+    console.error("Payment Error:", error);
+    handleError("Payment Failed");
+  }
+};
 
   return (
     <div className={`card ${styles.planCard}`}>

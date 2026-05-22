@@ -1,40 +1,39 @@
-import React, {
-  useEffect,
-  useState,
-} from "react";
+import React, { useEffect, useState,} from "react";
 
 import styles from "./ChildrenProfile.module.scss";
 
-import {
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { useNavigate, useParams,} from "react-router-dom";
 
-import {
-  getAllChild,
-} from "../../../apis/api";
+import {getAllChild,} from "../../../apis/api";
 
 const ChildrenProfile = () => {
 
-  const IMAGE_BASE_URL =
-    "http://localhost:8008";
+  const IMAGE_BASE_URL = "http://localhost:8008";
 
-  const { id } =
-    useParams();
+  const { id } = useParams();
 
-  const navigate =
-    useNavigate();
+  const navigate =useNavigate();
 
-  const [children, setChildren] =
-    useState([]);
+  const [children, setChildren] = useState([]);
 
-  const [
-    activeChild,
-    setActiveChild,
-  ] = useState(null);
+  const [ activeChild, setActiveChild,] = useState(null);
 
-  const [loading, setLoading] =
-    useState(true);
+  const [loading, setLoading] = useState(true);
+
+  const [startIndex, setStartIndex] = useState(0);
+  const visibleChildren = children.slice(startIndex, startIndex + 5);
+
+  const handleNext = () => {
+    if (startIndex + 5 < children.length) {
+      setStartIndex(startIndex + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (startIndex > 0) {
+      setStartIndex(startIndex - 1);
+    }
+  };
 
   // ================= FETCH CHILDREN =================
 
@@ -46,10 +45,7 @@ const ChildrenProfile = () => {
         const res =
           await getAllChild();
 
-        console.log(
-          "CHILD RESPONSE => ",
-          res
-        );
+        console.log("CHILD RESPONSE => ",  res );
 
         if (res.success) {
 
@@ -62,19 +58,12 @@ const ChildrenProfile = () => {
             if (id) {
 
               const selectedChild =
-                res.data.find(
-                  (child) =>
-                    child._id === id
-                );
+                res.data.find( (child) => child._id === id );
 
               setActiveChild(
-                selectedChild ||
-                  res.data[0]
-              );
-
-            } else {
-
-              setActiveChild(
+                 selectedChild || res.data[0] );
+                 } else {
+                   setActiveChild(
                 res.data[0]
               );
             }
@@ -83,10 +72,7 @@ const ChildrenProfile = () => {
 
       } catch (error) {
 
-        console.log(
-          "FETCH ERROR => ",
-          error
-        );
+        console.log("FETCH ERROR => ",error);
 
       } finally {
 
@@ -109,11 +95,7 @@ const ChildrenProfile = () => {
 
   return (
 
-    <div
-      className={
-        styles.childrenProfile
-      }
-    >
+    <div className={  styles.childrenProfile} >
 
       {/* ================= TOP BAR ================= */}
 
@@ -121,27 +103,30 @@ const ChildrenProfile = () => {
 
         <div className={styles.tabs}>
 
-          {children.map((child) => (
+          <button onClick={handlePrev} disabled={startIndex === 0}>
+            ◀
+          </button>
 
+          {visibleChildren.map((child) => (
             <button
               key={child._id}
               className={
-                activeChild?._id ===
-                child._id
+                activeChild?._id === child._id
                   ? styles.activeTab
                   : ""
               }
-              onClick={() =>
-                setActiveChild(
-                  child
-                )
-              }
+              onClick={() => setActiveChild(child)}
             >
-
               {child.fullName}
-
             </button>
           ))}
+
+          <button
+            onClick={handleNext}
+            disabled={startIndex + 5 >= children.length}
+          >
+            ▶
+          </button>
 
         </div>
 
@@ -170,29 +155,15 @@ const ChildrenProfile = () => {
 
           {/* ================= LEFT ================= */}
 
-          <div
-            className={
-              styles.leftSection
-            }
-          >
+          <div className={styles.leftSection} >
 
             {/* FULL WIDTH NAME */}
 
-            <div
-              className={
-                styles.fullWidthCard
-              }
-            >
+            <div className={styles.fullWidthCard}>
 
-              <label>
-                Full Name
-              </label>
+              <label> Full Name </label>
 
-              <p>
-                {
-                  activeChild.fullName
-                }
-              </p>
+              <p> { activeChild.fullName }  </p>
 
             </div>
 
@@ -200,59 +171,30 @@ const ChildrenProfile = () => {
 
             <div className={styles.row}>
 
-              <div
-                className={
-                  styles.card
-                }
-              >
+              <div className={ styles.card} >
 
-                <label>
-                  Email Id
-                </label>
+                <label> Email Id </label>
 
-                <p>
-                  {activeChild.email ||
-                    "N/A"}
-                </p>
+                <p> {activeChild.email ||  "N/A"} </p>
 
               </div>
 
-              <div
-                className={
-                  styles.card
-                }
-              >
+              <div className={ styles.card}>
 
-                <label>
-                  Age
-                </label>
+                <label>  Age</label>
 
-                <p>
-                  {
-                    activeChild.age
-                  }{" "}
-                  years
-                </p>
+                <p> {  activeChild.age  }{" "} years </p>
 
               </div>
 
             </div>
 
-            <div
-              className={
-                styles.card
-              }
-            >
+            <div className={ styles.card} >
 
-              <label>
-                Location
-              </label>
+              <label> Location </label>
 
               <p>
-                {
-                  activeChild.location
-                }
-              </p>
+                { activeChild.location} </p>
 
             </div>
 
@@ -287,12 +229,12 @@ const ChildrenProfile = () => {
               <p>
 
                 {activeChild.allergy ===
-                true
+                  true
                   ? "Yes"
                   : activeChild.allergy ===
                     false
-                  ? "No"
-                  : "N/A"}
+                    ? "No"
+                    : "N/A"}
 
               </p>
 
@@ -312,7 +254,7 @@ const ChildrenProfile = () => {
 
                 {activeChild.allergy
                   ? activeChild.allergyDetails ||
-                    "N/A"
+                  "N/A"
                   : "N/A"}
 
               </p>
@@ -381,13 +323,7 @@ const ChildrenProfile = () => {
 
               </span>
 
-              <button
-                onClick={() =>
-                  navigate(
-                    `/dashboard/children-edit/${activeChild._id}`
-                  )
-                }
-              >
+              <button onClick={() =>  navigate( `/dashboard/children-edit/${activeChild._id}`)} >
 
                 Edit Profile
 
@@ -397,59 +333,35 @@ const ChildrenProfile = () => {
 
             {/* PAYMENT CARD */}
 
-            <div
-              className={
-                styles.paymentCard
-              }
-            >
+            <div className={ styles.paymentCard}>
 
-              <div
-                className={
-                  styles.paymentBadge
-                }
-              >
-
-                ONETIME PAYMENT
-
-              </div>
+              <div className={  styles.paymentBadge} >
+               ONETIME PAYMENT
+             </div>
 
               <p>
-
-                Lorem ipsum dolor
+                 Lorem ipsum dolor
                 sit amet
                 consectetur.
                 Pharetra et ac
                 vitae.
-
-              </p>
+                </p>
 
               <hr />
 
-              <div
-                className={
-                  styles.paymentBottom
-                }
-              >
+              <div className={  styles.paymentBottom }>
 
                 <div>
 
                   <h2>$49</h2>
 
-                  <span>
-                    Onetime
-                  </span>
+                  <span> Onetime </span>
 
                 </div>
 
-                <div
-                  className={
-                    styles.paid
-                  }
-                >
-
-                  ● Full paid
-
-                </div>
+                <div className={ styles.paid}>
+                   ● Full paid
+               </div>
 
               </div>
 
