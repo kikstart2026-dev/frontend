@@ -110,7 +110,7 @@ export default function Transaction() {
 
     // HEADER
 
-    doc.setFillColor(15, 23, 42);
+    doc.setFillColor(220, 38, 38);
     doc.rect(0, 0, 220, 40, "F");
 
     doc.setTextColor(255, 255, 255);
@@ -178,7 +178,7 @@ export default function Transaction() {
 
         [
           "Amount",
-          `₹ ${item.amount}`
+          `INR ${item.amount}`
         ],
 
         [
@@ -198,12 +198,12 @@ export default function Transaction() {
 
         [
           "Fee",
-          `₹ ${item.fee}`
+          `INR ${item.fee}`
         ],
 
         [
           "Tax",
-          `₹ ${item.tax}`
+          `INR ${item.tax}`
         ],
 
         [
@@ -214,7 +214,7 @@ export default function Transaction() {
 
       headStyles: {
 
-        fillColor: [15, 23, 42],
+        fillColor: [220, 38, 38],
       },
 
       styles: {
@@ -289,13 +289,9 @@ export default function Transaction() {
 
                 </div>
 
-                <div
-                  className={
-                    styles.rightHeader
-                  }
-                >
+                <div className={styles.rightHeader}>
 
-                  <div>
+                  <div className={styles.rightAmount}>
 
                     <h2>
                       ₹ {item.amount}
@@ -304,23 +300,23 @@ export default function Transaction() {
                     <span
                       className={
                         item.status ===
-                        "captured"
+                          "captured"
                           ? styles.success
                           : styles.failed
                       }
                     >
                       {item.status}
                     </span>
-
                   </div>
 
+
+
                   <i
-                    className={`bi bi-chevron-down ${styles.arrow} ${
-                      openIndex ===
+                    className={`bi bi-chevron-down ${styles.arrow} ${openIndex ===
                       index
-                        ? styles.rotate
-                        : ""
-                    }`}
+                      ? styles.rotate
+                      : ""
+                      }`}
                   ></i>
 
                 </div>
@@ -329,15 +325,13 @@ export default function Transaction() {
 
               {/* BODY */}
 
-              <div
-                className={`${
-                  styles.transactionBody
-                } ${
-                  openIndex ===
-                  index
+              <div div
+                className={`${styles.transactionBody
+                  } ${openIndex ===
+                    index
                     ? styles.show
                     : ""
-                }`}
+                  }`}
               >
 
                 {/* TOP */}
@@ -490,7 +484,7 @@ export default function Transaction() {
                     <p
                       className={
                         item.status ===
-                        "captured"
+                          "captured"
                           ? styles.successText
                           : styles.failedText
                       }
@@ -575,7 +569,7 @@ export default function Transaction() {
 
               </div>
 
-            </div>
+            </div >
           ))
         ) : (
 
@@ -589,6 +583,6 @@ export default function Transaction() {
         )
       }
 
-    </div>
+    </div >
   );
 }

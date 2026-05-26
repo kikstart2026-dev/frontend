@@ -15,6 +15,7 @@ export default function ChildrenDetailsForm() {
   const [allergyDetails, setAllergyDetails] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showPasscode, setShowPasscode] = useState(false);
 
   const [preview, setPreview] = useState(null);
   const [file, setFile] = useState(null); // ✅ FIX
@@ -175,15 +176,28 @@ export default function ChildrenDetailsForm() {
           </div>
 
           {/* PASSCODE (FIX ADDED) */}
-          <div className={styles.inputWrapper}>
+          {/* PASSCODE */}
+          <div className={`${styles.inputWrapper} ${styles.passWrapper}`}>
             <input
               name="passCode"
               className={styles.inp}
-              type="password"
+              type={showPasscode ? "text" : "password"}
               placeholder=" "
               required
             />
+
             <label className={styles.lbl}>Pass Code</label>
+
+            <button
+              type="button"
+              className={styles.eyeBtn}
+              onClick={() => setShowPasscode(!showPasscode)}
+            >
+              <i
+                className={`fa-solid ${showPasscode ? "fa-eye-slash" : "fa-eye"
+                  }`}
+              ></i>
+            </button>
           </div>
 
           {/* Food Habit */}

@@ -1,42 +1,65 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import kiklogo from "../../assets/images/authLogo.png";
-
-
 import styles from "./DashboardSidebar.module.scss";
 
 export default function DashboardSidebar() {
   return (
     <div className={styles.sidebar}>
-      <div className="d-flex align-items-center">
-        <NavLink to="/">
-          <img
-            src={kiklogo}
-            alt="logo"
-            className={styles.logo}
-          />
-        </NavLink>
-      </div>
-
       <nav>
-        <NavLink to="/dashboard">
-          Dashboard
+        {/* DASHBOARD */}
+        <NavLink
+          to="/dashboard"
+          end
+          className={({ isActive }) =>
+            isActive ? styles.active : styles.link
+          }
+        >
+          <i className={`bi bi-speedometer2 ${styles.icon}`}></i>
+          <span>Dashboard</span>
         </NavLink>
 
-        <NavLink to="/dashboard/programs">
-          Programs
+        {/* PROGRAMS */}
+        <NavLink
+          to="/dashboard/programs"
+          className={({ isActive }) =>
+            isActive ? styles.active : styles.link
+          }
+        >
+          <i className={`bi bi-grid ${styles.icon}`}></i>
+          <span>Programs</span>
         </NavLink>
 
-        <NavLink to="/dashboard/children-profile">
-          Children Profile
+        {/* CHILDREN PROFILE */}
+        <NavLink
+          to="/dashboard/children-profile"
+          className={({ isActive }) =>
+            isActive ? styles.active : styles.link
+          }
+        >
+          <i className={`bi bi-people ${styles.icon}`}></i>
+          <span>Children Profile</span>
         </NavLink>
 
-        <NavLink to="/dashboard/transactions">
-          My Transactions
+        {/* TRANSACTIONS */}
+        <NavLink
+          to="/dashboard/transactions"
+          className={({ isActive }) =>
+            isActive ? styles.active : styles.link
+          }
+        >
+          <i className={`bi bi-cash-stack ${styles.icon}`}></i>
+          <span>My Transactions</span>
         </NavLink>
 
-        <NavLink to="/dashboard/messages">
-          Message
+        {/* MESSAGES */}
+        <NavLink
+          to="/dashboard/messages"
+          className={({ isActive }) =>
+            isActive ? styles.active : styles.link
+          }
+        >
+          <i className={`bi bi-chat-dots ${styles.icon}`}></i>
+          <span>Message</span>
         </NavLink>
       </nav>
     </div>

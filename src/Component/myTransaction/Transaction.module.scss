@@ -14,8 +14,7 @@
   border: 1px solid #e2e8f0;
   transition: 0.3s;
   box-shadow:
-    0 4px 20px
-    rgba(15, 23, 42, 0.05);
+    0 4px 20px rgba(15, 23, 42, 0.05);
 }
 
 .transactionCard:hover {
@@ -28,7 +27,7 @@
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-    background: linear-gradient(135deg, #ffffff, #fff1f1);
+  background: linear-gradient(135deg, #ffffff, #fff1f1);
 }
 
 .leftHeader {
@@ -38,13 +37,13 @@
 }
 
 .invoiceIcon {
-      width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #0f172a, #1e293b);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff2020, #af0000);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .invoiceIcon i {
@@ -66,8 +65,12 @@
 
 .rightHeader {
   display: flex;
-  align-items: center;
   gap: 20px;
+
+  .rightAmount {
+  display: flex;
+
+}
 }
 
 .rightHeader h2 {
@@ -78,28 +81,32 @@
   margin-bottom: 8px;
 }
 
+
+
 .success {
-  background: #dcfce7;
-  color: #15803d;
-  padding: 7px 10px;
-  border-radius: 40px;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
+    background: #dcfce7;
+    color: #15803d;
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-left: 10px;
 }
 
 .failed {
-  background: #fee2e2;
-  color: #dc2626;
-  padding: 7px 16px;
-  border-radius: 40px;
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
+      background: #ffc8c8;
+    color: #e20707;
+    padding: 7px 25px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-left: 10px;
 }
 
 .arrow {
-  font-size: 20px;
+  font-size: 14px;
   color: #0f172a;
   transition: 0.3s;
 }
@@ -110,18 +117,36 @@
 
 .transactionBody {
   max-height: 0;
+
+  opacity: 0;
+
   overflow: hidden;
-  transition: all 0.4s ease;
+
+  transform: translateY(-15px);
+
+  transition:
+    max-height 0.5s ease,
+    opacity 0.35s ease,
+    transform 0.35s ease,
+    padding 0.35s ease;
+
+  padding: 0 30px;
+
   background: #ffffff;
 }
 
 .show {
-  max-height: 3000px;
+  max-height: 2500px;
+
+  opacity: 1;
+
+  transform: translateY(0);
+
   padding: 30px;
+
   border-top:
     1px solid #e2e8f0;
 }
-
 .invoiceTop {
   display: flex;
   justify-content: space-between;
@@ -134,7 +159,7 @@
 .invoiceTop h2 {
   font-size: 28px;
   font-weight: 800;
-  color: #0f172a;
+  color: #ee2929;
   margin-bottom: 8px;
 }
 
@@ -146,12 +171,7 @@
 .downloadBtn {
   border: none;
   outline: none;
-  background:
-    linear-gradient(
-      135deg,
-      #0f172a,
-      #1e293b
-    );
+  background:#ee2929;
 
   color: #ffffff;
 
@@ -178,10 +198,8 @@
   display: grid;
 
   grid-template-columns:
-    repeat(
-      auto-fit,
-      minmax(260px, 1fr)
-    );
+    repeat(auto-fit,
+      minmax(260px, 1fr));
 
   gap: 22px;
 }

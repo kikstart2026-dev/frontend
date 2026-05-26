@@ -1,110 +1,62 @@
 import React, { useEffect, useState } from "react";
-
+import kiklogo from "../../assets/images/authLogo.png";
+import { NavLink, useLocation } from "react-router-dom";
 import styles from "./DashboardHeader.module.scss";
 
-export default function DashboardHeader({
-  title = "Dashboard",
-}) {
-  const [user, setuser] = useState(null);
+export default function DashboardHeader() {
+  const [admin, setAdmin] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
-    const storeduser =
-      localStorage.getItem("user");
+    const storedAdmin = localStorage.getItem("user");
 
-    if (storeduser) {
-      setuser(JSON.parse(storeduser));
+    if (storedAdmin) {
+      setAdmin(JSON.parse(storedAdmin));
     }
   }, []);
 
-
-
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    const storeduser = localStorage.getItem("user");
-
-    if (storeduser) {
-      setuser(JSON.parse(storeduser));
+  // ✅ ROUTE BASED TITLE
+  const getTitle = () => {
+    switch (location.pathname) {
+      case "/dashboard":
+        return "Dashboard";
+      case "/dashboard/messages":
+        return "Message";
+      case "/dashboard/transactions":
+        return "My Transactions";
+      case "/dashboard/programs":
+        return "Programs";
+      case "/dashboard/children-profile":
+        return "Children Profile";
+      default:
+        return "Dashboard";
     }
-  }, []);
-
-  // ================= SCROLL LOCK ADD HERE =================
-  useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    }
-
-   
-  }, [open]);
+  };
 
   return (
     <div className={styles.topbar}>
-      <h2>{title}</h2>
-
-      <div
-        className="d-flex align-items-center ms-3"
-        style={{ cursor: "pointer" }}
-        onClick={() => setOpen(true)}
-      >
-
-        <div className={styles.userBox}>
-          {user?.image ? (
-            <img
-              src={user.image}
-              alt="user"
-              className={styles.avatar}
-            />
-          ) : (
-            <div className={styles.fallbackAvatar}>
-              {user?.fullname?.charAt(0) || "U"}
-            </div>
-          )}
-
-          <span>
-            Welcome,{" "}
-            {user?.fullname || "User"}
-          </span>
-        </div>
+      {/* LEFT LOGO */}
+      <div className="d-flex align-items-center">
+        <NavLink to="/">
+          <img src={kiklogo} alt="logo" className={styles.logo} />
+        </NavLink>
       </div>
 
+      {/* TITLE */}
+      <h2>{getTitle()}</h2>
 
-      {open && (
-        <div className={styles.modalOverlay} onClick={() => setOpen(false)}>
-          <div
-            className={styles.modalBox}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h3 className={styles.modalTitle}>User Details</h3>
-
-            {user?.image ? (
-              <img
-                src={user.image}
-                alt="user"
-                className={styles.modalImage}
-              />
-            ) : (
-              <div className={styles.modalFallback}>
-                {user?.fullname?.charAt(0) || "A"}
-              </div>
-            )}
-
-            <div className={styles.modalInfo}>
-              <p><b>Name:</b> {user?.fullname}</p>
-              <p><b>Email:</b> {user?.email}</p>
-              <p><b>Phone:</b> {user?.phone || "N/A"}</p>
-              <p><b>Location:</b> {user?.location || "N/A"}</p>
-              <p><b>Passcode:</b> {user?.passcode || "N/A"}</p>
-            </div>
-
-            <button
-              className={styles.modalCloseBtn}
-              onClick={() => setOpen(false)}
-            >
-              Close
-            </button>
+      {/* USER */}
+      <div className={styles.userBox}>
+        {admin?.user?.image ? (
+          <img src={admin.user.image} alt="user" className={styles.avatar} />
+        ) : (
+          <div className={styles.fallbackAvatar}>
+            {admin?.fullname?.charAt(0) || "U"}
           </div>
-        </div>
-      )}
+        )}
+
+        <span>Welcome, {admin?.fullname || "User"}</span>
+      </div>
     </div>
   );
 }
