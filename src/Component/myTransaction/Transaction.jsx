@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { getAllPayments } from "../../apis/api";
 
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+
 import styles from "./Transaction.module.scss";
 
 export default function Transaction() {
@@ -17,7 +20,6 @@ export default function Transaction() {
     const userData =
       localStorage.getItem("user");
 
-    // if object
     const parsedUser =
       JSON.parse(userData);
 
@@ -26,7 +28,6 @@ export default function Transaction() {
 
   } catch (error) {
 
-    // if direct string
     userEmail =
       localStorage.getItem("user") || "";
   }
@@ -42,50 +43,40 @@ export default function Transaction() {
         const res =
           await getAllPayments();
 
-        console.log(
-          "ALL PAYMENTS : ",
-          res
-        );
-
-        console.log(
-          "USER EMAIL : ",
-          userEmail
-        );
-
-        // ================= FILTER =================
-
         const filteredPayments =
-  res?.payments?.filter(
-    (item) => {
+          res?.payments?.filter(
+            (item) => {
 
-      // email match
-      if (
-        item?.email &&
-        item.email
-          .toLowerCase()
-          .trim() ===
-        userEmail
-          .toLowerCase()
-          .trim()
-      ) {
-        return true;
-      }
+              // EMAIL MATCH
 
-      // phone match fallback
-      if (
-        item?.contact ===
-        `+91${JSON.parse(
-          localStorage.getItem("user")
-        )?.phone}`
-      ) {
-        return true;
-      }
+              if (
+                item?.email &&
+                item.email
+                  .toLowerCase()
+                  .trim() ===
+                userEmail
+                  .toLowerCase()
+                  .trim()
+              ) {
+                return true;
+              }
 
-      return false;
-    }
-  );
+              // PHONE MATCH
 
-setPayments(filteredPayments || []);
+              if (
+                item?.contact ===
+                `+91${JSON.parse(
+                  localStorage.getItem("user")
+                )?.phone}`
+              ) {
+                return true;
+              }
+
+              return false;
+            }
+          );
+
+        setPayments(filteredPayments || []);
 
       } catch (error) {
 
@@ -109,6 +100,133 @@ setPayments(filteredPayments || []);
 
       setOpenIndex(index);
     }
+  };
+
+  // ================= DOWNLOAD PDF =================
+
+  const downloadInvoice = (item) => {
+
+    const doc = new jsPDF();
+
+    // HEADER
+
+    doc.setFillColor(15, 23, 42);
+    doc.rect(0, 0, 220, 40, "F");
+
+    doc.setTextColor(255, 255, 255);
+
+    doc.setFontSize(24);
+
+    doc.text(
+      "PAYMENT INVOICE",
+      14,
+      22
+    );
+
+    doc.setFontSize(11);
+
+    doc.text(
+      `Invoice ID : ${item.payment_id}`,
+      14,
+      32
+    );
+
+    // BODY
+
+    doc.setTextColor(0, 0, 0);
+
+    doc.setFontSize(16);
+
+    doc.text(
+      "Customer Details",
+      14,
+      55
+    );
+
+    autoTable(doc, {
+
+      startY: 62,
+
+      head: [["Field", "Details"]],
+
+      body: [
+
+        [
+          "Full Name",
+          item.fullname || "N/A"
+        ],
+
+        [
+          "Email Address",
+          item.email || "N/A"
+        ],
+
+        [
+          "Phone Number",
+          item.contact || "N/A"
+        ],
+
+        [
+          "Payment ID",
+          item.payment_id || "N/A"
+        ],
+
+        [
+          "Order ID",
+          item.order_id || "N/A"
+        ],
+
+        [
+          "Amount",
+          `₹ ${item.amount}`
+        ],
+
+        [
+          "Payment Method",
+          item.method || "N/A"
+        ],
+
+        [
+          "Status",
+          item.status || "N/A"
+        ],
+
+        [
+          "Currency",
+          item.currency || "N/A"
+        ],
+
+        [
+          "Fee",
+          `₹ ${item.fee}`
+        ],
+
+        [
+          "Tax",
+          `₹ ${item.tax}`
+        ],
+
+        [
+          "Date & Time",
+          item.created_at || "N/A"
+        ],
+      ],
+
+      headStyles: {
+
+        fillColor: [15, 23, 42],
+      },
+
+      styles: {
+
+        fontSize: 11,
+        cellPadding: 4,
+      },
+    });
+
+    doc.save(
+      `Invoice-${item.payment_id}.pdf`
+    );
   };
 
   return (
@@ -138,24 +256,78 @@ setPayments(filteredPayments || []);
                 }
               >
 
-                <h3>
-                  {
-                    item.description
+                <div
+                  className={
+                    styles.leftHeader
                   }
-                </h3>
+                >
 
-                <i
-                  className={`bi bi-chevron-down ${styles.arrow} ${
-                    openIndex ===
-                    index
-                      ? styles.rotate
-                      : ""
-                  }`}
-                ></i>
+                  <div
+                    className={
+                      styles.invoiceIcon
+                    }
+                  >
+                    <i className="bi bi-receipt"></i>
+                  </div>
+
+                  <div>
+
+                    <h3>
+                      {
+                        item.description ||
+                        "Professional Plan Payment"
+                      }
+                    </h3>
+
+                    <p>
+                      {
+                        item.created_at
+                      }
+                    </p>
+
+                  </div>
+
+                </div>
+
+                <div
+                  className={
+                    styles.rightHeader
+                  }
+                >
+
+                  <div>
+
+                    <h2>
+                      ₹ {item.amount}
+                    </h2>
+
+                    <span
+                      className={
+                        item.status ===
+                        "captured"
+                          ? styles.success
+                          : styles.failed
+                      }
+                    >
+                      {item.status}
+                    </span>
+
+                  </div>
+
+                  <i
+                    className={`bi bi-chevron-down ${styles.arrow} ${
+                      openIndex ===
+                      index
+                        ? styles.rotate
+                        : ""
+                    }`}
+                  ></i>
+
+                </div>
 
               </div>
 
-              {/* DETAILS */}
+              {/* BODY */}
 
               <div
                 className={`${
@@ -167,6 +339,47 @@ setPayments(filteredPayments || []);
                     : ""
                 }`}
               >
+
+                {/* TOP */}
+
+                <div
+                  className={
+                    styles.invoiceTop
+                  }
+                >
+
+                  <div>
+
+                    <h2>
+                      Invoice Details
+                    </h2>
+
+                    <p>
+                      Payment receipt
+                      generated
+                      successfully
+                    </p>
+
+                  </div>
+
+                  <button
+                    className={
+                      styles.downloadBtn
+                    }
+                    onClick={() =>
+                      downloadInvoice(item)
+                    }
+                  >
+
+                    <i className="bi bi-download"></i>
+
+                    Download Invoice
+
+                  </button>
+
+                </div>
+
+                {/* GRID */}
 
                 <div
                   className={
@@ -257,20 +470,6 @@ setPayments(filteredPayments || []);
                     }
                   >
                     <h4>
-                      AMOUNT
-                    </h4>
-
-                    <p>
-                      ₹ {item.amount}
-                    </p>
-                  </div>
-
-                  <div
-                    className={
-                      styles.detailBox
-                    }
-                  >
-                    <h4>
                       PAYMENT METHOD
                     </h4>
 
@@ -288,7 +487,14 @@ setPayments(filteredPayments || []);
                       STATUS
                     </h4>
 
-                    <p>
+                    <p
+                      className={
+                        item.status ===
+                        "captured"
+                          ? styles.successText
+                          : styles.failedText
+                      }
+                    >
                       {item.status}
                     </p>
                   </div>
@@ -304,6 +510,20 @@ setPayments(filteredPayments || []);
 
                     <p>
                       {item.currency}
+                    </p>
+                  </div>
+
+                  <div
+                    className={
+                      styles.detailBox
+                    }
+                  >
+                    <h4>
+                      AMOUNT
+                    </h4>
+
+                    <p>
+                      ₹ {item.amount}
                     </p>
                   </div>
 
