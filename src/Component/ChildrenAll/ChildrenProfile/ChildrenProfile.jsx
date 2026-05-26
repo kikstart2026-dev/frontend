@@ -6,7 +6,7 @@ import React, {
 import styles from "./ChildrenProfile.module.scss";
 
 import {
-  getAllChildren,
+  getAllChild,
 } from "../../apis/api";
 
 export default function ChildrenProfile() {

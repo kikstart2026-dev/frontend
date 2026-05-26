@@ -254,6 +254,155 @@
   color: #64748b;
 }
 
+
+.invoiceContainer {
+  background: #fff;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid #ececec;
+  animation: fadeUp .4s ease;
+}
+
+.invoiceHeader {
+  padding: 24px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #f1f1f1;
+  background: #fff7f7;
+
+  h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #ff2d2d;
+    margin-bottom: 8px;
+  }
+
+  span {
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+}
+
+.pending {
+  color: #ff9800;
+}
+
+.invoiceTable {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+}
+
+.tableColumn {
+  border-right: 1px solid #f0f0f0;
+
+  &:last-child {
+    border-right: none;
+  }
+}
+
+.tableRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 30px;
+  border-bottom: 1px solid #f5f5f5;
+  transition: .3s;
+
+  &:hover {
+    background: #fff5f5;
+  }
+
+  span {
+    font-size: 15px;
+    color: #8d8d8d;
+    font-weight: 600;
+    min-width: 170px;
+  }
+
+  p {
+    width: 100%;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a1a1a;
+    word-break: break-word;
+  }
+}
+
+.amountText {
+  color: #0f9d58 !important;
+  font-size: 22px !important;
+}
+
+.invoiceFooter {
+  padding: 18px 30px;
+  background: #fafafa;
+  border-top: 1px solid #f1f1f1;
+
+  p {
+    font-size: 15px;
+    color: #666;
+    font-weight: 500;
+  }
+}
+
+.successText {
+  color: #0f9d58 !important;
+  text-transform: capitalize;
+}
+
+.failedText {
+  color: #ff3b30 !important;
+  text-transform: capitalize;
+}
+
+@keyframes fadeUp {
+
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media(max-width: 992px) {
+
+  .invoiceTable {
+    grid-template-columns: 1fr;
+  }
+
+  .tableColumn {
+    border-right: none;
+  }
+
+  .invoiceHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .tableRow {
+    flex-direction: column;
+    align-items: flex-start;
+
+    span {
+      min-width: 100%;
+    }
+
+    p {
+      text-align: left;
+    }
+  }
+}
+
 /* ================= RESPONSIVE ================= */
 
 @media (max-width: 768px) {

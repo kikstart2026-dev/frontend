@@ -160,54 +160,132 @@
 }
 
 /* PAYMENT CARD */
-
 .paymentCard {
-  background: white;
-  border-radius: 18px;
-  padding: 24px;
-}
+  background: linear-gradient(
+    135deg,
+    #ff2d2d,
+    #ff5858
+  );
 
-.paymentBadge {
-  display: inline-block;
-  background: #fff1f1;
-  color: #ff1e1e;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  margin-bottom: 16px;
-}
+  border-radius: 24px;
+  padding: 28px;
+  color: #fff;
+  margin-top: 20px;
+  position: relative;
+  overflow: hidden;
 
-.paymentCard p {
-  color: #666;
-  font-size: 15px;
-  line-height: 1.7;
-}
-
-.paymentCard hr {
-  border: none;
-  border-top: 1px solid #eee;
-  margin: 20px 0;
-}
-
-.paymentBottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  h2 {
-    color: #ff1e1e;
-    font-size: 42px;
-    margin: 0;
+  &::before {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    background: rgba(
+      255,
+      255,
+      255,
+      0.08
+    );
+    border-radius: 50%;
+    top: -60px;
+    right: -60px;
   }
 
   span {
-    color: #777;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    opacity: .9;
+  }
+
+  h3 {
+    font-size: 26px;
+    font-weight: 700;
+    margin-top: 18px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 14px;
+    line-height: 24px;
+    opacity: .9;
+  }
+
+  h2 {
+    font-size: 42px;
+    font-weight: 800;
+    margin-top: 24px;
+    margin-bottom: 24px;
   }
 }
 
-.paid {
-  color: #32b336;
-  font-size: 18px;
+.planTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.activeBadge {
+  background: rgba(
+    255,
+    255,
+    255,
+    0.18
+  );
+
+  backdrop-filter: blur(10px);
+
+  padding: 8px 14px;
+
+  border-radius: 30px;
+
+  font-size: 13px;
+
   font-weight: 600;
+}
+
+.planBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  border-top: 1px solid rgba(
+    255,
+    255,
+    255,
+    0.2
+  );
+
+  padding-top: 20px;
+
+  small {
+    display: block;
+    font-size: 12px;
+    opacity: .8;
+    margin-bottom: 8px;
+  }
+
+  strong {
+    font-size: 15px;
+    font-weight: 700;
+  }
+}
+
+.inactiveBadge {
+  background: rgba(
+    255,
+    255,
+    255,
+    0.12
+  );
+
+  padding: 8px 14px;
+
+  border-radius: 30px;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  color: #fff;
 }

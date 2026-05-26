@@ -325,244 +325,212 @@ export default function Transaction() {
 
               {/* BODY */}
 
-              <div div
-                className={`${styles.transactionBody
-                  } ${openIndex ===
-                    index
+              <div
+                className={`${styles.transactionBody} ${openIndex === index
                     ? styles.show
                     : ""
                   }`}
               >
 
-                {/* TOP */}
+                <div className={styles.invoiceContainer}>
 
-                <div
-                  className={
-                    styles.invoiceTop
-                  }
-                >
+                  {/* TOP HEADER */}
 
-                  <div>
+                  <div className={styles.invoiceHeader}>
 
-                    <h2>
-                      Invoice Details
-                    </h2>
+                    <div>
+
+                      <h2>
+                        {
+                          item.description ||
+                          "Payment Invoice"
+                        }
+                      </h2>
+
+                      {/* <span
+                        className={
+                          item.status ===
+                            "captured"
+                            ? styles.pending
+                            : styles.failed
+                        }
+                      >
+                        {item.status}
+                      </span> */}
+
+                    </div>
+
+                    <button
+                      className={
+                        styles.downloadBtn
+                      }
+                      onClick={() =>
+                        downloadInvoice(item)
+                      }
+                    >
+
+                      <i className="bi bi-download"></i>
+
+                      Download Invoice
+
+                    </button>
+
+                  </div>
+
+                  {/* TABLE */}
+
+                  <div className={styles.invoiceTable}>
+
+                    {/* LEFT */}
+
+                    <div className={styles.tableColumn}>
+
+                      <div className={styles.tableRow}>
+                        <span>
+                          Full Name
+                        </span>
+
+                        <p>
+                          {item.fullname || "N/A"}
+                        </p>
+                      </div>
+
+                      <div className={styles.tableRow}>
+                        <span>
+                          Email Address
+                        </span>
+
+                        <p>
+                          {item.email || "N/A"}
+                        </p>
+                      </div>
+
+                      <div className={styles.tableRow}>
+                        <span>
+                          Phone Number
+                        </span>
+
+                        <p>
+                          {item.contact || "N/A"}
+                        </p>
+                      </div>
+
+                      <div className={styles.tableRow}>
+                        <span>
+                          Payment ID
+                        </span>
+
+                        <p>
+                          {item.payment_id}
+                        </p>
+                      </div>
+
+                      <div className={styles.tableRow}>
+                        <span>
+                          Order ID
+                        </span>
+
+                        <p>
+                          {item.order_id}
+                        </p>
+                      </div>
+
+                      <div className={styles.tableRow}>
+                        <span>
+                          Date & Time
+                        </span>
+
+                        <p>
+                          {item.created_at}
+                        </p>
+                      </div>
+
+                    </div>
+
+                    {/* RIGHT */}
+
+                    <div className={styles.tableColumn}>
+
+                      <div className={styles.tableRow}>
+                        <span>
+                          Currency
+                        </span>
+
+                        <p>
+                          {item.currency}
+                        </p>
+                      </div>
+
+                      <div className={styles.tableRow}>
+                        <span>
+                          Payment Type
+                        </span>
+
+                        <p>
+                          {item.method}
+                        </p>
+                      </div>
+
+                      <div className={styles.tableRow}>
+                        <span>
+                          Amount
+                        </span>
+
+                        <p className={styles.amountText}>
+                          ₹ {item.amount}
+                        </p>
+                      </div>
+
+                      <div className={styles.tableRow}>
+                        <span>
+                          Fee
+                        </span>
+
+                        <p>
+                          ₹ {item.fee || 0}
+                        </p>
+                      </div>
+
+                      <div className={styles.tableRow}>
+                        <span>
+                          Tax
+                        </span>
+
+                        <p>
+                          ₹ {item.tax || 0}
+                        </p>
+                      </div>
+
+                      <div className={styles.tableRow}>
+                        <span>
+                          Status
+                        </span>
+
+                        <p
+                          className={
+                            item.status ===
+                              "captured"
+                              ? styles.successText
+                              : styles.failedText
+                          }
+                        >
+                          {item.status}
+                        </p>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  {/* FOOTER */}
+
+                  <div className={styles.invoiceFooter}>
 
                     <p>
-                      Payment receipt
-                      generated
+                      Payment receipt generated
                       successfully
                     </p>
 
-                  </div>
-
-                  <button
-                    className={
-                      styles.downloadBtn
-                    }
-                    onClick={() =>
-                      downloadInvoice(item)
-                    }
-                  >
-
-                    <i className="bi bi-download"></i>
-
-                    Download Invoice
-
-                  </button>
-
-                </div>
-
-                {/* GRID */}
-
-                <div
-                  className={
-                    styles.detailsGrid
-                  }
-                >
-
-                  <div
-                    className={
-                      styles.detailBox
-                    }
-                  >
-                    <h4>
-                      FULL NAME
-                    </h4>
-
-                    <p>
-                      {item.fullname ||
-                        "N/A"}
-                    </p>
-                  </div>
-
-                  <div
-                    className={
-                      styles.detailBox
-                    }
-                  >
-                    <h4>
-                      EMAIL ADDRESS
-                    </h4>
-
-                    <p>
-                      {item.email ||
-                        "N/A"}
-                    </p>
-                  </div>
-
-                  <div
-                    className={
-                      styles.detailBox
-                    }
-                  >
-                    <h4>
-                      PHONE NUMBER
-                    </h4>
-
-                    <p>
-                      {item.contact ||
-                        "N/A"}
-                    </p>
-                  </div>
-
-                  <div
-                    className={
-                      styles.detailBox
-                    }
-                  >
-                    <h4>
-                      PAYMENT ID
-                    </h4>
-
-                    <p>
-                      {
-                        item.payment_id
-                      }
-                    </p>
-                  </div>
-
-                  <div
-                    className={
-                      styles.detailBox
-                    }
-                  >
-                    <h4>
-                      ORDER ID
-                    </h4>
-
-                    <p>
-                      {
-                        item.order_id
-                      }
-                    </p>
-                  </div>
-
-                  <div
-                    className={
-                      styles.detailBox
-                    }
-                  >
-                    <h4>
-                      PAYMENT METHOD
-                    </h4>
-
-                    <p>
-                      {item.method}
-                    </p>
-                  </div>
-
-                  <div
-                    className={
-                      styles.detailBox
-                    }
-                  >
-                    <h4>
-                      STATUS
-                    </h4>
-
-                    <p
-                      className={
-                        item.status ===
-                          "captured"
-                          ? styles.successText
-                          : styles.failedText
-                      }
-                    >
-                      {item.status}
-                    </p>
-                  </div>
-
-                  <div
-                    className={
-                      styles.detailBox
-                    }
-                  >
-                    <h4>
-                      CURRENCY
-                    </h4>
-
-                    <p>
-                      {item.currency}
-                    </p>
-                  </div>
-
-                  <div
-                    className={
-                      styles.detailBox
-                    }
-                  >
-                    <h4>
-                      AMOUNT
-                    </h4>
-
-                    <p>
-                      ₹ {item.amount}
-                    </p>
-                  </div>
-
-                  <div
-                    className={
-                      styles.detailBox
-                    }
-                  >
-                    <h4>
-                      FEE
-                    </h4>
-
-                    <p>
-                      ₹ {item.fee}
-                    </p>
-                  </div>
-
-                  <div
-                    className={
-                      styles.detailBox
-                    }
-                  >
-                    <h4>
-                      TAX
-                    </h4>
-
-                    <p>
-                      ₹ {item.tax}
-                    </p>
-                  </div>
-
-                  <div
-                    className={
-                      styles.detailBox
-                    }
-                  >
-                    <h4>
-                      DATE & TIME
-                    </h4>
-
-                    <p>
-                      {
-                        item.created_at
-                      }
-                    </p>
                   </div>
 
                 </div>

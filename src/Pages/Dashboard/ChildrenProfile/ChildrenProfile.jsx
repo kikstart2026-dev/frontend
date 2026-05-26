@@ -1,10 +1,14 @@
-import React, { useEffect, useState,} from "react";
+import React, { useEffect, useState, } from "react";
 
 import styles from "./ChildrenProfile.module.scss";
 
-import { useNavigate, useParams,} from "react-router-dom";
+import { useNavigate, useParams, } from "react-router-dom";
 
-import {getAllChild,} from "../../../apis/api";
+import { getAllChild } from "../../../apis/api";
+
+import {
+  getAllPayments,
+} from "../../../apis/api";
 
 const ChildrenProfile = () => {
 
@@ -12,16 +16,22 @@ const ChildrenProfile = () => {
 
   const { id } = useParams();
 
-  const navigate =useNavigate();
+  const navigate = useNavigate();
 
   const [children, setChildren] = useState([]);
 
-  const [ activeChild, setActiveChild,] = useState(null);
+  const [activeChild, setActiveChild,] = useState(null);
 
   const [loading, setLoading] = useState(true);
 
   const [startIndex, setStartIndex] = useState(0);
   const visibleChildren = children.slice(startIndex, startIndex + 5);
+
+  const [currentPlan, setCurrentPlan] =
+    useState(null);
+
+  const [daysLeft, setDaysLeft] =
+    useState(0);
 
   const handleNext = () => {
     if (startIndex + 5 < children.length) {
@@ -45,7 +55,7 @@ const ChildrenProfile = () => {
         const res =
           await getAllChild();
 
-        console.log("CHILD RESPONSE => ",  res );
+        console.log("CHILD RESPONSE => ", res);
 
         if (res.success) {
 
@@ -58,12 +68,12 @@ const ChildrenProfile = () => {
             if (id) {
 
               const selectedChild =
-                res.data.find( (child) => child._id === id );
+                res.data.find((child) => child._id === id);
 
               setActiveChild(
-                 selectedChild || res.data[0] );
-                 } else {
-                   setActiveChild(
+                selectedChild || res.data[0]);
+            } else {
+              setActiveChild(
                 res.data[0]
               );
             }
@@ -72,7 +82,7 @@ const ChildrenProfile = () => {
 
       } catch (error) {
 
-        console.log("FETCH ERROR => ",error);
+        console.log("FETCH ERROR => ", error);
 
       } finally {
 
@@ -86,6 +96,125 @@ const ChildrenProfile = () => {
 
   }, []);
 
+
+
+  // ================= FETCH CURRENT PLAN =================
+
+  useEffect(() => {
+
+    const fetchCurrentPlan =
+      async () => {
+
+        try {
+
+          const user =
+            JSON.parse(
+              localStorage.getItem(
+                "user"
+              )
+            );
+
+          const userEmail =
+            user?.email
+              ?.toLowerCase()
+              ?.trim();
+
+          const res =
+            await getAllPayments();
+
+          // ================= FILTER USER PAYMENT =================
+
+          const userPayments =
+            res?.payments?.filter(
+              (item) =>
+                item?.email
+                  ?.toLowerCase()
+                  ?.trim() ===
+                userEmail
+            ) || [];
+
+          // ================= NO PAYMENT =================
+
+          if (
+            userPayments.length === 0
+          ) {
+
+            setCurrentPlan(null);
+
+            setDaysLeft(0);
+
+            return;
+          }
+
+          // ================= LATEST PAYMENT =================
+
+          const latestPayment =
+            userPayments.sort(
+              (a, b) =>
+                new Date(
+                  b.created_at
+                ) -
+                new Date(
+                  a.created_at
+                )
+            )[0];
+
+          setCurrentPlan(
+            latestPayment
+          );
+
+          // ================= EXPIRE DATE =================
+          // 30 DAYS
+
+          const paymentDate =
+            new Date(
+              latestPayment.created_at
+            );
+
+          const expireDate =
+            new Date(paymentDate);
+
+          expireDate.setDate(
+            expireDate.getDate() +
+            30
+          );
+
+          const today =
+            new Date();
+
+          const diffTime =
+            expireDate - today;
+
+          const remainingDays =
+            Math.ceil(
+              diffTime /
+              (
+                1000 *
+                60 *
+                60 *
+                24
+              )
+            );
+
+          setDaysLeft(
+            remainingDays > 0
+              ? remainingDays
+              : 0
+          );
+
+        } catch (error) {
+
+          console.log(
+            "PAYMENT ERROR => ",
+            error
+          );
+        }
+      };
+
+    fetchCurrentPlan();
+
+  }, []);
+
   // ================= LOADING =================
 
   if (loading) {
@@ -95,7 +224,7 @@ const ChildrenProfile = () => {
 
   return (
 
-    <div className={  styles.childrenProfile} >
+    <div className={styles.childrenProfile} >
 
       {/* ================= TOP BAR ================= */}
 
@@ -163,7 +292,7 @@ const ChildrenProfile = () => {
 
               <label> Full Name </label>
 
-              <p> { activeChild.fullName }  </p>
+              <p> {activeChild.fullName}  </p>
 
             </div>
 
@@ -171,30 +300,30 @@ const ChildrenProfile = () => {
 
             <div className={styles.row}>
 
-              <div className={ styles.card} >
+              <div className={styles.card} >
 
                 <label> Email Id </label>
 
-                <p> {activeChild.email ||  "N/A"} </p>
+                <p> {activeChild.email || "N/A"} </p>
 
               </div>
 
-              <div className={ styles.card}>
+              <div className={styles.card}>
 
                 <label>  Age</label>
 
-                <p> {  activeChild.age  }{" "} years </p>
+                <p> {activeChild.age}{" "} years </p>
 
               </div>
 
             </div>
 
-            <div className={ styles.card} >
+            <div className={styles.card} >
 
               <label> Location </label>
 
               <p>
-                { activeChild.location} </p>
+                {activeChild.location} </p>
 
             </div>
 
@@ -323,7 +452,7 @@ const ChildrenProfile = () => {
 
               </span>
 
-              <button onClick={() =>  navigate( `/dashboard/children-edit/${activeChild._id}`)} >
+              <button onClick={() => navigate(`/dashboard/children-edit/${activeChild._id}`)} >
 
                 Edit Profile
 
@@ -333,39 +462,108 @@ const ChildrenProfile = () => {
 
             {/* PAYMENT CARD */}
 
-            <div className={ styles.paymentCard}>
+            <div
+  className={
+    styles.paymentCard
+  }
+>
 
-              <div className={  styles.paymentBadge} >
-               ONETIME PAYMENT
-             </div>
+  <div
+    className={
+      styles.planTop
+    }
+  >
 
-              <p>
-                 Lorem ipsum dolor
-                sit amet
-                consectetur.
-                Pharetra et ac
-                vitae.
-                </p>
+    <span>
+      CURRENT PLAN
+    </span>
 
-              <hr />
+    <div
+      className={
+        currentPlan
+          ? styles.activeBadge
+          : styles.inactiveBadge
+      }
+    >
 
-              <div className={  styles.paymentBottom }>
+      ● {
+        currentPlan
+          ? "Active"
+          : "Inactive"
+      }
 
-                <div>
+    </div>
 
-                  <h2>$49</h2>
+  </div>
 
-                  <span> Onetime </span>
+  <h3>
 
-                </div>
+    {
+      currentPlan
+        ?.description ||
+      "No Payment Done"
+    }
 
-                <div className={ styles.paid}>
-                   ● Full paid
-               </div>
+  </h3>
 
-              </div>
+  <p>
 
-            </div>
+    {
+      currentPlan
+        ? "Your subscription is active and fully paid."
+        : "No active subscription found."
+    }
+
+  </p>
+
+  <h2>
+
+    ₹ {
+      currentPlan?.amount ||
+      0
+    }
+
+  </h2>
+
+  <div
+    className={
+      styles.planBottom
+    }
+  >
+
+    <div>
+
+      <small>
+        Payment Date
+      </small>
+
+      <strong>
+
+        {
+          currentPlan
+            ?.created_at ||
+          "N/A"
+        }
+
+      </strong>
+
+    </div>
+
+    <div>
+
+      <small>
+        Expires In
+      </small>
+
+      <strong>
+        {daysLeft} Days
+      </strong>
+
+    </div>
+
+  </div>
+
+</div>
 
           </div>
 

@@ -27,7 +27,7 @@ const handlePayment = async () => {
       currency: order.currency,
       order_id: order.id,
 
-      name: "Your App Name",
+      name: "KikSTART",
       description: `${data.name} Plan Payment`,
 
       handler: function (response) {
