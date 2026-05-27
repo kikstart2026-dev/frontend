@@ -10,6 +10,7 @@ export default function Transaction() {
 
   const [payments, setPayments] = useState([]);
   const [openIndex, setOpenIndex] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   // ================= USER EMAIL =================
 
@@ -37,6 +38,7 @@ export default function Transaction() {
   useEffect(() => {
 
     const fetchPayments = async () => {
+      setLoading(true);
 
       try {
 
@@ -81,6 +83,11 @@ export default function Transaction() {
       } catch (error) {
 
         console.log(error);
+      }
+      finally {
+
+        setLoading(false);
+
       }
     };
 
@@ -234,7 +241,13 @@ export default function Transaction() {
     <div className={styles.transactionWrapper}>
 
       {
-        payments?.length > 0 ? (
+        loading ? (
+
+          <div className={styles.noTransaction}>
+            Loading...
+          </div>
+
+        ) : payments?.length > 0 ? (
 
           payments.map((item, index) => (
 

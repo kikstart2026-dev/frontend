@@ -33,6 +33,8 @@ const ChildrenProfile = () => {
   const [daysLeft, setDaysLeft] =
     useState(0);
 
+  const [paymentLoading, setPaymentLoading] = useState(true);
+
   const handleNext = () => {
     if (startIndex + 5 < children.length) {
       setStartIndex(startIndex + 1);
@@ -47,65 +49,65 @@ const ChildrenProfile = () => {
 
   // ================= FETCH CHILDREN =================
 
-// ================= FETCH CHILDREN =================
+  // ================= FETCH CHILDREN =================
 
-const fetchChildren = async () => {
-  try {
+  const fetchChildren = async () => {
+    try {
 
-    const user = JSON.parse(localStorage.getItem("user"));
+      const user = JSON.parse(localStorage.getItem("user"));
 
-    const userEmail =
-      user?.email?.toLowerCase()?.trim();
+      const userEmail =
+        user?.email?.toLowerCase()?.trim();
 
-    const res = await getAllChild();
+      const res = await getAllChild();
 
-    console.log("CHILD RESPONSE => ", res);
+      console.log("CHILD RESPONSE => ", res);
 
-    if (res.success) {
+      if (res.success) {
 
-      // ================= FILTER CHILDREN =================
+        // ================= FILTER CHILDREN =================
 
-      const filteredChildren =
-        res.data.filter(
-          (child) =>
-            child?.email
-              ?.toLowerCase()
-              ?.trim() === userEmail
-        );
-
-      setChildren(filteredChildren);
-
-      if (filteredChildren.length > 0) {
-
-        if (id) {
-
-          const selectedChild =
-            filteredChildren.find(
-              (child) => child._id === id
-            );
-
-          setActiveChild(
-            selectedChild || filteredChildren[0]
+        const filteredChildren =
+          res.data.filter(
+            (child) =>
+              child?.email
+                ?.toLowerCase()
+                ?.trim() === userEmail
           );
 
-        } else {
+        setChildren(filteredChildren);
 
-          setActiveChild(filteredChildren[0]);
+        if (filteredChildren.length > 0) {
 
+          if (id) {
+
+            const selectedChild =
+              filteredChildren.find(
+                (child) => child._id === id
+              );
+
+            setActiveChild(
+              selectedChild || filteredChildren[0]
+            );
+
+          } else {
+
+            setActiveChild(filteredChildren[0]);
+
+          }
         }
       }
+
+    } catch (error) {
+
+      console.log("FETCH ERROR => ", error);
+
+    } finally {
+
+      setLoading(false);
+
     }
-
-  } catch (error) {
-
-    console.log("FETCH ERROR => ", error);
-
-  } finally {
-
-    setLoading(false);
-
-  }
-};
+  };
 
   useEffect(() => {
 
@@ -119,114 +121,65 @@ const fetchChildren = async () => {
 
   useEffect(() => {
 
-    const fetchCurrentPlan =
-      async () => {
+    const fetchCurrentPlan = async () => {
 
-        try {
+      setPaymentLoading(true);
 
-          const user =
-            JSON.parse(
-              localStorage.getItem(
-                "user"
-              )
-            );
+      try {
 
-          const userEmail =
-            user?.email
-              ?.toLowerCase()
-              ?.trim();
-
-          const res =
-            await getAllPayments();
-
-          // ================= FILTER USER PAYMENT =================
-
-          const userPayments =
-            res?.payments?.filter(
-              (item) =>
-                item?.email
-                  ?.toLowerCase()
-                  ?.trim() ===
-                userEmail
-            ) || [];
-
-          // ================= NO PAYMENT =================
-
-          if (
-            userPayments.length === 0
-          ) {
-
-            setCurrentPlan(null);
-
-            setDaysLeft(0);
-
-            return;
-          }
-
-          // ================= LATEST PAYMENT =================
-
-          const latestPayment =
-            userPayments.sort(
-              (a, b) =>
-                new Date(
-                  b.created_at
-                ) -
-                new Date(
-                  a.created_at
-                )
-            )[0];
-
-          setCurrentPlan(
-            latestPayment
+        const user =
+          JSON.parse(
+            localStorage.getItem("user")
           );
 
-          // ================= EXPIRE DATE =================
-          // 30 DAYS
+        const userEmail =
+          user?.email
+            ?.toLowerCase()
+            ?.trim();
 
-          const paymentDate =
-            new Date(
-              latestPayment.created_at
-            );
+        const res =
+          await getAllPayments();
 
-          const expireDate =
-            new Date(paymentDate);
+        const userPayments =
+          res?.payments?.filter(
+            (item) =>
+              item?.email
+                ?.toLowerCase()
+                ?.trim() ===
+              userEmail
+          ) || [];
 
-          expireDate.setDate(
-            expireDate.getDate() +
-            30
-          );
+        if (userPayments.length === 0) {
 
-          const today =
-            new Date();
+          setCurrentPlan(null);
 
-          const diffTime =
-            expireDate - today;
+          setDaysLeft(0);
 
-          const remainingDays =
-            Math.ceil(
-              diffTime /
-              (
-                1000 *
-                60 *
-                60 *
-                24
-              )
-            );
-
-          setDaysLeft(
-            remainingDays > 0
-              ? remainingDays
-              : 0
-          );
-
-        } catch (error) {
-
-          console.log(
-            "PAYMENT ERROR => ",
-            error
-          );
+          return;
         }
-      };
+
+        const latestPayment =
+          userPayments.sort(
+            (a, b) =>
+              new Date(b.created_at) -
+              new Date(a.created_at)
+          )[0];
+
+        setCurrentPlan(latestPayment);
+
+      } catch (error) {
+
+        console.log(
+          "PAYMENT ERROR => ",
+          error
+        );
+
+      } finally {
+
+        setPaymentLoading(false);
+
+      }
+    };
 
     fetchCurrentPlan();
 
@@ -516,9 +469,10 @@ const fetchChildren = async () => {
               <h3>
 
                 {
-                  currentPlan
-                    ?.description ||
-                  "No Payment Done"
+                  paymentLoading
+                    ? "Loading..."
+                    : currentPlan?.description ||
+                    "No Payment Done"
                 }
 
               </h3>
@@ -535,9 +489,10 @@ const fetchChildren = async () => {
 
               <h2>
 
-                ₹ {
-                  currentPlan?.amount ||
-                  0
+                {
+                  paymentLoading
+                    ? "Loading..."
+                    : `₹ ${currentPlan?.amount || 0}`
                 }
 
               </h2>
