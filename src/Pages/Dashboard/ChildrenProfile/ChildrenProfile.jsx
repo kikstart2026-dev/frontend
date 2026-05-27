@@ -463,107 +463,107 @@ const ChildrenProfile = () => {
             {/* PAYMENT CARD */}
 
             <div
-  className={
-    styles.paymentCard
-  }
->
+              className={
+                styles.paymentCard
+              }
+            >
 
-  <div
-    className={
-      styles.planTop
-    }
-  >
+              <div
+                className={
+                  styles.planTop
+                }
+              >
 
-    <span>
-      CURRENT PLAN
-    </span>
+                <span>
+                  CURRENT PLAN
+                </span>
 
-    <div
-      className={
-        currentPlan
-          ? styles.activeBadge
-          : styles.inactiveBadge
-      }
-    >
+                <div
+                  className={
+                    currentPlan
+                      ? styles.activeBadge
+                      : styles.inactiveBadge
+                  }
+                >
 
-      ● {
-        currentPlan
-          ? "Active"
-          : "Inactive"
-      }
+                  ● {
+                    currentPlan
+                      ? "Active"
+                      : "Inactive"
+                  }
 
-    </div>
+                </div>
 
-  </div>
+              </div>
 
-  <h3>
+              <h3>
 
-    {
-      currentPlan
-        ?.description ||
-      "No Payment Done"
-    }
+                {
+                  currentPlan
+                    ?.description ||
+                  "No Payment Done"
+                }
 
-  </h3>
+              </h3>
 
-  <p>
+              <p>
 
-    {
-      currentPlan
-        ? "Your subscription is active and fully paid."
-        : "No active subscription found."
-    }
+                {
+                  currentPlan
+                    ? "Your subscription is active and fully paid."
+                    : "No active subscription found."
+                }
 
-  </p>
+              </p>
 
-  <h2>
+              <h2>
 
-    ₹ {
-      currentPlan?.amount ||
-      0
-    }
+                ₹ {
+                  currentPlan?.amount ||
+                  0
+                }
 
-  </h2>
+              </h2>
 
-  <div
-    className={
-      styles.planBottom
-    }
-  >
+              <div
+                className={
+                  styles.planBottom
+                }
+              >
 
-    <div>
+                <div>
 
-      <small>
-        Payment Date
-      </small>
+                  <small>
+                    Payment Date
+                  </small>
 
-      <strong>
+                  <strong>
 
-        {
-          currentPlan
-            ?.created_at ||
-          "N/A"
-        }
+                    {
+                      currentPlan
+                        ?.created_at ||
+                      "N/A"
+                    }
 
-      </strong>
+                  </strong>
 
-    </div>
+                </div>
 
-    <div>
+                <div>
 
-      <small>
-        Expires In
-      </small>
+                  <small>
+                    Expires In
+                  </small>
 
-      <strong>
-        {daysLeft} Days
-      </strong>
+                  <strong>
+                    {daysLeft} Days
+                  </strong>
 
-    </div>
+                </div>
 
-  </div>
+              </div>
 
-</div>
+            </div>
 
           </div>
 

@@ -1,10 +1,20 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import styles from "./DashboardSidebar.module.scss";
-
+import kiklogo from "../../assets/images/authLogo.png";
 export default function DashboardSidebar() {
   return (
     <div className={styles.sidebar}>
+
+      <div className={styles.navLogo}>
+                <NavLink to="/">
+                  <img
+                    src={kiklogo}
+                    alt="logo"
+                    className={styles.logo}
+                  />
+                </NavLink>
+              </div>
       <nav>
         {/* DASHBOARD */}
         <NavLink

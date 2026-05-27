@@ -299,13 +299,14 @@ export default function Transaction() {
 
                     <span
                       className={
-                        item.status ===
-                          "captured"
+                        item.status === "captured"
                           ? styles.success
                           : styles.failed
                       }
                     >
-                      {item.status}
+                      {item.status === "captured"
+                        ? "Paid"
+                        : item.status}
                     </span>
                   </div>
 
@@ -327,8 +328,8 @@ export default function Transaction() {
 
               <div
                 className={`${styles.transactionBody} ${openIndex === index
-                    ? styles.show
-                    : ""
+                  ? styles.show
+                  : ""
                   }`}
               >
 
@@ -347,16 +348,6 @@ export default function Transaction() {
                         }
                       </h2>
 
-                      {/* <span
-                        className={
-                          item.status ===
-                            "captured"
-                            ? styles.pending
-                            : styles.failed
-                        }
-                      >
-                        {item.status}
-                      </span> */}
 
                     </div>
 
