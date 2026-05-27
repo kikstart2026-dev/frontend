@@ -393,6 +393,47 @@ export const getAllPayments = async (paymentData) => {
 };
 
 /* ================================
+    SUBSCRIPTION APIs
+================================ */
+
+// GET ALL PLANS
+export const getAllPlans = async () => {
+  const res = await axiosInstance.get(
+   endpoints.getAllPlans
+  );
+
+    return res.data;
+  };
+
+
+// GET SINGLE PLAN
+export const getSinglePlan = async (id) => {
+ const res = await axiosInstance.get(
+   endpoints.getSinglePlan(id)
+  );
+  return res.data;
+  };
+
+
+// SAVE SUBSCRIPTION
+export const saveSubscription = async (payload) => {
+  const res = await axiosInstance.post( endpoints.saveSubscription, payload );
+  return res.data;
+  };
+
+
+// GET USER ACTIVE PLAN
+export const getUserActivePlan = async (email) => {
+
+    const res = await axiosInstance.get(
+      endpoints.getUserActivePlan( email )
+    );
+    return res.data;
+  };
+
+
+
+/* ================================
     Schools APIs
 ================================ */
 

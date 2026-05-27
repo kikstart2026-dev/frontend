@@ -52,15 +52,25 @@ export const endpoints = {
   getAllFaqsUser: "user/faq",
   getFaqByIdUser: (id) => `user/faq/${id}`,
 
-  
+
   // Interested Schools --------------------------------------->>
-  
+
   getAllSchools: "user/schools/",
   getSchoolById: (id) => `user/schools/${id}`,
-  
+
   // Payment Gateway --------------------------------------->>
   payment: "/kikPayment",
-  getAllPayments:"/all-payments",
+  getAllPayments: "/all-payments",
+
+  // SUBSCRIPTION --------------------------------------->>
+
+  getAllPlans: "/subscription/all",
+
+  getSinglePlan: (id) => `/subscription/single/${id}`,
+
+  saveSubscription: "/subscription-payment/save-subscription",
+
+  getUserActivePlan: (email) => `/subscription-payment/active-plan/${email}`,
 
   // CHILDREN PROFILE ------------------------------------->>
 
@@ -77,30 +87,30 @@ export const endpoints = {
   deleteAllChild: "/children/deleteAllChild",
 
 
-// Schools (PUBLIC / USER SIDE)-------------------------------->>
+  // Schools (PUBLIC / USER SIDE)-------------------------------->>
 
-createSchoolDetails: "school/createSchoolDetails",
-getAllSchoolDetails: "school/getAllSchoolDetails",
-getSchoolDetailsById: (id) => `school/getSchoolDetailsById/${id}`,
-updateSchoolDetails: (id) => `school/updateSchoolDetails/${id}`,
-deleteSchoolDetails: (id) => `school/deleteSchoolDetails/${id}`,
-deleteAllSchoolDetails: "school/deleteAllSchoolDetails",
-  
-
+  createSchoolDetails: "school/createSchoolDetails",
+  getAllSchoolDetails: "school/getAllSchoolDetails",
+  getSchoolDetailsById: (id) => `school/getSchoolDetailsById/${id}`,
+  updateSchoolDetails: (id) => `school/updateSchoolDetails/${id}`,
+  deleteSchoolDetails: (id) => `school/deleteSchoolDetails/${id}`,
+  deleteAllSchoolDetails: "school/deleteAllSchoolDetails",
 
 
-// Conversation
-createConversation: "conversation/create",
-addParticipant: "conversation/participant",
-getUserConversations: (userId) =>`conversation/my-chats/${userId}`,
-deleteConversation: (conversationSid) =>`conversation/${conversationSid}`,
-generateToken: "conversation/token",
 
-// Message
-sendMessage: "message/send",
-getMessages: (conversationSid) => `message/${conversationSid}`,
 
-//chat user only
-getChatUsers: "admin/users/chat-users",
+  // Conversation
+  createConversation: "conversation/create",
+  addParticipant: "conversation/participant",
+  getUserConversations: (userId) => `conversation/my-chats/${userId}`,
+  deleteConversation: (conversationSid) => `conversation/${conversationSid}`,
+  generateToken: "conversation/token",
+
+  // Message
+  sendMessage: "message/send",
+  getMessages: (conversationSid) => `message/${conversationSid}`,
+
+  //chat user only
+  getChatUsers: "admin/users/chat-users",
 
 };

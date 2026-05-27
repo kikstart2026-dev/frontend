@@ -1,10 +1,76 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import styles from "./EnrolmentSection.module.scss";
-import EnrolmentData from "../../../data/EnrolmentData";
+
+import {
+  getAllPlans, getUserActivePlan
+} from "../../../apis/api";
 import Enrolment from "../Enrolment";
 
 export default function EnrolmentSection() {
   const [planType, setPlanType] = useState("monthly");
+  const [plans, setPlans] = useState([]);
+  const [activePlan, setActivePlan] = useState(null);
+
+
+  useEffect(() => {
+
+  fetchPlans();
+  fetchActivePlan();
+
+}, []);
+
+const fetchPlans =
+  async () => {
+
+    try {
+
+      const res =
+        await getAllPlans();
+
+      if (res.success) {
+
+        setPlans(res.plans);
+
+      }
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+  };
+
+  const fetchActivePlan =
+  async () => {
+
+    try {
+
+      const user =
+        JSON.parse(
+          localStorage.getItem("user")
+        );
+
+      if (!user?.email) return;
+
+      const res =
+        await getUserActivePlan(
+          user.email
+        );
+
+      if (res.success) {
+
+        setActivePlan(
+          res.subscription
+        );
+
+      }
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+  };
 
   return (
     <section className={`container-fluid ${styles.wrapper}`}>
@@ -42,13 +108,40 @@ export default function EnrolmentSection() {
         </div>
 
         {/* Cards */}
-        <div className="row g-4">
-          {EnrolmentData.map((item) => (
-            <div key={item.id} className="col-4 p-0 px-2">
-              <Enrolment data={item} type={planType} />
-            </div>
-          ))}
+       {/* Cards */}
+<div className="row g-4">
+
+ {
+    plans
+
+      ?.filter((item) =>
+
+        planType === "monthly"
+
+          ? item.durationDays <= 30
+
+          : item.durationDays > 30
+
+      )
+
+      ?.map((item) => (
+
+        <div
+          key={item._id}
+          className="col-4 p-0 px-2"
+        >
+
+          <Enrolment
+            data={item}
+            type={planType}
+          />
+
         </div>
+
+      ))
+  }
+
+</div>
 
       </div>
     </section>
