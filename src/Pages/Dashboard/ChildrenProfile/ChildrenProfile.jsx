@@ -47,48 +47,65 @@ const ChildrenProfile = () => {
 
   // ================= FETCH CHILDREN =================
 
-  const fetchChildren =
-    async () => {
+// ================= FETCH CHILDREN =================
 
-      try {
+const fetchChildren = async () => {
+  try {
 
-        const res =
-          await getAllChild();
+    const user = JSON.parse(localStorage.getItem("user"));
 
-        console.log("CHILD RESPONSE => ", res);
+    const userEmail =
+      user?.email?.toLowerCase()?.trim();
 
-        if (res.success) {
+    const res = await getAllChild();
 
-          setChildren(res.data);
+    console.log("CHILD RESPONSE => ", res);
 
-          if (
-            res.data.length > 0
-          ) {
+    if (res.success) {
 
-            if (id) {
+      // ================= FILTER CHILDREN =================
 
-              const selectedChild =
-                res.data.find((child) => child._id === id);
+      const filteredChildren =
+        res.data.filter(
+          (child) =>
+            child?.email
+              ?.toLowerCase()
+              ?.trim() === userEmail
+        );
 
-              setActiveChild(
-                selectedChild || res.data[0]);
-            } else {
-              setActiveChild(
-                res.data[0]
-              );
-            }
-          }
+      setChildren(filteredChildren);
+
+      if (filteredChildren.length > 0) {
+
+        if (id) {
+
+          const selectedChild =
+            filteredChildren.find(
+              (child) => child._id === id
+            );
+
+          setActiveChild(
+            selectedChild || filteredChildren[0]
+          );
+
+        } else {
+
+          setActiveChild(filteredChildren[0]);
+
         }
-
-      } catch (error) {
-
-        console.log("FETCH ERROR => ", error);
-
-      } finally {
-
-        setLoading(false);
       }
-    };
+    }
+
+  } catch (error) {
+
+    console.log("FETCH ERROR => ", error);
+
+  } finally {
+
+    setLoading(false);
+
+  }
+};
 
   useEffect(() => {
 
