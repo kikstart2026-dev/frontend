@@ -159,63 +159,56 @@ export default function Enrolment({ data, type }) {
   };
 
   return (
-    <div className={`card ${styles.planCard}`}>
-      <div className="card-body p-0">
-
-        <span className={styles.badge}>
-          {data?.planName?.toUpperCase()}
-        </span>
-
-        <p className={styles.desc}>
-          {data.description}
-        </p>
-
-        <div className={styles.priceWrap}>
-          <h2 className={styles.price}>
-            ₹{data.amount}
-          </h2>
-
-          <span className={styles.per}>
-            {data.durationDays} Days
-          </span>
-
-        </div>
-
-        <ul className={styles.featureList}>
-
-          {
-
-            Object.entries(
-              featureLabels
-            ).map(([key, label]) => (
-
-              <li
-                key={key}
-
-                className={
-                  !data.permissions?.[key]
-                    ? styles.disabled
-                    : ""
-                }
-              >
-
-                {label}
-
-              </li>
-
-            ))
-          }
-
-        </ul>
-
-        <Button
-          className={styles.subscribeBtn}
-          text="SUBSCRIBE"
-          variant="primary"
-          onClick={handlePayment}
-        />
-
+  <div className={`card ${styles.planCard}`}>
+    <div className="card-body p-0">
+      
+     
+    {(Number(data.amount) === 399 || Number(data.amount) === 799) && (
+      <div className={styles.freeDaysRibbon}>
+        <span>{Number(data.amount) === 399 ? "29 Days" : "39 Days"}</span>
+        <span>Free</span>
       </div>
+    )}
+
+   
+    <span className={styles.badge}>
+      {data?.planName?.toUpperCase()}
+    </span>
+
+      <p className={styles.desc}>
+        {data.description}
+      </p>
+
+      <div className={styles.priceWrap}>
+        <h2 className={styles.price}>
+          ₹{data.amount}
+        </h2>
+
+        {/* এখানে ব্র্যাকেটের অংশটুকু ফেলে দিয়ে শুধু দিন সংখ্যা রাখা হলো */}
+        <span className={styles.per}>
+          {data.durationDays} Days
+        </span>
+      </div>
+
+      <ul className={styles.featureList}>
+        {Object.entries(featureLabels).map(([key, label]) => (
+          <li
+            key={key}
+            className={!data.permissions?.[key] ? styles.disabled : ""}
+          >
+            {label}
+          </li>
+        ))}
+      </ul>
+
+      <Button
+        className={styles.subscribeBtn}
+        text="SUBSCRIBE"
+        variant="primary"
+        onClick={handlePayment}
+      />
+
     </div>
-  );
+  </div>
+);
 }
