@@ -1,135 +1,98 @@
-import React, { useEffect, useState, } from "react";
+import React, { useEffect, useState } from "react";
 
 import styles from "./ChildrenProfile.module.scss";
 
-import { useNavigate, useParams, } from "react-router-dom";
-
-import { getAllChild } from "../../../apis/api";
+import {
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 
 import {
-  getAllPayments,
+  getAllChild,
+  getUserActivePlan,
 } from "../../../apis/api";
 
 const ChildrenProfile = () => {
 
-  const IMAGE_BASE_URL = "http://localhost:8008";
+  const IMAGE_BASE_URL =
+    "http://localhost:8008";
 
-  const { id } = useParams();
+  const { id } =
+    useParams();
 
-  const navigate = useNavigate();
+  const navigate =
+    useNavigate();
 
-  const [children, setChildren] = useState([]);
+  const [children, setChildren] =
+    useState([]);
 
-  const [activeChild, setActiveChild,] = useState(null);
+  const [
+    activeChild,
+    setActiveChild,
+  ] = useState(null);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] =
+    useState(true);
 
-  const [startIndex, setStartIndex] = useState(0);
-  const visibleChildren = children.slice(startIndex, startIndex + 5);
+  const [startIndex, setStartIndex] =
+    useState(0);
 
-  const [currentPlan, setCurrentPlan] =
-    useState(null);
+  const visibleChildren =
+    children.slice(
+      startIndex,
+      startIndex + 5
+    );
+
+  const [
+    currentPlan,
+    setCurrentPlan,
+  ] = useState(null);
 
   const [daysLeft, setDaysLeft] =
     useState(0);
 
-  const [paymentLoading, setPaymentLoading] = useState(true);
+  const [
+    paymentLoading,
+    setPaymentLoading,
+  ] = useState(true);
+
+  // ================= SLIDER =================
 
   const handleNext = () => {
-    if (startIndex + 5 < children.length) {
-      setStartIndex(startIndex + 1);
+
+    if (
+      startIndex + 5 <
+      children.length
+    ) {
+
+      setStartIndex(
+        startIndex + 1
+      );
     }
   };
 
   const handlePrev = () => {
+
     if (startIndex > 0) {
-      setStartIndex(startIndex - 1);
+
+      setStartIndex(
+        startIndex - 1
+      );
     }
   };
 
   // ================= FETCH CHILDREN =================
 
-  // ================= FETCH CHILDREN =================
-
-  const fetchChildren = async () => {
-    try {
-
-      const user = JSON.parse(localStorage.getItem("user"));
-
-      const userEmail =
-        user?.email?.toLowerCase()?.trim();
-
-      const res = await getAllChild();
-
-      console.log("CHILD RESPONSE => ", res);
-
-      if (res.success) {
-
-        // ================= FILTER CHILDREN =================
-
-        const filteredChildren =
-          res.data.filter(
-            (child) =>
-              child?.email
-                ?.toLowerCase()
-                ?.trim() === userEmail
-          );
-
-        setChildren(filteredChildren);
-
-        if (filteredChildren.length > 0) {
-
-          if (id) {
-
-            const selectedChild =
-              filteredChildren.find(
-                (child) => child._id === id
-              );
-
-            setActiveChild(
-              selectedChild || filteredChildren[0]
-            );
-
-          } else {
-
-            setActiveChild(filteredChildren[0]);
-
-          }
-        }
-      }
-
-    } catch (error) {
-
-      console.log("FETCH ERROR => ", error);
-
-    } finally {
-
-      setLoading(false);
-
-    }
-  };
-
-  useEffect(() => {
-
-    fetchChildren();
-
-  }, []);
-
-
-
-  // ================= FETCH CURRENT PLAN =================
-
-  useEffect(() => {
-
-    const fetchCurrentPlan = async () => {
-
-      setPaymentLoading(true);
+  const fetchChildren =
+    async () => {
 
       try {
 
         const user =
           JSON.parse(
-            localStorage.getItem("user")
+            localStorage.getItem(
+              "user"
+            )
           );
 
         const userEmail =
@@ -138,48 +101,133 @@ const ChildrenProfile = () => {
             ?.trim();
 
         const res =
-          await getAllPayments();
+          await getAllChild();
 
-        const userPayments =
-          res?.payments?.filter(
-            (item) =>
-              item?.email
-                ?.toLowerCase()
-                ?.trim() ===
-              userEmail
-          ) || [];
+        if (res.success) {
 
-        if (userPayments.length === 0) {
+          const filteredChildren =
+            res.data.filter(
+              (child) =>
+                child?.email
+                  ?.toLowerCase()
+                  ?.trim() ===
+                userEmail
+            );
 
-          setCurrentPlan(null);
+          setChildren(
+            filteredChildren
+          );
 
-          setDaysLeft(0);
+          if (
+            filteredChildren.length >
+            0
+          ) {
 
-          return;
+            if (id) {
+
+              const selectedChild =
+                filteredChildren.find(
+                  (child) =>
+                    child._id === id
+                );
+
+              setActiveChild(
+
+                selectedChild ||
+
+                filteredChildren[0]
+
+              );
+
+            } else {
+
+              setActiveChild(
+                filteredChildren[0]
+              );
+            }
+          }
         }
-
-        const latestPayment =
-          userPayments.sort(
-            (a, b) =>
-              new Date(b.created_at) -
-              new Date(a.created_at)
-          )[0];
-
-        setCurrentPlan(latestPayment);
 
       } catch (error) {
 
         console.log(
-          "PAYMENT ERROR => ",
+          "FETCH ERROR => ",
           error
         );
 
       } finally {
 
-        setPaymentLoading(false);
-
+        setLoading(false);
       }
     };
+
+  useEffect(() => {
+
+    fetchChildren();
+
+  }, []);
+
+  // ================= FETCH CURRENT PLAN =================
+
+  useEffect(() => {
+
+    const fetchCurrentPlan =
+      async () => {
+
+        setPaymentLoading(true);
+
+        try {
+
+          const user =
+            JSON.parse(
+              localStorage.getItem(
+                "user"
+              )
+            );
+
+          const userEmail =
+            user?.email
+              ?.toLowerCase()
+              ?.trim();
+
+          const res =
+            await getUserActivePlan(
+              userEmail
+            );
+
+          if (res.success) {
+
+            setCurrentPlan(
+              res.subscription
+            );
+
+            setDaysLeft(
+              res.daysLeft
+            );
+
+          } else {
+
+            setCurrentPlan(
+              null
+            );
+
+            setDaysLeft(0);
+          }
+
+        } catch (error) {
+
+          console.log(
+            "PLAN ERROR => ",
+            error
+          );
+
+        } finally {
+
+          setPaymentLoading(
+            false
+          );
+        }
+      };
 
     fetchCurrentPlan();
 
@@ -194,7 +242,11 @@ const ChildrenProfile = () => {
 
   return (
 
-    <div className={styles.childrenProfile} >
+    <div
+      className={
+        styles.childrenProfile
+      }
+    >
 
       {/* ================= TOP BAR ================= */}
 
@@ -202,27 +254,44 @@ const ChildrenProfile = () => {
 
         <div className={styles.tabs}>
 
-          <button onClick={handlePrev} disabled={startIndex === 0}>
+          <button
+            onClick={handlePrev}
+            disabled={
+              startIndex === 0
+            }
+          >
             ◀
           </button>
 
-          {visibleChildren.map((child) => (
-            <button
-              key={child._id}
-              className={
-                activeChild?._id === child._id
-                  ? styles.activeTab
-                  : ""
-              }
-              onClick={() => setActiveChild(child)}
-            >
-              {child.fullName}
-            </button>
-          ))}
+          {visibleChildren.map(
+            (child) => (
+              <button
+                key={child._id}
+                className={
+                  activeChild?._id ===
+                    child._id
+                    ? styles.activeTab
+                    : ""
+                }
+                onClick={() =>
+                  setActiveChild(
+                    child
+                  )
+                }
+              >
+                {
+                  child.fullName
+                }
+              </button>
+            )
+          )}
 
           <button
             onClick={handleNext}
-            disabled={startIndex + 5 >= children.length}
+            disabled={
+              startIndex + 5 >=
+              children.length
+            }
           >
             ▶
           </button>
@@ -239,9 +308,7 @@ const ChildrenProfile = () => {
             )
           }
         >
-
           +ADD CHILD
-
         </button>
 
       </div>
@@ -254,46 +321,87 @@ const ChildrenProfile = () => {
 
           {/* ================= LEFT ================= */}
 
-          <div className={styles.leftSection} >
+          <div
+            className={
+              styles.leftSection
+            }
+          >
 
-            {/* FULL WIDTH NAME */}
+            <div
+              className={
+                styles.fullWidthCard
+              }
+            >
 
-            <div className={styles.fullWidthCard}>
+              <label>
+                Full Name
+              </label>
 
-              <label> Full Name </label>
-
-              <p> {activeChild.fullName}  </p>
+              <p>
+                {
+                  activeChild.fullName
+                }
+              </p>
 
             </div>
-
-            {/* EMAIL + AGE */}
 
             <div className={styles.row}>
 
-              <div className={styles.card} >
+              <div
+                className={
+                  styles.card
+                }
+              >
 
-                <label> Email Id </label>
+                <label>
+                  Email Id
+                </label>
 
-                <p> {activeChild.email || "N/A"} </p>
+                <p>
+                  {
+                    activeChild.email ||
+                    "N/A"
+                  }
+                </p>
 
               </div>
 
-              <div className={styles.card}>
+              <div
+                className={
+                  styles.card
+                }
+              >
 
-                <label>  Age</label>
+                <label>
+                  Age
+                </label>
 
-                <p> {activeChild.age}{" "} years </p>
+                <p>
+                  {
+                    activeChild.age
+                  }{" "}
+                  years
+                </p>
 
               </div>
 
             </div>
 
-            <div className={styles.card} >
+            <div
+              className={
+                styles.card
+              }
+            >
 
-              <label> Location </label>
+              <label>
+                Location
+              </label>
 
               <p>
-                {activeChild.location} </p>
+                {
+                  activeChild.location
+                }
+              </p>
 
             </div>
 
@@ -308,8 +416,10 @@ const ChildrenProfile = () => {
               </label>
 
               <p>
-                {activeChild.foodHabit ||
-                  "N/A"}
+                {
+                  activeChild.foodHabit ||
+                  "N/A"
+                }
               </p>
 
             </div>
@@ -422,7 +532,13 @@ const ChildrenProfile = () => {
 
               </span>
 
-              <button onClick={() => navigate(`/dashboard/children-edit/${activeChild._id}`)} >
+              <button
+                onClick={() =>
+                  navigate(
+                    `/dashboard/children-edit/${activeChild._id}`
+                  )
+                }
+              >
 
                 Edit Profile
 
@@ -471,7 +587,9 @@ const ChildrenProfile = () => {
                 {
                   paymentLoading
                     ? "Loading..."
-                    : currentPlan?.description ||
+                    : currentPlan
+                      ?.subscriptionId
+                      ?.planName ||
                     "No Payment Done"
                 }
 
@@ -513,8 +631,10 @@ const ChildrenProfile = () => {
 
                     {
                       currentPlan
-                        ?.created_at ||
-                      "N/A"
+                        ? new Date(
+                          currentPlan.paymentDate
+                        ).toLocaleDateString()
+                        : "N/A"
                     }
 
                   </strong>
@@ -528,7 +648,10 @@ const ChildrenProfile = () => {
                   </small>
 
                   <strong>
-                    {daysLeft} Days
+                    {
+                      daysLeft
+                    }{" "}
+                    Days
                   </strong>
 
                 </div>
@@ -546,5 +669,4 @@ const ChildrenProfile = () => {
     </div>
   );
 };
-
 export default ChildrenProfile;
