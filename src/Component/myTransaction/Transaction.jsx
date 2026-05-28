@@ -12,6 +12,7 @@ export default function Transaction() {
   const [openIndex, setOpenIndex] = useState(null);
   const [loading, setLoading] = useState(true);
 
+
   // ================= USER EMAIL =================
 
   let userEmail = "";
@@ -34,6 +35,16 @@ export default function Transaction() {
   }
 
   // ================= FETCH PAYMENTS =================
+  const toNumber = (val) => {
+    const num = Number(val);
+    return isNaN(num) ? 0 : num;
+  };
+
+
+  const money = (v) => {
+    const num = Number(v || 0);
+    return "Rs." + num.toFixed(2);
+  };
 
   useEffect(() => {
 
@@ -110,10 +121,17 @@ export default function Transaction() {
   };
 
   // ================= DOWNLOAD PDF =================
+  const formatDate = (date) => {
+    if (!date) return "N/A";
+    return new Date(date).toLocaleString();
+  };
+
+
 
   const downloadInvoice = (item) => {
 
     const doc = new jsPDF();
+
 
     // HEADER
 
@@ -156,67 +174,41 @@ export default function Transaction() {
 
       head: [["Field", "Details"]],
 
+
+
       body: [
 
+        ["Full Name", item.fullname || "N/A"],
+        ["Email", item.email || "N/A"],
+        ["Phone", item.phone || item.contact || "N/A"],
+
+        ["Plan Name", item.planName || "N/A"],
+        ["Amount", money(item.amount || 0)],
+
+        ["Payment ID", item.payment_id || "N/A"],
+        ["Order ID", item.order_id || "N/A"],
+
+        ["Payment Method", item.method || "N/A"],
+        ["Currency", item.currency || "INR"],
+
+        ["Fee", money(item.fee || 0)],
+        ["Tax", money(item.tax || 0)],
+
         [
-          "Full Name",
-          item.fullname || "N/A"
+          "Payment Date",
+          item.paymentDate
+            ? new Date(item.paymentDate).toLocaleString()
+            : "N/A",
         ],
 
         [
-          "Email Address",
-          item.email || "N/A"
+          "Expire Date",
+          item.expireDate
+            ? new Date(item.expireDate).toLocaleDateString()
+            : "N/A",
         ],
 
-        [
-          "Phone Number",
-          item.contact || "N/A"
-        ],
-
-        [
-          "Payment ID",
-          item.payment_id || "N/A"
-        ],
-
-        [
-          "Order ID",
-          item.order_id || "N/A"
-        ],
-
-        [
-          "Amount",
-          `INR ${item.amount}`
-        ],
-
-        [
-          "Payment Method",
-          item.method || "N/A"
-        ],
-
-        [
-          "Status",
-          item.status || "N/A"
-        ],
-
-        [
-          "Currency",
-          item.currency || "N/A"
-        ],
-
-        [
-          "Fee",
-          `INR ${item.fee}`
-        ],
-
-        [
-          "Tax",
-          `INR ${item.tax}`
-        ],
-
-        [
-          "Date & Time",
-          item.created_at || "N/A"
-        ],
+        ["Status", item.status || "captured"],
       ],
 
       headStyles: {
@@ -230,10 +222,53 @@ export default function Transaction() {
         cellPadding: 4,
       },
     });
+    // -------------------------
+    // TOTAL SECTION (NEW)
+    // -------------------------
 
-    doc.save(
-      `Invoice-${item.payment_id}.pdf`
+    const total =
+      Number(item.amount || 0) +
+      Number(item.fee || 0) +
+      Number(item.tax || 0);
+
+    // table end position
+    const finalY = doc.lastAutoTable.finalY || 60;
+
+    // small clean spacing
+    const summaryStartY = finalY + 10;
+
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "bold");
+
+    doc.setTextColor(220, 38, 38);
+    doc.text("Payment Summary", 14, summaryStartY);
+
+    // TOTAL (FIXED GAP HERE)
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(13);
+
+    doc.setTextColor(0, 0, 0);
+    doc.text(`Total Paid: ${money(total)}`, 14, summaryStartY + 18);
+
+    // -------------------------
+    // FOOTER
+    // -------------------------
+    const pageHeight = doc.internal.pageSize.height;
+
+    doc.setFontSize(10);
+    doc.setTextColor(120);
+    doc.setFont("helvetica", "normal");
+
+    doc.text(
+      "Thank you for your payment!",
+      14,
+      pageHeight - 30
     );
+
+    // -------------------------
+    // SAVE
+    // -------------------------
+    doc.save(`Invoice-${item.payment_id || "receipt"}.pdf`);
   };
 
   return (
@@ -286,16 +321,11 @@ export default function Transaction() {
                   <div>
 
                     <h3>
-                      {
-                        item.description ||
-                        "Professional Plan Payment"
-                      }
+                      {item.description || item.planName || "Subscription Payment"}
                     </h3>
 
                     <p>
-                      {
-                        item.created_at
-                      }
+                      {formatDate(item.created_at || item.paymentDate)}
                     </p>
 
                   </div>
@@ -390,63 +420,33 @@ export default function Transaction() {
                     <div className={styles.tableColumn}>
 
                       <div className={styles.tableRow}>
-                        <span>
-                          Full Name
-                        </span>
-
-                        <p>
-                          {item.fullname || "N/A"}
-                        </p>
+                        <span>Full Name</span>
+                        <p>{item.fullname || "N/A"}</p>
                       </div>
 
                       <div className={styles.tableRow}>
-                        <span>
-                          Email Address
-                        </span>
-
-                        <p>
-                          {item.email || "N/A"}
-                        </p>
+                        <span>Email</span>
+                        <p>{item.email || "N/A"}</p>
                       </div>
 
                       <div className={styles.tableRow}>
-                        <span>
-                          Phone Number
-                        </span>
-
-                        <p>
-                          {item.contact || "N/A"}
-                        </p>
+                        <span>Phone</span>
+                        <p>{item.phone || item.contact || "N/A"}</p>
                       </div>
 
                       <div className={styles.tableRow}>
-                        <span>
-                          Payment ID
-                        </span>
-
-                        <p>
-                          {item.payment_id}
-                        </p>
+                        <span>Plan Name</span>
+                        <p>{item.planName || "N/A"}</p>
                       </div>
 
                       <div className={styles.tableRow}>
-                        <span>
-                          Order ID
-                        </span>
-
-                        <p>
-                          {item.order_id}
-                        </p>
+                        <span>Amount</span>
+                        <p>₹ {item.amount}</p>
                       </div>
 
                       <div className={styles.tableRow}>
-                        <span>
-                          Date & Time
-                        </span>
-
-                        <p>
-                          {item.created_at}
-                        </p>
+                        <span>Payment ID</span>
+                        <p>{item.payment_id}</p>
                       </div>
 
                     </div>
@@ -456,70 +456,33 @@ export default function Transaction() {
                     <div className={styles.tableColumn}>
 
                       <div className={styles.tableRow}>
-                        <span>
-                          Currency
-                        </span>
-
-                        <p>
-                          {item.currency}
-                        </p>
+                        <span>Order ID</span>
+                        <p>{item.order_id || "N/A"}</p>
                       </div>
 
                       <div className={styles.tableRow}>
-                        <span>
-                          Payment Type
-                        </span>
-
-                        <p>
-                          {item.method}
-                        </p>
+                        <span>Payment Method</span>
+                        <p>{item.method || "N/A"}</p>
                       </div>
 
                       <div className={styles.tableRow}>
-                        <span>
-                          Amount
-                        </span>
-
-                        <p className={styles.amountText}>
-                          ₹ {item.amount}
-                        </p>
+                        <span>Currency</span>
+                        <p>{item.currency || "INR"}</p>
                       </div>
 
                       <div className={styles.tableRow}>
-                        <span>
-                          Fee
-                        </span>
-
-                        <p>
-                          ₹ {item.fee || 0}
-                        </p>
+                        <span>Fee</span>
+                        <p>₹ {toNumber(item.fee || 0)}</p>
                       </div>
 
                       <div className={styles.tableRow}>
-                        <span>
-                          Tax
-                        </span>
-
-                        <p>
-                          ₹ {item.tax || 0}
-                        </p>
+                        <span>Tax</span>
+                        <p>₹ {toNumber(item.tax || 0)}</p>
                       </div>
 
                       <div className={styles.tableRow}>
-                        <span>
-                          Status
-                        </span>
-
-                        <p
-                          className={
-                            item.status ===
-                              "captured"
-                              ? styles.successText
-                              : styles.failedText
-                          }
-                        >
-                          {item.status}
-                        </p>
+                        <span>Subscription Ends</span>
+                        <p>{formatDate(item.expireDate)}</p>
                       </div>
 
                     </div>

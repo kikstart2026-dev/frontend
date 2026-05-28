@@ -60,7 +60,7 @@ export const endpoints = {
 
   // Payment Gateway --------------------------------------->>
   payment: "/kikPayment",
-  getAllPayments: "/all-payments",
+  getAllPayments: "subscription-payment/all-payments",
 
   // SUBSCRIPTION --------------------------------------->>
 
