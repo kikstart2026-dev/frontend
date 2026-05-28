@@ -6,6 +6,8 @@ import autoTable from "jspdf-autotable";
 
 import styles from "./Transaction.module.scss";
 
+import TransactionSkeleton from "../../Skeletons/TransactionSkeleton/TransactionSkeleton";
+
 export default function Transaction() {
 
   const [payments, setPayments] = useState([]);
@@ -242,11 +244,7 @@ export default function Transaction() {
 
       {
         loading ? (
-
-          <div className={styles.noTransaction}>
-            Loading...
-          </div>
-
+          <TransactionSkeleton />
         ) : payments?.length > 0 ? (
 
           payments.map((item, index) => (
