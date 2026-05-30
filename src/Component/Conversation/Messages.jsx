@@ -10,7 +10,7 @@ import {
   getChatUsers,
   createConversation,
   deleteConversation,
-} from "../../apis/api";
+} from "../../apis/api"; 
 
 import styles from "./Messages.module.scss";
 import { FiMoreVertical, FiSearch, FiSend, FiSmile, FiUsers } from "react-icons/fi";
@@ -18,23 +18,22 @@ import EmojiPicker from "emoji-picker-react";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import { BsMicFill, BsPauseFill, BsTrashFill } from "react-icons/bs";
 
-import axios from "axios";
+import axios from "axios"; 
 
 export default function Messages() {
   const queryClient = useQueryClient();
   const user = JSON.parse(localStorage.getItem("user"));
   const currentUserId = user?._id || user?.id;
 
-  const [onlineUsers, setOnlineUsers] = useState({}); // { userId: true/false }
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [messageText, setMessageText] = useState("");
   const [allMessages, setAllMessages] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [twilioClient, setTwilioClient] = useState(null);
-
+  
   // ✅ আনরিড কাউন্ট ট্র্যাক করার স্টেট
-  const [unreadCounts, setUnreadCounts] = useState({});
+  const [unreadCounts, setUnreadCounts] = useState({}); 
 
   const messageEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -111,7 +110,7 @@ export default function Messages() {
   // ================= MARK AS READ MUTATION =================
   const markAsReadMutation = useMutation({
     mutationFn: async (payload) => {
-      return await axios.post("/chat/mark-as-read", payload);
+      return await axios.post("/chat/mark-as-read", payload); 
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user-conversations", currentUserId] });
@@ -243,7 +242,7 @@ export default function Messages() {
       setSelectedConversation(existingConversation);
       setSelectedUser(selectedUserData);
       triggerMarkAsRead(existingConversation.twilioConversationSid);
-
+      
       // ✅ চ্যাট ওপেন করার সাথে সাথে ফ্রন্টএন্ডে কাউন্ট ০ করে উধাও করে দেওয়া
       setUnreadCounts(prev => ({ ...prev, [existingConversation.twilioConversationSid]: 0 }));
       return;
@@ -278,57 +277,8 @@ export default function Messages() {
   }, [messageData]);
 
   // ================= REALTIME EVENT LISTENERS =================
-  // ❌ পুরনো useEffect-এর বদলে এই পুরোটা বসিয়ে দিন:
-  // ================= REALTIME EVENT LISTENERS =================
-  // ✅ এই useEffect-টি আপনার কোডের পুরনো লিসেনার ব্লকের জায়গায় প্রতিস্থাপন করুন
   useEffect(() => {
     if (!twilioClient) return;
-
-    // পার্টিসিপেন্টদের অনলাইন স্ট্যাটাস ওয়াচ করার ফাংশন
-    const trackParticipantsPresence = async (conversation) => {
-      try {
-        const participants = await conversation.getParticipants();
-        participants.forEach(async (participant) => {
-          if (participant.identity === currentUserId) return;
-
-          try {
-            // getAndWatchUser এর মাধ্যমে টুইliও সার্ভারের সাথে রিয়েল-টাইম কানেকশন তৈরি হয়
-            const twilioUser = await participant.getAndWatchUser();
-
-            // প্রাথমিক স্ট্যাটাস সেট
-            setOnlineUsers(prev => ({
-              ...prev,
-              [participant.identity]: twilioUser.isOnline
-            }));
-
-            // রিয়েল-টাইমে স্ট্যাটাস চেঞ্জের লিসেনার (কোনো ডুপ্লিকেট লিসেনার এড়াতে আগে অফ করে নেওয়া ভালো)
-            twilioUser.removeAllListeners("updated");
-
-            twilioUser.on("updated", (updatedUser) => {
-              if (updatedUser.updateReasons.includes("online")) {
-                setOnlineUsers(prev => ({
-                  ...prev,
-                  [participant.identity]: updatedUser.user.isOnline
-                }));
-              }
-            });
-          } catch (err) {
-            console.log("Presence not available for:", participant.identity);
-          }
-        });
-      } catch (error) {
-        console.error("Error tracking presence:", error);
-      }
-    };
-
-    // লোড হওয়া সব কনভারসেশনের পার্টিসিপেন্টদের ট্র্যাক করা
-    conversations.forEach(conv => {
-      if (conv?.twilioConversationSid) {
-        twilioClient.getConversationBySid(conv.twilioConversationSid)
-          .then(trackParticipantsPresence)
-          .catch(err => console.log("Error binding presence:", err));
-      }
-    });
 
     const handleConversationAdded = async () => {
       await refetchConversations();
@@ -338,12 +288,14 @@ export default function Messages() {
       await refetchMessages();
       const updatedConversations = await refetchConversations();
 
+      // ✅ অ্যাক্টিভ চ্যাটে মেসেজ আসলে নিজে রাইটার না হলে রিড মার্ক এবং কাউন্ট ০ হবে
       if (selectedConversation?.twilioConversationSid === message.conversation.sid) {
         if (message.author !== currentUserId) {
           triggerMarkAsRead(message.conversation.sid, message.index);
           setUnreadCounts(prev => ({ ...prev, [message.conversation.sid]: 0 }));
         }
       } else {
+        // ✅ অন্য কোনো চ্যাটে মেসেজ আসলে রিয়েল-টাইমে সেটার আনরিড কাউন্ট আপডেট হবে
         const list = updatedConversations?.data?.conversations || conversations;
         updateUnreadCounts(list);
       }
@@ -356,10 +308,8 @@ export default function Messages() {
       twilioClient.removeListener("conversationAdded", handleConversationAdded);
       twilioClient.removeListener("messageAdded", handleMessageAdded);
     };
+  }, [twilioClient, selectedConversation, currentUserId, conversations]);
 
-    // ✅ ট্রিক: conversations অ্যারেকে JSON.stringify করে ডিপেন্ডেন্সিতে দেওয়া হয়েছে 
-    // এর ফলে অ্যারের ভেতরের ডাটা বা সাইজ চেঞ্জ না হলে এই useEffect বারবার ফালতু রি-রান হবে না।
-  }, [twilioClient, selectedConversation, currentUserId, JSON.stringify(conversations)]);
   // Outside click for Emoji Picker
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -463,8 +413,9 @@ export default function Messages() {
             ?.map((group) => (
               <div
                 key={group._id}
-                className={`${styles.chatItem} ${selectedConversation?._id === group?._id ? styles.activeChat : ""
-                  }`}
+                className={`${styles.chatItem} ${
+                  selectedConversation?._id === group?._id ? styles.activeChat : ""
+                }`}
                 onClick={() => {
                   setSelectedConversation(group);
                   setSelectedUser(null);
@@ -478,7 +429,7 @@ export default function Messages() {
                   <h4>{group?.friendlyName}</h4>
                   <p>{group?.lastMessage || "No messages yet"}</p>
                 </div>
-
+                
                 {/* ✅ গ্রুপ চ্যাটের আনরিড মেসেজ ব্যাজ */}
                 {unreadCounts[group?.twilioConversationSid] > 0 && (
                   <div className={styles.unreadBadge}>
@@ -557,11 +508,7 @@ export default function Messages() {
                       ? selectedConversation?.friendlyName
                       : selectedConversationUser?.fullname}
                   </h3>
-                  {!selectedConversation?.isGroup && (
-                    <span className={onlineUsers[selectedConversationUser?._id] ? styles.onlineText : styles.offlineText}>
-                      {onlineUsers[selectedConversationUser?._id] ? "Online" : "Offline"}
-                    </span>
-                  )}
+                  <span>Online</span>
                 </div>
               </div>
 
@@ -598,7 +545,7 @@ export default function Messages() {
 
                 const prevMsg = index > 0 ? allMessages[index - 1] : null;
                 const showAvatar = !prevMsg || prevMsg.author !== msg.author;
-
+                
                 const myImage = user?.image || user?.profileImage;
                 const otherImage = messageUser?.image || messageUser?.profileImage;
 
@@ -609,8 +556,9 @@ export default function Messages() {
                   >
                     {!isMine && (
                       <div
-                        className={`${styles.messageAvatarLeft} ${!showAvatar ? styles.hiddenAvatar : ""
-                          }`}
+                        className={`${styles.messageAvatarLeft} ${
+                          !showAvatar ? styles.hiddenAvatar : ""
+                        }`}
                       >
                         {showAvatar &&
                           (otherImage ? (
@@ -634,8 +582,9 @@ export default function Messages() {
 
                     {isMine && (
                       <div
-                        className={`${styles.messageAvatarRight} ${!showAvatar ? styles.hiddenAvatar : ""
-                          }`}
+                        className={`${styles.messageAvatarRight} ${
+                          !showAvatar ? styles.hiddenAvatar : ""
+                        }`}
                       >
                         {showAvatar && (myImage ? (
                           <img src={myImage} alt="me" className={styles.avatarImage} />
