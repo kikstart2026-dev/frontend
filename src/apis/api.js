@@ -390,6 +390,18 @@ export const getAllPayments = async () => {
 
   return res.data;
 };
+
+export const getMyPayments = async (
+  email
+) => {
+
+  const res =
+    await axiosInstance.get(
+      endpoints.getMyPayments(email)
+    );
+
+  return res.data;
+};
 /* ================================
     SUBSCRIPTION APIs
 ================================ */
@@ -469,6 +481,18 @@ export const getAllChild = async () => {
   const res = await axiosInstance.get(
     endpoints.getAllChild
   );
+
+  return res.data;
+};
+
+export const getMyChildren = async (
+  email
+) => {
+
+  const res =
+    await axiosInstance.get(
+      endpoints.getMyChildren(email)
+    );
 
   return res.data;
 };

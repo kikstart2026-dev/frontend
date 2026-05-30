@@ -1,0 +1,117 @@
+.dashboardSkeleton {
+  padding: 20px;
+}
+
+.title,
+.card,
+.heading,
+.progress,
+.line,
+.lineSmall,
+.chart,
+.legend {
+  background: #ececec;
+  position: relative;
+  overflow: hidden;
+}
+
+.title::after,
+.card::after,
+.heading::after,
+.progress::after,
+.line::after,
+.lineSmall::after,
+.chart::after,
+.legend::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150px;
+  width: 150px;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.7),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    left: 100%;
+  }
+}
+
+.title {
+  width: 250px;
+  height: 35px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.card {
+  height: 120px;
+  border-radius: 16px;
+}
+
+.middleGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.planCard,
+.chartCard {
+  padding: 20px;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.heading {
+  width: 180px;
+  height: 24px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.progress {
+  height: 14px;
+  border-radius: 30px;
+  margin-bottom: 20px;
+}
+
+.line {
+  width: 80%;
+  height: 18px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.lineSmall {
+  width: 50%;
+  height: 18px;
+  border-radius: 6px;
+}
+
+.chart {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  margin: 20px auto;
+}
+
+.legend {
+  width: 150px;
+  height: 18px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}

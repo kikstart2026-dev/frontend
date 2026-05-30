@@ -16,7 +16,7 @@ export default function TestSection() {
     queryFn: getAllTest
   })
 
-  if (isLoading) return <p>Loading...</p>
+  if (isLoading) return null
   if (error) return <p>Error loading testimonials</p>
 
   const apiHeading = data?.data?.heading

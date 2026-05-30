@@ -71,6 +71,8 @@ export const endpoints = {
   saveSubscription: "/subscription-payment/save-subscription",
 
   getUserActivePlan: (email) => `/subscription-payment/active-plan/${email}`,
+  
+  getMyPayments: (email) => `/subscription-payment/my-payments/${email}`,
 
   // CHILDREN PROFILE ------------------------------------->>
 
@@ -85,6 +87,8 @@ export const endpoints = {
   deleteChild: "/children/deleteChild",
 
   deleteAllChild: "/children/deleteAllChild",
+
+  getMyChildren: (email) => `/children/my-children/${email}`,
 
 
   // Schools (PUBLIC / USER SIDE)-------------------------------->>

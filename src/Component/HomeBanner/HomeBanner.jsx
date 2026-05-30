@@ -29,8 +29,8 @@ export default function HomeBanner() {
     },
   });
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Failed to load banner</p>;
+  if (isLoading) return null;
+  if (error) return null;
 
   const displayedBanner = banner || {
     headingData: {

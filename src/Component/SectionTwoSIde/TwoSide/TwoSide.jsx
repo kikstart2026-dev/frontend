@@ -18,7 +18,7 @@ export default function TwoSide() {
     },
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return null;
   if (error) return <p>Failed to load about section</p>;
 
   const displayedAbout = about || {
