@@ -279,10 +279,12 @@ export default function Messages() {
 
   // ================= REALTIME EVENT LISTENERS =================
   // ❌ পুরনো useEffect-এর বদলে এই পুরোটা বসিয়ে দিন:
+  // ================= REALTIME EVENT LISTENERS =================
+  // ✅ এই useEffect-টি আপনার কোডের পুরনো লিসেনার ব্লকের জায়গায় প্রতিস্থাপন করুন
   useEffect(() => {
     if (!twilioClient) return;
 
-    // পার্টিসিপেন্টদের অনলাইন স্ট্যাটাস ওয়াচ করার ফাংশন
+    // পার্টিসিপেন্টদের অনলাইন স্ট্যাটাস ওয়াচ করার ফাংশন
     const trackParticipantsPresence = async (conversation) => {
       try {
         const participants = await conversation.getParticipants();
@@ -290,6 +292,7 @@ export default function Messages() {
           if (participant.identity === currentUserId) return;
 
           try {
+            // getAndWatchUser এর মাধ্যমে টুইliও সার্ভারের সাথে রিয়েল-টাইম কানেকশন তৈরি হয়
             const twilioUser = await participant.getAndWatchUser();
 
             // প্রাথমিক স্ট্যাটাস সেট
@@ -298,7 +301,9 @@ export default function Messages() {
               [participant.identity]: twilioUser.isOnline
             }));
 
-            // রিয়েল-টাইমে স্ট্যাটাস চেঞ্জের লিসেনার
+            // রিয়েল-টাইমে স্ট্যাটাস চেঞ্জের লিসেনার (কোনো ডুপ্লিকেট লিসেনার এড়াতে আগে অফ করে নেওয়া ভালো)
+            twilioUser.removeAllListeners("updated");
+
             twilioUser.on("updated", (updatedUser) => {
               if (updatedUser.updateReasons.includes("online")) {
                 setOnlineUsers(prev => ({
@@ -316,11 +321,13 @@ export default function Messages() {
       }
     };
 
-    // লোড হওয়া সব কনভারসেশনের পার্টিসিপেন্টদের ট্র্যাক করা
+    // লোড হওয়া সব কনভারসেশনের পার্টিসিপেন্টদের ট্র্যাক করা
     conversations.forEach(conv => {
-      twilioClient.getConversationBySid(conv.twilioConversationSid)
-        .then(trackParticipantsPresence)
-        .catch(err => console.log(err));
+      if (conv?.twilioConversationSid) {
+        twilioClient.getConversationBySid(conv.twilioConversationSid)
+          .then(trackParticipantsPresence)
+          .catch(err => console.log("Error binding presence:", err));
+      }
     });
 
     const handleConversationAdded = async () => {
@@ -349,8 +356,10 @@ export default function Messages() {
       twilioClient.removeListener("conversationAdded", handleConversationAdded);
       twilioClient.removeListener("messageAdded", handleMessageAdded);
     };
-  }, [twilioClient, selectedConversation, currentUserId, conversations]);
 
+    // ✅ ট্রিক: conversations অ্যারেকে JSON.stringify করে ডিপেন্ডেন্সিতে দেওয়া হয়েছে 
+    // এর ফলে অ্যারের ভেতরের ডাটা বা সাইজ চেঞ্জ না হলে এই useEffect বারবার ফালতু রি-রান হবে না।
+  }, [twilioClient, selectedConversation, currentUserId, JSON.stringify(conversations)]);
   // Outside click for Emoji Picker
   useEffect(() => {
     const handleClickOutside = (event) => {
