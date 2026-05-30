@@ -1041,3 +1041,23 @@
 }
 
 
+.avatarImage {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.userAvatarPlaceholder {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: #ff4d4f; 
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  text-transform: uppercase;
+}

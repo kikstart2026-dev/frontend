@@ -1,4 +1,3 @@
-
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Client } from "@twilio/conversations";
@@ -10,22 +9,17 @@ import {
   getChatUsers,
   createConversation,
   deleteConversation,
-  markAsRead
-} from "../../apis/api";
+  // ধরে নিচ্ছি আপনার apis/api.js ফাইলে এই ফাংশনটি এক্সপোর্ট করা আছে
+  // markAsRead api call -> axios.post('/chat/mark-as-read', payload)
+} from "../../apis/api"; 
 
 import styles from "./Messages.module.scss";
-import {
-  FiMoreVertical,
-  FiSearch,
-  FiSend,
-  FiSmile,
-  FiUsers,
-} from "react-icons/fi";
+import { FiMoreVertical, FiSearch, FiSend, FiSmile, FiUsers } from "react-icons/fi";
 import EmojiPicker from "emoji-picker-react";
-import SpeechRecognition, {
-  useSpeechRecognition,
-} from "react-speech-recognition";
+import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import { BsMicFill, BsPauseFill, BsTrashFill } from "react-icons/bs";
+
+import axios from "axios"; // আপনার কাস্টম axios ইন্সট্যান্স থাকলে সেটি ব্যবহার করুন
 
 export default function Messages() {
   const queryClient = useQueryClient();
@@ -38,18 +32,18 @@ export default function Messages() {
   const [allMessages, setAllMessages] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [twilioClient, setTwilioClient] = useState(null);
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const [showGroupModal, setShowGroupModal] = useState(false);
-  const [groupName, setGroupName] = useState("");
-  const [selectedGroupUsers, setSelectedGroupUsers] = useState([]);
-  const [showMenu, setShowMenu] = useState(false);
-  const [unreadCounts, setUnreadCounts] = useState({});
 
   const messageEndRef = useRef(null);
   const inputRef = useRef(null);
   const emojiPickerRef = useRef(null);
 
-  // ================= VOICE TYPING =================
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [showGroupModal, setShowGroupModal] = useState(false);
+  const [groupName, setGroupName] = useState("");
+  const [selectedGroupUsers, setSelectedGroupUsers] = useState([]);
+  const [showMenu, setShowMenu] = useState(false);
+
+  // ================= VOICE =================
   const [isListening, setIsListening] = useState(false);
   const {
     interimTranscript,
@@ -91,9 +85,10 @@ export default function Messages() {
     setMessageText("");
   };
 
-  // Voice Transcript Auto Append (Fixed Duplicate Logic)
+  // ✅ মার্জ করা একক Voice Transcript Effect
   useEffect(() => {
     if (!finalTranscript) return;
+
     const detected = detectLanguage(finalTranscript);
     console.log("Detected Language:", detected);
 
@@ -101,6 +96,7 @@ export default function Messages() {
       if (prev.includes(finalTranscript)) return prev;
       return prev ? `${prev} ${finalTranscript}` : finalTranscript;
     });
+
     resetTranscript();
   }, [finalTranscript, resetTranscript]);
 
@@ -110,7 +106,33 @@ export default function Messages() {
     }
   }, [isListening]);
 
-  // ================= TWILIO TOKEN & CLIENT INITIALIZATION =================
+  // ================= MARK AS READ MUTATION =================
+  const markAsReadMutation = useMutation({
+    mutationFn: async (payload) => {
+      // ব্যাকএন্ডের markAsRead এন্ডপয়েন্টে রিকোয়েস্ট পাঠাবে
+      return await axios.post("/chat/mark-as-read", payload); 
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user-conversations", currentUserId] });
+    }
+  });
+
+  const triggerMarkAsRead = (convSid, lastIndex = null) => {
+    if (!convSid || !currentUserId) return;
+    markAsReadMutation.mutate({
+      conversationSid: convSid,
+      identity: currentUserId,
+      lastReadMessageIndex: lastIndex
+    });
+  };
+
+  // ================= TWILIO INITIALIZATION =================
+  useEffect(() => {
+    if (currentUserId && !twilioClient) {
+      tokenMutation.mutate();
+    }
+  }, [currentUserId]);
+
   const tokenMutation = useMutation({
     mutationKey: ["generate-token"],
     mutationFn: async () => {
@@ -122,21 +144,13 @@ export default function Messages() {
         if (!token) return;
         const client = await Client.create(token);
         setTwilioClient(client);
-        console.log("Twilio Client connected successfully!");
       } catch (error) {
         console.log("Twilio client error:", error);
       }
     },
   });
 
-  // 🔥 CRITICAL FIX: Trigger token mutation on component mount
-  useEffect(() => {
-    if (currentUserId) {
-      tokenMutation.mutate();
-    }
-  }, [currentUserId]);
-
-  // ================= FETCH USERS & CONVERSATIONS =================
+  // ================= USERS & CONVERSATIONS FETCH =================
   const { data: usersData, isLoading: usersLoading } = useQuery({
     queryKey: ["chat-users"],
     queryFn: async () => {
@@ -161,24 +175,21 @@ export default function Messages() {
   });
   const conversations = conversationData?.conversations || [];
 
-  // ================= CONVERSATION MUTATIONS =================
-  const { mutate: createConversationMutate, isPending: creatingConversation } =
-    useMutation({
-      mutationFn: async (payload) => {
-        const res = await createConversation(payload);
-        return res?.data || res;
-      },
-      onSuccess: async (data) => {
-        const newConversation = data?.conversation;
-        if (newConversation) {
-          setSelectedConversation(newConversation);
-        }
-        await refetchConversations();
-        queryClient.invalidateQueries({
-          queryKey: ["user-conversations", currentUserId],
-        });
-      },
-    });
+  // ================= MUTATIONS =================
+  const { mutate: createConversationMutate, isPending: creatingConversation } = useMutation({
+    mutationFn: async (payload) => {
+      const res = await createConversation(payload);
+      return res?.data || res;
+    },
+    onSuccess: async (data) => {
+      const newConversation = data?.conversation;
+      if (newConversation) {
+        setSelectedConversation(newConversation);
+        triggerMarkAsRead(newConversation.twilioConversationSid);
+      }
+      await refetchConversations();
+    },
+  });
 
   const deleteConversationMutation = useMutation({
     mutationFn: async (conversationSid) => {
@@ -188,57 +199,21 @@ export default function Messages() {
       setSelectedConversation(null);
       setAllMessages([]);
       await refetchConversations();
-      queryClient.invalidateQueries({
-        queryKey: ["user-conversations", currentUserId],
-      });
-    },
-    onError: (error) => {
-      console.log("Delete Error:", error);
     },
   });
-
-  // ================= UNREAD MESSAGE MARK AS READ =================
-  const markConversationRead = async (sid) => {
-    if (!sid) return;
-    try {
-      let lastIndex = 0;
-
-      // 1. Twilio SDK update (Get current accurate index)
-      if (twilioClient) {
-        const conversation = await twilioClient.getConversationBySid(sid);
-        lastIndex = await conversation.setAllMessagesRead();
-      }
-
-      // 2. Backend update with standard read-index logic
-      await markAsRead({
-        conversationSid: sid,
-        identity: currentUserId,
-        lastReadMessageIndex: lastIndex ?? null
-      });
-
-      // 3. UI instant reset
-      setUnreadCounts((prev) => ({
-        ...prev,
-        [sid]: 0,
-      }));
-    } catch (err) {
-      console.log("Mark read error:", err);
-    }
-  };
 
   const handleSelectUser = async (selectedUserData) => {
     const existingConversation = conversations.find(
       (conv) =>
         !conv?.isGroup &&
-        conv?.participants?.some(
-          (p) => String(p?._id || p) === String(selectedUserData._id),
-        ),
+        conv?.participants?.some((p) => String(p?._id || p) === String(selectedUserData._id))
     );
 
     if (existingConversation) {
       setSelectedConversation(existingConversation);
       setSelectedUser(selectedUserData);
-      await markConversationRead(existingConversation.twilioConversationSid);
+      // ✅ চ্যাট সিলেক্ট করার সাথে সাথে আনরিড মেসেজ ক্লিয়ার করার জন্য
+      triggerMarkAsRead(existingConversation.twilioConversationSid);
       return;
     }
 
@@ -250,12 +225,9 @@ export default function Messages() {
     setSelectedUser(selectedUserData);
   };
 
-  // ================= FETCH & REALTIME MESSAGES =================
+  // ================= MESSAGES FETCH =================
   const { data: messageData, refetch: refetchMessages } = useQuery({
-    queryKey: [
-      "conversation-messages",
-      selectedConversation?.twilioConversationSid,
-    ],
+    queryKey: ["conversation-messages", selectedConversation?.twilioConversationSid],
     queryFn: async () => {
       const res = await getMessages(selectedConversation?.twilioConversationSid);
       return res?.data || res;
@@ -266,93 +238,47 @@ export default function Messages() {
   useEffect(() => {
     if (messageData?.messages) {
       setAllMessages(messageData.messages);
+      // ✅ নতুন মেসেজ লোড হওয়ার পর সর্বশেষ ইনডেক্সটি রিড মার্ক করুন
+      if (messageData.messages.length > 0) {
+        const lastMsgIndex = messageData.messages[messageData.messages.length - 1].index;
+        triggerMarkAsRead(selectedConversation?.twilioConversationSid, lastMsgIndex);
+      }
     }
   }, [messageData]);
 
-  // Realtime Listeners & Sync Unread Counts
+  // ================= REALTIME EVENT LISTENERS =================
   useEffect(() => {
     if (!twilioClient) return;
 
-    const refreshUnreadCounts = async () => {
-      try {
-        const counts = {};
-        const paginator = await twilioClient.getSubscribedConversations();
-        for (const item of paginator.items) {
-          const count = await item.getUnreadMessagesCount();
-          counts[item.sid] = count || 0;
-        }
-        setUnreadCounts(counts);
-      } catch (err) {
-        console.log("Error shifting unread counts:", err);
-      }
-    };
-
     const handleConversationAdded = async () => {
       await refetchConversations();
-      queryClient.invalidateQueries({
-        queryKey: ["user-conversations", currentUserId],
-      });
-      refreshUnreadCounts();
     };
+
     const handleMessageAdded = async (message) => {
-      // 💡 যদি নতুন মেসেজটি বর্তমানে সিলেক্ট করা চ্যাটেরই অংশ হয়
-      if (selectedConversation && message.conversation.sid === selectedConversation.twilioConversationSid) {
-        // সরাসরি ক্লায়েন্ট লেভেলে রিড মার্ক করে দিন, যাতে কাউন্ট ২ বা ৫০ এ আটকে না থাকে
-        await message.conversation.setAllMessagesRead();
-
-        // ব্যাকএন্ডকেও সিঙ্ক করে দিন (Optional কিন্তু সেফ)
-        markAsRead({
-          conversationSid: message.conversation.sid,
-          identity: currentUserId,
-          lastReadMessageIndex: message.index
-        });
-
-        setUnreadCounts(prev => ({ ...prev, [message.conversation.sid]: 0 }));
-      }
-
-      // কারেন্ট চ্যাট না হলে নরমাল রিফ্রেশ হবে
       await refetchMessages();
-      refreshUnreadCounts();
+      await refetchConversations();
+
+      // ✅ অ্যাক্টিভ চ্যাটে মেসেজ আসলে নিজে রাইটার না হলে রিড মার্ক করে দিন
+      if (selectedConversation?.twilioConversationSid === message.conversation.sid) {
+        if (message.author !== currentUserId) {
+          triggerMarkAsRead(message.conversation.sid, message.index);
+        }
+      }
     };
 
     twilioClient.on("conversationAdded", handleConversationAdded);
     twilioClient.on("messageAdded", handleMessageAdded);
 
-    // Initial load
-    refreshUnreadCounts();
-
     return () => {
       twilioClient.removeListener("conversationAdded", handleConversationAdded);
       twilioClient.removeListener("messageAdded", handleMessageAdded);
     };
-  }, [twilioClient, currentUserId, refetchConversations, refetchMessages, queryClient]);
+  }, [twilioClient, selectedConversation, currentUserId]);
 
-  // Handle Initial Count Load on conversation list change
-  useEffect(() => {
-    if (!twilioClient) return;
-    const loadUnreadCounts = async () => {
-      try {
-        const counts = {};
-        const paginator = await twilioClient.getSubscribedConversations();
-        for (const item of paginator.items) {
-          const count = await item.getUnreadMessagesCount();
-          counts[item.sid] = count || 0;
-        }
-        setUnreadCounts(counts);
-      } catch (err) {
-        console.log("Unread Count Error:", err);
-      }
-    };
-    loadUnreadCounts();
-  }, [twilioClient, conversations]);
-
-  // ================= UI INTERACTION HANDLERS =================
+  // Outside click for Emoji Picker
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        emojiPickerRef.current &&
-        !emojiPickerRef.current.contains(event.target)
-      ) {
+      if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target)) {
         setShowEmojiPicker(false);
       }
     };
@@ -364,6 +290,7 @@ export default function Messages() {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [allMessages]);
 
+  // ================= SEND MESSAGE =================
   const sendMessageMutation = useMutation({
     mutationKey: ["send-message"],
     mutationFn: async (payload) => {
@@ -372,11 +299,20 @@ export default function Messages() {
     onSuccess: async () => {
       setMessageText("");
       await refetchMessages();
-      queryClient.invalidateQueries({
-        queryKey: ["user-conversations", currentUserId],
-      });
+      await refetchConversations();
     },
   });
+
+  const handleSendMessage = () => {
+    if (!messageText.trim() || !selectedConversation) return;
+    setShowEmojiPicker(false);
+
+    sendMessageMutation.mutate({
+      conversationSid: selectedConversation?.twilioConversationSid,
+      author: currentUserId,
+      message: messageText.trim(),
+    });
+  };
 
   const handleEmojiClick = (emojiData) => {
     setMessageText((prev) => prev + emojiData.emoji);
@@ -390,8 +326,7 @@ export default function Messages() {
   };
 
   const handleCreateGroup = async () => {
-    if (!groupName.trim() || selectedGroupUsers.length === 0) return;
-    if (creatingConversation) return;
+    if (!groupName.trim() || selectedGroupUsers.length === 0 || creatingConversation) return;
 
     createConversationMutate({
       friendlyName: groupName.trim(),
@@ -403,17 +338,6 @@ export default function Messages() {
     setShowGroupModal(false);
     setGroupName("");
     setSelectedGroupUsers([]);
-  };
-
-  const handleSendMessage = () => {
-    if (!messageText.trim() || !selectedConversation) return;
-    setShowEmojiPicker(false);
-
-    sendMessageMutation.mutate({
-      conversationSid: selectedConversation?.twilioConversationSid,
-      author: currentUserId,
-      message: messageText,
-    });
   };
 
   const filteredUsers = useMemo(() => {
@@ -430,7 +354,7 @@ export default function Messages() {
 
   return (
     <div className={styles.wrapper}>
-      {/* LEFT SIDE: SIDEBAR */}
+      {/* LEFT SIDE */}
       <div className={styles.leftSide}>
         <div className={styles.topBar}>
           <div className={styles.searchBox}>
@@ -442,41 +366,30 @@ export default function Messages() {
               onChange={(e) => setSearchText(e.target.value)}
             />
           </div>
-          <button
-            className={styles.groupIconBtn}
-            onClick={() => setShowGroupModal(true)}
-          >
+          <button className={styles.groupIconBtn} onClick={() => setShowGroupModal(true)}>
             <FiUsers />
           </button>
         </div>
 
         <div className={styles.chatList}>
-          {/* GROUP LIST */}
+          {/* GROUPS */}
           {conversations
             ?.filter((conv) => conv?.isGroup)
             ?.map((group) => (
               <div
                 key={group._id}
-                className={`${styles.chatItem} ${selectedConversation?._id === group?._id ? styles.activeChat : ""
-                  }`}
+                className={`${styles.chatItem} ${
+                  selectedConversation?._id === group?._id ? styles.activeChat : ""
+                }`}
                 onClick={() => {
                   setSelectedConversation(group);
                   setSelectedUser(null);
-                  markConversationRead(group.twilioConversationSid);
+                  triggerMarkAsRead(group.twilioConversationSid);
                 }}
               >
-                <div className={styles.groupAvatar}>
-                  {getInitial(group?.friendlyName)}
-                </div>
+                <div className={styles.groupAvatar}>{getInitial(group?.friendlyName)}</div>
                 <div className={styles.chatInfo}>
-                  <div className={styles.chatHeaderRow}>
-                    <h4>{group?.friendlyName}</h4>
-                    {unreadCounts[group?.twilioConversationSid] > 0 && (
-                      <span className={styles.unreadBadge}>
-                        {unreadCounts[group?.twilioConversationSid]}
-                      </span>
-                    )}
-                  </div>
+                  <h4>{group?.friendlyName}</h4>
                   <p>{group?.lastMessage || "No messages yet"}</p>
                 </div>
               </div>
@@ -491,13 +404,10 @@ export default function Messages() {
               const existingConversation = conversations.find(
                 (conv) =>
                   !conv?.isGroup &&
-                  conv?.participants?.some(
-                    (p) => String(p?._id || p) === String(u._id)
-                  )
+                  conv?.participants?.some((p) => String(p?._id || p) === String(u._id))
               );
               const isActive = selectedConversation?._id === existingConversation?._id;
               const lastMsg = existingConversation?.lastMessage || u.email;
-              const convSid = existingConversation?.twilioConversationSid;
 
               return (
                 <div
@@ -508,19 +418,10 @@ export default function Messages() {
                   {userImage ? (
                     <img src={userImage} alt="user" />
                   ) : (
-                    <div className={styles.userAvatar}>
-                      {getInitial(u?.fullname)}
-                    </div>
+                    <div className={styles.userAvatar}>{getInitial(u?.fullname)}</div>
                   )}
                   <div className={styles.chatInfo}>
-                    <div className={styles.chatHeaderRow}>
-                      <h4>{u.fullname}</h4>
-                      {convSid && unreadCounts[convSid] > 0 && (
-                        <span className={styles.unreadBadge}>
-                          {unreadCounts[convSid]}
-                        </span>
-                      )}
-                    </div>
+                    <h4>{u.fullname}</h4>
                     <p>{lastMsg}</p>
                   </div>
                 </div>
@@ -532,29 +433,17 @@ export default function Messages() {
         </div>
       </div>
 
-      {/* RIGHT SIDE: CHAT WINDOW */}
+      {/* RIGHT SIDE */}
       <div className={styles.rightSide}>
         {selectedConversation ? (
           <>
+            {/* HEADER */}
             <div className={styles.chatHeader}>
               <div className={styles.userInfo}>
                 {!selectedConversation?.isGroup && selectedConversationUser?.image ? (
                   <img src={selectedConversationUser?.image} alt="user" />
                 ) : (
-                  <div
-                    style={{
-                      width: "45px",
-                      height: "45px",
-                      borderRadius: "50%",
-                      background: "#ff4d4f",
-                      color: "#fff",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontWeight: "700",
-                      fontSize: "18px",
-                    }}
-                  >
+                  <div className={styles.defaultAvatar}>
                     {getInitial(
                       selectedConversation?.isGroup
                         ? selectedConversation?.friendlyName
@@ -602,8 +491,11 @@ export default function Messages() {
                 const messageUser = selectedConversation?.participants?.find(
                   (p) => String(p?._id || p) === String(msg?.author)
                 );
-                const prevMsg = allMessages[index + 1];
+
+                // ✅ সঠিক 'আগের মেসেজ' ট্র্যাকিং (index - 1) কারণ লিস্টের শুরু ওল্ড মেসেজ দিয়ে হয়
+                const prevMsg = index > 0 ? allMessages[index - 1] : null;
                 const showAvatar = !prevMsg || prevMsg.author !== msg.author;
+                
                 const myImage = user?.image || user?.profileImage;
                 const otherImage = messageUser?.image || messageUser?.profileImage;
 
@@ -614,16 +506,13 @@ export default function Messages() {
                   >
                     {!isMine && (
                       <div
-                        className={`${styles.messageAvatarLeft} ${!showAvatar ? styles.hiddenAvatar : ""
-                          }`}
+                        className={`${styles.messageAvatarLeft} ${
+                          !showAvatar ? styles.hiddenAvatar : ""
+                        }`}
                       >
                         {showAvatar &&
                           (otherImage ? (
-                            <img
-                              src={otherImage}
-                              alt="user"
-                              className={styles.avatarImage}
-                            />
+                            <img src={otherImage} alt="user" className={styles.avatarImage} />
                           ) : (
                             getInitial(messageUser?.fullname)
                           ))}
@@ -632,31 +521,26 @@ export default function Messages() {
 
                     <div className={styles.messageContent}>
                       {selectedConversation?.isGroup && showAvatar && (
-                        <p
-                          className={`${styles.groupSenderName} ${isMine ? styles.mySenderName : ""
-                            }`}
-                        >
+                        <p className={`${styles.groupSenderName} ${isMine ? styles.mySenderName : ""}`}>
                           {isMine ? "You" : messageUser?.fullname}
                         </p>
                       )}
-                      <div
-                        className={`${styles.messageBubble} ${isMine ? styles.myBubble : styles.otherBubble
-                          }`}
-                      >
+                      <div className={`${styles.messageBubble} ${isMine ? styles.myBubble : styles.otherBubble}`}>
                         {msg.body}
                       </div>
                     </div>
 
                     {isMine && (
                       <div
-                        className={`${styles.messageAvatarRight} ${!showAvatar ? styles.hiddenAvatar : ""
-                          }`}
+                        className={`${styles.messageAvatarRight} ${
+                          !showAvatar ? styles.hiddenAvatar : ""
+                        }`}
                       >
-                        {myImage ? (
+                        {showAvatar && (myImage ? (
                           <img src={myImage} alt="me" className={styles.avatarImage} />
                         ) : (
                           getInitial(user?.fullname)
-                        )}
+                        ))}
                       </div>
                     )}
                   </div>
@@ -665,7 +549,7 @@ export default function Messages() {
               <div ref={messageEndRef} />
             </div>
 
-            {/* MESSAGE INPUT BOX */}
+            {/* INPUT BOX */}
             <div className={styles.messageInputBox}>
               <div className={styles.emojiWrapper} ref={emojiPickerRef}>
                 <button
@@ -677,10 +561,7 @@ export default function Messages() {
                 </button>
                 {showEmojiPicker && (
                   <div className={styles.emojiPicker}>
-                    <EmojiPicker
-                      onEmojiClick={handleEmojiClick}
-                      skinTonesDisabled={true}
-                    />
+                    <EmojiPicker onEmojiClick={handleEmojiClick} skinTonesDisabled={true} />
                   </div>
                 )}
               </div>
@@ -689,11 +570,7 @@ export default function Messages() {
                 ref={inputRef}
                 type="text"
                 placeholder="Type a message..."
-                value={
-                  isListening
-                    ? `${messageText} ${interimTranscript || ""}`
-                    : messageText
-                }
+                value={isListening ? `${messageText} ${interimTranscript || ""}` : messageText}
                 onChange={(e) => setMessageText(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
@@ -711,9 +588,7 @@ export default function Messages() {
               ) : (
                 <div className={styles.voiceControls}>
                   <div className={styles.voiceWave}>
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    <span></span><span></span><span></span>
                   </div>
                   <button className={styles.deleteVoiceBtn} onClick={deleteVoiceTyping}>
                     <BsTrashFill />
@@ -753,16 +628,8 @@ export default function Messages() {
             />
             <div className={styles.groupUsers}>
               {users.map((u) => (
-                <div
-                  key={u._id}
-                  className={styles.groupUser}
-                  onClick={() => handleSelectGroupUser(u._id)}
-                >
-                  <input
-                    type="checkbox"
-                    checked={selectedGroupUsers.includes(u._id)}
-                    readOnly
-                  />
+                <div key={u._id} className={styles.groupUser} onClick={() => handleSelectGroupUser(u._id)}>
+                  <input type="checkbox" checked={selectedGroupUsers.includes(u._id)} readOnly />
                   <span>{u.fullname}</span>
                 </div>
               ))}
