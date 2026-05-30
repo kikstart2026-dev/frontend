@@ -1,3 +1,4 @@
+
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Client } from "@twilio/conversations";
@@ -9,8 +10,6 @@ import {
   getChatUsers,
   createConversation,
   deleteConversation,
-  // ধরে নিচ্ছি আপনার apis/api.js ফাইলে এই ফাংশনটি এক্সপোর্ট করা আছে
-  // markAsRead api call -> axios.post('/chat/mark-as-read', payload)
 } from "../../apis/api"; 
 
 import styles from "./Messages.module.scss";
@@ -19,7 +18,7 @@ import EmojiPicker from "emoji-picker-react";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import { BsMicFill, BsPauseFill, BsTrashFill } from "react-icons/bs";
 
-import axios from "axios"; // আপনার কাস্টম axios ইন্সট্যান্স থাকলে সেটি ব্যবহার করুন
+import axios from "axios"; 
 
 export default function Messages() {
   const queryClient = useQueryClient();
@@ -32,6 +31,9 @@ export default function Messages() {
   const [allMessages, setAllMessages] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [twilioClient, setTwilioClient] = useState(null);
+  
+  // ✅ আনরিড কাউন্ট ট্র্যাক করার স্টেট
+  const [unreadCounts, setUnreadCounts] = useState({}); 
 
   const messageEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -85,7 +87,6 @@ export default function Messages() {
     setMessageText("");
   };
 
-  // ✅ মার্জ করা একক Voice Transcript Effect
   useEffect(() => {
     if (!finalTranscript) return;
 
@@ -109,7 +110,6 @@ export default function Messages() {
   // ================= MARK AS READ MUTATION =================
   const markAsReadMutation = useMutation({
     mutationFn: async (payload) => {
-      // ব্যাকএন্ডের markAsRead এন্ডপয়েন্টে রিকোয়েস্ট পাঠাবে
       return await axios.post("/chat/mark-as-read", payload); 
     },
     onSuccess: () => {
@@ -124,6 +124,26 @@ export default function Messages() {
       identity: currentUserId,
       lastReadMessageIndex: lastIndex
     });
+  };
+
+  // ================= UNREAD COUNTS LOGIC =================
+  // ✅ কনভারসেশন লিস্টের প্রতিটি চ্যাটের জন্য Twilio থেকে আনরিড মেসেজ কাউন্ট বের করার ফাংশন
+  const updateUnreadCounts = async (conversationsList) => {
+    if (!twilioClient || !conversationsList || conversationsList.length === 0) return;
+
+    const counts = { ...unreadCounts };
+    for (const conv of conversationsList) {
+      if (conv?.twilioConversationSid) {
+        try {
+          const twilioConv = await twilioClient.getConversationBySid(conv.twilioConversationSid);
+          const unreadCount = await twilioConv.getUnreadMessagesCount();
+          counts[conv.twilioConversationSid] = unreadCount || 0;
+        } catch (err) {
+          console.error("Error fetching unread count for:", conv.twilioConversationSid, err);
+        }
+      }
+    }
+    setUnreadCounts(counts);
   };
 
   // ================= TWILIO INITIALIZATION =================
@@ -175,6 +195,13 @@ export default function Messages() {
   });
   const conversations = conversationData?.conversations || [];
 
+  // ✅ যখনই চ্যাট লিস্ট লোড হবে, আনরিড কাউন্ট ইনিশিয়ালাইজ/আপডেট হবে
+  useEffect(() => {
+    if (conversations.length > 0 && twilioClient) {
+      updateUnreadCounts(conversations);
+    }
+  }, [conversationData, twilioClient]);
+
   // ================= MUTATIONS =================
   const { mutate: createConversationMutate, isPending: creatingConversation } = useMutation({
     mutationFn: async (payload) => {
@@ -186,6 +213,8 @@ export default function Messages() {
       if (newConversation) {
         setSelectedConversation(newConversation);
         triggerMarkAsRead(newConversation.twilioConversationSid);
+        // নতুন চ্যাট তাই কাউন্ট ০ করে দিচ্ছি
+        setUnreadCounts(prev => ({ ...prev, [newConversation.twilioConversationSid]: 0 }));
       }
       await refetchConversations();
     },
@@ -212,8 +241,10 @@ export default function Messages() {
     if (existingConversation) {
       setSelectedConversation(existingConversation);
       setSelectedUser(selectedUserData);
-      // ✅ চ্যাট সিলেক্ট করার সাথে সাথে আনরিড মেসেজ ক্লিয়ার করার জন্য
       triggerMarkAsRead(existingConversation.twilioConversationSid);
+      
+      // ✅ চ্যাট ওপেন করার সাথে সাথে ফ্রন্টএন্ডে কাউন্ট ০ করে উধাও করে দেওয়া
+      setUnreadCounts(prev => ({ ...prev, [existingConversation.twilioConversationSid]: 0 }));
       return;
     }
 
@@ -238,7 +269,6 @@ export default function Messages() {
   useEffect(() => {
     if (messageData?.messages) {
       setAllMessages(messageData.messages);
-      // ✅ নতুন মেসেজ লোড হওয়ার পর সর্বশেষ ইনডেক্সটি রিড মার্ক করুন
       if (messageData.messages.length > 0) {
         const lastMsgIndex = messageData.messages[messageData.messages.length - 1].index;
         triggerMarkAsRead(selectedConversation?.twilioConversationSid, lastMsgIndex);
@@ -256,13 +286,18 @@ export default function Messages() {
 
     const handleMessageAdded = async (message) => {
       await refetchMessages();
-      await refetchConversations();
+      const updatedConversations = await refetchConversations();
 
-      // ✅ অ্যাক্টিভ চ্যাটে মেসেজ আসলে নিজে রাইটার না হলে রিড মার্ক করে দিন
+      // ✅ অ্যাক্টিভ চ্যাটে মেসেজ আসলে নিজে রাইটার না হলে রিড মার্ক এবং কাউন্ট ০ হবে
       if (selectedConversation?.twilioConversationSid === message.conversation.sid) {
         if (message.author !== currentUserId) {
           triggerMarkAsRead(message.conversation.sid, message.index);
+          setUnreadCounts(prev => ({ ...prev, [message.conversation.sid]: 0 }));
         }
+      } else {
+        // ✅ অন্য কোনো চ্যাটে মেসেজ আসলে রিয়েল-টাইমে সেটার আনরিড কাউন্ট আপডেট হবে
+        const list = updatedConversations?.data?.conversations || conversations;
+        updateUnreadCounts(list);
       }
     };
 
@@ -273,7 +308,7 @@ export default function Messages() {
       twilioClient.removeListener("conversationAdded", handleConversationAdded);
       twilioClient.removeListener("messageAdded", handleMessageAdded);
     };
-  }, [twilioClient, selectedConversation, currentUserId]);
+  }, [twilioClient, selectedConversation, currentUserId, conversations]);
 
   // Outside click for Emoji Picker
   useEffect(() => {
@@ -385,6 +420,8 @@ export default function Messages() {
                   setSelectedConversation(group);
                   setSelectedUser(null);
                   triggerMarkAsRead(group.twilioConversationSid);
+                  // ✅ গ্রুপ চ্যাট ওপেন করলেও কাউন্ট ০ হবে
+                  setUnreadCounts(prev => ({ ...prev, [group.twilioConversationSid]: 0 }));
                 }}
               >
                 <div className={styles.groupAvatar}>{getInitial(group?.friendlyName)}</div>
@@ -392,6 +429,13 @@ export default function Messages() {
                   <h4>{group?.friendlyName}</h4>
                   <p>{group?.lastMessage || "No messages yet"}</p>
                 </div>
+                
+                {/* ✅ গ্রুপ চ্যাটের আনরিড মেসেজ ব্যাজ */}
+                {unreadCounts[group?.twilioConversationSid] > 0 && (
+                  <div className={styles.unreadBadge}>
+                    {unreadCounts[group?.twilioConversationSid]}
+                  </div>
+                )}
               </div>
             ))}
 
@@ -424,6 +468,13 @@ export default function Messages() {
                     <h4>{u.fullname}</h4>
                     <p>{lastMsg}</p>
                   </div>
+
+                  {/* ✅ একক চ্যাটের আনরিড মেসেজ ব্যাজ */}
+                  {existingConversation && unreadCounts[existingConversation.twilioConversationSid] > 0 && (
+                    <div className={styles.unreadBadge}>
+                      {unreadCounts[existingConversation.twilioConversationSid]}
+                    </div>
+                  )}
                 </div>
               );
             })
@@ -492,7 +543,6 @@ export default function Messages() {
                   (p) => String(p?._id || p) === String(msg?.author)
                 );
 
-                // ✅ সঠিক 'আগের মেসেজ' ট্র্যাকিং (index - 1) কারণ লিস্টের শুরু ওল্ড মেসেজ দিয়ে হয়
                 const prevMsg = index > 0 ? allMessages[index - 1] : null;
                 const showAvatar = !prevMsg || prevMsg.author !== msg.author;
                 
