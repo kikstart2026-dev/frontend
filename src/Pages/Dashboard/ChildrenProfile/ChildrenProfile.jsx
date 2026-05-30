@@ -6,6 +6,8 @@ import { useNavigate, useParams, } from "react-router-dom";
 
 import { getAllChild } from "../../../apis/api";
 
+import { toast } from "react-toastify";
+
 import {
   getAllPayments,
 } from "../../../apis/api";
@@ -34,6 +36,7 @@ const ChildrenProfile = () => {
     useState(0);
 
   const [paymentLoading, setPaymentLoading] = useState(true);
+  const [maxChildren, setMaxChildren] = useState(0);
 
   const handleNext = () => {
     if (startIndex + 5 < children.length) {
@@ -157,6 +160,8 @@ const ChildrenProfile = () => {
           return;
         }
 
+
+
         const latestPayment =
           userPayments.sort(
             (a, b) =>
@@ -164,7 +169,46 @@ const ChildrenProfile = () => {
               new Date(a.created_at)
           )[0];
 
+
+        const today = new Date();
+
+        const expireDate =
+          new Date(latestPayment.expireDate);
+
+        const diffTime =
+          expireDate - today;
+
+        const calculatedDaysLeft =
+          Math.ceil(
+            diffTime /
+            (1000 * 60 * 60 * 24)
+          );
+
+        setDaysLeft(
+          calculatedDaysLeft > 0
+            ? calculatedDaysLeft
+            : 0
+        );
+
+
+        const isExpired =
+          new Date(latestPayment.expireDate) <
+          new Date();
+
+        if (isExpired) {
+
+          setCurrentPlan(null);
+
+          setDaysLeft(0);
+
+          return;
+        }
+
         setCurrentPlan(latestPayment);
+
+        setMaxChildren(
+          latestPayment?.subscriptionId?.maxChildren || 0
+        );
 
       } catch (error) {
 
@@ -184,12 +228,22 @@ const ChildrenProfile = () => {
 
   }, []);
 
+  // ============== max limit check ==================
+  const limitReached =
+    maxChildren > 0 &&
+    children.length >= maxChildren;
+
+  const noSubscription =
+    !currentPlan;
+
   // ================= LOADING =================
 
   if (loading) {
 
     return <h2>Loading...</h2>;
   }
+
+
 
   return (
 
@@ -229,18 +283,45 @@ const ChildrenProfile = () => {
         </div>
 
         <button
-          className={
-            styles.addBtn
-          }
-          onClick={() =>
+          className={`${styles.addBtn} ${limitReached
+              ? styles.disabledBtn
+              : ""
+            }`}
+          onClick={() => {
+
+            if (limitReached) {
+
+              toast.error(
+                "Maximum child limit reached for your subscription"
+              );
+
+              return;
+            }
+
+            if (!currentPlan) {
+
+              toast.warning(
+                "Please subscribe to a plan first"
+              );
+
+              setTimeout(() => {
+
+                navigate(
+                  "/dashboard/enrolment-package"
+                );
+
+              }, 1000);
+
+              return;
+            }
+
             navigate(
               "/dashboard/children-details"
-            )
-          }
+            );
+
+          }}
         >
-
           +ADD CHILD
-
         </button>
 
       </div>
