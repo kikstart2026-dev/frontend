@@ -294,8 +294,23 @@ export default function Messages() {
       });
       refreshUnreadCounts();
     };
+    const handleMessageAdded = async (message) => {
+      // 💡 যদি নতুন মেসেজটি বর্তমানে সিলেক্ট করা চ্যাটেরই অংশ হয়
+      if (selectedConversation && message.conversation.sid === selectedConversation.twilioConversationSid) {
+        // সরাসরি ক্লায়েন্ট লেভেলে রিড মার্ক করে দিন, যাতে কাউন্ট ২ বা ৫০ এ আটকে না থাকে
+        await message.conversation.setAllMessagesRead();
 
-    const handleMessageAdded = async () => {
+        // ব্যাকএন্ডকেও সিঙ্ক করে দিন (Optional কিন্তু সেফ)
+        markAsRead({
+          conversationSid: message.conversation.sid,
+          identity: currentUserId,
+          lastReadMessageIndex: message.index
+        });
+
+        setUnreadCounts(prev => ({ ...prev, [message.conversation.sid]: 0 }));
+      }
+
+      // কারেন্ট চ্যাট না হলে নরমাল রিফ্রেশ হবে
       await refetchMessages();
       refreshUnreadCounts();
     };
@@ -442,9 +457,8 @@ export default function Messages() {
             ?.map((group) => (
               <div
                 key={group._id}
-                className={`${styles.chatItem} ${
-                  selectedConversation?._id === group?._id ? styles.activeChat : ""
-                }`}
+                className={`${styles.chatItem} ${selectedConversation?._id === group?._id ? styles.activeChat : ""
+                  }`}
                 onClick={() => {
                   setSelectedConversation(group);
                   setSelectedUser(null);
@@ -600,9 +614,8 @@ export default function Messages() {
                   >
                     {!isMine && (
                       <div
-                        className={`${styles.messageAvatarLeft} ${
-                          !showAvatar ? styles.hiddenAvatar : ""
-                        }`}
+                        className={`${styles.messageAvatarLeft} ${!showAvatar ? styles.hiddenAvatar : ""
+                          }`}
                       >
                         {showAvatar &&
                           (otherImage ? (
@@ -620,17 +633,15 @@ export default function Messages() {
                     <div className={styles.messageContent}>
                       {selectedConversation?.isGroup && showAvatar && (
                         <p
-                          className={`${styles.groupSenderName} ${
-                            isMine ? styles.mySenderName : ""
-                          }`}
+                          className={`${styles.groupSenderName} ${isMine ? styles.mySenderName : ""
+                            }`}
                         >
                           {isMine ? "You" : messageUser?.fullname}
                         </p>
                       )}
                       <div
-                        className={`${styles.messageBubble} ${
-                          isMine ? styles.myBubble : styles.otherBubble
-                        }`}
+                        className={`${styles.messageBubble} ${isMine ? styles.myBubble : styles.otherBubble
+                          }`}
                       >
                         {msg.body}
                       </div>
@@ -638,9 +649,8 @@ export default function Messages() {
 
                     {isMine && (
                       <div
-                        className={`${styles.messageAvatarRight} ${
-                          !showAvatar ? styles.hiddenAvatar : ""
-                        }`}
+                        className={`${styles.messageAvatarRight} ${!showAvatar ? styles.hiddenAvatar : ""
+                          }`}
                       >
                         {myImage ? (
                           <img src={myImage} alt="me" className={styles.avatarImage} />
