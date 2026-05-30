@@ -381,17 +381,15 @@ export const kikpayment = async (
 };
 
 // GET ALL PAYMENTS
-export const getAllPayments = async (paymentData) => {
+export const getAllPayments = async () => {
 
   const res =
     await axiosInstance.get(
-      endpoints.getAllPayments,
-      paymentData
+      endpoints.getAllPayments
     );
 
   return res.data;
 };
-
 /* ================================
     SUBSCRIPTION APIs
 ================================ */

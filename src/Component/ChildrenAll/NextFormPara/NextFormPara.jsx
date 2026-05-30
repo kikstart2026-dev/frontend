@@ -4,6 +4,16 @@ import React, {
   useState,
 } from "react";
 
+import { toast } from "react-toastify";
+
+import {
+
+  handleError,
+
+  handleSuccess,
+
+} from "../../../utils";
+
 import styles from "./NextFormPara.module.scss";
 import CmnHeading from "../../CmnHeading/CmnHeading";
 import Button from "../../Buttons/Button";
@@ -117,11 +127,10 @@ export default function NextFormPara({
               </span>
 
               <span
-                className={`${styles.arrow} ${
-                  isOpen
-                    ? styles.rotate
-                    : ""
-                }`}
+                className={`${styles.arrow} ${isOpen
+                  ? styles.rotate
+                  : ""
+                  }`}
               >
                 ▼
               </span>
@@ -136,11 +145,10 @@ export default function NextFormPara({
                 {services.map((item) => (
                   <div
                     key={item._id}
-                    className={`${styles.dropdownItem} ${
-                      activeId === item._id
-                        ? styles.active
-                        : ""
-                    }`}
+                    className={`${styles.dropdownItem} ${activeId === item._id
+                      ? styles.active
+                      : ""
+                      }`}
                     onClick={() => {
                       setSelectedId(
                         item._id
@@ -196,18 +204,24 @@ export default function NextFormPara({
             }
           />
         </div>
-
         <div className={styles["btn-r"]}>
           <Button
             text="next"
             variant="primary"
-            onClick={() =>
+            onClick={() => {
+
+              handleSuccess(
+                "Children created successfully"
+              );
+
               navigate(
-                "/dashboard/enrolment-package"
-              )
-            }
+                "/dashboard/children-profile"
+              );
+
+            }}
           />
         </div>
+
       </div>
     </div>
   );
