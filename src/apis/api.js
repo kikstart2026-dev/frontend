@@ -658,11 +658,25 @@ export const sendMessage = async (payload) => {
 };
 
 // GET MESSAGES
-export const getMessages = async (conversationSid) => {
+export const getMessages = async (
+  conversationSid,
+  userId
+) => {
   const res = await axiosInstance.get(
-    endpoints.getMessages(conversationSid)
+    endpoints.getMessages(
+      conversationSid,
+      userId
+    )
   );
 
+  return res.data;
+};
+
+export const markAsRead = async (payload) => {
+  const res = await axiosInstance.post(
+    endpoints.markAsRead,
+    payload
+  );
   return res.data;
 };
 

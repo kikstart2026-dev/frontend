@@ -12,6 +12,7 @@ import {
   getChatUsers,
   createConversation,
   deleteConversation,
+  markAsRead
 } from "../../apis/api";
 
 import styles from "./Messages.module.scss";
@@ -66,6 +67,9 @@ export default function Messages() {
 
   const [selectedGroupUsers, setSelectedGroupUsers] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
+
+
+  const [unreadCounts, setUnreadCounts] = useState({});
 
   // ================= VOICE =================
   const [isListening, setIsListening] = useState(false);
@@ -293,7 +297,6 @@ export default function Messages() {
 
   /* ================= SELECT USER ================= */
   const handleSelectUser = async (selectedUserData) => {
-    // Existing conversation check
     const existingConversation = conversations.find(
       (conv) =>
         !conv?.isGroup &&
@@ -302,25 +305,52 @@ export default function Messages() {
         ),
     );
 
-    // ✅ existing
     if (existingConversation) {
       setSelectedConversation(existingConversation);
-
       setSelectedUser(selectedUserData);
+
+      // 🔥 IMPORTANT FIX
+      await markConversationRead(existingConversation.twilioConversationSid);
 
       return;
     }
 
-    // ✅ create new
     createConversationMutate({
       friendlyName: selectedUserData.fullname,
-
       participants: [currentUserId, selectedUserData._id],
-
       isGroup: false,
     });
 
     setSelectedUser(selectedUserData);
+  };
+  // =====================UNREAD MESSAGE COUNT=====================================
+
+  const markConversationRead = async (sid) => {
+    if (!sid) return;
+
+    try {
+      // 1. Backend update (IMPORTANT)
+      await markAsRead({
+        conversationSid: sid,
+        identity: currentUserId,
+      });
+
+      // 2. Twilio local update (UI instant update)
+      if (twilioClient) {
+        const conversation =
+          await twilioClient.getConversationBySid(sid);
+
+        await conversation.setAllMessagesRead();
+      }
+
+      // 3. UI state reset
+      setUnreadCounts((prev) => ({
+        ...prev,
+        [sid]: 0,
+      }));
+    } catch (err) {
+      console.log("Mark read error:", err);
+    }
   };
 
   /* ================= MESSAGES ================= */
@@ -360,15 +390,22 @@ export default function Messages() {
     };
 
     const handleMessageAdded = async () => {
-      // refresh current opened chat
       await refetchMessages();
+      refreshUnreadCounts();
+    };
 
-      // refresh sidebar last message
-      await refetchConversations();
+    const refreshUnreadCounts = async () => {
+      const counts = {};
 
-      queryClient.invalidateQueries({
-        queryKey: ["user-conversations", currentUserId],
-      });
+      const paginator =
+        await twilioClient.getSubscribedConversations();
+
+      for (const item of paginator.items) {
+        const count = await item.getUnreadMessagesCount();
+        counts[item.sid] = count || 0;
+      }
+
+      setUnreadCounts(counts);
     };
 
     twilioClient.on("conversationAdded", handleConversationAdded);
@@ -387,6 +424,32 @@ export default function Messages() {
     refetchMessages,
     queryClient,
   ]);
+
+  useEffect(() => {
+    if (!twilioClient) return;
+
+    const loadUnreadCounts = async () => {
+      try {
+        const counts = {};
+
+        const paginator =
+          await twilioClient.getSubscribedConversations();
+
+        for (const item of paginator.items) {
+          const count =
+            await item.getUnreadMessagesCount();
+
+          counts[item.sid] = count || 0;
+        }
+
+        setUnreadCounts(counts);
+      } catch (err) {
+        console.log("Unread Count Error:", err);
+      }
+    };
+
+    loadUnreadCounts();
+  }, [twilioClient, conversations]);
 
   //last message show -------------------------------------------
   useEffect(() => {
@@ -427,8 +490,7 @@ export default function Messages() {
       // refresh current chat
       await refetchMessages();
 
-      // refresh sidebar last message
-      await refetchConversations();
+
 
       // optional extra safe refresh
       queryClient.invalidateQueries({
@@ -549,14 +611,18 @@ export default function Messages() {
             ?.map((group) => (
               <div
                 key={group._id}
-                className={`${styles.chatItem} ${
-                  selectedConversation?._id === group?._id
-                    ? styles.activeChat
-                    : ""
-                }`}
+                className={`${styles.chatItem} ${selectedConversation?._id === group?._id
+                  ? styles.activeChat
+                  : ""
+                  }`}
                 onClick={() => {
                   setSelectedConversation(group);
+
                   setSelectedUser(null);
+
+                  markConversationRead(
+                    group.twilioConversationSid,
+                  );
                 }}
               >
                 <div className={styles.groupAvatar}>
@@ -564,7 +630,21 @@ export default function Messages() {
                 </div>
 
                 <div className={styles.chatInfo}>
-                  <h4>{group?.friendlyName}</h4>
+                  <div className={styles.chatHeaderRow}>
+                    <h4>{group?.friendlyName}</h4>
+
+                    {unreadCounts[
+                      group?.twilioConversationSid
+                    ] > 0 && (
+                        <span className={styles.unreadBadge}>
+                          {
+                            unreadCounts[
+                            group?.twilioConversationSid
+                            ]
+                          }
+                        </span>
+                      )}
+                  </div>
 
                   <p>{group?.lastMessage || "No messages yet"}</p>
                 </div>
@@ -593,9 +673,8 @@ export default function Messages() {
               return (
                 <div
                   key={u._id}
-                  className={`${styles.chatItem} ${
-                    isActive ? styles.activeChat : ""
-                  }`}
+                  className={`${styles.chatItem} ${isActive ? styles.activeChat : ""
+                    }`}
                   onClick={() => handleSelectUser(u)}
                 >
                   {/* USER IMAGE / LETTER */}
@@ -608,7 +687,21 @@ export default function Messages() {
                   )}
 
                   <div className={styles.chatInfo}>
-                    <h4>{u.fullname}</h4>
+                    <div className={styles.chatHeaderRow}>
+                      <h4>{u.fullname}</h4>
+
+                      {unreadCounts[
+                        existingConversation?.twilioConversationSid
+                      ] > 0 && (
+                          <span className={styles.unreadBadge}>
+                            {
+                              unreadCounts[
+                              existingConversation?.twilioConversationSid
+                              ]
+                            }
+                          </span>
+                        )}
+                    </div>
 
                     <p>{lastMsg}</p>
                   </div>
@@ -629,7 +722,7 @@ export default function Messages() {
             <div className={styles.chatHeader}>
               <div className={styles.userInfo}>
                 {!selectedConversation?.isGroup &&
-                selectedConversationUser?.image ? (
+                  selectedConversationUser?.image ? (
                   <img src={selectedConversationUser?.image} alt="user" />
                 ) : (
                   <div
@@ -716,9 +809,8 @@ ${isMine ? styles.myMessageRow : ""}`}
                   >
                     {!isMine && (
                       <div
-                        className={`${styles.messageAvatarLeft} ${
-                          !showAvatar ? styles.hiddenAvatar : ""
-                        }`}
+                        className={`${styles.messageAvatarLeft} ${!showAvatar ? styles.hiddenAvatar : ""
+                          }`}
                       >
                         {showAvatar &&
                           (otherImage ? (
@@ -753,9 +845,8 @@ ${isMine ? styles.myMessageRow : ""}`}
 
                     {isMine && (
                       <div
-                        className={`${styles.messageAvatarRight} ${
-                          !showAvatar ? styles.hiddenAvatar : ""
-                        }`}
+                        className={`${styles.messageAvatarRight} ${!showAvatar ? styles.hiddenAvatar : ""
+                          }`}
                       >
                         {myImage ? (
                           <img

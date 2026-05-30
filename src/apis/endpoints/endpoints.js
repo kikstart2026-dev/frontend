@@ -71,7 +71,7 @@ export const endpoints = {
   saveSubscription: "/subscription-payment/save-subscription",
 
   getUserActivePlan: (email) => `/subscription-payment/active-plan/${email}`,
-  
+
   getMyPayments: (email) => `/subscription-payment/my-payments/${email}`,
 
   // CHILDREN PROFILE ------------------------------------->>
@@ -112,8 +112,9 @@ export const endpoints = {
 
   // Message
   sendMessage: "message/send",
-  getMessages: (conversationSid) => `message/${conversationSid}`,
-
+  getMessages: (conversationSid, userId) =>
+    `message/${conversationSid}?userId=${userId}`,
+  markAsRead: "/message/mark-read",
   //chat user only
   getChatUsers: "admin/users/chat-users",
 

@@ -145,7 +145,7 @@ export default function Transaction() {
     doc.setFontSize(24);
 
     doc.text(
-      "PAYMENT INVOICE",
+      "KIKSTART",
       14,
       22
     );
@@ -165,7 +165,7 @@ export default function Transaction() {
     doc.setFontSize(16);
 
     doc.text(
-      "Customer Details",
+      "Payment Details",
       14,
       55
     );
@@ -382,11 +382,8 @@ export default function Transaction() {
 
                     <div>
 
-                      <h2>
-                        {
-                          item.description ||
-                          "Payment Invoice"
-                        }
+                      <h2>                  
+                          Payment Details                      
                       </h2>
 
 
