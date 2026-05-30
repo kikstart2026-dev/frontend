@@ -25,6 +25,8 @@ import {
   getServiceById,
 } from "../../../apis/api";
 
+import { createChild } from "../../../apis/api";
+
 export default function NextFormPara({
   duration,
 }) {
@@ -208,15 +210,98 @@ export default function NextFormPara({
           <Button
             text="next"
             variant="primary"
-            onClick={() => {
+            onClick={async () => {
 
-              handleSuccess(
-                "Children created successfully"
-              );
+              try {
 
-              navigate(
-                "/dashboard/children-profile"
-              );
+                const childData =
+                  JSON.parse(
+                    localStorage.getItem(
+                      "childFormData"
+                    )
+                  );
+
+                if (!childData) {
+
+                  handleError(
+                    "Child information not found"
+                  );
+
+                  return;
+                }
+
+                const formData =
+                  new FormData();
+
+                Object.keys(childData).forEach(
+                  (key) => {
+
+                    formData.append(
+                      key,
+                      childData[key]
+                    );
+
+                  }
+                );
+
+                const image =
+                  localStorage.getItem(
+                    "childImage"
+                  );
+
+                if (image) {
+
+                  const response =
+                    await fetch(image);
+
+                  const blob =
+                    await response.blob();
+
+                  formData.append(
+                    "profileImage",
+                    blob,
+                    "child-image.png"
+                  );
+                }
+
+                const res =
+                  await createChild(formData);
+
+                if (res.success) {
+
+                  localStorage.removeItem(
+                    "childFormData"
+                  );
+
+                  localStorage.removeItem(
+                    "childImage"
+                  );
+
+                  handleSuccess(
+                    "Children created successfully"
+                  );
+
+                  navigate(
+                    "/dashboard/children-profile"
+                  );
+
+                } else {
+
+                  handleError(
+                    res.message
+                  );
+
+                }
+
+              } catch (error) {
+
+                console.log(error);
+
+                handleError(
+                  "Failed to create child"
+                );
+
+              }
 
             }}
           />
