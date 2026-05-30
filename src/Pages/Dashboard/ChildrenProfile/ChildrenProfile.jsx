@@ -12,6 +12,8 @@ import {
   getAllPayments,
 } from "../../../apis/api";
 
+import ChildrenProfileSkeleton from "../../../Skeletons/ChildrenProfileSkeleton/ChildrenProfileSkeleton";
+
 const ChildrenProfile = () => {
 
   const IMAGE_BASE_URL = "http://localhost:8008";
@@ -238,10 +240,9 @@ const ChildrenProfile = () => {
 
   // ================= LOADING =================
 
-  if (loading) {
-
-    return <h2>Loading...</h2>;
-  }
+ if (loading || paymentLoading) {
+  return <ChildrenProfileSkeleton />;
+}
 
 
 
@@ -547,14 +548,10 @@ const ChildrenProfile = () => {
               </div>
 
               <h3>
-
                 {
-                  paymentLoading
-                    ? "Loading..."
-                    : currentPlan?.description ||
-                    "No Payment Done"
+                  currentPlan?.description ||
+                  "No Payment Done"
                 }
-
               </h3>
 
               <p>
@@ -568,13 +565,7 @@ const ChildrenProfile = () => {
               </p>
 
               <h2>
-
-                {
-                  paymentLoading
-                    ? "Loading..."
-                    : `₹ ${currentPlan?.amount || 0}`
-                }
-
+                ₹ {currentPlan?.amount || 0}
               </h2>
 
               <div

@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
 import "./Home.scss";
 import "../../Main.scss";
+
 import TwoSide from "../../Component/SectionTwoSIde/TwoSide/TwoSide";
 import TestSection from "../../Component/Testimonial/Test/TestSection";
 import MiniCardSection from "../../Component/WhyChooseUs/MiniCardSection/MiniCardSection"
@@ -8,8 +10,28 @@ import ProgramsSection from "../../Component/Services/ProgramsSection/ProgramsSe
 import FaqSection from "../../Component/Faqs/Faqs-Section/FaqSection";
 import HomeBanner from "../../Component/HomeBanner/HomeBanner";
 
+import HomeSkeleton from "../../Skeletons/HomeSkeleton/HomeSkeleton";
+
 
 export default function Home() {
+
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 2500);
+
+        return () => clearTimeout(timer);
+
+    }, []);
+
+    if (loading) {
+        return <HomeSkeleton />;
+    }
+
+
     return (
         <div className="home">
 
@@ -17,7 +39,7 @@ export default function Home() {
 
             <TwoSide />
 
-            <MiniCardSection/>
+            <MiniCardSection />
 
             <ProgramsSection limit={3} />
 
