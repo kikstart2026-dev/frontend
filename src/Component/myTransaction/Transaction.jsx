@@ -9,31 +9,22 @@ import styles from "./Transaction.module.scss";
 import TransactionSkeleton from "../../Skeletons/TransactionSkeleton/TransactionSkeleton";
 
 export default function Transaction() {
-
   const [payments, setPayments] = useState([]);
   const [openIndex, setOpenIndex] = useState(null);
   const [loading, setLoading] = useState(true);
-
 
   // ================= USER EMAIL =================
 
   let userEmail = "";
 
   try {
+    const userData = localStorage.getItem("user");
 
-    const userData =
-      localStorage.getItem("user");
+    const parsedUser = JSON.parse(userData);
 
-    const parsedUser =
-      JSON.parse(userData);
-
-    userEmail =
-      parsedUser?.email || "";
-
+    userEmail = parsedUser?.email || "";
   } catch (error) {
-
-    userEmail =
-      localStorage.getItem("user") || "";
+    userEmail = localStorage.getItem("user") || "";
   }
 
   // ================= FETCH PAYMENTS =================
@@ -42,82 +33,57 @@ export default function Transaction() {
     return isNaN(num) ? 0 : num;
   };
 
-
   const money = (v) => {
     const num = Number(v || 0);
     return "Rs." + num.toFixed(2);
   };
 
   useEffect(() => {
-
     const fetchPayments = async () => {
       setLoading(true);
 
       try {
+        const res = await getAllPayments();
 
-        const res =
-          await getAllPayments();
+        const filteredPayments = res?.payments?.filter((item) => {
+          // EMAIL MATCH
 
-        const filteredPayments =
-          res?.payments?.filter(
-            (item) => {
+          if (
+            item?.email &&
+            item.email.toLowerCase().trim() === userEmail.toLowerCase().trim()
+          ) {
+            return true;
+          }
 
-              // EMAIL MATCH
+          // PHONE MATCH
 
-              if (
-                item?.email &&
-                item.email
-                  .toLowerCase()
-                  .trim() ===
-                userEmail
-                  .toLowerCase()
-                  .trim()
-              ) {
-                return true;
-              }
+          if (
+            item?.contact ===
+            `+91${JSON.parse(localStorage.getItem("user"))?.phone}`
+          ) {
+            return true;
+          }
 
-              // PHONE MATCH
-
-              if (
-                item?.contact ===
-                `+91${JSON.parse(
-                  localStorage.getItem("user")
-                )?.phone}`
-              ) {
-                return true;
-              }
-
-              return false;
-            }
-          );
+          return false;
+        });
 
         setPayments(filteredPayments || []);
-
       } catch (error) {
-
         console.log(error);
-      }
-      finally {
-
+      } finally {
         setLoading(false);
-
       }
     };
 
     fetchPayments();
-
   }, [userEmail]);
 
   // ================= TOGGLE =================
 
   const toggleAccordion = (index) => {
-
     if (openIndex === index) {
-
       setOpenIndex(null);
-
     } else {
-
       setOpenIndex(index);
     }
   };
@@ -128,12 +94,8 @@ export default function Transaction() {
     return new Date(date).toLocaleString();
   };
 
-
-
   const downloadInvoice = (item) => {
-
     const doc = new jsPDF();
-
 
     // HEADER
 
@@ -144,19 +106,11 @@ export default function Transaction() {
 
     doc.setFontSize(24);
 
-    doc.text(
-      "KIKSTART",
-      14,
-      22
-    );
+    doc.text("KIKSTART", 14, 22);
 
     doc.setFontSize(11);
 
-    doc.text(
-      `Invoice ID : ${item.payment_id}`,
-      14,
-      32
-    );
+    doc.text(`Invoice ID : ${item.payment_id}`, 14, 32);
 
     // BODY
 
@@ -164,22 +118,14 @@ export default function Transaction() {
 
     doc.setFontSize(16);
 
-    doc.text(
-      "Payment Details",
-      14,
-      55
-    );
+    doc.text("Payment Details", 14, 55);
 
     autoTable(doc, {
-
       startY: 62,
 
       head: [["Field", "Details"]],
 
-
-
       body: [
-
         ["Full Name", item.fullname || "N/A"],
         ["Email", item.email || "N/A"],
         ["Phone", item.phone || item.contact || "N/A"],
@@ -214,58 +160,68 @@ export default function Transaction() {
       ],
 
       headStyles: {
-
         fillColor: [220, 38, 38],
       },
 
       styles: {
-
         fontSize: 11,
         cellPadding: 4,
       },
     });
-    // -------------------------
-    // TOTAL SECTION (NEW)
-    // -------------------------
+    // // -------------------------
+    // // TOTAL SECTION (NEW)
+    // // -------------------------
 
-    const total =
-      Number(item.amount || 0) +
-      Number(item.fee || 0) +
-      Number(item.tax || 0);
+    // const total =
+    //   Number(item.amount || 0) +
+    //   Number(item.fee || 0) +
+    //   Number(item.tax || 0);
 
-    // table end position
-    const finalY = doc.lastAutoTable.finalY || 60;
+    // // table end position
+    // const finalY = doc.lastAutoTable.finalY || 60;
 
-    // small clean spacing
-    const summaryStartY = finalY + 10;
+    // // small clean spacing
+    // const summaryStartY = finalY + 10;
 
-    doc.setFontSize(12);
-    doc.setFont("helvetica", "bold");
+    // doc.setFontSize(12);
+    // doc.setFont("helvetica", "bold");
 
-    doc.setTextColor(220, 38, 38);
-    doc.text("Payment Summary", 14, summaryStartY);
+    // doc.setTextColor(220, 38, 38);
+    // doc.text("Payment Summary", 14, summaryStartY);
 
-    // TOTAL (FIXED GAP HERE)
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(13);
+    // // TOTAL (FIXED GAP HERE)
+    // doc.setFont("helvetica", "bold");
+    // doc.setFontSize(13);
 
-    doc.setTextColor(0, 0, 0);
-    doc.text(`Total Paid: ${money(total)}`, 14, summaryStartY + 18);
+    // doc.setTextColor(0, 0, 0);
+    // doc.text(`Total Paid: ${money(total)}`, 14, summaryStartY + 18);
 
     // -------------------------
     // FOOTER
     // -------------------------
     const pageHeight = doc.internal.pageSize.height;
 
-    doc.setFontSize(10);
-    doc.setTextColor(120);
-    doc.setFont("helvetica", "normal");
+    // separator line
+    doc.setDrawColor(220, 220, 220);
+    doc.line(14, pageHeight - 35, 196, pageHeight - 35);
 
-    doc.text(
-      "Thank you for your payment!",
-      14,
-      pageHeight - 30
-    );
+    // Thank You
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(220, 38, 38);
+
+    doc.text("Thank you for your payment!", 14, pageHeight - 25);
+
+    // Contact text
+    doc.setFontSize(9);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(100);
+
+    doc.text("For any further details, please contact:", 14, pageHeight - 17);
+
+    doc.textWithLink("kikstart2026@gmail.com", 14, pageHeight - 9, {
+      url: "https://mail.google.com/mail/?view=cm&fs=1&to=kikstart2026@gmail.com&su=Contacting%20KikStart%20Support&body=Hello%20KikStart%20Team,%0D%0A%0D%0AI%20would%20like%20to%20contact%20you%20regarding...",
+    });
 
     // -------------------------
     // SAVE
@@ -274,245 +230,165 @@ export default function Transaction() {
   };
 
   return (
-
     <div className={styles.transactionWrapper}>
-
-      {
-        loading ? (
-          <TransactionSkeleton />
-        ) : payments?.length > 0 ? (
-
-          payments.map((item, index) => (
+      {loading ? (
+        <TransactionSkeleton />
+      ) : payments?.length > 0 ? (
+        payments.map((item, index) => (
+          <div className={styles.transactionCard} key={index}>
+            {/* HEADER */}
 
             <div
-              className={
-                styles.transactionCard
-              }
-              key={index}
+              className={styles.transactionHeader}
+              onClick={() => toggleAccordion(index)}
             >
+              <div className={styles.leftHeader}>
+                <div className={styles.invoiceIcon}>
+                  <i className="bi bi-receipt"></i>
+                </div>
 
-              {/* HEADER */}
+                <div>
+                  <h3>
+                    {item.description ||
+                      item.planName ||
+                      "Subscription Payment"}
+                  </h3>
 
-              <div
-                className={
-                  styles.transactionHeader
-                }
-                onClick={() =>
-                  toggleAccordion(index)
-                }
-              >
+                  <p>{formatDate(item.created_at || item.paymentDate)}</p>
+                </div>
+              </div>
 
-                <div
-                  className={
-                    styles.leftHeader
-                  }
-                >
+              <div className={styles.rightHeader}>
+                <div className={styles.rightAmount}>
+                  <h2>₹ {item.amount}</h2>
 
-                  <div
+                  <span
                     className={
-                      styles.invoiceIcon
+                      item.status === "captured"
+                        ? styles.success
+                        : styles.failed
                     }
                   >
-                    <i className="bi bi-receipt"></i>
-                  </div>
-
-                  <div>
-
-                    <h3>
-                      {item.description || item.planName || "Subscription Payment"}
-                    </h3>
-
-                    <p>
-                      {formatDate(item.created_at || item.paymentDate)}
-                    </p>
-
-                  </div>
-
+                    {item.status === "captured" ? "Paid" : item.status}
+                  </span>
                 </div>
 
-                <div className={styles.rightHeader}>
-
-                  <div className={styles.rightAmount}>
-
-                    <h2>
-                      ₹ {item.amount}
-                    </h2>
-
-                    <span
-                      className={
-                        item.status === "captured"
-                          ? styles.success
-                          : styles.failed
-                      }
-                    >
-                      {item.status === "captured"
-                        ? "Paid"
-                        : item.status}
-                    </span>
-                  </div>
-
-
-
-                  <i
-                    className={`bi bi-chevron-down ${styles.arrow} ${openIndex ===
-                      index
-                      ? styles.rotate
-                      : ""
-                      }`}
-                  ></i>
-
-                </div>
-
-              </div>
-
-              {/* BODY */}
-
-              <div
-                className={`${styles.transactionBody} ${openIndex === index
-                  ? styles.show
-                  : ""
+                <i
+                  className={`bi bi-chevron-down ${styles.arrow} ${
+                    openIndex === index ? styles.rotate : ""
                   }`}
-              >
+                ></i>
+              </div>
+            </div>
 
-                <div className={styles.invoiceContainer}>
+            {/* BODY */}
 
-                  {/* TOP HEADER */}
+            <div
+              className={`${styles.transactionBody} ${
+                openIndex === index ? styles.show : ""
+              }`}
+            >
+              <div className={styles.invoiceContainer}>
+                {/* TOP HEADER */}
 
-                  <div className={styles.invoiceHeader}>
-
-                    <div>
-
-                      <h2>                  
-                          Payment Details                      
-                      </h2>
-
-
-                    </div>
-
-                    <button
-                      className={
-                        styles.downloadBtn
-                      }
-                      onClick={() =>
-                        downloadInvoice(item)
-                      }
-                    >
-
-                      <i className="bi bi-download"></i>
-
-                      Download Invoice
-
-                    </button>
-
+                <div className={styles.invoiceHeader}>
+                  <div>
+                    <h2>Payment Details</h2>
                   </div>
 
-                  {/* TABLE */}
-
-                  <div className={styles.invoiceTable}>
-
-                    {/* LEFT */}
-
-                    <div className={styles.tableColumn}>
-
-                      <div className={styles.tableRow}>
-                        <span>Full Name</span>
-                        <p>{item.fullname || "N/A"}</p>
-                      </div>
-
-                      <div className={styles.tableRow}>
-                        <span>Email</span>
-                        <p>{item.email || "N/A"}</p>
-                      </div>
-
-                      <div className={styles.tableRow}>
-                        <span>Phone</span>
-                        <p>{item.phone || item.contact || "N/A"}</p>
-                      </div>
-
-                      <div className={styles.tableRow}>
-                        <span>Plan Name</span>
-                        <p>{item.planName || "N/A"}</p>
-                      </div>
-
-                      <div className={styles.tableRow}>
-                        <span>Amount</span>
-                        <p>₹ {item.amount}</p>
-                      </div>
-
-                      <div className={styles.tableRow}>
-                        <span>Payment ID</span>
-                        <p>{item.payment_id}</p>
-                      </div>
-
-                    </div>
-
-                    {/* RIGHT */}
-
-                    <div className={styles.tableColumn}>
-
-                      <div className={styles.tableRow}>
-                        <span>Order ID</span>
-                        <p>{item.order_id || "N/A"}</p>
-                      </div>
-
-                      <div className={styles.tableRow}>
-                        <span>Payment Method</span>
-                        <p>{item.method || "N/A"}</p>
-                      </div>
-
-                      <div className={styles.tableRow}>
-                        <span>Currency</span>
-                        <p>{item.currency || "INR"}</p>
-                      </div>
-
-                      <div className={styles.tableRow}>
-                        <span>Fee</span>
-                        <p>₹ {toNumber(item.fee || 0)}</p>
-                      </div>
-
-                      <div className={styles.tableRow}>
-                        <span>Tax</span>
-                        <p>₹ {toNumber(item.tax || 0)}</p>
-                      </div>
-
-                      <div className={styles.tableRow}>
-                        <span>Subscription Ends</span>
-                        <p>{formatDate(item.expireDate)}</p>
-                      </div>
-
-                    </div>
-
-                  </div>
-
-                  {/* FOOTER */}
-
-                  <div className={styles.invoiceFooter}>
-
-                    <p>
-                      Payment receipt generated
-                      successfully
-                    </p>
-
-                  </div>
-
+                  <button
+                    className={styles.downloadBtn}
+                    onClick={() => downloadInvoice(item)}
+                  >
+                    <i className="bi bi-download"></i>
+                    Download Invoice
+                  </button>
                 </div>
 
+                {/* TABLE */}
+
+                <div className={styles.invoiceTable}>
+                  {/* LEFT */}
+
+                  <div className={styles.tableColumn}>
+                    <div className={styles.tableRow}>
+                      <span>Full Name</span>
+                      <p>{item.fullname || "N/A"}</p>
+                    </div>
+
+                    <div className={styles.tableRow}>
+                      <span>Email</span>
+                      <p>{item.email || "N/A"}</p>
+                    </div>
+
+                    <div className={styles.tableRow}>
+                      <span>Phone</span>
+                      <p>{item.phone || item.contact || "N/A"}</p>
+                    </div>
+
+                    <div className={styles.tableRow}>
+                      <span>Plan Name</span>
+                      <p>{item.planName || "N/A"}</p>
+                    </div>
+
+                    <div className={styles.tableRow}>
+                      <span>Amount</span>
+                      <p>₹ {item.amount}</p>
+                    </div>
+
+                    <div className={styles.tableRow}>
+                      <span>Payment ID</span>
+                      <p>{item.payment_id}</p>
+                    </div>
+                  </div>
+
+                  {/* RIGHT */}
+
+                  <div className={styles.tableColumn}>
+                    <div className={styles.tableRow}>
+                      <span>Order ID</span>
+                      <p>{item.order_id || "N/A"}</p>
+                    </div>
+
+                    <div className={styles.tableRow}>
+                      <span>Payment Method</span>
+                      <p>{item.method || "N/A"}</p>
+                    </div>
+
+                    <div className={styles.tableRow}>
+                      <span>Currency</span>
+                      <p>{item.currency || "INR"}</p>
+                    </div>
+
+                    <div className={styles.tableRow}>
+                      <span>Fee</span>
+                      <p>₹ {toNumber(item.fee || 0)}</p>
+                    </div>
+
+                    <div className={styles.tableRow}>
+                      <span>Tax</span>
+                      <p>₹ {toNumber(item.tax || 0)}</p>
+                    </div>
+
+                    <div className={styles.tableRow}>
+                      <span>Subscription Ends</span>
+                      <p>{formatDate(item.expireDate)}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* FOOTER */}
+
+                <div className={styles.invoiceFooter}>
+                  <p>Payment receipt generated successfully</p>
+                </div>
               </div>
-
-            </div >
-          ))
-        ) : (
-
-          <div
-            className={
-              styles.noTransaction
-            }
-          >
-            No Transactions Found
+            </div>
           </div>
-        )
-      }
-
-    </div >
+        ))
+      ) : (
+        <div className={styles.noTransaction}>No Transactions Found</div>
+      )}
+    </div>
   );
 }
