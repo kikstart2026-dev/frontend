@@ -621,6 +621,14 @@ export const generateToken = async (payload) => {
   return res.data;
 };
 
+//green dot seen
+export const markMessagesAsSeen = async (data) => {
+  return await axiosInstance.post(
+    endpoints.markMessagesAsSeen,
+    data
+  );
+};
+
 /* -------------------------------------------------------------------------- */
 /*                               Message APIs                                 */
 /* -------------------------------------------------------------------------- */

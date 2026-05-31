@@ -12,6 +12,7 @@ import {
   getChatUsers,
   createConversation,
   deleteConversation,
+  markMessagesAsSeen,
 } from "../../apis/api";
 
 import styles from "./Messages.module.scss";
@@ -66,6 +67,50 @@ export default function Messages() {
 
   const [selectedGroupUsers, setSelectedGroupUsers] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
+
+  //<.....green dot.......>
+  const hasUnreadMessages = (conversation) => {
+    if (!conversation?.messages) return false;
+
+    return conversation.messages.some((msg) => {
+      if (msg.author === currentUserId) return false;
+
+      let attrs = {};
+
+      try {
+        attrs =
+          typeof msg.attributes === "string"
+            ? JSON.parse(msg.attributes)
+            : msg.attributes || {};
+      } catch {
+        attrs = {};
+      }
+
+      const seenBy = attrs.seenBy || [];
+
+      return !seenBy.includes(currentUserId);
+    });
+  };
+
+  useEffect(() => {
+    if (!selectedConversation?.twilioConversationSid || !currentUserId) return;
+
+    const updateSeen = async () => {
+      try {
+        await markMessagesAsSeen({
+          conversationSid: selectedConversation.twilioConversationSid,
+          userId: currentUserId,
+        });
+
+        await refetchMessages();
+        await refetchConversations();
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    updateSeen();
+  }, [selectedConversation?._id]);
 
   // ================= VOICE =================
   const [isListening, setIsListening] = useState(false);
@@ -564,7 +609,13 @@ export default function Messages() {
                 </div>
 
                 <div className={styles.chatInfo}>
-                  <h4>{group?.friendlyName}</h4>
+                  <div className={styles.chatHeaderRow}>
+                    <h4>{group?.friendlyName}</h4>
+
+                    {hasUnreadMessages(group) && (
+                      <div className={styles.unreadDot}></div>
+                    )}
+                  </div>
 
                   <p>{group?.lastMessage || "No messages yet"}</p>
                 </div>
@@ -608,7 +659,14 @@ export default function Messages() {
                   )}
 
                   <div className={styles.chatInfo}>
-                    <h4>{u.fullname}</h4>
+                    <div className={styles.chatHeaderRow}>
+                      <h4>{u.fullname}</h4>
+
+                      {existingConversation &&
+                        hasUnreadMessages(existingConversation) && (
+                          <div className={styles.unreadDot}></div>
+                        )}
+                    </div>
 
                     <p>{lastMsg}</p>
                   </div>
@@ -700,7 +758,7 @@ export default function Messages() {
                   (p) => String(p?._id || p) === String(msg?.author),
                 );
 
-                const prevMsg = allMessages[index + 1];
+                const prevMsg = allMessages[index - 1];
 
                 const showAvatar = !prevMsg || prevMsg.author !== msg.author;
                 const myImage = user?.image || user?.profileImage;
@@ -711,8 +769,9 @@ export default function Messages() {
                 return (
                   <div
                     key={index}
-                    className={`${styles.messageRow}
-${isMine ? styles.myMessageRow : ""}`}
+                    className={`${styles.messageRow} ${
+  isMine ? styles.myMessageRow : styles.otherMessageRow
+}`}
                   >
                     {!isMine && (
                       <div
@@ -749,6 +808,39 @@ ${isMine ? styles.myMessageRow : ""}`}
                       >
                         {msg.body}
                       </div>
+                      {isMine && (
+                        <div className={styles.messageStatus}>
+                          {(() => {
+                            let attrs = {};
+
+                            try {
+                              attrs =
+                                typeof msg.attributes === "string"
+                                  ? JSON.parse(msg.attributes)
+                                  : msg.attributes || {};
+                            } catch {
+                              attrs = {};
+                            }
+
+                            const seenBy = attrs.seenBy || [];
+
+                            // current user ছাড়া অন্য কেউ seen করলে
+                            const isSeen = seenBy.some(
+                              (id) => String(id) !== String(currentUserId),
+                            );
+
+                            return (
+                              <span
+                                className={
+                                  isSeen ? styles.seenTick : styles.sentTick
+                                }
+                              >
+                                ✓✓
+                              </span>
+                            );
+                          })()}
+                        </div>
+                      )}
                     </div>
 
                     {isMine && (
