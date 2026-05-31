@@ -4,6 +4,16 @@ import React, {
   useState,
 } from "react";
 
+import { toast } from "react-toastify";
+
+import {
+
+  handleError,
+
+  handleSuccess,
+
+} from "../../../utils";
+
 import styles from "./NextFormPara.module.scss";
 import CmnHeading from "../../CmnHeading/CmnHeading";
 import Button from "../../Buttons/Button";
@@ -14,6 +24,8 @@ import {
   getAllService,
   getServiceById,
 } from "../../../apis/api";
+
+import { createChild } from "../../../apis/api";
 
 export default function NextFormPara({
   duration,
@@ -117,11 +129,10 @@ export default function NextFormPara({
               </span>
 
               <span
-                className={`${styles.arrow} ${
-                  isOpen
-                    ? styles.rotate
-                    : ""
-                }`}
+                className={`${styles.arrow} ${isOpen
+                  ? styles.rotate
+                  : ""
+                  }`}
               >
                 ▼
               </span>
@@ -136,11 +147,10 @@ export default function NextFormPara({
                 {services.map((item) => (
                   <div
                     key={item._id}
-                    className={`${styles.dropdownItem} ${
-                      activeId === item._id
-                        ? styles.active
-                        : ""
-                    }`}
+                    className={`${styles.dropdownItem} ${activeId === item._id
+                      ? styles.active
+                      : ""
+                      }`}
                     onClick={() => {
                       setSelectedId(
                         item._id
@@ -196,18 +206,107 @@ export default function NextFormPara({
             }
           />
         </div>
-
         <div className={styles["btn-r"]}>
           <Button
             text="next"
             variant="primary"
-            onClick={() =>
-              navigate(
-                "/dashboard/enrolment-package"
-              )
-            }
+            onClick={async () => {
+
+              try {
+
+                const childData =
+                  JSON.parse(
+                    localStorage.getItem(
+                      "childFormData"
+                    )
+                  );
+
+                if (!childData) {
+
+                  handleError(
+                    "Child information not found"
+                  );
+
+                  return;
+                }
+
+                const formData =
+                  new FormData();
+
+                Object.keys(childData).forEach(
+                  (key) => {
+
+                    formData.append(
+                      key,
+                      childData[key]
+                    );
+
+                  }
+                );
+
+                const image =
+                  localStorage.getItem(
+                    "childImage"
+                  );
+
+                if (image) {
+
+                  const response =
+                    await fetch(image);
+
+                  const blob =
+                    await response.blob();
+
+                  formData.append(
+                    "profileImage",
+                    blob,
+                    "child-image.png"
+                  );
+                }
+
+                const res =
+                  await createChild(formData);
+
+                if (res.success) {
+
+                  localStorage.removeItem(
+                    "childFormData"
+                  );
+
+                  localStorage.removeItem(
+                    "childImage"
+                  );
+
+                  handleSuccess(
+                    "Children created successfully"
+                  );
+
+                  navigate(
+                    "/dashboard/children-profile"
+                  );
+
+                } else {
+
+                  handleError(
+                    res.message
+                  );
+
+                }
+
+              } catch (error) {
+
+                console.log(error);
+
+                handleError(
+                  "Failed to create child"
+                );
+
+              }
+
+            }}
           />
         </div>
+
       </div>
     </div>
   );

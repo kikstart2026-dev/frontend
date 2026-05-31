@@ -1,9 +1,7 @@
+
 import React, { useEffect, useMemo, useRef, useState } from "react";
-
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-
 import { Client } from "@twilio/conversations";
-
 import {
   generateToken,
   getMessages,
@@ -12,197 +10,96 @@ import {
   getChatUsers,
   createConversation,
   deleteConversation,
-  markMessagesAsSeen,
+  markAsRead
 } from "../../apis/api";
 
 import styles from "./Messages.module.scss";
-
-import {
-  FiMoreVertical,
-  FiSearch,
-  FiSend,
-  FiSmile,
-  FiUsers,
-} from "react-icons/fi";
-
+import { FiMoreVertical, FiSearch, FiSend, FiSmile, FiUsers } from "react-icons/fi";
 import EmojiPicker from "emoji-picker-react";
-
-import SpeechRecognition, {
-  useSpeechRecognition,
-} from "react-speech-recognition";
-
+import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import { BsMicFill, BsPauseFill, BsTrashFill } from "react-icons/bs";
+
+import axios from "axios";
 
 export default function Messages() {
   const queryClient = useQueryClient();
   const user = JSON.parse(localStorage.getItem("user"));
-
   const currentUserId = user?._id || user?.id;
 
   const [selectedConversation, setSelectedConversation] = useState(null);
-
   const [selectedUser, setSelectedUser] = useState(null);
-
   const [messageText, setMessageText] = useState("");
-
   const [allMessages, setAllMessages] = useState([]);
-
   const [searchText, setSearchText] = useState("");
-
   const [twilioClient, setTwilioClient] = useState(null);
 
-  // const [twilioConversations, setTwilioConversations] = useState([]);
+  const [unreadCounts, setUnreadCounts] = useState({});
 
   const messageEndRef = useRef(null);
-
   const inputRef = useRef(null);
-
   const emojiPickerRef = useRef(null);
 
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-
   const [showGroupModal, setShowGroupModal] = useState(false);
-
   const [groupName, setGroupName] = useState("");
-
   const [selectedGroupUsers, setSelectedGroupUsers] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
 
-  //<.....green dot.......>
-  const hasUnreadMessages = (conversation) => {
-    if (!conversation?.messages) return false;
-
-    return conversation.messages.some((msg) => {
-      if (msg.author === currentUserId) return false;
-
-      let attrs = {};
-
-      try {
-        attrs =
-          typeof msg.attributes === "string"
-            ? JSON.parse(msg.attributes)
-            : msg.attributes || {};
-      } catch {
-        attrs = {};
-      }
-
-      const seenBy = attrs.seenBy || [];
-
-      return !seenBy.includes(currentUserId);
-    });
-  };
-
-  useEffect(() => {
-    if (!selectedConversation?.twilioConversationSid || !currentUserId) return;
-
-    const updateSeen = async () => {
-      try {
-        await markMessagesAsSeen({
-          conversationSid: selectedConversation.twilioConversationSid,
-          userId: currentUserId,
-        });
-
-        await refetchMessages();
-        await refetchConversations();
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    updateSeen();
-  }, [selectedConversation?._id]);
-
   // ================= VOICE =================
   const [isListening, setIsListening] = useState(false);
-
   const {
-    transcript,
     interimTranscript,
     finalTranscript,
     resetTranscript,
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
 
-  /* ================= LANGUAGE DETECT ================= */
-
   const detectLanguage = (text) => {
-    // Bengali
     const bengaliRegex = /[\u0980-\u09FF]/;
-
-    // Hindi
     const hindiRegex = /[\u0900-\u097F]/;
-
-    if (bengaliRegex.test(text)) {
-      return "bn";
-    }
-
-    if (hindiRegex.test(text)) {
-      return "hi";
-    }
-
+    if (bengaliRegex.test(text)) return "bn";
+    if (hindiRegex.test(text)) return "hi";
     return "en";
   };
-
-  /* ================= START LISTENING ================= */
 
   const startVoiceTyping = async () => {
     if (!browserSupportsSpeechRecognition) {
       alert("Browser does not support voice typing");
       return;
     }
-
     setIsListening(true);
-
     await SpeechRecognition.startListening({
       continuous: true,
       interimResults: true,
-
-      // BEST mixed support
       language: "en-IN",
     });
   };
 
-  /* ================= STOP ================= */
-
   const pauseVoiceTyping = () => {
     setIsListening(false);
-
     SpeechRecognition.stopListening();
   };
-
-  /* ================= DELETE ================= */
 
   const deleteVoiceTyping = () => {
     setIsListening(false);
-
     SpeechRecognition.stopListening();
-
     resetTranscript();
-
     setMessageText("");
   };
-
-  /* ================= AUTO APPEND ================= */
 
   useEffect(() => {
     if (!finalTranscript) return;
 
     const detected = detectLanguage(finalTranscript);
-
     console.log("Detected Language:", detected);
 
     setMessageText((prev) => {
-      if (prev.includes(finalTranscript)) {
-        return prev;
-      }
-
+      if (prev.includes(finalTranscript)) return prev;
       return prev ? `${prev} ${finalTranscript}` : finalTranscript;
     });
 
     resetTranscript();
   }, [finalTranscript, resetTranscript]);
-
-  /* ================= AUTO STOP WHEN MIC OFF ================= */
 
   useEffect(() => {
     if (!isListening) {
@@ -210,24 +107,71 @@ export default function Messages() {
     }
   }, [isListening]);
 
-  /* ================= TOKEN ================= */
+
+  // ================= MARK AS READ MUTATION =================
+  const markAsReadMutation = useMutation({
+    mutationFn: async (payload) => {
+      // আপনার সেন্ট্রাল এপিআই কল
+      return await markAsRead(payload);
+    },
+    onSuccess: (data) => {
+      console.log("Mark as read success backend response:", data);
+
+      queryClient.invalidateQueries({ queryKey: ["user-conversations", currentUserId] });
+    },
+    onError: (error) => {
+      console.error("Mark as read API Error:", error);
+    }
+  });
+
+  const triggerMarkAsRead = (convSid, lastIndex = null) => {
+    if (!convSid || !currentUserId) return;
+
+    const validIndex = (lastIndex !== null && lastIndex !== undefined) ? Number(lastIndex) : null;
+
+    markAsReadMutation.mutate({
+      conversationSid: convSid,
+      identity: String(currentUserId),
+      lastReadMessageIndex: validIndex
+    });
+  };
+  // ================= UNREAD COUNTS LOGIC =================
+
+  const updateUnreadCounts = async (conversationsList) => {
+    if (!twilioClient || !conversationsList || conversationsList.length === 0) return;
+
+    const counts = { ...unreadCounts };
+    for (const conv of conversationsList) {
+      if (conv?.twilioConversationSid) {
+        try {
+          const twilioConv = await twilioClient.getConversationBySid(conv.twilioConversationSid);
+          const unreadCount = await twilioConv.getUnreadMessagesCount();
+          counts[conv.twilioConversationSid] = unreadCount || 0;
+        } catch (err) {
+          console.error("Error fetching unread count for:", conv.twilioConversationSid, err);
+        }
+      }
+    }
+    setUnreadCounts(counts);
+  };
+
+  // ================= TWILIO INITIALIZATION =================
+  useEffect(() => {
+    if (currentUserId && !twilioClient) {
+      tokenMutation.mutate();
+    }
+  }, [currentUserId]);
+
   const tokenMutation = useMutation({
     mutationKey: ["generate-token"],
-
     mutationFn: async () => {
-      return await generateToken({
-        identity: currentUserId,
-      });
+      return await generateToken({ identity: currentUserId });
     },
-
     onSuccess: async (data) => {
       try {
         const token = data?.token || data?.data?.token;
-
         if (!token) return;
-
         const client = await Client.create(token);
-
         setTwilioClient(client);
       } catch (error) {
         console.log("Twilio client error:", error);
@@ -235,340 +179,230 @@ export default function Messages() {
     },
   });
 
-  useEffect(() => {
-    if (finalTranscript) {
-      const detectedLang = detectLanguage(finalTranscript);
-
-      console.log("Detected:", detectedLang);
-
-      setMessageText((prev) => {
-        if (prev.includes(finalTranscript)) {
-          return prev;
-        }
-
-        return prev ? `${prev} ${finalTranscript}` : finalTranscript;
-      });
-
-      resetTranscript();
-    }
-  }, [finalTranscript]);
-
-  /* ================= USERS ================= */
+  // ================= USERS & CONVERSATIONS FETCH =================
   const { data: usersData, isLoading: usersLoading } = useQuery({
     queryKey: ["chat-users"],
-
     queryFn: async () => {
       const res = await getChatUsers();
-
       return res?.data || res;
     },
-
     enabled: !!currentUserId,
   });
 
   const users = useMemo(() => {
     const allUsers = usersData?.users || [];
-
-    // নিজের user remove
     return allUsers.filter((u) => String(u._id) !== String(currentUserId));
   }, [usersData, currentUserId]);
 
-  /* ================= CONVERSATIONS ================= */
   const { data: conversationData, refetch: refetchConversations } = useQuery({
     queryKey: ["user-conversations", currentUserId],
-
     queryFn: async () => {
       const res = await getUserConversations(currentUserId);
-
       return res?.data || res;
     },
-
     enabled: !!currentUserId,
   });
   const conversations = conversationData?.conversations || [];
 
-  /* ================= CREATE CONVERSATION ================= */
-  const { mutate: createConversationMutate, isPending: creatingConversation } =
-    useMutation({
-      mutationFn: async (payload) => {
-        const res = await createConversation(payload);
+  useEffect(() => {
+    if (conversations.length > 0 && twilioClient) {
+      updateUnreadCounts(conversations);
+    }
+  }, [conversationData, twilioClient]);
 
-        return res?.data || res;
-      },
+  // ================= MUTATIONS =================
+  const { mutate: createConversationMutate, isPending: creatingConversation } = useMutation({
+    mutationFn: async (payload) => {
+      const res = await createConversation(payload);
+      return res?.data || res;
+    },
+    onSuccess: async (data) => {
+      const newConversation = data?.conversation;
+      if (newConversation) {
+        setSelectedConversation(newConversation);
+        triggerMarkAsRead(newConversation.twilioConversationSid);
 
-      onSuccess: async (data) => {
-        const newConversation = data?.conversation;
-
-        if (newConversation) {
-          setSelectedConversation(newConversation);
-        }
-
-        // refresh sidebar
-        await refetchConversations();
-
-        queryClient.invalidateQueries({
-          queryKey: ["user-conversations", currentUserId],
-        });
-      },
-    });
+        setUnreadCounts(prev => ({ ...prev, [newConversation.twilioConversationSid]: 0 }));
+      }
+      await refetchConversations();
+    },
+  });
 
   const deleteConversationMutation = useMutation({
     mutationFn: async (conversationSid) => {
       return await deleteConversation(conversationSid);
     },
-
     onSuccess: async () => {
-      // clear current screen
       setSelectedConversation(null);
-
       setAllMessages([]);
-
-      // refresh sidebar
       await refetchConversations();
-
-      queryClient.invalidateQueries({
-        queryKey: ["user-conversations", currentUserId],
-      });
-    },
-
-    onError: (error) => {
-      console.log("Delete Error:", error);
     },
   });
 
-  /* ================= SELECT USER ================= */
   const handleSelectUser = async (selectedUserData) => {
-    // Existing conversation check
     const existingConversation = conversations.find(
       (conv) =>
         !conv?.isGroup &&
-        conv?.participants?.some(
-          (p) => String(p?._id || p) === String(selectedUserData._id),
-        ),
+        conv?.participants?.some((p) => String(p?._id || p) === String(selectedUserData._id))
     );
 
-    // ✅ existing
     if (existingConversation) {
       setSelectedConversation(existingConversation);
-
       setSelectedUser(selectedUserData);
+      triggerMarkAsRead(existingConversation.twilioConversationSid);
 
+      setUnreadCounts(prev => ({ ...prev, [existingConversation.twilioConversationSid]: 0 }));
       return;
     }
 
-    // ✅ create new
     createConversationMutate({
       friendlyName: selectedUserData.fullname,
-
       participants: [currentUserId, selectedUserData._id],
-
       isGroup: false,
     });
-
     setSelectedUser(selectedUserData);
   };
 
-  /* ================= MESSAGES ================= */
+  // ================= MESSAGES FETCH =================
   const { data: messageData, refetch: refetchMessages } = useQuery({
-    queryKey: [
-      "conversation-messages",
-      selectedConversation?.twilioConversationSid,
-    ],
-
+    queryKey: ["conversation-messages", selectedConversation?.twilioConversationSid],
     queryFn: async () => {
-      const res = await getMessages(
-        selectedConversation?.twilioConversationSid,
-      );
-
+      const res = await getMessages(selectedConversation?.twilioConversationSid);
       return res?.data || res;
     },
-
     enabled: !!selectedConversation?.twilioConversationSid,
   });
 
   useEffect(() => {
-    if (messageData?.messages) {
-      setAllMessages(messageData.messages);
+  if (messageData?.messages) {
+    setAllMessages(messageData.messages);
+    if (messageData.messages.length > 0) {
+      // শেষ মেসেজের ইনডেক্সটি এভাবে নিন
+      const lastMsg = messageData.messages[messageData.messages.length - 1];
+      if (lastMsg && (lastMsg.index !== undefined)) {
+        triggerMarkAsRead(selectedConversation?.twilioConversationSid, lastMsg.index);
+      }
     }
-  }, [messageData]);
+  }
+}, [messageData]);
 
-  /* ================= REALTIME ================= */
+  // ================= REALTIME EVENT LISTENERS =================
   useEffect(() => {
     if (!twilioClient) return;
 
     const handleConversationAdded = async () => {
       await refetchConversations();
-
-      queryClient.invalidateQueries({
-        queryKey: ["user-conversations", currentUserId],
-      });
     };
 
-    const handleMessageAdded = async () => {
-      // refresh current opened chat
+    const handleMessageAdded = async (message) => {
       await refetchMessages();
+      const updatedConversations = await refetchConversations();
 
-      // refresh sidebar last message
-      await refetchConversations();
+      if (selectedConversation?.twilioConversationSid === message.conversation.sid) {
+        if (message.author !== currentUserId) {
+          triggerMarkAsRead(message.conversation.sid, message.index);
+          setUnreadCounts(prev => ({ ...prev, [message.conversation.sid]: 0 }));
+        }
+      } else {
 
-      queryClient.invalidateQueries({
-        queryKey: ["user-conversations", currentUserId],
-      });
+        const list = updatedConversations?.data?.conversations || conversations;
+        updateUnreadCounts(list);
+      }
     };
 
     twilioClient.on("conversationAdded", handleConversationAdded);
-
     twilioClient.on("messageAdded", handleMessageAdded);
 
     return () => {
       twilioClient.removeListener("conversationAdded", handleConversationAdded);
-
       twilioClient.removeListener("messageAdded", handleMessageAdded);
     };
-  }, [
-    twilioClient,
-    currentUserId,
-    refetchConversations,
-    refetchMessages,
-    queryClient,
-  ]);
+  }, [twilioClient, selectedConversation, currentUserId, conversations]);
 
-  //last message show -------------------------------------------
+  // Outside click for Emoji Picker
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        emojiPickerRef.current &&
-        !emojiPickerRef.current.contains(event.target)
-      ) {
+      if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target)) {
         setShowEmojiPicker(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  /* ================= SCROLL ================= */
   useEffect(() => {
-    messageEndRef.current?.scrollIntoView({
-      behavior: "smooth",
-    });
+    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [allMessages]);
 
-  /* ================= SEND MESSAGE ================= */
+  // ================= SEND MESSAGE =================
   const sendMessageMutation = useMutation({
     mutationKey: ["send-message"],
-
     mutationFn: async (payload) => {
       return await sendMessage(payload);
     },
-
     onSuccess: async () => {
       setMessageText("");
-
-      // refresh current chat
       await refetchMessages();
-
-      // refresh sidebar last message
       await refetchConversations();
-
-      // optional extra safe refresh
-      queryClient.invalidateQueries({
-        queryKey: ["user-conversations", currentUserId],
-      });
     },
   });
 
-  const handleEmojiClick = (emojiData) => {
-    setMessageText((prev) => prev + emojiData.emoji);
-
-    // focus back to input
-    setTimeout(() => {
-      inputRef.current?.focus();
-    }, 0);
-  };
-
-  const handleSelectGroupUser = (id) => {
-    setSelectedGroupUsers((prev) => {
-      if (prev.includes(id)) {
-        return prev.filter((item) => item !== id);
-      }
-
-      return [...prev, id];
-    });
-  };
-
-  const handleCreateGroup = async () => {
-    if (!groupName.trim() || selectedGroupUsers.length === 0) {
-      return;
-    }
-
-    // prevent duplicate click
-    if (creatingConversation) return;
-
-    createConversationMutate({
-      friendlyName: groupName.trim(),
-
-      participants: [currentUserId, ...selectedGroupUsers],
-
-      isGroup: true,
-
-      groupAdmin: currentUserId,
-    });
-
-    // close modal
-    setShowGroupModal(false);
-
-    // reset fields
-    setGroupName("");
-
-    setSelectedGroupUsers([]);
-  };
   const handleSendMessage = () => {
     if (!messageText.trim() || !selectedConversation) return;
-
-    // close emoji picker
     setShowEmojiPicker(false);
 
     sendMessageMutation.mutate({
       conversationSid: selectedConversation?.twilioConversationSid,
-
       author: currentUserId,
-
-      message: messageText,
+      message: messageText.trim(),
     });
   };
 
-  /* ================= FILTER USERS ================= */
+  const handleEmojiClick = (emojiData) => {
+    setMessageText((prev) => prev + emojiData.emoji);
+    setTimeout(() => inputRef.current?.focus(), 0);
+  };
+
+  const handleSelectGroupUser = (id) => {
+    setSelectedGroupUsers((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
+  const handleCreateGroup = async () => {
+    if (!groupName.trim() || selectedGroupUsers.length === 0 || creatingConversation) return;
+
+    createConversationMutate({
+      friendlyName: groupName.trim(),
+      participants: [currentUserId, ...selectedGroupUsers],
+      isGroup: true,
+      groupAdmin: currentUserId,
+    });
+
+    setShowGroupModal(false);
+    setGroupName("");
+    setSelectedGroupUsers([]);
+  };
+
   const filteredUsers = useMemo(() => {
     return users.filter((u) =>
-      u?.fullname?.toLowerCase()?.includes(searchText.toLowerCase()),
+      u?.fullname?.toLowerCase()?.includes(searchText.toLowerCase())
     );
   }, [users, searchText]);
 
-  /* ================= GET INITIAL ================= */
   const selectedConversationUser = selectedConversation?.participants?.find(
-    (p) => String(p?._id || p) !== String(currentUserId),
+    (p) => String(p?._id || p) !== String(currentUserId)
   );
 
-  /* ================= GET INITIAL ================= */
-  const getInitial = (name) => {
-    return name?.charAt(0)?.toUpperCase() || "U";
-  };
+  const getInitial = (name) => name?.charAt(0)?.toUpperCase() || "U";
 
   return (
     <div className={styles.wrapper}>
       {/* LEFT SIDE */}
       <div className={styles.leftSide}>
-        {/* SEARCH BOX */}
         <div className={styles.topBar}>
-          {/* SEARCH BOX */}
           <div className={styles.searchBox}>
             <FiSearch />
-
             <input
               type="text"
               placeholder="Search User"
@@ -576,100 +410,79 @@ export default function Messages() {
               onChange={(e) => setSearchText(e.target.value)}
             />
           </div>
-
-          {/* CREATE GROUP ICON */}
-          <button
-            className={styles.groupIconBtn}
-            onClick={() => setShowGroupModal(true)}
-          >
+          <button className={styles.groupIconBtn} onClick={() => setShowGroupModal(true)}>
             <FiUsers />
           </button>
         </div>
 
-        {/* CHAT LIST */}
         <div className={styles.chatList}>
-          {/* ================= CONVERSATIONS (GROUP + CHAT) ================= */}
+          {/* GROUPS */}
           {conversations
             ?.filter((conv) => conv?.isGroup)
             ?.map((group) => (
               <div
                 key={group._id}
-                className={`${styles.chatItem} ${
-                  selectedConversation?._id === group?._id
-                    ? styles.activeChat
-                    : ""
-                }`}
+                className={`${styles.chatItem} ${selectedConversation?._id === group?._id ? styles.activeChat : ""
+                  }`}
                 onClick={() => {
                   setSelectedConversation(group);
                   setSelectedUser(null);
+                  triggerMarkAsRead(group.twilioConversationSid);
+                  // ✅ গ্রুপ চ্যাট ওপেন করলেও কাউন্ট ০ হবে
+                  setUnreadCounts(prev => ({ ...prev, [group.twilioConversationSid]: 0 }));
                 }}
               >
-                <div className={styles.groupAvatar}>
-                  {getInitial(group?.friendlyName)}
-                </div>
-
+                <div className={styles.groupAvatar}>{getInitial(group?.friendlyName)}</div>
                 <div className={styles.chatInfo}>
-                  <div className={styles.chatHeaderRow}>
-                    <h4>{group?.friendlyName}</h4>
-
-                    {hasUnreadMessages(group) && (
-                      <div className={styles.unreadDot}></div>
-                    )}
-                  </div>
-
+                  <h4>{group?.friendlyName}</h4>
                   <p>{group?.lastMessage || "No messages yet"}</p>
                 </div>
+
+
+                {unreadCounts[group?.twilioConversationSid] > 0 && (
+                  <div className={styles.unreadBadge}>
+                    {unreadCounts[group?.twilioConversationSid]}
+                  </div>
+                )}
               </div>
             ))}
 
-          {/* ================= USERS LIST ================= */}
+          {/* USERS LIST */}
           {usersLoading ? (
             <p className={styles.infoText}>Loading...</p>
           ) : filteredUsers?.length > 0 ? (
             filteredUsers.map((u) => {
               const userImage = u?.image || u?.profileImage || "";
-
               const existingConversation = conversations.find(
                 (conv) =>
                   !conv?.isGroup &&
-                  conv?.participants?.some(
-                    (p) => String(p?._id || p) === String(u._id),
-                  ),
+                  conv?.participants?.some((p) => String(p?._id || p) === String(u._id))
               );
-              const isActive =
-                selectedConversation?._id === existingConversation?._id;
-
+              const isActive = selectedConversation?._id === existingConversation?._id;
               const lastMsg = existingConversation?.lastMessage || u.email;
 
               return (
                 <div
                   key={u._id}
-                  className={`${styles.chatItem} ${
-                    isActive ? styles.activeChat : ""
-                  }`}
+                  className={`${styles.chatItem} ${isActive ? styles.activeChat : ""}`}
                   onClick={() => handleSelectUser(u)}
                 >
-                  {/* USER IMAGE / LETTER */}
                   {userImage ? (
                     <img src={userImage} alt="user" />
                   ) : (
-                    <div className={styles.userAvatar}>
-                      {getInitial(u?.fullname)}
-                    </div>
+                    <div className={styles.userAvatar}>{getInitial(u?.fullname)}</div>
                   )}
-
                   <div className={styles.chatInfo}>
-                    <div className={styles.chatHeaderRow}>
-                      <h4>{u.fullname}</h4>
-
-                      {existingConversation &&
-                        hasUnreadMessages(existingConversation) && (
-                          <div className={styles.unreadDot}></div>
-                        )}
-                    </div>
-
+                    <h4>{u.fullname}</h4>
                     <p>{lastMsg}</p>
                   </div>
+
+
+                  {existingConversation && unreadCounts[existingConversation.twilioConversationSid] > 0 && (
+                    <div className={styles.unreadBadge}>
+                      {unreadCounts[existingConversation.twilioConversationSid]}
+                    </div>
+                  )}
                 </div>
               );
             })
@@ -686,39 +499,23 @@ export default function Messages() {
             {/* HEADER */}
             <div className={styles.chatHeader}>
               <div className={styles.userInfo}>
-                {!selectedConversation?.isGroup &&
-                selectedConversationUser?.image ? (
+                {!selectedConversation?.isGroup && selectedConversationUser?.image ? (
                   <img src={selectedConversationUser?.image} alt="user" />
                 ) : (
-                  <div
-                    style={{
-                      width: "45px",
-                      height: "45px",
-                      borderRadius: "50%",
-                      background: "#ff4d4f",
-                      color: "#fff",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontWeight: "700",
-                      fontSize: "18px",
-                    }}
-                  >
+                  <div className={styles.defaultAvatar}>
                     {getInitial(
                       selectedConversation?.isGroup
                         ? selectedConversation?.friendlyName
-                        : selectedConversationUser?.fullname,
+                        : selectedConversationUser?.fullname
                     )}
                   </div>
                 )}
-
                 <div>
                   <h3>
                     {selectedConversation?.isGroup
                       ? selectedConversation?.friendlyName
                       : selectedConversationUser?.fullname}
                   </h3>
-
                   <span>Online</span>
                 </div>
               </div>
@@ -727,19 +524,15 @@ export default function Messages() {
                 <button onClick={() => setShowMenu(!showMenu)}>
                   <FiMoreVertical />
                 </button>
-
                 {showMenu && (
                   <div className={styles.dropdownMenu}>
                     <button
                       className={styles.deleteBtn}
                       onClick={() => {
-                        if (!selectedConversation?.twilioConversationSid)
-                          return;
-
+                        if (!selectedConversation?.twilioConversationSid) return;
                         deleteConversationMutation.mutate(
-                          selectedConversation.twilioConversationSid,
+                          selectedConversation.twilioConversationSid
                         );
-
                         setShowMenu(false);
                       }}
                     >
@@ -750,42 +543,33 @@ export default function Messages() {
               </div>
             </div>
 
-            {/* MESSAGES */}
+            {/* MESSAGES BODY */}
             <div className={styles.messageBody}>
               {allMessages?.map((msg, index) => {
                 const isMine = msg?.author === currentUserId;
                 const messageUser = selectedConversation?.participants?.find(
-                  (p) => String(p?._id || p) === String(msg?.author),
+                  (p) => String(p?._id || p) === String(msg?.author)
                 );
 
-                const prevMsg = allMessages[index - 1];
-
+                const prevMsg = index > 0 ? allMessages[index - 1] : null;
                 const showAvatar = !prevMsg || prevMsg.author !== msg.author;
-                const myImage = user?.image || user?.profileImage;
 
-                const otherImage =
-                  messageUser?.image || messageUser?.profileImage;
+                const myImage = user?.image || user?.profileImage;
+                const otherImage = messageUser?.image || messageUser?.profileImage;
 
                 return (
                   <div
                     key={index}
-                    className={`${styles.messageRow} ${
-  isMine ? styles.myMessageRow : styles.otherMessageRow
-}`}
+                    className={`${styles.messageRow} ${isMine ? styles.myMessageRow : ""}`}
                   >
                     {!isMine && (
                       <div
-                        className={`${styles.messageAvatarLeft} ${
-                          !showAvatar ? styles.hiddenAvatar : ""
-                        }`}
+                        className={`${styles.messageAvatarLeft} ${!showAvatar ? styles.hiddenAvatar : ""
+                          }`}
                       >
                         {showAvatar &&
                           (otherImage ? (
-                            <img
-                              src={otherImage}
-                              alt="user"
-                              className={styles.avatarImage}
-                            />
+                            <img src={otherImage} alt="user" className={styles.avatarImage} />
                           ) : (
                             getInitial(messageUser?.fullname)
                           ))}
@@ -794,80 +578,34 @@ export default function Messages() {
 
                     <div className={styles.messageContent}>
                       {selectedConversation?.isGroup && showAvatar && (
-                        <p
-                          className={`${styles.groupSenderName}
-                ${isMine ? styles.mySenderName : ""}`}
-                        >
+                        <p className={`${styles.groupSenderName} ${isMine ? styles.mySenderName : ""}`}>
                           {isMine ? "You" : messageUser?.fullname}
                         </p>
                       )}
-
-                      <div
-                        className={`${styles.messageBubble}
-        ${isMine ? styles.myBubble : styles.otherBubble}`}
-                      >
+                      <div className={`${styles.messageBubble} ${isMine ? styles.myBubble : styles.otherBubble}`}>
                         {msg.body}
                       </div>
-                      {isMine && (
-                        <div className={styles.messageStatus}>
-                          {(() => {
-                            let attrs = {};
-
-                            try {
-                              attrs =
-                                typeof msg.attributes === "string"
-                                  ? JSON.parse(msg.attributes)
-                                  : msg.attributes || {};
-                            } catch {
-                              attrs = {};
-                            }
-
-                            const seenBy = attrs.seenBy || [];
-
-                            // current user ছাড়া অন্য কেউ seen করলে
-                            const isSeen = seenBy.some(
-                              (id) => String(id) !== String(currentUserId),
-                            );
-
-                            return (
-                              <span
-                                className={
-                                  isSeen ? styles.seenTick : styles.sentTick
-                                }
-                              >
-                                ✓✓
-                              </span>
-                            );
-                          })()}
-                        </div>
-                      )}
                     </div>
 
                     {isMine && (
                       <div
-                        className={`${styles.messageAvatarRight} ${
-                          !showAvatar ? styles.hiddenAvatar : ""
-                        }`}
+                        className={`${styles.messageAvatarRight} ${!showAvatar ? styles.hiddenAvatar : ""
+                          }`}
                       >
-                        {myImage ? (
-                          <img
-                            src={myImage}
-                            alt="me"
-                            className={styles.avatarImage}
-                          />
+                        {showAvatar && (myImage ? (
+                          <img src={myImage} alt="me" className={styles.avatarImage} />
                         ) : (
                           getInitial(user?.fullname)
-                        )}
+                        ))}
                       </div>
                     )}
                   </div>
                 );
               })}
-
               <div ref={messageEndRef} />
             </div>
 
-            {/* INPUT */}
+            {/* INPUT BOX */}
             <div className={styles.messageInputBox}>
               <div className={styles.emojiWrapper} ref={emojiPickerRef}>
                 <button
@@ -877,13 +615,9 @@ export default function Messages() {
                 >
                   <FiSmile />
                 </button>
-
                 {showEmojiPicker && (
                   <div className={styles.emojiPicker}>
-                    <EmojiPicker
-                      onEmojiClick={handleEmojiClick}
-                      skinTonesDisabled={true}
-                    />
+                    <EmojiPicker onEmojiClick={handleEmojiClick} skinTonesDisabled={true} />
                   </div>
                 )}
               </div>
@@ -892,15 +626,8 @@ export default function Messages() {
                 ref={inputRef}
                 type="text"
                 placeholder="Type a message..."
-                value={
-                  isListening
-                    ? `${messageText} ${interimTranscript || ""}`
-                    : messageText
-                }
+                value={isListening ? `${messageText} ${interimTranscript || ""}` : messageText}
                 onChange={(e) => setMessageText(e.target.value)}
-                onInput={(e) => {
-                  e.target.scrollLeft = e.target.scrollWidth;
-                }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     e.preventDefault();
@@ -909,8 +636,7 @@ export default function Messages() {
                 }}
               />
 
-              {/* ================= VOICE BUTTONS ================= */}
-
+              {/* VOICE CONTROLS */}
               {!isListening ? (
                 <button className={styles.voiceBtn} onClick={startVoiceTyping}>
                   <BsMicFill />
@@ -918,22 +644,12 @@ export default function Messages() {
               ) : (
                 <div className={styles.voiceControls}>
                   <div className={styles.voiceWave}>
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    <span></span><span></span><span></span>
                   </div>
-
-                  <button
-                    className={styles.deleteVoiceBtn}
-                    onClick={deleteVoiceTyping}
-                  >
+                  <button className={styles.deleteVoiceBtn} onClick={deleteVoiceTyping}>
                     <BsTrashFill />
                   </button>
-
-                  <button
-                    className={styles.pauseVoiceBtn}
-                    onClick={pauseVoiceTyping}
-                  >
+                  <button className={styles.pauseVoiceBtn} onClick={pauseVoiceTyping}>
                     <BsPauseFill />
                   </button>
                 </div>
@@ -948,7 +664,6 @@ export default function Messages() {
           <div className={styles.emptyChat}>
             <div className={styles.emptyContent}>
               <h2>Select Conversation</h2>
-
               <p>Choose a user from the left sidebar to start messaging</p>
             </div>
           </div>
@@ -960,7 +675,6 @@ export default function Messages() {
         <div className={styles.modal}>
           <div className={styles.modalContent}>
             <h3>Create Group</h3>
-
             <input
               type="text"
               placeholder="Group Name"
@@ -968,32 +682,17 @@ export default function Messages() {
               onChange={(e) => setGroupName(e.target.value)}
               className={styles.groupInput}
             />
-
             <div className={styles.groupUsers}>
               {users.map((u) => (
-                <div
-                  key={u._id}
-                  className={styles.groupUser}
-                  onClick={() => handleSelectGroupUser(u._id)}
-                >
-                  <input
-                    type="checkbox"
-                    checked={selectedGroupUsers.includes(u._id)}
-                    readOnly
-                  />
-
+                <div key={u._id} className={styles.groupUser} onClick={() => handleSelectGroupUser(u._id)}>
+                  <input type="checkbox" checked={selectedGroupUsers.includes(u._id)} readOnly />
                   <span>{u.fullname}</span>
                 </div>
               ))}
             </div>
-
             <div className={styles.modalActions}>
               <button onClick={() => setShowGroupModal(false)}>Cancel</button>
-
-              <button
-                onClick={handleCreateGroup}
-                disabled={creatingConversation}
-              >
+              <button onClick={handleCreateGroup} disabled={creatingConversation}>
                 {creatingConversation ? "Creating..." : "Create"}
               </button>
             </div>

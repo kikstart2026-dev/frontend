@@ -6,7 +6,6 @@ import styles2 from "../SchoolDetailsForm/SchoolDetailsForm.module.scss";
 
 import Button from "../../Buttons/Button";
 import { handleError, handleSuccess } from "../../../utils";
-import { createChild } from "../../../apis/api";
 
 export default function ChildrenDetailsForm() {
   const navigate = useNavigate();
@@ -83,46 +82,45 @@ export default function ChildrenDetailsForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      setLoading(true);
+    const formData = new FormData(e.target);
 
-      const formData = new FormData(e.target);
-      const data = new FormData();
+    const childData = {
+      fullName: formData.get("name"),
+      email: formData.get("email"),
+      location: formData.get("location"),
+      age: formData.get("age"),
+      foodHabit: formData.get("foodHabit"),
+      allergy,
+      allergyDetails: formData.get("allergyDetails"),
+      prolongDisease: formData.get("disease"),
+      passCode: formData.get("passCode"),
+    };
 
-      data.append("fullName", formData.get("name"));
-      data.append("email", formData.get("email"));
-      data.append("location", formData.get("location"));
-      data.append("age", formData.get("age"));
-      data.append("foodHabit", formData.get("foodHabit"));
-      data.append("allergy", allergy);
-      data.append("allergyDetails", formData.get("allergyDetails"));
-      data.append("prolongDisease", formData.get("disease"));
+    localStorage.setItem(
+      "childFormData",
+      JSON.stringify(childData)
+    );
 
-      // ✅ PASSCODE FIX (IMPORTANT)
-      data.append("passCode", formData.get("passCode"));
+    if (fileRef.current.files[0]) {
+      const reader = new FileReader();
 
-      // ✅ IMAGE FIX
-      if (fileRef.current.files[0]) {
-        data.append("profileImage", fileRef.current.files[0]);
-      }
+      reader.onloadend = () => {
+        localStorage.setItem(
+          "childImage",
+          reader.result
+        );
 
-      const res = await createChild(data);
-
-      console.log("CREATE CHILD => ", res);
-
-      if (res.success) {
-        handleSuccess("Child created successfully");
         navigate("/dashboard/Schooldetails");
-      } else {
-        handleError(res.message || "Something went wrong");
-      }
-    } catch (error) {
-      console.log(error);
-      handleError(
-        error?.response?.data?.message || "Failed to create child"
+      };
+
+      reader.readAsDataURL(
+        fileRef.current.files[0]
       );
-    } finally {
-      setLoading(false);
+
+    } else {
+
+      navigate("/dashboard/Schooldetails");
+
     }
   };
 
@@ -140,7 +138,7 @@ export default function ChildrenDetailsForm() {
             <input name="name" className={styles.inp} type="text" placeholder=" " required />
             <label className={styles.lbl}>Full Name</label>
           </div>
-          
+
           {/* Email */}
           <div className={styles.inputWrapper}>
             <input name="email" className={styles.inp} type="text" placeholder=" " required />

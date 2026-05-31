@@ -41,9 +41,7 @@ export default function ProgramsSection({ limit, showHeading = true }) {
           </div>
         )}
 
-        {loading ? (
-          <p className="text-center">Loading...</p>
-        ) : (
+        
           <div className={`row ${styles["programs-section"]}`}>
             {displayPrograms.map((item) => (
               <div
@@ -61,7 +59,7 @@ export default function ProgramsSection({ limit, showHeading = true }) {
               </div>
             ))}
           </div>
-        )}
+        
 
         <div className={styles["view-btn"]}>
           <Link

@@ -16,7 +16,7 @@ export default function Header() {
   const token = Cookies.get("token");
   const user = JSON.parse(localStorage.getItem("user"));
 
-const email = user?.email;
+  const email = user?.email;
 
   const navItems = [
     { name: "About Us", path: "/about" },
@@ -29,23 +29,23 @@ const email = user?.email;
   ];
 
   useEffect(() => {
-  if (showLogoutModal) {
-    // Lock scroll
-    const scrollY = window.scrollY;
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollY}px`;
-    document.body.style.width = "100%";
-    document.body.style.overflow = "hidden";
-  } else {
-    // Unlock scroll
-    const scrollY = -parseInt(document.body.style.top || "0", 10);
-    document.body.style.position = "";
-    document.body.style.top = "";
-    document.body.style.width = "";
-    document.body.style.overflow = "";
-    window.scrollTo(0, scrollY);
-  }
-}, [showLogoutModal]);
+    if (showLogoutModal) {
+      // Lock scroll
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
+      document.body.style.overflow = "hidden";
+    } else {
+      // Unlock scroll
+      const scrollY = -parseInt(document.body.style.top || "0", 10);
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      document.body.style.overflow = "";
+      window.scrollTo(0, scrollY);
+    }
+  }, [showLogoutModal]);
 
   // ================= LOGOUT API =================
   const { mutate: logoutMutate, isPending } = useMutation({
@@ -54,7 +54,7 @@ const email = user?.email;
       Cookies.remove("token");
       localStorage.removeItem("user");
       handleSuccess("Logged out successfully");
-      navigate("/signin");
+      navigate("/");
     },
     onError: (error) => {
       handleError(error?.response?.data?.message || "Logout failed ❌");
@@ -112,9 +112,14 @@ const email = user?.email;
               </div>
             )}
 
-            <Link to="/dashboard">
-              <Button text="GO TO DASHBOARD" variant="primary" />
-            </Link>
+            {token && (
+              <Link to="/dashboard">
+                <Button
+                  text="USER DASHBOARD"
+                  variant="primary"
+                />
+              </Link>
+            )}
           </div>
         </div>
       </div>
@@ -125,7 +130,7 @@ const email = user?.email;
           <div className={styles.logoutToast}>
             <div className={styles.logoutIconCircle}>
               <div className={styles.logoutIcon}>
-              <i class="bi bi-box-arrow-left"></i>
+                <i class="bi bi-box-arrow-left"></i>
               </div>
 
             </div>

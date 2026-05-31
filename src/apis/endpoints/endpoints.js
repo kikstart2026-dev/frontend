@@ -60,7 +60,7 @@ export const endpoints = {
 
   // Payment Gateway --------------------------------------->>
   payment: "/kikPayment",
-  getAllPayments: "/all-payments",
+  getAllPayments: "subscription-payment/all-payments",
 
   // SUBSCRIPTION --------------------------------------->>
 
@@ -71,6 +71,8 @@ export const endpoints = {
   saveSubscription: "/subscription-payment/save-subscription",
 
   getUserActivePlan: (email) => `/subscription-payment/active-plan/${email}`,
+
+  getMyPayments: (email) => `/subscription-payment/my-payments/${email}`,
 
   // CHILDREN PROFILE ------------------------------------->>
 
@@ -85,6 +87,8 @@ export const endpoints = {
   deleteChild: "/children/deleteChild",
 
   deleteAllChild: "/children/deleteAllChild",
+
+  getMyChildren: (email) => `/children/my-children/${email}`,
 
 
   // Schools (PUBLIC / USER SIDE)-------------------------------->>
@@ -108,9 +112,15 @@ export const endpoints = {
 
   // Message
   sendMessage: "message/send",
+<<<<<<< HEAD
   getMessages: (conversationSid) => `message/${conversationSid}`,
   markMessagesAsSeen: "message/mark-seen",
 
+=======
+  getMessages: (conversationSid, userId) =>
+    `message/${conversationSid}?userId=${userId}`,
+  markAsRead: "/message/mark-read",
+>>>>>>> 75878a94de98cc6964dfc531bacf76c9c06d32ae
   //chat user only
   getChatUsers: "admin/users/chat-users",
 

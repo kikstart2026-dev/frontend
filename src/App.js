@@ -53,7 +53,7 @@ function ProtectedRoute({ children }) {
   const token = Cookies.get("token");
 
   if (!token) {
-    return <Navigate to="/signin" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return children;
@@ -151,14 +151,14 @@ function Layout() {
         />
 
         {/* ================= MAIN ROUTES ================= */}
-        <Route
+        {/* <Route
           path="/"
           element={
             <ProtectedRoute>
               <Home />
             </ProtectedRoute>
           }
-        />
+        /> */}
 
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<AboutUs />} />
@@ -170,12 +170,20 @@ function Layout() {
         <Route path="/ProgramDeatailsPage" element={<ProgramDeatailsPage />} />
         <Route path="/contactform" element={<ContactForm />} />
 
-       
+
 
 
         {/* ================= DASHBOARD ROUTES ================= */}
 
-        <Route path="/dashboard" element={<DashboardLayout />}>
+        {/* <Route path="/dashboard" element={<DashboardLayout />}> */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
 
           <Route index element={<UserDashboard />} />
           <Route path="children-profile" element={<ChildrenProfile />} />
@@ -187,8 +195,8 @@ function Layout() {
           <Route path="WaiverAcceptance" element={<WaiverAcceptance />} />
           <Route path="ProgramDetailss" element={<ProgramDetailss />} />
           <Route path="enrolment-package" element={<EnrolmentPackage />} />
-          <Route path="messages" element={<Messages />}/>
-          <Route path="transactions" element={<Transaction />}/>
+          <Route path="messages" element={<Messages />} />
+          <Route path="transactions" element={<Transaction />} />
 
         </Route>
       </Routes>

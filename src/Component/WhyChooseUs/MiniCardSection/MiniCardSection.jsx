@@ -25,7 +25,7 @@ export default function MiniCardSection({ limit, showHeading = true }) {
 
   const displayData = limit ? cards.slice(0, limit) : cards;
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return null;
   if (error) return <p>Failed to load data</p>;
 
   // Dummy fallback heading

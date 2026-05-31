@@ -381,17 +381,27 @@ export const kikpayment = async (
 };
 
 // GET ALL PAYMENTS
-export const getAllPayments = async (paymentData) => {
+export const getAllPayments = async () => {
 
   const res =
     await axiosInstance.get(
-      endpoints.getAllPayments,
-      paymentData
+      endpoints.getAllPayments
     );
 
   return res.data;
 };
 
+export const getMyPayments = async (
+  email
+) => {
+
+  const res =
+    await axiosInstance.get(
+      endpoints.getMyPayments(email)
+    );
+
+  return res.data;
+};
 /* ================================
     SUBSCRIPTION APIs
 ================================ */
@@ -471,6 +481,18 @@ export const getAllChild = async () => {
   const res = await axiosInstance.get(
     endpoints.getAllChild
   );
+
+  return res.data;
+};
+
+export const getMyChildren = async (
+  email
+) => {
+
+  const res =
+    await axiosInstance.get(
+      endpoints.getMyChildren(email)
+    );
 
   return res.data;
 };
@@ -644,11 +666,25 @@ export const sendMessage = async (payload) => {
 };
 
 // GET MESSAGES
-export const getMessages = async (conversationSid) => {
+export const getMessages = async (
+  conversationSid,
+  userId
+) => {
   const res = await axiosInstance.get(
-    endpoints.getMessages(conversationSid)
+    endpoints.getMessages(
+      conversationSid,
+      userId
+    )
   );
 
+  return res.data;
+};
+
+export const markAsRead = async (payload) => {
+  const res = await axiosInstance.post(
+    endpoints.markAsRead,
+    payload
+  );
   return res.data;
 };
 
