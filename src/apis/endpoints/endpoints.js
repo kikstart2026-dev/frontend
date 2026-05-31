@@ -112,15 +112,9 @@ export const endpoints = {
 
   // Message
   sendMessage: "message/send",
-<<<<<<< HEAD
-  getMessages: (conversationSid) => `message/${conversationSid}`,
-  markMessagesAsSeen: "message/mark-seen",
-
-=======
   getMessages: (conversationSid, userId) =>
     `message/${conversationSid}?userId=${userId}`,
   markAsRead: "/message/mark-read",
->>>>>>> 75878a94de98cc6964dfc531bacf76c9c06d32ae
   //chat user only
   getChatUsers: "admin/users/chat-users",
 
