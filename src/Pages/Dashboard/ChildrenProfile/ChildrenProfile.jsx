@@ -1,35 +1,37 @@
-import React, { useEffect, useState, } from "react";
+import React, { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 import styles from "./ChildrenProfile.module.scss";
 
-import { useNavigate, useParams, } from "react-router-dom";
-
-import { getAllChild } from "../../../apis/api";
-
-import { toast } from "react-toastify";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
-  getAllPayments,
+  getAllChild,
+  getUserActivePlan,
 } from "../../../apis/api";
 
 import ChildrenProfileSkeleton from "../../../Skeletons/ChildrenProfileSkeleton/ChildrenProfileSkeleton";
+import { toast } from "react-toastify";
 
 const ChildrenProfile = () => {
-
   const IMAGE_BASE_URL = "http://localhost:8008";
 
   const { id } = useParams();
 
   const navigate = useNavigate();
 
+  // ================= STATES =================
+
   const [children, setChildren] = useState([]);
 
-  const [activeChild, setActiveChild,] = useState(null);
+  const [activeChild, setActiveChild] =
+    useState(null);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] =
+    useState(true);
 
-  const [startIndex, setStartIndex] = useState(0);
-  const visibleChildren = children.slice(startIndex, startIndex + 5);
+  const [startIndex, setStartIndex] =
+    useState(0);
 
   const [currentPlan, setCurrentPlan] =
     useState(null);
@@ -37,81 +39,124 @@ const ChildrenProfile = () => {
   const [daysLeft, setDaysLeft] =
     useState(0);
 
-  const [paymentLoading, setPaymentLoading] = useState(true);
-  const [maxChildren, setMaxChildren] = useState(0);
+  const [paymentLoading, setPaymentLoading] =
+    useState(true);
+
+  const [maxChildren, setMaxChildren] =
+    useState(0);
+
+  // ================= USER =================
+
+  const user = JSON.parse(
+    localStorage.getItem("user")
+  );
+
+  const userEmail =
+    user?.email
+      ?.toLowerCase()
+      ?.trim();
+
+  // ================= VISIBLE CHILDREN =================
+
+  const visibleChildren =
+    children.slice(
+      startIndex,
+      startIndex + 5
+    );
+
+  // ================= SLIDER =================
 
   const handleNext = () => {
-    if (startIndex + 5 < children.length) {
-      setStartIndex(startIndex + 1);
+
+    if (
+      startIndex + 5 <
+      children.length
+    ) {
+
+      setStartIndex(
+        startIndex + 1
+      );
     }
   };
 
   const handlePrev = () => {
+
     if (startIndex > 0) {
-      setStartIndex(startIndex - 1);
+
+      setStartIndex(
+        startIndex - 1
+      );
     }
   };
-
 
   // ================= FETCH CHILDREN =================
 
-  const fetchChildren = async () => {
-    try {
+  const fetchChildren =
+    async () => {
 
-      const user = JSON.parse(localStorage.getItem("user"));
+      try {
 
-      const userEmail =
-        user?.email?.toLowerCase()?.trim();
+        const res =
+          await getAllChild();
 
-      const res = await getAllChild();
+        console.log(
+          "CHILD RESPONSE => ",
+          res
+        );
 
-      console.log("CHILD RESPONSE => ", res);
+        if (res.success) {
 
-      if (res.success) {
-
-        // ================= FILTER CHILDREN =================
-
-        const filteredChildren =
-          res.data.filter(
-            (child) =>
-              child?.email
-                ?.toLowerCase()
-                ?.trim() === userEmail
-          );
-
-        setChildren(filteredChildren);
-
-        if (filteredChildren.length > 0) {
-
-          if (id) {
-
-            const selectedChild =
-              filteredChildren.find(
-                (child) => child._id === id
-              );
-
-            setActiveChild(
-              selectedChild || filteredChildren[0]
+          const filteredChildren =
+            res.data.filter(
+              (child) =>
+                child?.email
+                  ?.toLowerCase()
+                  ?.trim() ===
+                userEmail
             );
 
-          } else {
+          setChildren(
+            filteredChildren
+          );
 
-            setActiveChild(filteredChildren[0]);
+          if (
+            filteredChildren.length > 0
+          ) {
 
+            if (id) {
+
+              const selectedChild =
+                filteredChildren.find(
+                  (child) =>
+                    child._id === id
+                );
+
+              setActiveChild(
+                selectedChild ||
+                filteredChildren[0]
+              );
+
+            } else {
+
+              setActiveChild(
+                filteredChildren[0]
+              );
+            }
           }
         }
+
+      } catch (error) {
+
+        console.log(
+          "FETCH ERROR => ",
+          error
+        );
+
+      } finally {
+
+        setLoading(false);
       }
-
-    } catch (error) {
-
-      console.log("FETCH ERROR => ", error);
-
-    } finally {
-
-      setLoading(false);
-
-    }
-  };
+    };
 
   useEffect(() => {
 
@@ -119,136 +164,99 @@ const ChildrenProfile = () => {
 
   }, []);
 
+  // ================= FETCH ACTIVE PLAN =================
 
+  useQuery({
 
-  // ================= FETCH CURRENT PLAN =================
+    queryKey: [
+      "active-plan",
+      userEmail,
+    ],
 
-  useEffect(() => {
+    enabled: !!userEmail,
 
-    const fetchCurrentPlan = async () => {
-
-      setPaymentLoading(true);
+    queryFn: async () => {
 
       try {
 
-        const user =
-          JSON.parse(
-            localStorage.getItem("user")
-          );
-
-        const userEmail =
-          user?.email
-            ?.toLowerCase()
-            ?.trim();
+        setPaymentLoading(true);
 
         const res =
-          await getAllPayments();
-
-        const userPayments =
-          res?.payments?.filter(
-            (item) =>
-              item?.email
-                ?.toLowerCase()
-                ?.trim() ===
-              userEmail
-          ) || [];
-
-        if (userPayments.length === 0) {
-
-          setCurrentPlan(null);
-
-          setDaysLeft(0);
-
-          return;
-        }
-
-
-
-        const latestPayment =
-          userPayments.sort(
-            (a, b) =>
-              new Date(b.created_at) -
-              new Date(a.created_at)
-          )[0];
-
-
-        const today = new Date();
-
-        const expireDate =
-          new Date(latestPayment.expireDate);
-
-        const diffTime =
-          expireDate - today;
-
-        const calculatedDaysLeft =
-          Math.ceil(
-            diffTime /
-            (1000 * 60 * 60 * 24)
+          await getUserActivePlan(
+            userEmail
           );
 
-        setDaysLeft(
-          calculatedDaysLeft > 0
-            ? calculatedDaysLeft
-            : 0
+        console.log(
+          "ACTIVE PLAN => ",
+          res
         );
 
+        if (res?.success) {
 
-        const isExpired =
-          new Date(latestPayment.expireDate) <
-          new Date();
+          setCurrentPlan(
+            res.subscription
+          );
 
-        if (isExpired) {
+          setDaysLeft(
+            res.daysLeft || 0
+          );
+
+          setMaxChildren(
+            res.subscription
+              ?.subscriptionId
+              ?.maxChildren || 0
+          );
+
+        } else {
 
           setCurrentPlan(null);
 
           setDaysLeft(0);
 
-          return;
+          setMaxChildren(0);
         }
 
-        setCurrentPlan(latestPayment);
-
-        setMaxChildren(
-          latestPayment?.subscriptionId?.maxChildren || 0
-        );
+        return res;
 
       } catch (error) {
 
         console.log(
-          "PAYMENT ERROR => ",
+          "PLAN ERROR => ",
           error
         );
+
+        setCurrentPlan(null);
+
+        setDaysLeft(0);
+
+        setMaxChildren(0);
 
       } finally {
 
         setPaymentLoading(false);
-
       }
-    };
+    },
+  });
 
-    fetchCurrentPlan();
+  // ================= LIMIT CHECK =================
 
-  }, []);
-
-  // ============== max limit check ==================
   const limitReached =
     maxChildren > 0 &&
     children.length >= maxChildren;
 
-  const noSubscription =
-    !currentPlan;
-
   // ================= LOADING =================
 
- if (loading || paymentLoading) {
-  return <ChildrenProfileSkeleton />;
-}
-
-
+  if (loading || paymentLoading) {
+    return <ChildrenProfileSkeleton />;
+  }
 
   return (
 
-    <div className={styles.childrenProfile} >
+    <div
+      className={
+        styles.childrenProfile
+      }
+    >
 
       {/* ================= TOP BAR ================= */}
 
@@ -256,37 +264,34 @@ const ChildrenProfile = () => {
 
         <div className={styles.tabs}>
 
-          <button onClick={handlePrev} disabled={startIndex === 0}>
-            ◀
-          </button>
+          
 
-          {visibleChildren.map((child) => (
-            <button
-              key={child._id}
-              className={
-                activeChild?._id === child._id
-                  ? styles.activeTab
-                  : ""
-              }
-              onClick={() => setActiveChild(child)}
-            >
-              {child.fullName}
-            </button>
-          ))}
+          {visibleChildren.map(
+            (child) => (
 
-          <button
-            onClick={handleNext}
-            disabled={startIndex + 5 >= children.length}
-          >
-            ▶
-          </button>
+              <button
+                key={child._id}
+                className={
+                  activeChild?._id ===
+                    child._id
+                    ? styles.activeTab
+                    : ""
+                }
+                onClick={() =>
+                  setActiveChild(child)
+                }
+              >
+                {child.fullName}
+              </button>
+            )
+          )}
 
         </div>
 
         <button
           className={`${styles.addBtn} ${limitReached
-              ? styles.disabledBtn
-              : ""
+            ? styles.disabledBtn
+            : ""
             }`}
           onClick={() => {
 
@@ -319,7 +324,6 @@ const ChildrenProfile = () => {
             navigate(
               "/dashboard/children-details"
             );
-
           }}
         >
           +ADD CHILD
@@ -335,54 +339,62 @@ const ChildrenProfile = () => {
 
           {/* ================= LEFT ================= */}
 
-          <div className={styles.leftSection} >
-
-            {/* FULL WIDTH NAME */}
+          <div className={styles.leftSection}>
 
             <div className={styles.fullWidthCard}>
 
-              <label> Full Name </label>
+              <label>
+                Full Name
+              </label>
 
-              <p> {activeChild.fullName}  </p>
+              <p>
+                {activeChild.fullName}
+              </p>
 
             </div>
 
-            {/* EMAIL + AGE */}
-
             <div className={styles.row}>
 
-              <div className={styles.card} >
+              <div className={styles.card}>
 
-                <label> Email Id </label>
+                <label>
+                  Email Id
+                </label>
 
-                <p> {activeChild.email || "N/A"} </p>
+                <p>
+                  {activeChild.email ||
+                    "N/A"}
+                </p>
 
               </div>
 
               <div className={styles.card}>
 
-                <label>  Age</label>
+                <label>
+                  Age
+                </label>
 
-                <p> {activeChild.age}{" "} years </p>
+                <p>
+                  {activeChild.age} years
+                </p>
 
               </div>
 
             </div>
 
-            <div className={styles.card} >
+            <div className={styles.card}>
 
-              <label> Location </label>
+              <label>
+                Location
+              </label>
 
               <p>
-                {activeChild.location} </p>
+                {activeChild.location}
+              </p>
 
             </div>
 
-            <div
-              className={
-                styles.card
-              }
-            >
+            <div className={styles.card}>
 
               <label>
                 Food Habit
@@ -395,15 +407,10 @@ const ChildrenProfile = () => {
 
             </div>
 
-            <div
-              className={
-                styles.card
-              }
-            >
+            <div className={styles.card}>
 
               <label>
-                Have Any Type Of
-                Allergy?
+                Have Any Type Of Allergy?
               </label>
 
               <p>
@@ -420,11 +427,7 @@ const ChildrenProfile = () => {
 
             </div>
 
-            <div
-              className={
-                styles.card
-              }
-            >
+            <div className={styles.card}>
 
               <label>
                 Allergy Details
@@ -441,15 +444,10 @@ const ChildrenProfile = () => {
 
             </div>
 
-            <div
-              className={
-                styles.card
-              }
-            >
+            <div className={styles.card}>
 
               <label>
-                Any Prolong
-                Disease
+                Any Prolong Disease
               </label>
 
               <p>
@@ -498,15 +496,18 @@ const ChildrenProfile = () => {
 
                 {
                   activeChild.age
-                }{" "}
-                years old
+                } years old
 
               </span>
 
-              <button onClick={() => navigate(`/dashboard/children-edit/${activeChild._id}`)} >
-
+              <button
+                onClick={() =>
+                  navigate(
+                    `/dashboard/children-edit/${activeChild._id}`
+                  )
+                }
+              >
                 Edit Profile
-
               </button>
 
             </div>
@@ -583,9 +584,11 @@ const ChildrenProfile = () => {
                   <strong>
 
                     {
-                      currentPlan
-                        ?.created_at ||
-                      "N/A"
+                      currentPlan?.created_at
+                        ? new Date(
+                          currentPlan.created_at
+                        ).toLocaleDateString()
+                        : "N/A"
                     }
 
                   </strong>
@@ -611,11 +614,10 @@ const ChildrenProfile = () => {
           </div>
 
         </div>
-
       )}
 
     </div>
   );
 };
 
-export default ChildrenProfile;
+export default ChildrenProfile;         
