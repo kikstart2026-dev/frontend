@@ -124,7 +124,44 @@ export default function Transaction() {
 
         pdf.addImage(imgData, "PNG", 0, 0, imgWidth * scaleRatio, pageHeight);
       }
+      const emailElement =
+        document.getElementById("invoice-email-link");
 
+      if (emailElement) {
+        const emailRect =
+          emailElement.getBoundingClientRect();
+
+        const invoiceRect =
+          invoice.getBoundingClientRect();
+
+        const pdfLinkX =
+          ((emailRect.left - invoiceRect.left) /
+            invoiceRect.width) *
+          pageWidth;
+
+        const pdfLinkY =
+          ((emailRect.top - invoiceRect.top) /
+            invoiceRect.height) *
+          Math.min(imgHeight, pageHeight);
+
+        const pdfLinkWidth =
+          (emailRect.width / invoiceRect.width) *
+          pageWidth;
+
+        const pdfLinkHeight =
+          (emailRect.height / invoiceRect.height) *
+          Math.min(imgHeight, pageHeight);
+
+        pdf.link(
+          pdfLinkX,
+          pdfLinkY,
+          pdfLinkWidth,
+          pdfLinkHeight,
+          {
+            url: "https://mail.google.com/mail/?view=cm&fs=1&to=kikstart2026@gmail.com",
+          }
+        );
+      }
       pdf.save(`Invoice-${item.payment_id || "receipt"}.pdf`);
     }, 700); // footer render হওয়ার সময় দিচ্ছে
   };
@@ -174,9 +211,8 @@ export default function Transaction() {
                 </div>
 
                 <i
-                  className={`bi bi-chevron-down ${styles.arrow} ${
-                    openIndex === index ? styles.rotate : ""
-                  }`}
+                  className={`bi bi-chevron-down ${styles.arrow} ${openIndex === index ? styles.rotate : ""
+                    }`}
                 ></i>
               </div>
             </div>
@@ -184,9 +220,8 @@ export default function Transaction() {
             {/* BODY */}
 
             <div
-              className={`${styles.transactionBody} ${
-                openIndex === index ? styles.show : ""
-              }`}
+              className={`${styles.transactionBody} ${openIndex === index ? styles.show : ""
+                }`}
             >
               <div className={styles.invoiceContainer}>
                 {/* TOP HEADER */}
@@ -388,9 +423,9 @@ export default function Transaction() {
               </p>
 
               <a
+                id="invoice-email-link"
                 href="mailto:kikstart2026@gmail.com"
                 className={styles.supportMail}
-                onClick={(e) => e.stopPropagation()}
               >
                 kikstart2026@gmail.com
               </a>
