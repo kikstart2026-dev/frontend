@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getAllPayments } from "../../apis/api";
 
+import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
 
 import styles from "./Transaction.module.scss";
 
@@ -12,6 +12,8 @@ export default function Transaction() {
   const [payments, setPayments] = useState([]);
   const [openIndex, setOpenIndex] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const [selectedInvoice, setSelectedInvoice] = useState(null);
 
   // ================= USER EMAIL =================
 
@@ -31,11 +33,6 @@ export default function Transaction() {
   const toNumber = (val) => {
     const num = Number(val);
     return isNaN(num) ? 0 : num;
-  };
-
-  const money = (v) => {
-    const num = Number(v || 0);
-    return "Rs." + num.toFixed(2);
   };
 
   useEffect(() => {
@@ -94,139 +91,42 @@ export default function Transaction() {
     return new Date(date).toLocaleString();
   };
 
-  const downloadInvoice = (item) => {
-    const doc = new jsPDF();
+  const downloadInvoice = async (item) => {
+    setSelectedInvoice(item);
 
-    // HEADER
+    setTimeout(async () => {
+      const invoice = document.getElementById("invoice-pdf");
 
-    doc.setFillColor(220, 38, 38);
-    doc.rect(0, 0, 220, 40, "F");
+      if (!invoice) return;
 
-    doc.setTextColor(255, 255, 255);
+      const canvas = await html2canvas(invoice, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+      });
 
-    doc.setFontSize(24);
+      const imgData = canvas.toDataURL("image/png");
 
-    doc.text("KIKSTART", 14, 22);
+      const pdf = new jsPDF("p", "mm", "a4");
 
-    doc.setFontSize(11);
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
 
-    doc.text(`Invoice ID : ${item.payment_id}`, 14, 32);
+      const imgWidth = pageWidth;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-    // BODY
+      // Single Page Fit
+      if (imgHeight <= pageHeight) {
+        pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      } else {
+        // Scale down to fit entire invoice including footer
+        const scaleRatio = pageHeight / imgHeight;
 
-    doc.setTextColor(0, 0, 0);
+        pdf.addImage(imgData, "PNG", 0, 0, imgWidth * scaleRatio, pageHeight);
+      }
 
-    doc.setFontSize(16);
-
-    doc.text("Payment Details", 14, 55);
-
-    autoTable(doc, {
-      startY: 62,
-
-      head: [["Field", "Details"]],
-
-      body: [
-        ["Full Name", item.fullname || "N/A"],
-        ["Email", item.email || "N/A"],
-        ["Phone", item.phone || item.contact || "N/A"],
-
-        ["Plan Name", item.planName || "N/A"],
-        ["Amount", money(item.amount || 0)],
-
-        ["Payment ID", item.payment_id || "N/A"],
-        ["Order ID", item.order_id || "N/A"],
-
-        ["Payment Method", item.method || "N/A"],
-        ["Currency", item.currency || "INR"],
-
-        ["Fee", money(item.fee || 0)],
-        ["Tax", money(item.tax || 0)],
-
-        [
-          "Payment Date",
-          item.paymentDate
-            ? new Date(item.paymentDate).toLocaleString()
-            : "N/A",
-        ],
-
-        [
-          "Expire Date",
-          item.expireDate
-            ? new Date(item.expireDate).toLocaleDateString()
-            : "N/A",
-        ],
-
-        ["Status", item.status || "captured"],
-      ],
-
-      headStyles: {
-        fillColor: [220, 38, 38],
-      },
-
-      styles: {
-        fontSize: 11,
-        cellPadding: 4,
-      },
-    });
-    // // -------------------------
-    // // TOTAL SECTION (NEW)
-    // // -------------------------
-
-    // const total =
-    //   Number(item.amount || 0) +
-    //   Number(item.fee || 0) +
-    //   Number(item.tax || 0);
-
-    // // table end position
-    // const finalY = doc.lastAutoTable.finalY || 60;
-
-    // // small clean spacing
-    // const summaryStartY = finalY + 10;
-
-    // doc.setFontSize(12);
-    // doc.setFont("helvetica", "bold");
-
-    // doc.setTextColor(220, 38, 38);
-    // doc.text("Payment Summary", 14, summaryStartY);
-
-    // // TOTAL (FIXED GAP HERE)
-    // doc.setFont("helvetica", "bold");
-    // doc.setFontSize(13);
-
-    // doc.setTextColor(0, 0, 0);
-    // doc.text(`Total Paid: ${money(total)}`, 14, summaryStartY + 18);
-
-    // -------------------------
-    // FOOTER
-    // -------------------------
-    const pageHeight = doc.internal.pageSize.height;
-
-    // separator line
-    doc.setDrawColor(220, 220, 220);
-    doc.line(14, pageHeight - 35, 196, pageHeight - 35);
-
-    // Thank You
-    doc.setFontSize(11);
-    doc.setFont("helvetica", "bold");
-    doc.setTextColor(220, 38, 38);
-
-    doc.text("Thank you for your payment!", 14, pageHeight - 25);
-
-    // Contact text
-    doc.setFontSize(9);
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor(100);
-
-    doc.text("For any further details, please contact:", 14, pageHeight - 17);
-
-    doc.textWithLink("kikstart2026@gmail.com", 14, pageHeight - 9, {
-      url: "https://mail.google.com/mail/?view=cm&fs=1&to=kikstart2026@gmail.com&su=Contacting%20KikStart%20Support&body=Hello%20KikStart%20Team,%0D%0A%0D%0AI%20would%20like%20to%20contact%20you%20regarding...",
-    });
-
-    // -------------------------
-    // SAVE
-    // -------------------------
-    doc.save(`Invoice-${item.payment_id || "receipt"}.pdf`);
+      pdf.save(`Invoice-${item.payment_id || "receipt"}.pdf`);
+    }, 700); // footer render হওয়ার সময় দিচ্ছে
   };
 
   return (
@@ -388,6 +288,120 @@ export default function Transaction() {
         ))
       ) : (
         <div className={styles.noTransaction}>No Transactions Found</div>
+      )}
+
+      {selectedInvoice && (
+        <div id="invoice-pdf" className={styles.invoicePdf}>
+          {/* HEADER */}
+          <div className={styles.invoicePdfHeader}>
+            <h1>KIKSTART</h1>
+
+            <p>Invoice ID :{selectedInvoice.payment_id || "N/A"}</p>
+
+            <p>Order ID :{selectedInvoice.order_id || "N/A"}</p>
+          </div>
+
+          {/* BODY */}
+          <div className={styles.invoicePdfBody}>
+            <h2 className={styles.invoiceSectionTitle}>Customer Details</h2>
+
+            <div className={styles.customerBox}>
+              <p>
+                <strong>Name:</strong>
+                {selectedInvoice.fullname || "N/A"}
+              </p>
+
+              <p>
+                <strong>Email:</strong>
+                {selectedInvoice.email || "N/A"}
+              </p>
+
+              <p>
+                <strong>Phone:</strong>
+                {selectedInvoice.phone || selectedInvoice.contact || "N/A"}
+              </p>
+            </div>
+
+            <h2 className={styles.invoiceSectionTitle}>Payment Details</h2>
+
+            <table className={styles.invoicePdfTable}>
+              <tbody>
+                <tr>
+                  <td>Plan Name</td>
+                  <td>{selectedInvoice.planName || "N/A"}</td>
+                </tr>
+
+                <tr>
+                  <td>Amount</td>
+                  <td>₹ {selectedInvoice.amount || 0}</td>
+                </tr>
+
+                <tr>
+                  <td>Status</td>
+                  <td>{selectedInvoice.status || "N/A"}</td>
+                </tr>
+
+                <tr>
+                  <td>Currency</td>
+                  <td>{selectedInvoice.currency || "INR"}</td>
+                </tr>
+
+                <tr>
+                  <td>Payment Method</td>
+                  <td>{selectedInvoice.method || "N/A"}</td>
+                </tr>
+
+                <tr>
+                  <td>Fee</td>
+                  <td>₹ {toNumber(selectedInvoice.fee || 0)}</td>
+                </tr>
+
+                <tr>
+                  <td>Tax</td>
+                  <td>₹ {toNumber(selectedInvoice.tax || 0)}</td>
+                </tr>
+
+                <tr>
+                  <td>Payment Date</td>
+                  <td>{formatDate(selectedInvoice.paymentDate)}</td>
+                </tr>
+
+                <tr>
+                  <td>Expire Date</td>
+                  <td>{formatDate(selectedInvoice.expireDate)}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div className={styles.totalBox}>
+              <h2>Total Paid : ₹ {selectedInvoice.amount}</h2>
+            </div>
+          </div>
+
+          {/* FOOTER */}
+          <div className={styles.invoicePdfFooter}>
+            <div className={styles.footerContent}>
+              <p className={styles.thankYouText}>Thank you for your payment!</p>
+
+              <p className={styles.supportText}>
+                If you have any further queries, please contact us:
+              </p>
+
+              <a
+                href="mailto:kikstart2026@gmail.com"
+                className={styles.supportMail}
+                onClick={(e) => e.stopPropagation()}
+              >
+                kikstart2026@gmail.com
+              </a>
+
+              <p className={styles.footerNote}>
+                This invoice was generated electronically and does not require a
+                signature.
+              </p>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
