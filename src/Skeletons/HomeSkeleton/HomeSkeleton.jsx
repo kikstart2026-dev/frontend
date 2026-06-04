@@ -6,7 +6,14 @@ export default function HomeSkeleton() {
     <div className={styles.homeSkeleton}>
 
       {/* Banner */}
-      <div className={`${styles.bannerSkeleton} ${styles.shimmer}`}></div>
+      {/* Banner */}
+       <div className={`${styles.bannerSkeleton} ${styles.container}`}>
+        <div className={`${styles.bannerLeft} ${styles.shimmer}`}>
+          
+        </div>
+
+        <div className={`${styles.bannerRight} ${styles.shimmer}`}></div>
+      </div>
 
       {/* Two Side */}
       <div className={`${styles.twoSideSkeleton} ${styles.container}`}>

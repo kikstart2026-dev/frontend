@@ -21,7 +21,7 @@ export default function Home() {
 
         const timer = setTimeout(() => {
             setLoading(false);
-        }, 2500);
+        }, 3500);
 
         return () => clearTimeout(timer);
 
