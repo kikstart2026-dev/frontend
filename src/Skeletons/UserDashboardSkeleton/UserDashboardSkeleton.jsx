@@ -5,7 +5,7 @@ export default function UserDashboardSkeleton() {
   return (
     <div className={styles.dashboardSkeleton}>
 
-      <div className={styles.title}></div>
+      {/* <div className={styles.title}></div> */}
 
       <div className={styles.statsGrid}>
         {[1, 2, 3, 4].map((item) => (

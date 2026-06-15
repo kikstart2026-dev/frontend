@@ -16,7 +16,7 @@ import {
   getUserActivePlan,
 } from "../../../apis/api";
 
-const COLORS = ["#ffcdce", "#F5222D",];
+const COLORS = ["#ff5141", "#080843",];
 
 export default function UserDashboard() {
   const [loading, setLoading] =
@@ -129,9 +129,9 @@ export default function UserDashboard() {
   return (
     <div className={styles.dashboard}>
 
-      <h2>
+      {/* <h2>
         Dashboard Overview
-      </h2>
+      </h2> */}
 
       {/* Top Cards */}
 
