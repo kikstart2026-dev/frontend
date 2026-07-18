@@ -186,6 +186,14 @@ export const getAllService = async (page = 1, limit = 9) => {
   );
   return res.data;
 };
+
+export const getAllServicesForDropdown = async () => {
+  const res = await axiosInstance.get(
+    `${endpoints.getAllService}?all=true`
+  );
+  return res.data;
+};
+
 // ✅ Get sevice By ID
 export const getServiceById = async (id) => {
   const res = await axiosInstance.get(endpoints.getServiceById(id));
@@ -695,6 +703,12 @@ export const getChatUsers = async () => {
   return res.data;
 };
 
+export const getCoachChildren = async (id) => {
+  const res = await axiosInstance.get(
+    endpoints.getCoachChildren(id)
+  );
 
+  return res.data;
+};
 
 

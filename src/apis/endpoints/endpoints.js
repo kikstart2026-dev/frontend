@@ -118,9 +118,13 @@ export const endpoints = {
   //chat user only
   getChatUsers: "admin/users/chat-users",
 
-
+  // childern  by  coach
+  getCoachChildren: (id) => `coach/${id}/children`,
 
 };
+
+
+
 
 
 

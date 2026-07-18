@@ -23,6 +23,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   getAllService,
   getServiceById,
+  getAllServicesForDropdown
 } from "../../../apis/api";
 
 import { createChild } from "../../../apis/api";
@@ -38,13 +39,19 @@ export default function NextFormPara({
   const [isOpen, setIsOpen] =
     useState(false);
 
+  const [selectedCoachId, setSelectedCoachId] = useState("");
+
+  const [coachOpen, setCoachOpen] = useState(false);
+  const coachDropdownRef = useRef(null);
+
   const dropdownRef = useRef(null);
 
   // ✅ Get All Services
-  const { data: servicesData } = useQuery({
-    queryKey: ["services"],
-    queryFn: () => getAllService(),
-  });
+const { data: servicesData } = useQuery({
+  queryKey: ["services-dropdown"],
+  queryFn: getAllServicesForDropdown,
+});
+
 
   const services = servicesData?.data || [];
 
@@ -64,10 +71,41 @@ export default function NextFormPara({
   const serviceDetails =
     singleServiceData?.data;
 
+  const coaches = serviceDetails?.coaches || [];
+
   // ✅ Active Service Object
   const activeService = services.find(
     (item) => item._id === activeId
   );
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target)
+      ) {
+        setIsOpen(false);
+      }
+
+      if (
+        coachDropdownRef.current &&
+        !coachDropdownRef.current.contains(e.target)
+      ) {
+        setCoachOpen(false);
+      }
+    };
+
+    document.addEventListener(
+      "mousedown",
+      handleClickOutside
+    );
+
+    return () =>
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
+  }, []);
 
   // ✅ Outside Click Close
   useEffect(() => {
@@ -152,10 +190,8 @@ export default function NextFormPara({
                       : ""
                       }`}
                     onClick={() => {
-                      setSelectedId(
-                        item._id
-                      );
-
+                      setSelectedId(item._id);
+                      setSelectedCoachId("");
                       setIsOpen(false);
                     }}
                   >
@@ -175,6 +211,65 @@ export default function NextFormPara({
           <span className={styles.value}>
             {duration || "2 Hours"}
           </span>
+        </div>
+      </div>
+
+      <div className={styles["program-right"]}>
+        <span className={styles.label}>
+          Coach:
+        </span>
+
+        <div
+          className={styles.customDropdown}
+          ref={coachDropdownRef}
+        >
+          <div
+            className={styles.dropdownHeader}
+            onClick={() =>
+              setCoachOpen(!coachOpen)
+            }
+          >
+            <span>
+              {selectedCoachId
+                ? coaches.find(
+                  (c) => c._id === selectedCoachId
+                )?.fullname
+                : "Select Coach"}
+            </span>
+
+            <span
+              className={`${styles.arrow} ${coachOpen ? styles.rotate : ""
+                }`}
+            >
+              ▼
+            </span>
+          </div>
+
+          {coachOpen && (
+            <div className={styles.dropdownMenu}>
+              {coaches.length > 0 ? (
+                coaches.map((coach) => (
+                  <div
+                    key={coach._id}
+                    className={`${styles.dropdownItem} ${selectedCoachId === coach._id
+                      ? styles.active
+                      : ""
+                      }`}
+                    onClick={() => {
+                      setSelectedCoachId(coach._id);
+                      setCoachOpen(false);
+                    }}
+                  >
+                    {coach.fullname}
+                  </div>
+                ))
+              ) : (
+                <div className={styles.dropdownItem}>
+                  No Coach Available
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
@@ -211,7 +306,10 @@ export default function NextFormPara({
             text="next"
             variant="primary"
             onClick={async () => {
-
+              if (!selectedCoachId) {
+                handleError("Please select a coach");
+                return;
+              }
               try {
 
                 const childData =
@@ -230,19 +328,14 @@ export default function NextFormPara({
                   return;
                 }
 
-                const formData =
-                  new FormData();
+                const formData = new FormData();
 
-                Object.keys(childData).forEach(
-                  (key) => {
+                Object.keys(childData).forEach((key) => {
+                  formData.append(key, childData[key]);
+                });
 
-                    formData.append(
-                      key,
-                      childData[key]
-                    );
-
-                  }
-                );
+                formData.append("coach", selectedCoachId);
+                formData.append("program", activeId);
 
                 const image =
                   localStorage.getItem(

@@ -59,6 +59,7 @@ import CoachDashboard from "./Pages/CoachDashboard/CoachDashboard";
 
 import CoachProfile
   from "./Pages/CoachDashboard/CoachProfile/CoachProfile";
+import CoachChildren from "./Pages/CoachChildren/CoachChildren";
 
 // import EditCoachProfile
 //   from "./Pages/CoachDashboard/EditCoachProfile/EditCoachProfile";
@@ -243,6 +244,11 @@ function Layout() {
          <Route
             path="profile"
             element={<CoachProfile />}
+          />
+
+          <Route
+          path="children"
+            element={<CoachChildren />}
           />
 
           <Route path="messages" element={<Messages />} />
