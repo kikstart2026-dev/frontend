@@ -14,7 +14,10 @@ export default function Header() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const token = Cookies.get("token");
-  const user = JSON.parse(localStorage.getItem("user"));
+
+  const user = JSON.parse(localStorage.getItem("user")) || {};
+
+  const role = user?.role;
 
   const email = user?.email;
 
@@ -25,9 +28,12 @@ export default function Header() {
     { name: "Contact Us", path: "/contact" },
     { name: "Interested Schools", path: "/Interested-Schools" },
     { name: "Become A Coach", path: "/coach" },
-    { name: "Coach's Login", path: "/coach-login" },
+    {
+      name: "Coach's Login",
+      path: "/coach-login",
+      show: role !== "coach"
+    },
   ];
-
   useEffect(() => {
     if (showLogoutModal) {
       // Lock scroll
@@ -82,18 +88,20 @@ export default function Header() {
 
           {/* Nav Menu */}
           <ul className={`${styles.nav} ${isOpen ? styles.open : ""}`}>
-            {navItems.map((item, index) => (
-              <li key={index}>
-                <NavLink
-                  to={item.path}
-                  className={({ isActive }) =>
-                    `${styles.link} ${isActive ? styles.active : ""}`
-                  }
-                >
-                  {item.name}
-                </NavLink>
-              </li>
-            ))}
+            {navItems
+              .filter(item => item.show !== false)
+              .map((item, index) => (
+                <li key={index}>
+                  <NavLink
+                    to={item.path}
+                    className={({ isActive }) =>
+                      `${styles.link} ${isActive ? styles.active : ""}`
+                    }
+                  >
+                    {item.name}
+                  </NavLink>
+                </li>
+              ))}
           </ul>
 
           {/* Right Side Buttons */}
@@ -112,14 +120,31 @@ export default function Header() {
               </div>
             )}
 
-            {token && (
-              <Link to="/dashboard">
-                <Button
-                  text="USER DASHBOARD"
-                  variant="primary"
-                />
-              </Link>
-            )}
+            {
+              token && role === "coach" ? (
+
+                <Link to="/coach-dashboard">
+
+                  <Button
+                    text="COACH DASHBOARD"
+                    variant="primary"
+                  />
+
+                </Link>
+
+              ) : token && (
+
+                <Link to="/dashboard">
+
+                  <Button
+                    text="USER DASHBOARD"
+                    variant="primary"
+                  />
+
+                </Link>
+
+              )
+            }
           </div>
         </div>
       </div>

@@ -8,7 +8,7 @@ import Button from "../../../Component/Buttons/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "../../../apis/api";
-import {handleError, handleSuccess, handleWarning, handleConfirm, } from "../../../utils"
+import { handleError, handleSuccess, handleWarning, handleConfirm, } from "../../../utils"
 
 export default function SignIn() {
   const [loginType, setLoginType] = useState("email");
@@ -19,26 +19,76 @@ export default function SignIn() {
     mutationKey: ["login"],
     mutationFn: login,
     onSuccess: (data) => {
-  console.log("Login Response:", data);
 
-  if (data?.requiresOtp) {
-    localStorage.setItem("verifyEmail", data.email);
-    handleWarning("OTP sent to your email 📩");
-    navigate("/Otp");
-  } else {
-    // ✅ TOKEN SAVE
-    if (data?.token) {
-      Cookies.set("token", data.token, { expires: 7 });
-    }
+      console.log("Login Response:", data);
 
-    // ("Login successful ✅");
-    handleSuccess("Login successfully ✅");
-    navigate("/");
-  }
-},
+
+
+      if (data?.requiresOtp) {
+
+        localStorage.setItem(
+          "verifyEmail",
+          data.email
+        );
+
+        handleWarning("OTP sent to your email 📩");
+
+        navigate("/Otp");
+
+      }
+
+      else {
+
+
+        // TOKEN SAVE
+
+        if (data?.token) {
+
+          Cookies.set(
+            "token",
+            data.token,
+            {
+              expires: 7
+            }
+          );
+
+        }
+
+
+
+        // USER SAVE
+
+        const user = data?.user || data?.data;
+
+
+        if (user) {
+
+          localStorage.setItem(
+            "user",
+            JSON.stringify(user)
+          );
+
+        }
+
+        handleSuccess("Login successfully ✅");
+
+        // ROLE BASED REDIRECT
+
+        if (user?.role === "coach") {
+
+          navigate("/coach-dashboard");
+
+        }
+        else {
+
+          navigate("/dashboard");
+        }
+      }
+
+    },
     onError: (error) => {
       // (error?.response?.data?.message || "Login failed ❌");
-    handleError(error?.response?.data?.message || "Login failed ❌");
+      handleError(error?.response?.data?.message || "Login failed ❌");
     },
   });
 
@@ -50,13 +100,13 @@ export default function SignIn() {
     const payload =
       loginType === "email"
         ? {
-            email: formData.get("email"),
-            password: formData.get("password"),
-          }
+          email: formData.get("email"),
+          password: formData.get("password"),
+        }
         : {
-            phone: formData.get("phone"),
-            password: formData.get("password"),
-          };
+          phone: formData.get("phone"),
+          password: formData.get("password"),
+        };
 
     mutate(payload);
   };

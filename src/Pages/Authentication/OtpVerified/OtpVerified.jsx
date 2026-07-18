@@ -28,11 +28,9 @@ export default function OtpVerified() {
 
       // ✅ TOKEN SAVE
       if (data?.token) {
-        Cookies.set(
-          "token",
-          data.token,
-          { expires: 7 }
-        );
+        Cookies.set("token", data.token, {
+          expires: 7,
+        });
       }
 
       // ✅ USER SAVE
@@ -44,26 +42,25 @@ export default function OtpVerified() {
       }
 
       // ✅ CLEANUP
-      localStorage.removeItem(
-        "otpExpiryTime"
-      );
+      localStorage.removeItem("otpExpiryTime");
+      localStorage.removeItem("resendEnableTime");
+      localStorage.removeItem("verifyEmail");
 
-      localStorage.removeItem(
-        "resendEnableTime"
-      );
-
-      localStorage.removeItem(
-        "verifyEmail"
-      );
-
-      handleSuccess(
-        "OTP verified successfully ✅"
-      );
+      handleSuccess("OTP verified successfully ✅");
 
       setTimeout(() => {
-        navigate("/", {
-          replace: true,
-        });
+
+        // ✅ Role wise redirect
+        if (data?.user?.role === "coach") {
+          navigate("/coach-dashboard", {
+            replace: true,
+          });
+        } else {
+          navigate("/", {
+            replace: true,
+          });
+        }
+
       }, 100);
     },
     onError: (error) => {

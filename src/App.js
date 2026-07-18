@@ -34,6 +34,9 @@ import ProgramDeatailsPage from "./Pages/ProgramDeatailsPage/ProgramDeatailsPage
 import ContactForm from "./Component/ContactForm/ContactForm";
 
 
+
+
+
 //DASHBOARD
 import DashboardLayout from "./Layouts/DashboardLayout";
 import UserDashboard from "./Pages/Dashboard/UserDashboard/UserDashboard";
@@ -47,6 +50,22 @@ import WaiverAcceptance from "./Pages/FormDetails/WaiverAcceptance/WaiverAccepta
 import ProgramDetailss from "./Pages/FormDetails/ProgramDetailss/ProgramDetailss";
 import Messages from "./Component/Conversation/Messages";
 import Transaction from "./Component/myTransaction/Transaction";
+
+
+import CoachDashboardLayout
+  from "./Layouts/CoachDashboardLayout";
+import CoachDashboard from "./Pages/CoachDashboard/CoachDashboard";
+
+
+import CoachProfile
+  from "./Pages/CoachDashboard/CoachProfile/CoachProfile";
+
+// import EditCoachProfile
+//   from "./Pages/CoachDashboard/EditCoachProfile/EditCoachProfile";
+
+// import ChangePassword
+//   from "./Pages/CoachDashboard/ChangePassword/ChangePassword";
+
 
 // ================= PROTECTED ROUTE =================
 function ProtectedRoute({ children }) {
@@ -96,8 +115,9 @@ function Layout() {
   ];
 
   const isAuthPage = authRoutes.includes(location.pathname);
-
-  const isDashboardRoute = location.pathname.startsWith("/dashboard");
+  const isDashboardRoute =
+    location.pathname.startsWith("/dashboard") ||
+    location.pathname.startsWith("/coach-dashboard");
 
   return (
     <>
@@ -160,6 +180,8 @@ function Layout() {
           }
         /> */}
 
+
+        <Route path="/coach-login" element={<SignIn />} />
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/faqs" element={<FaqsPage />} />
@@ -199,6 +221,47 @@ function Layout() {
           <Route path="transactions" element={<Transaction />} />
 
         </Route>
+
+
+
+        <Route
+          path="/coach-dashboard"
+          element={
+            <ProtectedRoute>
+              <CoachDashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+
+
+          <Route
+            index
+            element={<CoachDashboard />}
+          />
+
+
+         <Route
+            path="profile"
+            element={<CoachProfile />}
+          />
+
+          <Route path="messages" element={<Messages />} />
+
+  {/*
+          <Route
+            path="edit-profile"
+            element={<EditCoachProfile />}
+          />
+
+
+          <Route
+            path="change-password"
+            element={<ChangePassword />}
+          /> */}
+
+
+        </Route>
+
       </Routes>
 
       {!isAuthPage && !isDashboardRoute && <Footer />}

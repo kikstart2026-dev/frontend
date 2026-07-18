@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./SchoolsCard.module.scss";
 import "../../Main.scss";
-// 🔥 Essential: Import Quill's snow theme CSS to render styles correctly
-import "react-quill-new/dist/quill.snow.css"; 
+import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+
+
+import "react-quill-new/dist/quill.snow.css";
 
 export default function SchoolsCard({
   image,
@@ -12,6 +14,8 @@ export default function SchoolsCard({
   author,
   authorImg,
 }) {
+  const [expanded, setExpanded] = useState(false);
+
   return (
     <div className={styles.schoolsCard}>
       <div className={styles.cardImg}>
@@ -21,12 +25,21 @@ export default function SchoolsCard({
       <div className={styles.cardContent}>
         <h3>{title}</h3>
 
-        {/* 🔥 Quill HTML Rendering Logic */}
+        {/* Quill HTML */}
         <div className="ql-snow">
           <div
-            className={`ql-editor ${styles.description}`}
+            className={`ql-editor ${styles.description} ${expanded ? styles.expanded : styles.collapsed
+              }`}
             dangerouslySetInnerHTML={{ __html: description }}
           />
+
+          <button
+            type="button"
+            className={styles.readMore}
+            onClick={() => setExpanded(!expanded)}
+          >
+            {expanded ? "Read Less" : "Read More"}
+          </button>
         </div>
 
         <div className={styles.cardAuthor}>
