@@ -121,6 +121,10 @@ export const endpoints = {
   // childern  by  coach
   getCoachChildren: (id) => `coach/${id}/children`,
 
+  
+  //Coach
+  getCoachProfile: "/coach/profile",
+  getCoachProgramDetails: "/coach/program",
 };
 
 

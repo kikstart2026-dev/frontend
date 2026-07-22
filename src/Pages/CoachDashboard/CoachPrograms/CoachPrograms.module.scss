@@ -1,0 +1,179 @@
+.wrapper {
+  padding: 30px;
+  background: #f5f7fb;
+  min-height: 100vh;
+}
+
+.header {
+  margin-bottom: 30px;
+
+  h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: #6b7280;
+    font-size: 15px;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 22px;
+}
+
+.card {
+  display: flex;
+  gap: 18px;
+  background: #fff;
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 8px 25px rgba(0,0,0,.06);
+  transition: .3s;
+  border: 1px solid #eef1f5;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 35px rgba(0,0,0,.12);
+  }
+}
+
+.iconBox {
+  width: 45px;
+  height: 45px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  i {
+    color: #fff;
+    font-size: 28px;
+  }
+}
+
+.content{
+  flex:1;
+}
+
+.topRow{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+
+  h3{
+    font-size:20px;
+    font-weight:700;
+    color:#222;
+    margin:0;
+  }
+}
+
+.content p{
+  color:#666;
+  line-height:1.7;
+  margin-bottom:20px;
+}
+
+.emptyCard{
+  background:#fff;
+  border-radius:18px;
+  padding:60px 30px;
+  text-align:center;
+  box-shadow:0 8px 25px rgba(0,0,0,.05);
+
+  i{
+    font-size:60px;
+    color:#2ed573;
+  }
+
+  h3{
+    margin:20px 0 10px;
+    color:#222;
+  }
+
+  p{
+    color:#777;
+  }
+}
+
+.loading{
+  padding:80px;
+  text-align:center;
+  font-size:18px;
+  font-weight:600;
+}
+
+.footer {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.status {
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  color: #16a34a;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+
+  i {
+    color: #16a34a;
+    font-size: 16px;
+  }
+
+}
+
+.detailsBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 8px 14px;
+
+  background: #eff6ff;
+  color: #1e3a8a;
+
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.detailsBtn i {
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.detailsBtn:hover {
+  background: #1e3a8a;
+  color: #fff;
+  border-color: #1e3a8a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(30, 58, 138, 0.18);
+}
+
+.detailsBtn:hover i {
+  color: #fff;
+  transform: translateX(4px);
+}
