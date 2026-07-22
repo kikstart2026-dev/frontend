@@ -740,3 +740,41 @@ export const getCoachDashboard = async () => {
   return res.data;
 
 };
+
+
+// ================= NOTIFICATION =================
+
+// GET ALL NOTIFICATIONS
+export const getCoachNotifications = async (coachId) => {
+  const res = await axiosInstance.get(
+    endpoints.getCoachNotifications(coachId)
+  );
+
+  return res.data;
+};
+
+// GET UNREAD COUNT
+export const getUnreadNotifications = async (coachId) => {
+  const res = await axiosInstance.get(
+    endpoints.getUnreadNotifications(coachId)
+  );
+
+  return res.data;
+};
+
+// MARK AS READ
+export const markNotificationRead = async (id) => {
+  const res = await axiosInstance.patch(
+    endpoints.markNotificationRead(id)
+  );
+
+  return res.data;
+};
+
+export const markAllNotificationsRead = async (coachId) => {
+  const { data } = await axiosInstance.put(
+    endpoints.markAllNotificationsRead(coachId)
+  );
+
+  return data;
+};

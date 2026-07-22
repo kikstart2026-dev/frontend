@@ -6,6 +6,13 @@ import styles from "./CoachHeader.module.scss";
 import {
     FaBell
 } from "react-icons/fa";
+import {
+    getCoachNotifications,
+    getUnreadNotifications,
+    markNotificationRead,
+    markAllNotificationsRead,
+} from "../../apis/api";
+
 
 
 export default function CoachHeader() {
@@ -18,7 +25,19 @@ export default function CoachHeader() {
 
     const [coach, setCoach] = useState(null);
 
+    const [notifications, setNotifications] = useState([]);
+    const [notificationOpen, setNotificationOpen] = useState(false);
+    const [unreadCount, setUnreadCount] = useState(0);
 
+    const getImageUrl = (path) => {
+        if (!path) return "/default-image.png";
+
+        if (path.startsWith("http")) {
+            return path;
+        }
+
+        return `http://localhost:8008${path}`;
+    };
 
     // ================= GET COACH FROM LOCAL STORAGE =================
 
@@ -36,10 +55,37 @@ export default function CoachHeader() {
 
     }, []);
 
+    useEffect(() => {
+        console.log("COACH =>", coach);
+    }, [coach]);
 
 
 
 
+    useEffect(() => {
+        if (!coach?.id) return;
+
+        loadNotifications(coach.id);
+    }, [coach]);
+
+    const loadNotifications = async (coachId) => {
+        try {
+            // console.log("Coach Id:", coachId);
+
+            const listRes = await getCoachNotifications(coachId);
+
+            // console.log("Notification Response:", listRes);
+
+            const countRes = await getUnreadNotifications(coachId);
+
+            // console.log("Count Response:", countRes);
+
+            setNotifications(listRes.data || []);
+            setUnreadCount(countRes.count || 0);
+        } catch (err) {
+            console.log(err);
+        }
+    };
     // ================= BODY SCROLL LOCK =================
 
     useEffect(() => {
@@ -205,24 +251,91 @@ export default function CoachHeader() {
 
                     {/* Notification */}
 
-                    <div className={styles.notification}>
+                    <div
+                        className={styles.notification}
+                        onClick={async () => {
 
+                            setNotificationOpen(!notificationOpen);
 
+                            if (!notificationOpen && unreadCount > 0) {
+
+                                await markAllNotificationsRead(coach.id);
+
+                                setUnreadCount(0);
+
+                                loadNotifications(coach.id);
+                            }
+
+                        }}
+                    >
                         <FaBell />
 
+                        {unreadCount > 0 && (
+                            <span>{unreadCount}</span>
+                        )}
 
-                        <span>
-                            3
-                        </span>
+                        {notificationOpen && (
+                            <div className={styles.notificationDropdown}>
 
+                                <h4>Notifications</h4>
 
+                                {notifications.length === 0 ? (
+                                    <p>No notifications</p>
+                                ) : (
+                                    notifications.map((item) => (
+                                        <div
+                                            key={item._id}
+                                            className={`${styles.notificationItem} ${!item.isRead ? styles.unread : ""
+                                                }`}
+                                            onClick={async () => {
+                                                if (!item.isRead) {
+                                                    await markNotificationRead(item._id);
+                                                    loadNotifications(coach.id);
+                                                }
+                                            }}
+                                        >
+                                            <div className={styles.imageWrapper}>
+                                                {item.childId?.profileImage ? (
+                                                    <img
+                                                        src={getImageUrl(item.childId.profileImage)}
+                                                        className={styles.childImage}
+                                                        alt=""
+                                                    />
+                                                ) : (
+                                                    <img
+                                                        src={item.programId?.image}
+                                                        className={styles.childImage}
+                                                        alt=""
+                                                    />
+                                                )}
+                                            </div>
+
+                                            <div className={styles.notificationContent}>
+                                                <div className={styles.notificationTop}>
+                                                    <h5>{item.childId?.fullName || item.programId?.title}</h5>
+
+                                                    {/* {!item.isRead && (
+                                                        <span className={styles.dot}></span>
+                                                    )} */}
+                                                </div>
+
+                                                {/* {item.programId?.title && (
+                                                    <p>{item.programId.title}</p>
+                                                )} */}
+
+                                                <small>{item.message}</small>
+
+                                                {/* <span className={styles.time}>
+                                                    {new Date(item.createdAt).toLocaleString()}
+                                                </span> */}
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
+
+                            </div>
+                        )}
                     </div>
-
-
-
-
-
-
 
                     {/* PROFILE */}
 
@@ -233,8 +346,6 @@ export default function CoachHeader() {
                         onClick={() => setOpen(true)}
 
                     >
-
-
 
                         {
                             coach?.image ?
@@ -258,10 +369,6 @@ export default function CoachHeader() {
                                 </div>
 
                         }
-
-
-
-
 
                         <div className={styles.info}>
 
@@ -292,7 +399,7 @@ export default function CoachHeader() {
 
 
 
-            </header>
+            </header >
 
 
 

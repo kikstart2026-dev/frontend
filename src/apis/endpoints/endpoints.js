@@ -127,6 +127,23 @@ getCoachChildren: (id) =>
   getCoachDashboard: "/coach/dashboard",
   getCoachProfile: "/coach/profile",
   getCoachProgramDetails: "/coach/program",
+
+
+
+
+  // ================= NOTIFICATION =================
+
+getCoachNotifications: (coachId) =>
+  `/notification/coach/${coachId}`,
+
+getUnreadNotifications: (coachId) =>
+  `/notification/unread/${coachId}`,
+
+markNotificationRead: (id) =>
+  `/notification/read/${id}`,
+
+  markAllNotificationsRead: (coachId) =>
+    `/notification/read-all/${coachId}`,
 };
 
 

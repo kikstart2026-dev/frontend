@@ -96,22 +96,22 @@ export default function CoachDashboard() {
 
   const getActivityColor = (title = "") => {
 
-  const text = title.toLowerCase();
+    const text = title.toLowerCase();
 
-  if (text.includes("child")) {
-    return styles.childActivity;
-  }
+    if (text.includes("child")) {
+      return styles.childActivity;
+    }
 
-  if (text.includes("program")) {
-    return styles.programActivity;
-  }
+    if (text.includes("program")) {
+      return styles.programActivity;
+    }
 
-  if (text.includes("session")) {
-    return styles.sessionActivity;
-  }
+    if (text.includes("session")) {
+      return styles.sessionActivity;
+    }
 
-  return styles.generalActivity;
-};
+    return styles.generalActivity;
+  };
 
 
   return (
@@ -336,44 +336,44 @@ export default function CoachDashboard() {
 
               dashboard.activities.map((item, index) => {
 
-  const activityColor = getActivityColor(item.title);
+                const activityColor = getActivityColor(item.title);
 
-  return (
+                return (
 
-    <div
-      className={styles.activityItem}
-      key={index}
-    >
+                  <div
+                    className={styles.activityItem}
+                    key={index}
+                  >
 
-      <div
-        className={`${styles.activityIcon} ${activityColor}`}
-      >
-        <FaBell />
-      </div>
+                    <div
+                      className={`${styles.activityIcon} ${activityColor}`}
+                    >
+                      <FaBell />
+                    </div>
 
-      <div className={styles.activityContent}>
+                    <div className={styles.activityContent}>
 
-        <h4>{item.title}</h4>
+                      <h4>{item.title}</h4>
 
-        <small>
-          <i className="bi bi-calendar3"></i>{" "}
-          {new Date(item.time).toLocaleString("en-IN", {
-            day: "2-digit",
-            month: "short",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: true
-          })}
-        </small>
+                      <small>
+                        <i className="bi bi-calendar3"></i>{" "}
+                        {new Date(item.time).toLocaleString("en-IN", {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          hour12: true
+                        })}
+                      </small>
 
-      </div>
+                    </div>
 
-    </div>
+                  </div>
 
-  );
+                );
 
-})
+              })
 
               :
 
