@@ -57,10 +57,11 @@ import CoachDashboard from "./Pages/CoachDashboard/CoachDashboard";
 
 
 import CoachProfile from "./Pages/CoachDashboard/CoachProfile/CoachProfile";
-import CoachChildren from "./Pages/CoachChildren/CoachChildren";
+
 import Program from "./Pages/Dashboard/Program/Program";
 import CoachPrograms from "./Pages/CoachDashboard/CoachPrograms/CoachPrograms";
 import CoachProgramDetails from "./Pages/CoachDashboard/CoachPrograms/CoachProgramDetails";
+import CoachChildren from "./Pages/CoachDashboard/CoachChildren/CoachChildren";
 
 
 // import EditCoachProfile

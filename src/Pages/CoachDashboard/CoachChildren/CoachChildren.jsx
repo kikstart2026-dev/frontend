@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getCoachChildren } from "../../apis/api";
+import { getCoachChildren } from "../../../apis/api";
 import styles from "./CoachChildren.module.scss";
 
 const BASE_URL = "http://localhost:8008";
@@ -85,8 +85,8 @@ export default function CoachChildren() {
                             key={child._id}
                             onClick={() => setActiveChild(child)}
                             className={`${styles.tab} ${activeChild?._id === child._id
-                                    ? styles.activeTab
-                                    : ""
+                                ? styles.activeTab
+                                : ""
                                 }`}
                         >
                             {child.fullName}
@@ -192,29 +192,52 @@ export default function CoachChildren() {
                         {/* PROGRAM */}
 
                         <div className={styles.programCard}>
+                            <h2>Assigned Programs</h2>
 
-                            <h2>Program</h2>
+                            {activeChild.programAssignments?.length ? (
+                                activeChild.programAssignments.map(
+                                    (item, index) => (
+                                        <div
+                                            key={index}
+                                            className={styles.assignmentCard}
+                                        >
+                                            {item.program?.image && (
+                                                <img
+                                                    src={item.program.image}
+                                                    alt={item.program.title}
+                                                />
+                                            )}
 
-                            <img
-                                src={activeChild.program?.image}
-                                alt={activeChild.program?.title}
-                            />
+                                            <h3>
+                                                {item.program?.title}
+                                            </h3>
 
-                            <h3>
-                                {activeChild.program?.title}
-                            </h3>
+                                            <p>
+                                                <strong>Duration :</strong>{" "}
+                                                {item.program?.duration ||
+                                                    "2 Hours"}
+                                            </p>
 
-                            <p>
-                                <strong>Duration :</strong>{" "}
-                                {activeChild.program?.duration ||
-                                    "2 Hours"}
-                            </p>
+                                            <p>
+                                                <strong>Coach :</strong>{" "}
+                                                {item.coach?.fullname}
+                                            </p>
 
-                            <p>
-                                <strong>Coach :</strong>{" "}
-                                {activeChild.coach?.fullname}
-                            </p>
+                                            <p>
+                                                <strong>Email :</strong>{" "}
+                                                {item.coach?.email}
+                                            </p>
 
+                                            <p>
+                                                <strong>Phone :</strong>{" "}
+                                                {item.coach?.phone}
+                                            </p>
+                                        </div>
+                                    )
+                                )
+                            ) : (
+                                <p>No Program Assigned</p>
+                            )}
                         </div>
 
                     </div>
