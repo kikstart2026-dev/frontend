@@ -728,3 +728,15 @@ export const getCoachProgramDetails = async (id) => {
 
   return res.data;
 };
+
+// ================= COACH DASHBOARD =================
+
+export const getCoachDashboard = async () => {
+
+  const res = await axiosInstance.get(
+    endpoints.getCoachDashboard
+  );
+
+  return res.data;
+
+};

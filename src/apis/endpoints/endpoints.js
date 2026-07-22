@@ -123,6 +123,7 @@ export const endpoints = {
 
   
   //Coach
+  getCoachDashboard: "/coach/dashboard",
   getCoachProfile: "/coach/profile",
   getCoachProgramDetails: "/coach/program",
 };
