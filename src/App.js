@@ -52,14 +52,15 @@ import Messages from "./Component/Conversation/Messages";
 import Transaction from "./Component/myTransaction/Transaction";
 
 
-import CoachDashboardLayout
-  from "./Layouts/CoachDashboardLayout";
+import CoachDashboardLayout from "./Layouts/CoachDashboardLayout";
 import CoachDashboard from "./Pages/CoachDashboard/CoachDashboard";
 
 
-import CoachProfile
-  from "./Pages/CoachDashboard/CoachProfile/CoachProfile";
+import CoachProfile from "./Pages/CoachDashboard/CoachProfile/CoachProfile";
 import CoachChildren from "./Pages/CoachChildren/CoachChildren";
+import CoachPrograms from "./Pages/CoachDashboard/CoachPrograms/CoachPrograms";
+import CoachProgramDetails from "./Pages/CoachDashboard/CoachPrograms/CoachProgramDetails";
+
 
 // import EditCoachProfile
 //   from "./Pages/CoachDashboard/EditCoachProfile/EditCoachProfile";
@@ -241,19 +242,29 @@ function Layout() {
           />
 
 
-         <Route
+          <Route
             path="profile"
             element={<CoachProfile />}
           />
 
           <Route
-          path="children"
+            path="programs"
+            element={<CoachPrograms />}
+          />
+
+          <Route
+            path="programs/:id"
+            element={<CoachProgramDetails />}
+          />
+
+          <Route
+            path="children"
             element={<CoachChildren />}
           />
 
           <Route path="messages" element={<Messages />} />
 
-  {/*
+          {/*
           <Route
             path="edit-profile"
             element={<EditCoachProfile />}

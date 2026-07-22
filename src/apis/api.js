@@ -712,3 +712,19 @@ export const getCoachChildren = async (id) => {
 };
 
 
+//Coach
+export const getCoachProfile = async () => {
+  const res = await axiosInstance.get(
+    endpoints.getCoachProfile
+  );
+
+  return res.data;
+};
+
+export const getCoachProgramDetails = async (id) => {
+  const res = await axiosInstance.get(
+    `${endpoints.getCoachProgramDetails}/${id}`
+  );
+
+  return res.data;
+};
