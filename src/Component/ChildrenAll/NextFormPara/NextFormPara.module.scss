@@ -16,9 +16,9 @@
     }
   }
 
-  .para {
-    max-width: 579px;
-  }
+  // .para {
+  //   max-width: 579px;
+  // }
 
   .btns {
     display: flex;
@@ -228,5 +228,28 @@ border: 1px solid #e3dede;
 
   &:focus {
     border-color: #2563eb;
+  }
+}
+
+
+.programCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  margin-bottom: 12px;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  background: #fff;
+
+  strong {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 6px;
+  }
+
+  p {
+    margin: 0;
+    color: #666;
   }
 }

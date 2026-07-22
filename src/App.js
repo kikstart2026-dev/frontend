@@ -60,6 +60,7 @@ import CoachDashboard from "./Pages/CoachDashboard/CoachDashboard";
 import CoachProfile
   from "./Pages/CoachDashboard/CoachProfile/CoachProfile";
 import CoachChildren from "./Pages/CoachChildren/CoachChildren";
+import Program from "./Pages/Dashboard/Program/Program";
 
 // import EditCoachProfile
 //   from "./Pages/CoachDashboard/EditCoachProfile/EditCoachProfile";
@@ -209,6 +210,7 @@ function Layout() {
         >
 
           <Route index element={<UserDashboard />} />
+          <Route path="programs" element={<Program />} />
           <Route path="children-profile" element={<ChildrenProfile />} />
           <Route path="children-profile/:id" element={<ChildrenProfile />} />
           <Route path="children-edit/:id" element={<ChildrenEdit />} />
