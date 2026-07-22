@@ -119,9 +119,10 @@ export const endpoints = {
   getChatUsers: "admin/users/chat-users",
 
   // childern  by  coach
-  getCoachChildren: (id) => `coach/${id}/children`,
+getCoachChildren: (id) =>
+  `/children/coach/${id}/children`,
 
-  
+
   //Coach
   getCoachDashboard: "/coach/dashboard",
   getCoachProfile: "/coach/profile",
