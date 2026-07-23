@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from './FormParas.module.scss'
 import CmnHeading from "../../CmnHeading/CmnHeading";
@@ -9,12 +9,34 @@ export default function FormParas() {
     const navigate = useNavigate();
     const [checked, setChecked] = useState(false);
 
+    useEffect(() => {
+
+        const saved =
+            localStorage.getItem("waiverData");
+
+        if (saved) {
+
+            const data = JSON.parse(saved);
+
+            setChecked(data.checked);
+
+        }
+
+    }, []);
+
     const handleNext = () => {
         if (!checked) {
             handleError("Please accept the waiver conditions first.");
             return;
         }
-       navigate("/dashboard/programdetailss");
+        localStorage.setItem(
+            "waiverData",
+            JSON.stringify({
+                checked,
+            })
+        );
+
+        navigate("/dashboard/programdetailss");
     };
 
     return (
@@ -56,16 +78,16 @@ export default function FormParas() {
 
             <div className={styles.btns}>
                 <div className={styles["btn-b"]}>
-                    <Button 
-                        text="back" 
+                    <Button
+                        text="back"
                         variant="dark"
                         onClick={() => navigate("/dashboard/schooldetails")}
                     />
                 </div>
 
                 <div className={styles["btn-r"]}>
-                    <Button 
-                        text="next" 
+                    <Button
+                        text="next"
                         variant="primary"
                         onClick={handleNext}
                     />
