@@ -251,9 +251,8 @@ const ChildrenProfile = () => {
         </div>
         <div className="btn">
           <button
-            className={`${styles.addBtn} ${
-              limitReached ? styles.disabledBtn : ""
-            }`}
+            className={`${styles.addBtn} ${limitReached ? styles.disabledBtn : ""
+              }`}
             onClick={() => {
               if (limitReached) {
                 toast.error(
@@ -356,13 +355,20 @@ const ChildrenProfile = () => {
             {/* PROFILE CARD */}
 
             <div className={styles.profileCard}>
-              <img
+              {/* <img
                 src={
                   activeChild.profileImage
                     ? `${IMAGE_BASE_URL}${activeChild.profileImage}`
                     : "https://placehold.co/300x300"
                 }
                 alt="child"
+              /> */}
+              <img
+                src={activeChild.profileImage || "https://placehold.co/300x300"}
+                alt={activeChild.fullName}
+                onError={(e) => {
+                  e.target.src = "https://placehold.co/300x300";
+                }}
               />
 
               <h3>{activeChild.fullName}</h3>
