@@ -476,6 +476,23 @@
   background: linear-gradient(135deg, #8b5cf6, #6d28d9);
 }
 
+.viewAllBtn {
+  margin-top: 12px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #6d5dfc;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    background: #5a4ae3;
+  }
+}
 
 @media(max-width:768px){
 

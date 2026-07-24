@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import styles from "./CoachDashboard.module.scss";
 
@@ -16,6 +16,10 @@ import { getCoachDashboard } from "../../apis/api";
 
 
 export default function CoachDashboard() {
+
+  const [showAllPrograms, setShowAllPrograms] = useState(false);
+  const [showAllChildren, setShowAllChildren] = useState(false);
+
 
 
   const {
@@ -202,40 +206,42 @@ export default function CoachDashboard() {
 
           <div className={styles.activityList}>
 
-
             {
               dashboard.programs?.length > 0 ?
 
-                dashboard.programs.slice(0, 5).map((program) => (
+                (showAllPrograms
+                  ? dashboard.programs
+                  : dashboard.programs.slice(0, 5)
+                ).map((program) => (
 
-
-                  <div
-                    key={program._id}
-                  >
-
-                    <span>
-                      {program.title}
-                    </span>
-
+                  <div key={program._id}>
+                    <span>{program.title}</span>
 
                     <small className={styles.active}>
                       Active Program
                     </small>
-
-
                   </div>
-
 
                 ))
 
                 :
 
-                <p>
-                  No programs assigned yet
-                </p>
+                <p>No programs assigned yet</p>
 
             }
 
+            {
+              dashboard.programs?.length > 5 && (
+                <button
+                  className={styles.viewAllBtn}
+                  onClick={() => setShowAllPrograms(!showAllPrograms)}
+                >
+                  {showAllPrograms
+                    ? "Show Less"
+                    : `View All `}
+                </button>
+              )
+            }
 
           </div>
 
@@ -261,52 +267,42 @@ export default function CoachDashboard() {
 
           <div className={styles.activityList}>
 
-
             {
               dashboard.children?.length > 0 ?
 
-                dashboard.children.slice(0, 5).map((child) => (
+                (showAllChildren
+                  ? dashboard.children
+                  : dashboard.children.slice(0, 5)
+                ).map((child) => (
 
+                  <div key={child._id}>
 
-                  <div
-                    key={child._id}
-                  >
-
-
-                    <span>
-                      {child.fullName}
-                    </span>
-
-
+                    <span>{child.fullName}</span>
 
                     <small>
-
-                      {
-                        child.programAssignments?.[0]?.program?.title
-                        ||
-                        "No Program"
-                      }
-
+                      {child.programAssignments?.[0]?.program?.title || "No Program"}
                     </small>
-
-
 
                   </div>
 
-
                 ))
-
 
                 :
 
-                <p>
-                  No children assigned
-                </p>
-
+                <p>No children assigned</p>
 
             }
 
-
+            {
+              dashboard.children?.length > 5 && (
+                <button
+                  className={styles.viewAllBtn}
+                  onClick={() => setShowAllChildren(!showAllChildren)}
+                >
+                  {showAllChildren ? "Show Less" : "View All"}
+                </button>
+              )
+            }
 
           </div>
 
