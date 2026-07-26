@@ -218,7 +218,7 @@ export default function CoachChildren() {
                                                     "2 Hours"}
                                             </p>
 
-                                            <p>
+                                            {/* <p>
                                                 <strong>Coach :</strong>{" "}
                                                 {item.coach?.fullname}
                                             </p>
@@ -231,7 +231,7 @@ export default function CoachChildren() {
                                             <p>
                                                 <strong>Phone :</strong>{" "}
                                                 {item.coach?.phone}
-                                            </p>
+                                            </p> */}
                                         </div>
                                     )
                                 )

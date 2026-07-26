@@ -19,6 +19,16 @@ export default function ChildrenDetailsForm() {
   const [preview, setPreview] = useState(null);
   const [file, setFile] = useState(null); // ✅ FIX
 
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    location: "",
+    age: "",
+    foodHabit: "",
+    prolongDisease: "",
+    passCode: "",
+  });
+
   const locationRef = useRef(null);
   const fileRef = useRef(null);
   const dropdownRef = useRef(null);
@@ -42,10 +52,16 @@ export default function ChildrenDetailsForm() {
 
           const data = await response.json();
 
-          locationRef.current.value =
-            data.display_name || `${latitude}, ${longitude}`;
+          setFormData((prev) => ({
+            ...prev,
+            location:
+              data.display_name || `${latitude}, ${longitude}`,
+          }));
         } catch {
-          locationRef.current.value = `${latitude}, ${longitude}`;
+          setFormData((prev) => ({
+            ...prev,
+            location: `${latitude}, ${longitude}`,
+          }));
         }
       },
       () => handleError("Unable to retrieve location")
@@ -77,23 +93,48 @@ export default function ChildrenDetailsForm() {
     };
   }, []);
 
+  // load the data from localstorage
+  useEffect(() => {
+    const savedData = localStorage.getItem("childFormData");
+    const savedImage = localStorage.getItem("childImage");
+
+    if (savedData) {
+      const data = JSON.parse(savedData);
+
+      setFormData({
+        fullName: data.fullName || "",
+        email: data.email || "",
+        location: data.location || "",
+        age: data.age || "",
+        foodHabit: data.foodHabit || "",
+        prolongDisease: data.prolongDisease || "",
+        passCode: data.passCode || "",
+      });
+
+      setAllergy(data.allergy);
+      setAllergyDetails(data.allergyDetails || "");
+    }
+
+    if (savedImage) {
+      setPreview(savedImage);
+    }
+  }, []);
+
   /* ---------------- Submit ---------------- */
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData(e.target);
-
     const childData = {
-      fullName: formData.get("name"),
-      email: formData.get("email"),
-      location: formData.get("location"),
-      age: formData.get("age"),
-      foodHabit: formData.get("foodHabit"),
+      fullName: formData.fullName,
+      email: formData.email,
+      location: formData.location,
+      age: formData.age,
+      foodHabit: formData.foodHabit,
       allergy,
-      allergyDetails: formData.get("allergyDetails"),
-      prolongDisease: formData.get("disease"),
-      passCode: formData.get("passCode"),
+      allergyDetails,
+      prolongDisease: formData.prolongDisease,
+      passCode: formData.passCode,
     };
 
     localStorage.setItem(
@@ -135,24 +176,43 @@ export default function ChildrenDetailsForm() {
         <form className={styles.form} onSubmit={handleSubmit}>
           {/* Name */}
           <div className={styles.inputWrapper}>
-            <input name="name" className={styles.inp} type="text" placeholder=" " required />
+            <input name="name" className={styles.inp} type="text" placeholder=" " value={formData.fullName}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  fullName: e.target.value,
+                })
+              }
+              required
+            />
             <label className={styles.lbl}>Full Name</label>
           </div>
 
           {/* Email */}
           <div className={styles.inputWrapper}>
-            <input name="email" className={styles.inp} type="text" placeholder=" " required />
+            <input name="email" className={styles.inp} type="text" placeholder=" " value={formData.email}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  email: e.target.value,
+                })
+              }
+              required
+            />
             <label className={styles.lbl}>Email Id</label>
           </div>
 
           {/* Location */}
           <div className={`${styles.inputWrapper} ${styles.locationWrapper}`}>
-            <input
-              ref={locationRef}
-              name="location"
-              className={`${styles.inp} ${styles.spInp}`}
-              type="text"
+            <input ref={locationRef} name="location" className={`${styles.inp} ${styles.spInp}`} type="text"
               placeholder=" "
+              value={formData.location}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  location: e.target.value,
+                })
+              }
               required
             />
 
@@ -169,18 +229,28 @@ export default function ChildrenDetailsForm() {
 
           {/* Age */}
           <div className={styles.inputWrapper}>
-            <input name="age" className={styles.inp} type="number" placeholder=" " required />
+            <input name="age" className={styles.inp} type="number" placeholder=" " value={formData.age}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  age: e.target.value,
+                })
+              }
+              required
+            />
             <label className={styles.lbl}>Age</label>
           </div>
 
           {/* PASSCODE (FIX ADDED) */}
           {/* PASSCODE */}
           <div className={`${styles.inputWrapper} ${styles.passWrapper}`}>
-            <input
-              name="passCode"
-              className={styles.inp}
-              type={showPasscode ? "text" : "password"}
-              placeholder=" "
+            <input name="passCode" className={styles.inp} type={showPasscode ? "text" : "password"} placeholder=" " value={formData.passCode}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  passCode: e.target.value,
+                })
+              }
               required
             />
 
@@ -200,7 +270,14 @@ export default function ChildrenDetailsForm() {
 
           {/* Food Habit */}
           <div className={styles.inputWrapper}>
-            <input name="foodHabit" className={styles.inp} type="text" placeholder=" " />
+            <input name="foodHabit" className={styles.inp} type="text" placeholder=" " value={formData.foodHabit}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  foodHabit: e.target.value,
+                })
+              }
+            />
             <label className={styles.lbl}>Food Habit</label>
           </div>
 
@@ -276,7 +353,14 @@ export default function ChildrenDetailsForm() {
 
           {/* Disease */}
           <div className={styles.inputWrapper}>
-            <input name="disease" className={styles.inp} type="text" placeholder=" " />
+            <input name="disease" className={styles.inp} type="text" placeholder=" " value={formData.prolongDisease}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  prolongDisease: e.target.value,
+                })
+              }
+            />
             <label className={styles.lbl}>Any Prolong Disease</label>
           </div>
 

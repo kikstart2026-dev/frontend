@@ -292,21 +292,17 @@ export default function NextFormPara({
       const res = await createChild(formData);
 
       if (res.success) {
-        localStorage.removeItem(
-          "childFormData"
-        );
 
-        localStorage.removeItem(
-          "childImage"
-        );
+        localStorage.removeItem("childFormData");
+        localStorage.removeItem("childImage");
+        localStorage.removeItem("schoolFormData");
+        localStorage.removeItem("waiverData");
 
         handleSuccess(
           "Children created successfully"
         );
 
-        navigate(
-          "/dashboard/children-profile"
-        );
+        navigate("/dashboard/children-profile");
       } else {
         handleError(res.message);
       }

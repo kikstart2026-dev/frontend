@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles2 from "./SchoolDetailsForm.module.scss";
 import styles from "../ChildrenDetailsForm/ChildrenDetailsForm.module.scss";
@@ -10,6 +10,7 @@ export default function SchoolDetailsForm() {
 
     const navigate = useNavigate();
     const locationRef = useRef(null);
+    const [formData, setFormData] = useState({ schoolName: "", schoolLocation: "", });
 
     const handleGetLocation = () => {
         if (!navigator.geolocation) {
@@ -27,24 +28,54 @@ export default function SchoolDetailsForm() {
                     );
                     const data = await response.json();
 
-                    locationRef.current.value =
-                        data.display_name || `${latitude}, ${longitude}`;
+                    setFormData((prev) => ({
+                        ...prev,
+                        schoolLocation:
+                            data.display_name ||
+                            `${latitude}, ${longitude}`,
+                    }));
                 } catch {
-                    locationRef.current.value = `${latitude}, ${longitude}`;
+                    setFormData((prev) => ({
+                        ...prev,
+                        schoolLocation:
+                            `${latitude}, ${longitude}`,
+                    }));
                 }
             },
             () => handleError("Unable to retrieve location")
         );
     };
 
+
+    // pre filled data from localstorage
+    useEffect(() => {
+
+        const savedData =
+            localStorage.getItem("schoolFormData");
+
+        if (savedData) {
+
+            const data = JSON.parse(savedData);
+
+            setFormData({
+                schoolName:
+                    data.schoolName || "",
+
+                schoolLocation:
+                    data.schoolLocation || "",
+            });
+
+        }
+
+    }, []);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const formData = new FormData(e.target);
-
         const data = {
-            schoolName: formData.get("name"),
-            schoolLocation: formData.get("location"),
+            schoolName: formData.schoolName,
+            schoolLocation:
+                formData.schoolLocation,
         };
 
         try {
@@ -52,6 +83,12 @@ export default function SchoolDetailsForm() {
             const res = await createSchoolDetails(data); // ✅ FIXED
 
             if (res?.success) {
+
+                localStorage.setItem(
+                    "schoolFormData",
+                    JSON.stringify(data)
+                );
+
                 navigate("/dashboard/waiveracceptance");
             }
 
@@ -81,6 +118,13 @@ export default function SchoolDetailsForm() {
                             type="text"
                             placeholder=" "
                             required
+                            value={formData.schoolName}
+                            onChange={(e) =>
+                                setFormData({
+                                    ...formData,
+                                    schoolName: e.target.value,
+                                })
+                            }
                         />
                         <label className={styles.lbl}>School Name</label>
                     </div>
@@ -93,10 +137,17 @@ export default function SchoolDetailsForm() {
                             className={`${styles.inp} ${styles.spInp}`}
                             type="text"
                             placeholder=" "
+                            value={formData.schoolLocation}
+                            onChange={(e) =>
+                                setFormData({
+                                    ...formData,
+                                    schoolLocation: e.target.value,
+                                })
+                            }
                         />
                         <label className={styles.lbl}>School Location</label>
 
-                        
+
                     </div>
 
                     <div className={`${styles2.btns}`}>
