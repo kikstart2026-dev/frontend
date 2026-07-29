@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate  } from "react-router-dom";
 
 import styles from "./CoachHeader.module.scss";
-import { FaBell } from "react-icons/fa";
+
 import { NavLink } from "react-router-dom";
 import kiklogo from "../../assets/images/authLogo.png";
 
@@ -27,7 +27,7 @@ export default function CoachHeader() {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const navigate = useNavigate();
+
 
 
     const [open, setOpen] = useState(false);
