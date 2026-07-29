@@ -7,7 +7,7 @@ import Button from "../../../Component/Buttons/Button";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { forgotPass } from "../../../apis/api";
-import {handleError, handleSuccess, handleWarning, handleConfirm, } from "../../../utils"
+import { handleError, handleSuccess, handleWarning, handleConfirm, } from "../../../utils"
 
 export default function ForgetPass() {
   const [email, setEmail] = useState("");
@@ -17,16 +17,18 @@ export default function ForgetPass() {
     mutationKey: ["forget-pass"],
     mutationFn: forgotPass,
 
-    onSuccess: (data) => {
-      console.log("Forget Pass Response:", data);
+  onSuccess: (data) => {
+  localStorage.setItem("verifyEmail", email);
 
-      // OTP always being sent according to you
-      localStorage.setItem("verifyEmail", email);
+  // NEW
+  if (data?.otp) {
+    localStorage.setItem("demoOtp", data.otp);
+  }
 
-      handleSuccess("OTP sent to your email 📩");
+  handleSuccess("OTP generated");
 
-      navigate("/reset-pass");
-    },
+  navigate("/reset-pass");
+},
 
     onError: (error) => {
       handleError(error?.response?.data?.message || "OTP send failed ❌");

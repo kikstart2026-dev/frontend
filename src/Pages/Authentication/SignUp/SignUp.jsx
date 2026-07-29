@@ -7,7 +7,7 @@ import Button from "../../../Component/Buttons/Button";
 import { useMutation } from "@tanstack/react-query";
 import { signUp } from "../../../apis/api";
 import { useNavigate } from "react-router-dom";
-import {handleError, handleSuccess, handleWarning, handleConfirm, } from "../../../utils"
+import { handleError, handleSuccess, handleWarning, handleConfirm, } from "../../../utils"
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ export default function SignUp() {
     mutationFn: signUp,
     // onSuccess: (_, variables) => {
     //   localStorage.setItem("verifyEmail", variables.email);
-  
+
     //   // handleSuccess();
     //   formRef.current.reset();
     //   navigate("/Otp");
@@ -58,7 +58,12 @@ export default function SignUp() {
     onSuccess: (data, variables) => {
       localStorage.setItem("verifyEmail", variables.email);
 
-      handleWarning(data?.message); // ✅ ekhon thik
+      // NEW
+      if (data?.otp) {
+        localStorage.setItem("demoOtp", data.otp);
+      }
+
+      handleWarning(data?.message);
 
       formRef.current.reset();
       navigate("/Otp");
