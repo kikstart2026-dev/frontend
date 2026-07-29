@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import styles from "./ChildrenProfileEdit.module.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import { getChildById, updateChild } from "../../../apis/api";
+import { toast } from "react-toastify";
+import { handleSuccess, handleError } from "../../../utils";
 
 const ChildrenEdit = () => {
 
@@ -39,10 +41,9 @@ const ChildrenEdit = () => {
     //================= LOCATION ======================
     const handleGetLocation = () => {
         if (!navigator.geolocation) {
-            alert("Geolocation is not supported");
-            return;
-        }
-
+        handleError("Geolocation is not supported.");
+        return;
+    }
         navigator.geolocation.getCurrentPosition(
             async (position) => {
                 const { latitude, longitude } = position.coords;
@@ -76,7 +77,7 @@ const ChildrenEdit = () => {
                 }
             },
             () => {
-                alert("Unable to retrieve location");
+                 handleError("Unable to retrieve your location.");
             }
         );
     };
@@ -98,39 +99,47 @@ const ChildrenEdit = () => {
     };
 
     // ================= SAVE =================
-    const handleSave = async () => {
-        try {
-            const formData = new FormData();
+   const handleSave = async () => {
+    try {
+        const formData = new FormData();
 
-            formData.append("fullName", data.fullName);
-            formData.append("email", data.email);
-            formData.append("age", data.age);
-            formData.append("location", data.location);
-            formData.append("foodHabit", data.foodHabit);
-            formData.append("allergy", data.allergy);
-            formData.append("allergyDetails", data.allergyDetails);
-            formData.append("prolongDisease", data.prolongDisease);
+        formData.append("fullName", data.fullName);
+        formData.append("email", data.email);
+        formData.append("age", data.age);
+        formData.append("location", data.location);
+        formData.append("foodHabit", data.foodHabit);
+        formData.append("allergy", data.allergy);
+        formData.append("allergyDetails", data.allergyDetails);
+        formData.append("prolongDisease", data.prolongDisease);
 
-            if (imageFile) {
-                formData.append("profileImage", imageFile);
-            }
-
-            const res = await updateChild(id, formData);
-
-            if (res.success) {
-                alert("Updated Successfully");
-
-                setData(res.data); // immediate UI update
-
-                setTimeout(() => {
-                    navigate(`/dashboard/children-profile/${id}`);
-                }, 300);
-            }
-
-        } catch (err) {
-            console.log(err);
+        if (imageFile) {
+            formData.append("profileImage", imageFile);
         }
-    };
+
+        const res = await updateChild(id, formData);
+
+        if (res.success) {
+            handleSuccess(res.message || "Profile updated successfully!");
+
+            setData(res.data);
+
+            setTimeout(() => {
+                navigate(`/dashboard/children-profile/${id}`);
+            }, 1000);
+        } else {
+            handleError(res.message || "Failed to update profile.");
+        }
+
+    } catch (err) {
+        console.log(err);
+
+        handleError(
+            err?.response?.data?.message ||
+            err?.message ||
+            "Something went wrong!"
+        );
+    }
+};
 
     if (loading || !data) return <h2>Loading...</h2>;
 
