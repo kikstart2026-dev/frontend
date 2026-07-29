@@ -41,10 +41,13 @@ export default function OtpVerified() {
         );
       }
 
+
       // ✅ CLEANUP
       localStorage.removeItem("otpExpiryTime");
       localStorage.removeItem("resendEnableTime");
       localStorage.removeItem("verifyEmail");
+      localStorage.removeItem("demoOtp");
+
 
       handleSuccess("OTP verified successfully ✅");
 
@@ -73,14 +76,23 @@ export default function OtpVerified() {
     useMutation({
       mutationKey: ["resend-otp"],
       mutationFn: resendOtp,
+
       onSuccess: (data) => {
-        handleSuccess(data?.message || "OTP resent successfully ✅");
+        if (data?.otp) {
+          localStorage.setItem("demoOtp", data.otp);
 
-        setOtp(["", "", "", "", "", ""]);
-        if (inputsRef.current[0]) inputsRef.current[0].focus();
+          const otpString = String(data.otp).padStart(6, "0");
+          setOtp(otpString.split(""));
+        }
 
-        const newExpiry = Date.now() + 90000; // 90 sec
-        const newResend = Date.now() + 30000; // 30 sec
+        handleSuccess(data?.message);
+
+        if (inputsRef.current[5]) {
+          inputsRef.current[5].focus();
+        }
+
+        const newExpiry = Date.now() + 90000;
+        const newResend = Date.now() + 30000;
 
         localStorage.setItem("otpExpiryTime", newExpiry);
         localStorage.setItem("resendEnableTime", newResend);
@@ -88,10 +100,23 @@ export default function OtpVerified() {
         setOtpTimer(90);
         setResendTimer(30);
       },
+
       onError: (error) => {
-        handleError(error?.response?.data?.message || "Resend failed ❌");
+        handleError(
+          error?.response?.data?.message || "Resend failed ❌"
+        );
       },
     });
+
+
+useEffect(() => {
+  const savedOtp = localStorage.getItem("demoOtp");
+
+  if (savedOtp) {
+    const otpString = String(savedOtp).padStart(6, "0");
+    setOtp(otpString.split(""));
+  }
+}, []);
 
   // ================= TIMER LOGIC (FIXED) =================
   useEffect(() => {
@@ -133,6 +158,24 @@ export default function OtpVerified() {
 
     return () => clearInterval(interval);
   }, [email]);
+
+
+  // ================= AUTO FILL OTP =================
+  useEffect(() => {
+    const savedOtp = localStorage.getItem("demoOtp");
+
+    if (savedOtp && savedOtp.length === 6) {
+      const otpArray = savedOtp.split("");
+
+      setOtp(otpArray);
+
+      setTimeout(() => {
+        inputsRef.current[5]?.focus();
+      }, 100);
+    }
+  }, []);
+
+
 
   // ================= OTP INPUT =================
   const handleChange = (value, index) => {
