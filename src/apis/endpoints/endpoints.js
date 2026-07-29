@@ -144,6 +144,15 @@ markNotificationRead: (id) =>
 
   markAllNotificationsRead: (coachId) =>
     `/notification/read-all/${coachId}`,
+
+// DELETE SINGLE NOTIFICATION
+deleteNotification: (id) =>
+  `/notification/delete/${id}`,
+
+// CLEAR ALL NOTIFICATIONS
+clearNotifications: (coachId) =>
+  `/notification/clear/${coachId}`,
+
 };
 
 

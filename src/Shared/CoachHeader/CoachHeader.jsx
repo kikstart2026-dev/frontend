@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate  } from "react-router-dom";
 
 import styles from "./CoachHeader.module.scss";
 
 import {
-    FaBell
+    FaBell,
+    FaTrash,
 } from "react-icons/fa";
 import {
     getCoachNotifications,
     getUnreadNotifications,
     markNotificationRead,
     markAllNotificationsRead,
+    deleteNotification,
+    clearNotifications,
 } from "../../apis/api";
 
 
@@ -19,6 +22,7 @@ export default function CoachHeader() {
 
 
     const location = useLocation();
+    const navigate = useNavigate();
 
 
     const [open, setOpen] = useState(false);
@@ -277,7 +281,34 @@ export default function CoachHeader() {
                         {notificationOpen && (
                             <div className={styles.notificationDropdown}>
 
-                                <h4>Notifications</h4>
+                                <div className={styles.notificationHeader}>
+
+    <h4>Notifications</h4>
+
+    {notifications.length > 0 && (
+
+        <button
+            className={styles.clearBtn}
+            onClick={async (e) => {
+
+                e.stopPropagation();
+
+                await clearNotifications(coach.id);
+
+                setNotifications([]);
+
+                setUnreadCount(0);
+
+            }}
+        >
+
+            Clear All
+
+        </button>
+
+    )}
+
+</div>
 
                                 {notifications.length === 0 ? (
                                     <p>No notifications</p>
@@ -288,11 +319,26 @@ export default function CoachHeader() {
                                             className={`${styles.notificationItem} ${!item.isRead ? styles.unread : ""
                                                 }`}
                                             onClick={async () => {
-                                                if (!item.isRead) {
-                                                    await markNotificationRead(item._id);
-                                                    loadNotifications(coach.id);
-                                                }
-                                            }}
+
+    if (!item.isRead) {
+
+        await markNotificationRead(item._id);
+
+    }
+
+    if (item.type === "child_assigned") {
+
+        navigate("/coach-dashboard/children");
+
+    }
+
+    if (item.type === "program_assigned") {
+
+        navigate("/coach-dashboard/programs");
+
+    }
+
+}}
                                         >
                                             <div className={styles.imageWrapper}>
                                                 {item.childId?.profileImage ? (
@@ -312,12 +358,25 @@ export default function CoachHeader() {
 
                                             <div className={styles.notificationContent}>
                                                 <div className={styles.notificationTop}>
-                                                    <h5>{item.childId?.fullName || item.programId?.title}</h5>
 
-                                                    {/* {!item.isRead && (
-                                                        <span className={styles.dot}></span>
-                                                    )} */}
-                                                </div>
+    <h5>
+        {item.childId?.fullName || item.programId?.title}
+    </h5>
+
+    <FaTrash
+        className={styles.deleteIcon}
+        onClick={async (e) => {
+
+            e.stopPropagation();
+
+            await deleteNotification(item._id);
+
+            loadNotifications(coach.id);
+
+        }}
+    />
+
+</div>
 
                                                 {/* {item.programId?.title && (
                                                     <p>{item.programId.title}</p>

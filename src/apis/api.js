@@ -778,3 +778,21 @@ export const markAllNotificationsRead = async (coachId) => {
 
   return data;
 };
+
+// DELETE SINGLE NOTIFICATION
+export const deleteNotification = async (id) => {
+  const res = await axiosInstance.delete(
+    endpoints.deleteNotification(id)
+  );
+
+  return res.data;
+};
+
+// CLEAR ALL NOTIFICATIONS
+export const clearNotifications = async (coachId) => {
+  const res = await axiosInstance.delete(
+    endpoints.clearNotifications(coachId)
+  );
+
+  return res.data;
+};
