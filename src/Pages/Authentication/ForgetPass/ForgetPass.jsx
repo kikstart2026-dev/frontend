@@ -17,13 +17,19 @@ export default function ForgetPass() {
     mutationKey: ["forget-pass"],
     mutationFn: forgotPass,
 
-  onSuccess: (data) => {
+onSuccess: (data) => {
+  console.log("FORGOT API RESPONSE:", data);
+
   localStorage.setItem("verifyEmail", email);
 
-  // NEW
   if (data?.otp) {
     localStorage.setItem("demoOtp", data.otp);
   }
+
+  console.log(
+    "OTP SAVED:",
+    localStorage.getItem("demoOtp")
+  );
 
   handleSuccess("OTP generated");
 
