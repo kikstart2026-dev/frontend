@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import styles from "./CoachHeader.module.scss";
+import { FaBell } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
+import kiklogo from "../../assets/images/authLogo.png";
 
-import {
-    FaBell
-} from "react-icons/fa";
 import {
     getCoachNotifications,
     getUnreadNotifications,
     markNotificationRead,
     markAllNotificationsRead,
+    deleteNotification,
+    clearNotifications,
 } from "../../apis/api";
 
 
@@ -19,6 +21,8 @@ export default function CoachHeader() {
 
 
     const location = useLocation();
+
+    const navigate = useNavigate();
 
 
     const [open, setOpen] = useState(false);
@@ -229,6 +233,15 @@ export default function CoachHeader() {
 
 
                 {/* LEFT TITLE */}
+                 <div className={styles.navLogo}>
+                <NavLink to="/">
+                  <img
+                    src={kiklogo}
+                    alt="logo"
+                    className={styles.logo}
+                  />
+                </NavLink>
+              </div>
 
                 <div className={styles.left}>
 
@@ -277,7 +290,27 @@ export default function CoachHeader() {
                         {notificationOpen && (
                             <div className={styles.notificationDropdown}>
 
-                                <h4>Notifications</h4>
+                                <div className={styles.notificationHeader}>
+
+                                    <h4>Notifications</h4>
+
+                                    {notifications.length > 0 && (
+                                        <button
+                                            onClick={async (e) => {
+
+                                                e.stopPropagation();
+
+                                                await clearNotifications(coach.id);
+
+                                                loadNotifications(coach.id);
+
+                                            }}
+                                        >
+                                            Clear All
+                                        </button>
+                                    )}
+
+                                </div>
 
                                 {notifications.length === 0 ? (
                                     <p>No notifications</p>
@@ -288,10 +321,39 @@ export default function CoachHeader() {
                                             className={`${styles.notificationItem} ${!item.isRead ? styles.unread : ""
                                                 }`}
                                             onClick={async () => {
+
+
                                                 if (!item.isRead) {
+
                                                     await markNotificationRead(item._id);
-                                                    loadNotifications(coach.id);
+
                                                 }
+
+
+                                                if (item.childId && item.programId) {
+
+
+                                                    navigate(`/coach-dashboard/children/${item.childId._id}`);
+
+
+                                                } else if (item.childId && !item.programId) {
+
+
+                                                    navigate(`/coach-dashboard/children/${item.childId._id}`);
+
+                                                } else if (item.programId) {
+
+
+
+                                                    navigate(`/coach-dashboard/programs/${item.programId._id}`);
+
+                                                }
+
+
+                                                setNotificationOpen(false);
+
+                                                loadNotifications(coach.id);
+
                                             }}
                                         >
                                             <div className={styles.imageWrapper}>
@@ -312,11 +374,27 @@ export default function CoachHeader() {
 
                                             <div className={styles.notificationContent}>
                                                 <div className={styles.notificationTop}>
-                                                    <h5>{item.childId?.fullName || item.programId?.title}</h5>
 
-                                                    {/* {!item.isRead && (
-                                                        <span className={styles.dot}></span>
-                                                    )} */}
+                                                    <h5>
+                                                        {item.childId?.fullName || item.programId?.title}
+                                                    </h5>
+
+                                                    <span
+                                                        className={styles.deleteCross}
+
+                                                        onClick={async (e) => {
+
+                                                            e.stopPropagation();
+
+                                                            await deleteNotification(item._id);
+
+                                                            loadNotifications(coach.id);
+
+                                                        }}
+                                                    >
+                                                        ×
+                                                    </span>
+
                                                 </div>
 
                                                 {/* {item.programId?.title && (
@@ -324,6 +402,7 @@ export default function CoachHeader() {
                                                 )} */}
 
                                                 <small>{item.message}</small>
+
 
                                                 {/* <span className={styles.time}>
                                                     {new Date(item.createdAt).toLocaleString()}

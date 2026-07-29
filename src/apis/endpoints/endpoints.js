@@ -119,8 +119,8 @@ export const endpoints = {
   getChatUsers: "admin/users/chat-users",
 
   // childern  by  coach
-getCoachChildren: (id) =>
-  `/children/coach/${id}/children`,
+  getCoachChildren: (id) =>
+    `/children/coach/${id}/children`,
 
 
   //Coach
@@ -133,17 +133,23 @@ getCoachChildren: (id) =>
 
   // ================= NOTIFICATION =================
 
-getCoachNotifications: (coachId) =>
-  `/notification/coach/${coachId}`,
+  getCoachNotifications: (coachId) =>
+    `/notification/coach/${coachId}`,
 
-getUnreadNotifications: (coachId) =>
-  `/notification/unread/${coachId}`,
+  getUnreadNotifications: (coachId) =>
+    `/notification/unread/${coachId}`,
 
-markNotificationRead: (id) =>
-  `/notification/read/${id}`,
+  markNotificationRead: (id) =>
+    `/notification/read/${id}`,
 
   markAllNotificationsRead: (coachId) =>
     `/notification/read-all/${coachId}`,
+
+  deleteNotification: (id) =>
+    `/notification/delete/${id}`,
+
+  clearNotifications: (coachId) =>
+    `/notification/clear/${coachId}`,
 };
 
 
