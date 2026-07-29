@@ -7,7 +7,7 @@ import Button from "../../../Component/Buttons/Button";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { reetPass } from "../../../apis/api";
-import {handleError, handleSuccess, handleWarning, handleConfirm, } from "../../../utils"
+import { handleError, handleSuccess, handleWarning, handleConfirm, } from "../../../utils"
 
 export default function ResetPassword() {
   const [email, setEmail] = useState("");
@@ -28,6 +28,14 @@ export default function ResetPassword() {
     }
   }, [navigate]);
 
+  useEffect(() => {
+    const otp = localStorage.getItem("demoOtp");
+
+    if (otp) {
+      setOtp(otp);
+    }
+  }, []);
+
   const { mutate, isPending } = useMutation({
     mutationKey: ["reset-pass"],
     mutationFn: reetPass,
@@ -38,6 +46,7 @@ export default function ResetPassword() {
       handleSuccess("Password updated successfully ✅");
 
       localStorage.removeItem("verifyEmail");
+      localStorage.removeItem("demoOtp");
 
       navigate("/signin");
     },
