@@ -11,7 +11,7 @@ import ChildrenProfileSkeleton from "../../../Skeletons/ChildrenProfileSkeleton/
 import { toast } from "react-toastify";
 
 const ChildrenProfile = () => {
-  const IMAGE_BASE_URL = "http://localhost:8008";
+  const IMAGE_BASE_URL = "https://backend-8e6g.onrender.com";
 
   const { id } = useParams();
 

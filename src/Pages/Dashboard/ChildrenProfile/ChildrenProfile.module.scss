@@ -147,11 +147,12 @@
 .profileCard {
   background: #fff;
   border-radius: 22px;
-  padding: 30px 24px;
+  padding:24px;
   text-align: center;
   border: 1px solid #ececec;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   transition: .3s;
+
 
   &:hover {
     transform: translateY(-3px);

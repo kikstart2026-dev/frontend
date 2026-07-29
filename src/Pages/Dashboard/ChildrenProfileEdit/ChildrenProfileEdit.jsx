@@ -10,7 +10,7 @@ const ChildrenEdit = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const IMAGE_BASE_URL = "http://localhost:8008";
+    const IMAGE_BASE_URL = "https://backend-8e6g.onrender.com";
 
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
