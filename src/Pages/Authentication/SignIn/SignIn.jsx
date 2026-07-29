@@ -18,74 +18,16 @@ export default function SignIn() {
   const { mutate, isPending } = useMutation({
     mutationKey: ["login"],
     mutationFn: login,
-    onSuccess: (data) => {
+   onSuccess: (data) => {
+  localStorage.setItem("verifyEmail", data.email);
 
-      console.log("Login Response:", data);
+  // NEW
+  if (data?.otp) {
+    localStorage.setItem("demoOtp", data.otp);
+  }
 
-
-
-      if (data?.requiresOtp) {
-
-        localStorage.setItem(
-          "verifyEmail",
-          data.email
-        );
-
-        handleWarning("OTP sent to your email 📩");
-
-        navigate("/Otp");
-
-      }
-
-      else {
-
-
-        // TOKEN SAVE
-
-        if (data?.token) {
-
-          Cookies.set(
-            "token",
-            data.token,
-            {
-              expires: 7
-            }
-          );
-
-        }
-
-
-
-        // USER SAVE
-
-        const user = data?.user || data?.data;
-
-
-        if (user) {
-
-          localStorage.setItem(
-            "user",
-            JSON.stringify(user)
-          );
-
-        }
-
-        handleSuccess("Login successfully ✅");
-
-        // ROLE BASED REDIRECT
-
-        if (user?.role === "coach") {
-
-          navigate("/coach-dashboard");
-
-        }
-        else {
-
-          navigate("/dashboard");
-        }
-      }
-
-    },
+  navigate("/Otp");
+},
     onError: (error) => {
       // (error?.response?.data?.message || "Login failed ❌");
       handleError(error?.response?.data?.message || "Login failed ❌");
