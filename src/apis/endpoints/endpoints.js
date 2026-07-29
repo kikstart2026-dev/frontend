@@ -150,6 +150,14 @@ export const endpoints = {
 
   clearNotifications: (coachId) =>
     `/notification/clear/${coachId}`,
+// DELETE SINGLE NOTIFICATION
+deleteNotification: (id) =>
+  `/notification/delete/${id}`,
+
+// CLEAR ALL NOTIFICATIONS
+clearNotifications: (coachId) =>
+  `/notification/clear/${coachId}`,
+
 };
 
 

@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate  } from "react-router-dom";
 
 import styles from "./CoachHeader.module.scss";
 import { FaBell } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import kiklogo from "../../assets/images/authLogo.png";
 
+import {
+    FaBell,
+    FaTrash,
+} from "react-icons/fa";
 import {
     getCoachNotifications,
     getUnreadNotifications,
@@ -21,6 +25,7 @@ export default function CoachHeader() {
 
 
     const location = useLocation();
+    const navigate = useNavigate();
 
     const navigate = useNavigate();
 
@@ -233,15 +238,15 @@ export default function CoachHeader() {
 
 
                 {/* LEFT TITLE */}
-                 <div className={styles.navLogo}>
-                <NavLink to="/">
-                  <img
-                    src={kiklogo}
-                    alt="logo"
-                    className={styles.logo}
-                  />
-                </NavLink>
-              </div>
+                <div className={styles.navLogo}>
+                    <NavLink to="/">
+                        <img
+                            src={kiklogo}
+                            alt="logo"
+                            className={styles.logo}
+                        />
+                    </NavLink>
+                </div>
 
                 <div className={styles.left}>
 
@@ -295,19 +300,26 @@ export default function CoachHeader() {
                                     <h4>Notifications</h4>
 
                                     {notifications.length > 0 && (
+
                                         <button
+                                            className={styles.clearBtn}
                                             onClick={async (e) => {
 
                                                 e.stopPropagation();
 
                                                 await clearNotifications(coach.id);
 
-                                                loadNotifications(coach.id);
+                                                setNotifications([]);
+
+                                                setUnreadCount(0);
 
                                             }}
                                         >
+
                                             Clear All
+
                                         </button>
+
                                     )}
 
                                 </div>
@@ -322,37 +334,23 @@ export default function CoachHeader() {
                                                 }`}
                                             onClick={async () => {
 
-
                                                 if (!item.isRead) {
 
                                                     await markNotificationRead(item._id);
 
                                                 }
 
+                                                if (item.type === "child_assigned") {
 
-                                                if (item.childId && item.programId) {
-
-
-                                                    navigate(`/coach-dashboard/children/${item.childId._id}`);
-
-
-                                                } else if (item.childId && !item.programId) {
-
-
-                                                    navigate(`/coach-dashboard/children/${item.childId._id}`);
-
-                                                } else if (item.programId) {
-
-
-
-                                                    navigate(`/coach-dashboard/programs/${item.programId._id}`);
+                                                    navigate("/coach-dashboard/children");
 
                                                 }
 
+                                                if (item.type === "program_assigned") {
 
-                                                setNotificationOpen(false);
+                                                    navigate("/coach-dashboard/programs");
 
-                                                loadNotifications(coach.id);
+                                                }
 
                                             }}
                                         >
@@ -379,9 +377,8 @@ export default function CoachHeader() {
                                                         {item.childId?.fullName || item.programId?.title}
                                                     </h5>
 
-                                                    <span
-                                                        className={styles.deleteCross}
-
+                                                    <FaTrash
+                                                        className={styles.deleteIcon}
                                                         onClick={async (e) => {
 
                                                             e.stopPropagation();
@@ -391,9 +388,7 @@ export default function CoachHeader() {
                                                             loadNotifications(coach.id);
 
                                                         }}
-                                                    >
-                                                        ×
-                                                    </span>
+                                                    />
 
                                                 </div>
 
@@ -401,24 +396,25 @@ export default function CoachHeader() {
                                                     <p>{item.programId.title}</p>
                                                 )} */}
 
-                                                <small>{item.message}</small>
+                                                < small > {item.message}</small >
 
 
                                                 {/* <span className={styles.time}>
                                                     {new Date(item.createdAt).toLocaleString()}
                                                 </span> */}
-                                            </div>
-                                        </div>
+                                            </div >
+                                        </div >
                                     ))
-                                )}
+                                )
+                                }
 
-                            </div>
+                            </div >
                         )}
-                    </div>
+                    </div >
 
                     {/* PROFILE */}
 
-                    <div
+                    < div
 
                         className={styles.profile}
 
@@ -431,7 +427,8 @@ export default function CoachHeader() {
 
                                 <img
 
-                                    src={coach.image}
+                                    src={coach.image
+                                    }
 
                                     alt="coach"
 
@@ -470,11 +467,11 @@ export default function CoachHeader() {
 
 
 
-                    </div>
+                    </div >
 
 
 
-                </div>
+                </div >
 
 
 
