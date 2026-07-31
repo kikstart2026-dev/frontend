@@ -6,7 +6,7 @@ import styles from "./CoachChildren.module.scss";
 
 // const BASE_URL = "http://localhost:8008";
 
-import { IMAGE_BASE_URL } from "../../../helper"; // helper path অনুযায়ী
+import { IMAGE_BASE_URL } from "../../../helper/Helper"; // helper path অনুযায়ী
 
 // const BASE_URL = "http://localhost:8008";
 
