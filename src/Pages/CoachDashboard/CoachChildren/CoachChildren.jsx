@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
 import { getCoachChildren } from "../../../apis/api";
 import styles from "./CoachChildren.module.scss";
 
 const BASE_URL = "http://localhost:8008";
 
 export default function CoachChildren() {
+    const { id } = useParams();
+
     const coach = JSON.parse(localStorage.getItem("user"));
 
     const coachId = coach?.id || coach?._id;
@@ -23,10 +26,31 @@ export default function CoachChildren() {
     const [startIndex, setStartIndex] = useState(0);
 
     useEffect(() => {
-        if (children.length > 0 && !activeChild) {
+
+        if (!children.length) return;
+
+
+        if (id) {
+
+            const selectedChild = children.find(
+                (child) => child._id === id
+            );
+
+
+            if (selectedChild) {
+                setActiveChild(selectedChild);
+                return;
+            }
+
+        }
+
+
+        if (!activeChild) {
             setActiveChild(children[0]);
         }
-    }, [children]);
+
+
+    }, [children, id]);
 
     const visibleChildren = children.slice(startIndex, startIndex + 5);
 

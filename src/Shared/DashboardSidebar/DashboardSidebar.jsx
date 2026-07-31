@@ -6,7 +6,7 @@ export default function DashboardSidebar() {
   return (
     <div className={styles.sidebar}>
 
-      <div className={styles.navLogo}>
+      {/* <div className={styles.navLogo}>
                 <NavLink to="/">
                   <img
                     src={kiklogo}
@@ -14,7 +14,7 @@ export default function DashboardSidebar() {
                     className={styles.logo}
                   />
                 </NavLink>
-              </div>
+              </div> */}
       <nav>
         {/* DASHBOARD */}
         <NavLink

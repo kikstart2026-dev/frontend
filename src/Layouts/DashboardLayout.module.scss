@@ -1,21 +1,34 @@
 .layout {
-  display: flex;
   min-height: 100vh;
-    overflow-x: hidden;
-}
-
-/* SIDEBAR SPACE FIX */
-.main {
-  flex: 1;
-  margin-left: 260px; /* sidebar width */
-  padding-top: 90px;
-    min-width: 0;
   background: #f7f7f7;
 }
 
+/* Header-এর নিচে Body */
+.body {
+  display: flex;
+  margin-top: 90px; /* Header height */
+}
 
-/* CONTENT */
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  position: fixed;
+  top: 90px;
+  left: 0;
+  height: calc(100vh - 90px);
+  background: #fff;
+  border-right: 1px solid #e5e7eb;
+}
+
+/* Main */
+.main {
+  flex: 1;
+  margin-left: 260px;
+  min-width: 0;
+}
+
+/* Content */
 .mainContent {
   padding: 20px;
-   min-width: 0;
+  min-width: 0;
 }

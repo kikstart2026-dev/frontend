@@ -265,6 +265,11 @@ function Layout() {
             element={<CoachChildren />}
           />
 
+          <Route
+            path="children/:id"
+            element={<CoachChildren />}
+          />
+
           <Route path="messages" element={<Messages />} />
 
           {/*

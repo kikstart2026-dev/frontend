@@ -16,7 +16,7 @@ export default function CoachSidebar() {
 
       {/* LOGO */}
 
-      <div className={styles.navLogo}>
+      {/* <div className={styles.navLogo}>
 
         <NavLink to="/">
 
@@ -28,7 +28,7 @@ export default function CoachSidebar() {
 
         </NavLink>
 
-      </div>
+      </div> */}
 
 
 

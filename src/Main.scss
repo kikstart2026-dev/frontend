@@ -68,3 +68,29 @@ img {
   background-color: #ED1C24;
 }
 
+
+/* ================= SIDEBAR ================= */
+.sidebar {
+  width: 20%;
+  min-width: 250px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #fff;
+  overflow-y: auto;
+  z-index: 1000;
+  border-right: 1px solid #e5e5e5;
+}
+
+/* ================= MAIN CONTENT ================= */
+.mainContent {
+  margin-left: 20%;
+  width: 80%;
+  margin-top: var(--header-height);
+  height: calc(100vh - var(--header-height));
+  overflow-y: auto; /* ✅ ONLY THIS SCROLL */
+  transition: all 0.3s ease;
+  box-sizing: border-box; /* 🔥 important */
+}
+

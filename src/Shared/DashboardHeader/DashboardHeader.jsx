@@ -78,6 +78,15 @@ useEffect(() => {
       <div className={styles.topbar}>
         {/* LEFT LOGO */}
         
+              <div className={styles.navLogo}>
+                        <NavLink to="/">
+                          <img
+                            src={kiklogo}
+                            alt="logo"
+                            className={styles.logo}
+                          />
+                        </NavLink>
+                      </div>
 
         {/* TITLE */}
         <h2>{getTitle()}</h2>

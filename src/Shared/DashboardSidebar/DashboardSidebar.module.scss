@@ -1,25 +1,23 @@
 .sidebar {
-  width: 17%;
-  height: 100%;
-  background: #ffffff;
- 
   position: fixed;
-  top: 0;
-  /* header er niche */
+  top: 100px;          // Header height
   left: 0;
-  padding: 16px 0;
-  margin-right: 20px;
+
+  width: 260px;
+  height: calc(100vh - 100px);
+
+  background: #fff;
 }
-.navLogo{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 40px;
-  width: 100%;
-}
-.logo {
-  max-height: 82px;
-}
+// .navLogo{
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   margin-bottom: 40px;
+//   width: 100%;
+// }
+// .logo {
+//   max-height: 82px;
+// }
 
 /* NAV */
 nav {

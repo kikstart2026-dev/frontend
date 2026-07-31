@@ -6,31 +6,28 @@ import CoachHeader from "../Shared/CoachHeader/CoachHeader";
 
 import styles from "./CoachDashboardLayout.module.scss";
 
-
 export default function CoachDashboardLayout() {
-
   return (
-
     <div className={styles.layout}>
 
+      {/* Full Width Header */}
+      <CoachHeader />
 
-      <aside className={styles.sidebar}>
-        <CoachSidebar/>
-      </aside>
+      {/* Dashboard Body */}
+      <div className={styles.body}>
 
+        <aside className={styles.sidebar}>
+          <CoachSidebar />
+        </aside>
 
-      <main className={styles.main}>
+        <main className={styles.main}>
+          <div className={styles.content}>
+            <Outlet />
+          </div>
+        </main>
 
-        <CoachHeader/>
-
-        <div className={styles.content}>
-          <Outlet/>
-        </div>
-
-      </main>
-
+      </div>
 
     </div>
-
   );
 }

@@ -1,19 +1,11 @@
 .sidebar {
-
-  width:17%;
-
-  height:100vh;
-
-  background:#ffffff;
-
-  position:fixed;
-
-  top:0;
-
-  left:0;
-
-  padding:16px 0;
-
+  width: 280px;          // 20% বাদ দাও
+  height: calc(100vh - 110px);
+  background: #fff;
+  position: fixed;
+  top: 110px;
+  left: 0;
+  padding: 16px 0;
 }
 
 
@@ -33,12 +25,6 @@
 }
 
 
-
-.logo{
-
-  max-height:82px;
-
-}
 
 
 

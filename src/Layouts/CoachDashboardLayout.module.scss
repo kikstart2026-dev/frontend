@@ -1,33 +1,36 @@
-.layout{
-
-    display:flex;
-    min-height:100vh;
-    background:#fafafa;
-
+.layout {
+  min-height: 100vh;
+  background: #fafafa;
 }
 
-
-
-.sidebar{
-
-    width:260px;
-    background:#fff;
-
+/* Full width header */
+.headerSpace {
+  height: 110px;
 }
 
-
-
-.main{
-
-    flex:1;
-    overflow:hidden;
-
+.body {
+  display: flex;
+  margin-top: 110px; /* Header height */
 }
 
+/* Sidebar */
+.sidebar {
+  width: 280px;
+  height: calc(100vh - 110px);
+  position: fixed;
+  left: 0;
+  top: 110px;
+  background: #fff;
+  border-right: 1px solid #eee;
+}
 
+/* Main Content */
+.main {
+  margin-left: 280px;
+  width: calc(100% - 280px);
+  min-height: calc(100vh - 110px);
+}
 
-.content{
-
-    padding:20px;
-
+.content {
+  padding: 20px;
 }
