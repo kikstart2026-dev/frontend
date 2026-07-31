@@ -4,7 +4,11 @@ import { useParams } from "react-router-dom";
 import { getCoachChildren } from "../../../apis/api";
 import styles from "./CoachChildren.module.scss";
 
-const BASE_URL = "https://backend-8e6g.onrender.com";
+// const BASE_URL = "http://localhost:8008";
+
+import { IMAGE_BASE_URL } from "../../../helper"; // helper path অনুযায়ী
+
+// const BASE_URL = "http://localhost:8008";
 
 export default function CoachChildren() {
     const { id } = useParams();
@@ -203,7 +207,7 @@ export default function CoachChildren() {
                         <div className={styles.profileCard}>
 
                             <img
-                                src={`${BASE_URL}${activeChild.profileImage}`}
+                                src={`${IMAGE_BASE_URL}${activeChild.profileImage}`}
                                 alt={activeChild.fullName}
                             />
 
