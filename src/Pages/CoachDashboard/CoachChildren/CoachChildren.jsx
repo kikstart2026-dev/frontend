@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { getCoachChildren } from "../../../apis/api";
 import styles from "./CoachChildren.module.scss";
 
-const BASE_URL = "http://localhost:8008";
+const BASE_URL = "https://backend-8e6g.onrender.com";
 
 export default function CoachChildren() {
     const { id } = useParams();
