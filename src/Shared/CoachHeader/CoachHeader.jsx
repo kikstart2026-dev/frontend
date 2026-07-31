@@ -8,7 +8,7 @@ import kiklogo from "../../assets/images/authLogo.png";
 
 import {
     FaBell,
-    FaTrash,
+     FaTimes,
 } from "react-icons/fa";
 import {
     getCoachNotifications,
@@ -377,8 +377,8 @@ export default function CoachHeader() {
                                                         {item.childId?.fullName || item.programId?.title}
                                                     </h5>
 
-                                                    <FaTrash
-                                                        className={styles.deleteIcon}
+                                                    < FaTimes
+                                                        className={styles.deleteCross}
                                                         onClick={async (e) => {
 
                                                             e.stopPropagation();

@@ -75,11 +75,11 @@
   cursor: pointer;
 
 
-  svg {
+  // svg {
 
-    font-size: 20px;
+  //   font-size: 20px;
 
-  }
+  // }
 
 
 
@@ -253,7 +253,7 @@
 .deleteIcon {
     color: #ef4444;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 12px;
     transition: 0.2s;
 
     &:hover {
@@ -567,7 +567,7 @@ padding: 10px;
 
     right:15px;
 
-    top:50%;
+    top:32%;
 
     transform:translateY(-50%);
 
@@ -605,8 +605,8 @@ padding: 10px;
 
     color: #ef4444;
 
-    font-size: 22px;
-    font-weight: 700;
+    font-size: 20px;
+    font-weight: 600;
 
     cursor: pointer;
 
@@ -620,7 +620,7 @@ padding: 10px;
 
     &:hover {
         color: #dc2626;
-        transform: scale(1.15);
+        transform: scale(1.05);
     }
 }
 
