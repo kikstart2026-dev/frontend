@@ -8,6 +8,8 @@ import styles from "./CoachChildren.module.scss";
 
 import { IMAGE_BASE_URL } from "../../../Helper/Helper"; // helper path অনুযায়ী
 
+// const BASE_URL = "http://localhost:8008";
+
 export default function CoachChildren() {
     const { id } = useParams();
 
